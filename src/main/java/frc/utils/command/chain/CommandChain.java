@@ -1,4 +1,4 @@
-package frc.utils.command;
+package frc.utils.command.chain;
 
 import java.util.Optional;
 import java.util.Vector;
