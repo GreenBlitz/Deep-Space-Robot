@@ -34,7 +34,8 @@ public class RobotMap {
 
     public static class Climber {
         public static class Motor {
-
+            public static final int Extender = 0;
+            public static final int Wheels = 0;
         }
 
         public static class Sensor {
