@@ -13,7 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
  * @see com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
  */
 
-public class SmartTalon extends TalonSRX {
+public class SmartTalon extends TalonSRX implements SmartEncoderBase {
 
 	private boolean wasSet;
 
@@ -63,5 +63,20 @@ public class SmartTalon extends TalonSRX {
 	 */
 	public void newIterration() {
 		wasSet = false;
+	}
+
+	@Override
+	public void reset() {
+		getSensorCollection().setQuadraturePosition(0, 10);
+	}
+
+	@Override
+	public int getQuadraturePosition() {
+		return getSensorCollection().getQuadraturePosition();
+	}
+
+	@Override
+	public double getQuadratureVelocity() {
+		return getSensorCollection().getQuadratureVelocity();
 	}
 }

@@ -1,30 +1,27 @@
 package frc.utils.ctre;
 
-import com.ctre.phoenix.ErrorCode;
-
 /**
  * This class has many functions that make using an encoder much simpler.
- * The class uses the encoders prebuilt into the TalonSRX for all calculations.
+ * The class uses the encoders prebuilt into the SmartEncoderBase for all calculations.
  *
  * @see edu.wpi.first.wpilibj.Encoder
- * @see TalonSRX
+ * @see SmartEncoderBase
  */
-
 public class SmartEncoder {
-	private final SmartTalon m_talon;
+	private final SmartEncoderBase m_motorController;
 	private final double m_ticksPerMeter;
 
 	/**
-	 * This constructor receives a TalonSRX and the ticks per meter of the Talon
+	 * This constructor receives a SmartEncoderBase and the ticks per meter of the Talon
 	 * It also checks to see if the ticks per meter are valid as well.
-	 * @param talon A TalonSRX object which is used of it's encoder. (m_talon)
+	 * @param motorController A SmartEncoderBase object which is used of it's encoder. (m_motorController)
 	 * @param ticksPerMeter A final double of the ticks per meter the talon feels per meter of movement.
 	 */
-	public SmartEncoder(SmartTalon talon, double ticksPerMeter) {
+	public SmartEncoder(SmartEncoderBase motorController, double ticksPerMeter) {
 		if (ticksPerMeter == +0.0 || !Double.isFinite(ticksPerMeter))
 			throw new IllegalArgumentException("invalid ticks per meter value '" + ticksPerMeter + "'");
 
-		m_talon = talon;
+		m_motorController = motorController;
 		m_ticksPerMeter = ticksPerMeter;
 	}
 
@@ -34,11 +31,11 @@ public class SmartEncoder {
 	 * @return The amount of ticks felt by the talon.
 	 */
 	public int getTicks() {
-		return m_talon.getSensorCollection().getQuadraturePosition();
+		return m_motorController.getQuadraturePosition();
 	}
 
 	public double getRawSpeed() {
-	    return m_talon.getSensorCollection().getQuadratureVelocity();
+	    return m_motorController.getQuadratureVelocity();
     }
 
 	/**
@@ -56,7 +53,7 @@ public class SmartEncoder {
 	 * @return The velocity felt by the talon divided by the ticks per meter.
 	 */
 	public double getSpeed() {
-		return ((double) m_talon.getSensorCollection().getQuadratureVelocity()) /*testGetSpeed()*/ / m_ticksPerMeter;
+		return getRawSpeed() / m_ticksPerMeter;
 	}
 
 	/**
@@ -64,12 +61,7 @@ public class SmartEncoder {
 	 *
 	 * @return Error code if the encoder could not be reset, otherwise resets the encoder.
 	 */
-    public ErrorCode reset() {
-		ErrorCode ec = m_talon.getSensorCollection().setQuadraturePosition(0, 100);
-		if (ec != ErrorCode.OK) {
-			System.err.println("error occured while reseting encoder '" + m_talon.getHandle() + "': " + ec);
-		}
-        System.err.println("reset encoder");
-		return getTicks() == 0 ? ec : reset();
+    public void reset() {
+		m_motorController.reset();
 	}
 }
