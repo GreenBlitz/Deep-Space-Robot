@@ -12,10 +12,10 @@ public class SmartEncoder {
 	private final double m_ticksPerMeter;
 
 	/**
-	 * This constructor receives a SmartEncoderBase and the ticks per meter of the Talon
+	 * This constructor receives a SmartEncoderBase and the ticks per meter of the motor controller.
 	 * It also checks to see if the ticks per meter are valid as well.
 	 * @param motorController A SmartEncoderBase object which is used of it's encoder. (m_motorController)
-	 * @param ticksPerMeter A final double of the ticks per meter the talon feels per meter of movement.
+	 * @param ticksPerMeter A double of the ticks per meter of movement.
 	 */
 	public SmartEncoder(SmartEncoderBase motorController, double ticksPerMeter) {
 		if (ticksPerMeter == +0.0 || !Double.isFinite(ticksPerMeter))
@@ -26,9 +26,9 @@ public class SmartEncoder {
 	}
 
 	/**
-	 * This function returns the amount of ticks that have been felt by encoder since it was last reset.
+	 * This function returns the amount of ticks that have been recorded by encoder since it was last reset.
 	 *
-	 * @return The amount of ticks felt by the talon.
+	 * @return The amount of ticks recorded by the motor controller.
 	 */
 	public int getTicks() {
 		return m_motorController.getQuadraturePosition();
@@ -39,18 +39,18 @@ public class SmartEncoder {
     }
 
 	/**
-	 * This function returns the amount of meters that the encoder has felt, by dividing tick by the ticks per meter value.
+	 * This function returns the amount of meters that the encoder has recorded, by dividing tick by the ticks per meter value.
 	 *
-	 * @return The ticks felt by the talon divided by the ticks it feels per meter.
+	 * @return The ticks recorded by the motor controller divided by the ticks it feels per meter.
 	 */
 	public double getDistance() {
 		return getTicks() / m_ticksPerMeter;
 	}
 
 	/**
-	 * This function returns the velocity felt by the encoder divided by the ticks per meter.
+	 * This function returns the velocity recorded by the encoder divided by the ticks per meter.
 	 *
-	 * @return The velocity felt by the talon divided by the ticks per meter.
+	 * @return The velocity recorded by the motor controller divided by the ticks per meter.
 	 */
 	public double getSpeed() {
 		return getRawSpeed() / m_ticksPerMeter;
@@ -58,8 +58,6 @@ public class SmartEncoder {
 
 	/**
 	 * This function resets the encoder
-	 *
-	 * @return Error code if the encoder could not be reset, otherwise resets the encoder.
 	 */
     public void reset() {
 		m_motorController.reset();
