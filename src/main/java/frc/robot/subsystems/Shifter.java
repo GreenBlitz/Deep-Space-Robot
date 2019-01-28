@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap.Shifter.*;
+import frc.robot.commands.shifter.AutoChangeShift;
 
 /**
  * This class is in charge of the shifter subsystem of the robot.
@@ -26,7 +27,7 @@ public class Shifter extends Subsystem {
      * This constructor constructs the piston.
      */
     private Shifter() {
-        m_piston = new DoubleSolenoid(Solenoids.Forward, Solenoids.Reverse);
+        m_piston = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
     }
 
     /**
@@ -92,13 +93,15 @@ public class Shifter extends Subsystem {
     }
 
     @Override
-    protected void initDefaultCommand() {}
+    protected void initDefaultCommand() {
+        setDefaultCommand(new AutoChangeShift());
+    }
 
     /**
      * This function updates the information from the subsystem when called by the robot.
      */
     public void update() {
-        SmartDashboard.putString("Shifter::currentShift", getCurrentShift().name());
-        SmartDashboard.putString("Shifter::CurrentCommand", getCurrentCommandName());
+        SmartDashboard.putString("Shifter::Shift", getCurrentShift().name());
+        SmartDashboard.putString("Shifter::Command", getCurrentCommandName());
     }
 }

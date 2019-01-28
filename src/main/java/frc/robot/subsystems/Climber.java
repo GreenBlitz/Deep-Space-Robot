@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap.Climber.*;
 
 public class Climber extends Subsystem {
@@ -26,6 +27,6 @@ public class Climber extends Subsystem {
   }
 
   public void update() {
-    
+    SmartDashboard.putString("Climber::Command", getCurrentCommandName());
   }
 }

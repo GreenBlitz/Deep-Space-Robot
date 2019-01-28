@@ -75,6 +75,7 @@ public class Chassis extends Subsystem {
   }
 
   public void update() {
+    SmartDashboard.putString("Chassis::Command", getCurrentCommandName());
     SmartDashboard.putNumber("Chassis::Speed", getSpeed());
     SmartDashboard.putNumber("Chassis::Distance", getDistance());
     SmartDashboard.putNumber("Chassis::Angle", getAngle());

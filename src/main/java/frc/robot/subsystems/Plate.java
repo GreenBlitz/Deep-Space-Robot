@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap.Plate.*;
 
 public class Plate extends Subsystem {
@@ -26,6 +27,6 @@ public class Plate extends Subsystem {
   }
 
   public void update() {
-    
+    SmartDashboard.putString("Plate::Command", getCurrentCommandName());
   }
 }

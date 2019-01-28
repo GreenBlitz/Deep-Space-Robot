@@ -1,13 +1,19 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap.Kicker.*;
 
 public class Kicker extends Subsystem {
 
   private static Kicker instance;
+  
+  private DoubleSolenoid m_piston;
 
   private Kicker() {
+    m_piston = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
   }
 
   @Override
@@ -25,7 +31,11 @@ public class Kicker extends Subsystem {
     return instance;
   }
 
+  public void setState(Value value) {
+    m_piston.set(value);
+  }
+
   public void update() {
-    
+    SmartDashboard.putString("Kicker::Command", getCurrentCommandName());
   }
 }
