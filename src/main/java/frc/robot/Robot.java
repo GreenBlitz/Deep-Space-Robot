@@ -32,5 +32,4 @@ public class Robot extends TimedRobot {
         Spike.getInstance().update();
         OI.getInstance().update();
     }
-
 }

@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Chassis;
 import frc.utils.SmartJoystick;
 
-public class tankDriveByJoytick extends Command {
+public class TankDriveByJoytick extends Command {
 
   private SmartJoystick m_joystick;
 
-  public tankDriveByJoytick(SmartJoystick joystick) {
+  public TankDriveByJoytick(SmartJoystick joystick) {
     requires(Chassis.getInstance());
     m_joystick = joystick;
   }

@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Chassis;
 import frc.utils.SmartJoystick;
 
-public class arcadeDriveByJoytick extends Command {
+public class ArcadeDriveByJoytick extends Command {
 
   private SmartJoystick m_joystick;
 
-  public arcadeDriveByJoytick(SmartJoystick joystick) {
+  public ArcadeDriveByJoytick(SmartJoystick joystick) {
     requires(Chassis.getInstance());
     m_joystick = joystick;
   }
