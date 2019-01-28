@@ -50,11 +50,23 @@ public class RobotMap {
         public static class Sensor {
             
         }
+
+        public static class Heights {
+            public static final double Ground = 0;
+            public static final double Level1 = 0;
+            public static final double Level2 = 0;
+            public static final double Level3 = 0;
+        }
     }
 
     public static class Intake {
         public static class Motor {
+            public static final int Roller = 0;
+        }
 
+        public static class Solenoid {
+            public static final int Forward = 0;
+            public static final int Reverse = 0;
         }
 
         public static class Sensor {
@@ -63,12 +75,9 @@ public class RobotMap {
     }
 
     public static class Kicker {
-        public static class Motor {
-
-        }
-
-        public static class Sensor {
-            
+        public static class Solenoid {
+            public static final int Forward = 0;
+            public static final int Reverse = 0;
         }
     }
 
@@ -83,23 +92,23 @@ public class RobotMap {
     }
 
     public static class Shifter {
-        public static class Solenoids {
+        public static class Solenoid {
             public static final int Forward = 0;
             public static final int Reverse = 0;
         }
-
-		public static Object getInstance() {
-			return null;
-		}
     }
 
     public static class Spike {
-        public static class Motor {
+        public static class Solenoid {
+            public static class Kicker {
+                public static final int Forward = 0;
+                public static final int Reverse = 0;
+            }
 
-        }
-
-        public static class Sensor {
-            
+            public static class Extender {
+                public static final int Forward = 0;
+                public static final int Reverse = 0;
+            }
         }
     }
 }

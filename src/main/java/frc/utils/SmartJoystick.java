@@ -41,17 +41,17 @@ public class SmartJoystick {
      * This enum is in charge of all joystick axes.
      */
 	public enum Axis{
-		LEFT_X(0),
-		LEFT_Y(1),
-		LEFT_TRIGGER(2),
-		RIGHT_TRIGGER(3),
-		RIGHT_X(4),
-        RIGHT_Y(5);
+		LEFT_X(0, false),
+		LEFT_Y(1, true),
+		LEFT_TRIGGER(2, false),
+		RIGHT_TRIGGER(3, false),
+		RIGHT_X(4, false),
+        RIGHT_Y(5, true);
         
         private int m_axis;
-        private int m_inverted = 1;
+        private int m_inverted;
 
-        private Axis(int axis) {
+        private Axis(int axis, boolean isInverted) {
             m_axis = axis;
         }
         public void setInverted(boolean isInverted) {
