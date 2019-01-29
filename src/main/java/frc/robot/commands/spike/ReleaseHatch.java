@@ -15,7 +15,8 @@ public class ReleaseHatch extends TimedCommand {
 
   @Override
   protected void initialize() {
-    Spike.getInstance().setExtender(Value.kForward);
+    if (Spike.getInstance().getExtenderState() == Value.kForward)
+      Spike.getInstance().setExtender(Value.kForward);
   }
 
   @Override
