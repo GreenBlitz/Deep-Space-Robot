@@ -1,10 +1,10 @@
 package frc.robot.commands.kicker;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 import frc.robot.subsystems.Kicker;
 
-public class KickCargo extends Command {
+public class KickCargo extends TimedCommand {
   
   private static final long timeout = 400;
   
@@ -16,11 +16,6 @@ public class KickCargo extends Command {
   @Override
   protected void initialize() {
     Kicker.getInstance().setState(Value.kForward);
-  }
-
-  @Override
-  protected boolean isFinished() {
-    return isTimedOut();
   }
 
   @Override
