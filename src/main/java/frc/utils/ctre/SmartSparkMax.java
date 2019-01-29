@@ -13,14 +13,17 @@ public class SmartSparkMax extends CANSparkMax implements SmartEncoderBase {
         reset();
     }
 
+    @Override
     public void reset() {
         nullPosition = getEncoder().getPosition();
     }
 
+    @Override
     public int getQuadraturePosition() {
         return (int)Math.round((nullPosition - getEncoder().getPosition()) / TICK_SIZE);
     }
 
+    @Override
     public double getQuadratureVelocity() {
         return getEncoder().getVelocity();
     }

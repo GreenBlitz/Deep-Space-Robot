@@ -4,11 +4,14 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.motion.base.abstraction.IChassis;
+import frc.motion.base.abstraction.IEncoder;
 import frc.robot.RobotMap.Chassis.*;
 import frc.utils.ctre.CANRobotDrive;
 import frc.utils.ctre.SmartEncoder;
+import frc.utils.motion.RobotStats;
 
-public class Chassis extends Subsystem {
+public class Chassis extends Subsystem implements IChassis {
 
   private static Chassis instance;
 
@@ -22,7 +25,7 @@ public class Chassis extends Subsystem {
                                      Motor.Right.Front, 
                                      Motor.Right.Rear);
     m_leftEncoder = new SmartEncoder(m_robotDrive.getTalon(Sensor.Encoder.Left), Sensor.Encoder.TicksPerMeter);
-    m_leftEncoder = new SmartEncoder(m_robotDrive.getTalon(Sensor.Encoder.Right), Sensor.Encoder.TicksPerMeter);
+    m_rightEncoder = new SmartEncoder(m_robotDrive.getTalon(Sensor.Encoder.Right), Sensor.Encoder.TicksPerMeter);
     m_navX = new AHRS(Sensor.NavX);
   }
 
@@ -47,7 +50,7 @@ public class Chassis extends Subsystem {
   }
 
   public double getSpeed() {
-    return (m_leftEncoder.getSpeed() + m_rightEncoder.getSpeed()) / 2;
+    return (m_leftEncoder.getVelocity() + m_rightEncoder.getVelocity()) / 2;
   }
 
   public double getAngle() {
@@ -72,6 +75,26 @@ public class Chassis extends Subsystem {
   public void resetEncoders() {
     m_rightEncoder.reset();
     m_leftEncoder.reset();
+  }
+
+  @Override
+  public IEncoder getLeftEncoder() {
+    return m_leftEncoder;
+  }
+
+  @Override
+  public IEncoder getRightEncoder() {
+    return m_rightEncoder;
+  }
+
+  @Override
+  public double getWheelRadius() {
+    return RobotStats.Picasso.Chassis.WHEEL_RADIUS;
+  }
+
+  @Override
+  public double getWheelbaseWidth() {
+    return RobotStats.Picasso.Chassis.VERTICAL_DISTANCE;
   }
 
   public void update() {
