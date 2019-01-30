@@ -23,7 +23,7 @@ public class RobotMap {
         }
         
         public static class Sensor {
-                public static class Encoder {
+            public static class Encoder {
                 public static final TalonID Left = TalonID.REAR_LEFT;
                 public static final TalonID Right = TalonID.REAR_RIGHT;
                 public static final int TicksPerMeter = 1;
@@ -71,7 +71,8 @@ public class RobotMap {
         }
 
         public static class Sensor {
-            
+            public static final int Infrared = 0;
+            public static final int LimitSwitch = 0;
         }
     }
 
@@ -85,6 +86,11 @@ public class RobotMap {
     public static class Plate {
         public static class Motor {
 
+        }
+
+        public static class Solenoid {
+            public static final int Forward = 0;
+            public static final int Backward = 0;
         }
 
         public static class Sensor {
