@@ -37,19 +37,20 @@ public class RobotMap {
             public static final int Extender = 0;
             public static final int Wheels = 0;
         }
-
-        public static class Sensor {
-
-        }
     }
     
     public static class Elevator {
         public static class Motor {
-
+            public static final int Elevator = 0;
         }
 
         public static class Sensor {
-            
+            public static final int TicksPerMeter = 1;
+        }
+
+        public static class Solenoid {
+            public static final int Forward = 0;
+            public static final int Reverse = 0;
         }
 
         public static class Heights {

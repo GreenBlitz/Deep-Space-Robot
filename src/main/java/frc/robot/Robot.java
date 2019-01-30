@@ -2,9 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.commands.elevator.BackgroundUpdateElevatorLevel;
 import frc.robot.subsystems.*;
-import frc.utils.command.background.BackgroundSubsystem;
 
 public class Robot extends TimedRobot {
 
@@ -18,8 +16,6 @@ public class Robot extends TimedRobot {
         Plate.init();
         Spike.init();
         OI.init();
-
-        BackgroundSubsystem.addCommand(new BackgroundUpdateElevatorLevel());
     }
 
     @Override

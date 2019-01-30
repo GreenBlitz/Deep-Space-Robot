@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.OI;
 import frc.robot.RobotMap.Climber.*;
 import frc.utils.ctre.SmartTalon;
 
@@ -26,6 +27,7 @@ public class Climber extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
+    OI.getInstance().getMainJoystick().A.whenPressed(null);
   }
 
   public static void init() {
