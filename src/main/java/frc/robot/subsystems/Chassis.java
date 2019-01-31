@@ -4,14 +4,12 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.motion.base.abstraction.IChassis;
-import frc.motion.base.abstraction.IEncoder;
 import frc.robot.RobotMap.Chassis.*;
 import frc.utils.ctre.CANRobotDrive;
 import frc.utils.ctre.SmartEncoder;
 import frc.utils.motion.RobotStats;
 
-public class Chassis extends Subsystem implements IChassis {
+public class Chassis extends Subsystem {
 
   private static Chassis instance;
 
@@ -75,26 +73,6 @@ public class Chassis extends Subsystem implements IChassis {
   public void resetEncoders() {
     m_rightEncoder.reset();
     m_leftEncoder.reset();
-  }
-
-  @Override
-  public IEncoder getLeftEncoder() {
-    return m_leftEncoder;
-  }
-
-  @Override
-  public IEncoder getRightEncoder() {
-    return m_rightEncoder;
-  }
-
-  @Override
-  public double getWheelRadius() {
-    return RobotStats.Picasso.Chassis.WHEEL_RADIUS;
-  }
-
-  @Override
-  public double getWheelbaseWidth() {
-    return RobotStats.Picasso.Chassis.VERTICAL_DISTANCE;
   }
 
   public void update() {

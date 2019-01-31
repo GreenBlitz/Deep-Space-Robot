@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -14,10 +15,13 @@ public class Intake extends Subsystem {
 
   private DoubleSolenoid m_piston;
   private SmartTalon m_motor;
+  private DigitalInput m_infrared, m_limitSwitch;
 
   private Intake() {
     m_piston = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
     m_motor = new SmartTalon(Motor.Roller);
+    m_infrared = new DigitalInput(Sensor.Infrared);
+    m_limitSwitch = new DigitalInput(Sensor.LimitSwitch);
   }
 
   public void setExtender(Value value) {
@@ -30,6 +34,14 @@ public class Intake extends Subsystem {
 
   public void setPower(double power) {
     m_motor.set(power);
+  }
+
+  public boolean isBallFullyIn() {
+    return m_limitSwitch.get();
+  }
+
+  public boolean isBallIn() {
+    return m_infrared.get();
   }
 
   @Override

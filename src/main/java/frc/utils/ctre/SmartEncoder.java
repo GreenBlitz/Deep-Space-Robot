@@ -1,7 +1,5 @@
 package frc.utils.ctre;
 
-import frc.motion.base.abstraction.IEncoder;
-
 /**
  * This class has many functions that make using an encoder much simpler.
  * The class uses the encoders prebuilt into the SmartEncoderBase for all calculations.
@@ -9,7 +7,7 @@ import frc.motion.base.abstraction.IEncoder;
  * @see edu.wpi.first.wpilibj.Encoder
  * @see SmartEncoderBase
  */
-public class SmartEncoder implements IEncoder {
+public class SmartEncoder {
 	private final SmartEncoderBase m_motorController;
 	private final double m_ticksPerMeter;
 
@@ -36,7 +34,6 @@ public class SmartEncoder implements IEncoder {
 		return m_motorController.getQuadraturePosition();
 	}
 
-	@Override
 	public double getTickRate() {
 	    return m_motorController.getQuadratureVelocity();
     }
@@ -66,7 +63,6 @@ public class SmartEncoder implements IEncoder {
 		m_motorController.reset();
 	}
 
-	@Override
 	public double getTicksPerMeter() {
 		return m_ticksPerMeter;
 	}
