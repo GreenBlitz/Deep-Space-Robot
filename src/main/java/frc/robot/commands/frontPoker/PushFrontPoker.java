@@ -4,9 +4,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.FrontPoker;
 
-public class ExtendFrontPoker extends Command {
+public class PushFrontPoker extends Command {
 
-  public ExtendFrontPoker() {
+  public PushFrontPoker() {
     requires(FrontPoker.getInstance());
   }
 

@@ -5,34 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.rearPicker;
+package frc.robot.commands.frontPoker;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
-import frc.robot.subsystems.RearPicker;
+import frc.robot.subsystems.FrontPoker;
 
-public class PickByBumbers extends Command {
-
-  public PickByBumbers() {
-    requires(RearPicker.getInstance());
+public class ToggleReleaser extends Command {
+  
+  public ToggleReleaser() {
+    requires(FrontPoker.getInstance());
   }
 
   @Override
   protected void execute() {
-    if (OI.getInstance().getMainJoystick().L1.get() && OI.getInstance().getMainJoystick().R1.get())
-      RearPicker.getInstance().setState(Value.kOff);
-    else if (OI.getInstance().getMainJoystick().R1.get())
-      RearPicker.getInstance().setState(Value.kForward);
-    else if (OI.getInstance().getMainJoystick().L1.get())
-      RearPicker.getInstance().setState(Value.kReverse);
-    else
-      RearPicker.getInstance().setState(Value.kOff);
+    FrontPoker.getInstance().setKicker(FrontPoker.getInstance().getKickerState() == Value.kForward ?
+                                      Value.kReverse : Value.kForward);
   }
 
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
-
 }

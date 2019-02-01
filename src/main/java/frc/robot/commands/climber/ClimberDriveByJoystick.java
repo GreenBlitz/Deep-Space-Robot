@@ -8,25 +8,23 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Chassis;
-import frc.robot.subsystems.Elevator;
+import frc.robot.OI;
+import frc.robot.subsystems.Climber;
+import frc.utils.SmartJoystick;
 
-public class SwitchControl extends Command {
-
-  public SwitchControl() {
-    requires(Elevator.getInstance());
-    requires(Chassis.getInstance());
+public class ClimberDriveByJoystick extends Command {
+  public ClimberDriveByJoystick() {
+    requires(Climber.getInstance());
   }
 
   @Override
   protected void execute() {
-    Chassis.getInstance().setDefaultCommand(null);
-    Elevator.getInstance().setDefaultCommand(new ClimberControl());
+    Climber.getInstance().setWheels(SmartJoystick.Axis.LEFT_Y.getValue(OI.getInstance().getMainJoystick()));
   }
 
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
 }

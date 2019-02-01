@@ -4,9 +4,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.FrontPoker;
 
-public class RetractFrontPoker extends Command {
+public class PullFrontPoker extends Command {
 
-  public RetractFrontPoker() {
+  public PullFrontPoker() {
     requires(FrontPoker.getInstance());
   }
 

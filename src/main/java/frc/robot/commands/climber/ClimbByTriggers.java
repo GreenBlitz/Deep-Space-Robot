@@ -12,20 +12,20 @@ import frc.robot.OI;
 import frc.robot.subsystems.Climber;
 import frc.utils.SmartJoystick;
 
-public class OpenClimber extends Command {
- 
-  public OpenClimber() { //TODO: Change name.
+public class ClimbByTriggers extends Command {
+  public ClimbByTriggers() {
     requires(Climber.getInstance());
   }
 
   @Override
   protected void execute() {
-    Climber.getInstance().setExtender(SmartJoystick.Axis.RIGHT_TRIGGER.getValue(OI.getInstance().getMainJoystick()));
-    Climber.getInstance().setWheels(SmartJoystick.Axis.LEFT_Y.getValue(OI.getInstance().getMainJoystick()));
+    Climber.getInstance().setExtender(SmartJoystick.Axis.RIGHT_TRIGGER.getValue(OI.getInstance().getMainJoystick()) - 
+                                      SmartJoystick.Axis.LEFT_TRIGGER.getValue(OI.getInstance().getMainJoystick()));
   }
 
   @Override
   protected boolean isFinished() {
     return false;
   }
+
 }
