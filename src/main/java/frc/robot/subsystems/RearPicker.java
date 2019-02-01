@@ -4,15 +4,15 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.RobotMap.Plate.*;
+import frc.robot.RobotMap.RearPicker.*;
 
-public class Plate extends Subsystem {
+public class RearPicker extends Subsystem {
 
-  private static Plate instance;
+  private static RearPicker instance;
 
   private DoubleSolenoid m_piston;
 
-  private Plate() {
+  private RearPicker() {
     m_piston = new DoubleSolenoid(Solenoid.Forward, Solenoid.Backward);
   }
 
@@ -22,10 +22,10 @@ public class Plate extends Subsystem {
 
   public static void init() {
     if (instance == null)
-      instance = new Plate();
+      instance = new RearPicker();
   }
 
-  public static Plate getInstance() {
+  public static RearPicker getInstance() {
     if (instance == null)
       init();
     return instance;
@@ -36,6 +36,6 @@ public class Plate extends Subsystem {
   }
 
   public void update() {
-    SmartDashboard.putString("Plate::Command", getCurrentCommandName());
+    SmartDashboard.putString("RearPicker::Command", getCurrentCommandName());
   }
 }

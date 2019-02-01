@@ -5,21 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.plate;
+package frc.robot.commands.kicker;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Plate;
+import frc.robot.subsystems.Kicker;
 
-public class StopPlate extends Command {
+public class ReturnKicker extends Command {
   
-  public StopPlate() {
-    requires(Plate.getInstance());
+  public ReturnKicker() {
+    requires(Kicker.getInstance());
   }
 
   @Override
   protected void execute() {
-    Plate.getInstance().setState(Value.kOff);
+    Kicker.getInstance().setState(Value.kReverse);
   }
 
   @Override

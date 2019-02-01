@@ -5,21 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.kicker;
+package frc.robot.commands.chassis;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Kicker;
+import frc.robot.subsystems.Chassis;
 
-public class KickCargo extends Command {
+public class StopChassis extends Command {
   
-  public KickCargo() {
-    requires(Kicker.getInstance());
+  public StopChassis() {
+    requires(Chassis.getInstance());
   }
 
   @Override
   protected void execute() {
-    Kicker.getInstance().setState(Value.kForward);
+    Chassis.getInstance().tankDrive(0, 0);
   }
 
   @Override

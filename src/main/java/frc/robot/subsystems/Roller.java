@@ -5,19 +5,19 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.RobotMap.Intake.*;
-import frc.robot.commands.intake.AutoIntakeByElevator;
+import frc.robot.RobotMap.Roller.*;
+import frc.robot.commands.roller.AutoRollerByElevator;
 import frc.utils.ctre.SmartTalon;
 
-public class Intake extends Subsystem {
+public class Roller extends Subsystem {
 
-  private static Intake instance;
+  private static Roller instance;
 
   private DoubleSolenoid m_piston;
   private SmartTalon m_motor;
   private DigitalInput m_infrared, m_limitSwitch;
 
-  private Intake() {
+  private Roller() {
     m_piston = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
     m_motor = new SmartTalon(Motor.Roller);
     m_infrared = new DigitalInput(Sensor.Infrared);
@@ -46,22 +46,22 @@ public class Intake extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new AutoIntakeByElevator());
+    setDefaultCommand(new AutoRollerByElevator());
   }
 
   public static void init() {
     if (instance == null)
-      instance = new Intake();
+      instance = new Roller();
   }
 
-  public static Intake getInstance() {
+  public static Roller getInstance() {
     if (instance == null)
       init();
     return instance;
   }
 
   public void update() {
-    SmartDashboard.putString("Intake::Command", getCurrentCommandName());
-    SmartDashboard.putString("Intake::Extender", getExtenderState().name());
+    SmartDashboard.putString("Roller::Command", getCurrentCommandName());
+    SmartDashboard.putString("Roller::Extender", getExtenderState().name());
   }
 }

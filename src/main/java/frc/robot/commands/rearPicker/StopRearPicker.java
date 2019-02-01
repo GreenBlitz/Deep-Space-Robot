@@ -5,21 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.plate;
+package frc.robot.commands.rearPicker;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Plate;
+import frc.robot.subsystems.RearPicker;
 
-public class LowerPlate extends Command {
+public class StopRearPicker extends Command {
   
-  public LowerPlate() {
-    requires(Plate.getInstance());
+  public StopRearPicker() {
+    requires(RearPicker.getInstance());
   }
 
   @Override
   protected void execute() {
-    Plate.getInstance().setState(Value.kForward);
+    RearPicker.getInstance().setState(Value.kOff);
   }
 
   @Override

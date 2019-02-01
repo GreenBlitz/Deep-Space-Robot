@@ -4,15 +4,15 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.RobotMap.Spike.*;
+import frc.robot.RobotMap.FrontPoker.*;
 
-public class Spike extends Subsystem {
+public class FrontPoker extends Subsystem {
 
-  private static Spike instance;
+  private static FrontPoker instance;
 
   private DoubleSolenoid m_kickerPiston, m_extenderPiston;
 
-  private Spike() {
+  private FrontPoker() {
     m_kickerPiston = new DoubleSolenoid(Solenoid.Kicker.Forward, Solenoid.Kicker.Reverse);
     m_extenderPiston = new DoubleSolenoid(Solenoid.Extender.Forward, Solenoid.Extender.Reverse);
   }
@@ -23,10 +23,10 @@ public class Spike extends Subsystem {
 
   public static void init() {
     if (instance == null)
-      instance = new Spike();
+      instance = new FrontPoker();
   }
 
-  public static Spike getInstance() {
+  public static FrontPoker getInstance() {
     if (instance == null)
       init();
     return instance;
@@ -49,8 +49,8 @@ public class Spike extends Subsystem {
   }
 
   public void update() {
-    SmartDashboard.putString("Spike::Command", getCurrentCommandName());
-    SmartDashboard.putString("Spike::Kicker", getKickerState().name());
-    SmartDashboard.putString("Spike::Extender", getExtenderState().name());    
+    SmartDashboard.putString("FrontPoker::Command", getCurrentCommandName());
+    SmartDashboard.putString("FrontPoker::Kicker", getKickerState().name());
+    SmartDashboard.putString("FrontPoker::Extender", getExtenderState().name());    
   }
 }

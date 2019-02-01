@@ -11,10 +11,10 @@ public class Robot extends TimedRobot {
         Chassis.init();
         Climber.init();
         Elevator.init();
-        Intake.init();
+        Roller.init();
         Kicker.init();
-        Plate.init();
-        Spike.init();
+        RearPicker.init();
+        FrontPoker.init();
         OI.init();
     }
 
@@ -28,10 +28,10 @@ public class Robot extends TimedRobot {
         Chassis.getInstance().update();
         Climber.getInstance().update();
         Elevator.getInstance().update();
-        Intake.getInstance().update();
+        Roller.getInstance().update();
         Kicker.getInstance().update();
-        Plate.getInstance().update();
-        Spike.getInstance().update();
+        RearPicker.getInstance().update();
+        FrontPoker.getInstance().update();
         OI.getInstance().update();
     }
 }

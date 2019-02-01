@@ -1,24 +1,24 @@
-package frc.robot.commands.intake;
+package frc.robot.commands.roller;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Roller;
 
 public class OpenAndCollectCargo extends Command {
 
   public OpenAndCollectCargo() {
-    requires(Intake.getInstance());
+    requires(Roller.getInstance());
   }
 
   @Override
   protected void initialize() {
-    Intake.getInstance().setExtender(Value.kForward);
+    Roller.getInstance().setExtender(Value.kForward);
   }
 
   @Override
   protected void execute() {
-    Intake.getInstance().setPower(1);
+    Roller.getInstance().setPower(1);
   }
 
   @Override

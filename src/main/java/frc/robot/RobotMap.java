@@ -61,7 +61,7 @@ public class RobotMap {
         }
     }
 
-    public static class Intake {
+    public static class Roller {
         public static class Motor {
             public static final int Roller = 0;
         }
@@ -84,7 +84,7 @@ public class RobotMap {
         }
     }
 
-    public static class Plate {
+    public static class RearPicker {
         public static class Motor {
 
         }
@@ -106,7 +106,7 @@ public class RobotMap {
         }
     }
 
-    public static class Spike {
+    public static class FrontPoker {
         public static class Solenoid {
             public static class Kicker {
                 public static final int Forward = 0;

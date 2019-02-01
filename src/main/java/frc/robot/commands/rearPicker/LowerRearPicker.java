@@ -5,21 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.kicker;
+package frc.robot.commands.rearPicker;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Kicker;
+import frc.robot.subsystems.RearPicker;
 
-public class KickCargo extends Command {
+public class LowerRearPicker extends Command {
   
-  public KickCargo() {
-    requires(Kicker.getInstance());
+  public LowerRearPicker() {
+    requires(RearPicker.getInstance());
   }
 
   @Override
   protected void execute() {
-    Kicker.getInstance().setState(Value.kForward);
+    RearPicker.getInstance().setState(Value.kForward);
   }
 
   @Override
