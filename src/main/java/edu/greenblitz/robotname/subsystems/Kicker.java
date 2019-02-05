@@ -12,6 +12,8 @@ public class Kicker extends Subsystem {
   
   private DoubleSolenoid m_piston;
 
+  private int m_pistonChanges = 0;
+
   private Kicker() {
     m_piston = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
   }
@@ -33,9 +35,15 @@ public class Kicker extends Subsystem {
 
   public void setState(Value value) {
     m_piston.set(value);
+    m_pistonChanges += m_piston.get() != value ? 1 : 0;
+  }
+
+  public int getPistonChanges() {
+    return m_pistonChanges;
   }
 
   public void update() {
     SmartDashboard.putString("Kicker::Command", getCurrentCommandName());
+    SmartDashboard.putNumber("Kicker::PistonChanges", m_pistonChanges);
   }
 }

@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.subsystems.Chassis;
 
 public class DriveToVisionTarget extends Command implements PIDSource, PIDOutput {

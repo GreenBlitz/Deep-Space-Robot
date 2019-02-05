@@ -5,6 +5,7 @@ import edu.greenblitz.robotname.RobotMap.Elevator.ElevatorLevel;
 import edu.greenblitz.robotname.RobotMap.Elevator.Motor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Sensor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Solenoid;
+import edu.greenblitz.robotname.commands.elevator.BrakeElevator;
 import edu.greenblitz.robotname.utils.Tuple;
 import edu.greenblitz.robotname.utils.encoder.IEncoder;
 import edu.greenblitz.robotname.utils.encoder.Taloncoder;
@@ -31,6 +32,8 @@ public class Elevator extends Subsystem {
   private IEncoder m_encoder;
   private DoubleSolenoid m_piston;
 
+  private int m_pistonChanges = 0;
+
   private Elevator() {
     DANGER_ZONES.add(new Tuple<>(SAFE_TO_LOWER_DOWN - SAFETY_RANGE, SAFE_TO_LOWER_UP + SAFETY_RANGE));
     m_motor = new WPI_TalonSRX(Motor.ELEVATOR);
@@ -49,6 +52,7 @@ public class Elevator extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
+    setDefaultCommand(new BrakeElevator());
   }
 
   public static void init() {
@@ -76,6 +80,11 @@ public class Elevator extends Subsystem {
 
   public void setState(Value value) {
     m_piston.set(value);
+    m_pistonChanges += m_piston.get() != value ? 1 : 0;
+  }
+
+  public int getPistonChanges() {
+    return m_pistonChanges;
   }
 
   public void update() {
@@ -87,5 +96,7 @@ public class Elevator extends Subsystem {
         break;
       }
     }
+
+    SmartDashboard.putNumber("Elevator::SolenoidChanges", m_pistonChanges);
   }
 }

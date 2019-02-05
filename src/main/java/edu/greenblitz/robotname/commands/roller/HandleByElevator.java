@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.robotname.subsystems.Roller;
 
-public class AutoRollerByElevator extends Command {
+public class HandleByElevator extends Command {
 
-  public AutoRollerByElevator() {
+  public HandleByElevator() {
     requires(Roller.getInstance());
   }
 

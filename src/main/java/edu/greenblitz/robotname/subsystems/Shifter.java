@@ -21,6 +21,8 @@ public class Shifter extends Subsystem {
     private DoubleSolenoid m_piston;
     private ShifterState m_currentShift = ShifterState.POWER;
 
+    private int m_pistonChanges = 0;
+
     /**
      * This constructor constructs the piston.
      */
@@ -79,6 +81,7 @@ public class Shifter extends Subsystem {
     public void setShift(ShifterState state) {
         m_currentShift = state;
         m_piston.set(state.getValue());
+        m_pistonChanges += m_piston.get() != state.getValue() ? 1 : 0;
     }
 
     /**
@@ -95,11 +98,16 @@ public class Shifter extends Subsystem {
         setDefaultCommand(new AutoChangeShift());
     }
 
+    public int getPistonChanges() {
+        return m_pistonChanges;
+    }
+
     /**
      * This function updates the information from the subsystem when called by the robot.
      */
     public void update() {
         SmartDashboard.putString("Shifter::Shift", getCurrentShift().name());
         SmartDashboard.putString("Shifter::Command", getCurrentCommandName());
+        SmartDashboard.putNumber("Shifter::SolenoidChanges", m_pistonChanges);
     }
 }

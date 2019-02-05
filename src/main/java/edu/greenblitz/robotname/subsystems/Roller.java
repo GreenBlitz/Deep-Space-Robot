@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.greenblitz.robotname.RobotMap.Roller.Motor;
 import edu.greenblitz.robotname.RobotMap.Roller.Sensor;
 import edu.greenblitz.robotname.RobotMap.Roller.Solenoid;
-import edu.greenblitz.robotname.commands.roller.AutoRollerByElevator;
+import edu.greenblitz.robotname.commands.roller.HandleByElevator;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -19,6 +19,8 @@ public class Roller extends Subsystem {
   private WPI_TalonSRX m_motor;
   private DigitalInput m_infrared, m_limitSwitch;
 
+  private int m_pistonChanges = 0;
+
   private Roller() {
     m_piston = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
     m_motor = new WPI_TalonSRX(Motor.ROLLER);
@@ -28,6 +30,7 @@ public class Roller extends Subsystem {
 
   public void setExtender(Value value) {
     m_piston.set(value);
+    m_pistonChanges += m_piston.get() != value ? 1 : 0;
   }
 
   public Value getExtenderState() {
@@ -46,9 +49,13 @@ public class Roller extends Subsystem {
     return m_infrared.get();
   }
 
+  public int getPistonChanges() {
+    return m_pistonChanges;
+  }
+
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new AutoRollerByElevator());
+    setDefaultCommand(new HandleByElevator());
   }
 
   public static void init() {
@@ -65,5 +72,6 @@ public class Roller extends Subsystem {
   public void update() {
     SmartDashboard.putString("ROLLER::Command", getCurrentCommandName());
     SmartDashboard.putString("ROLLER::EXTENDER", getExtenderState().name());
+    SmartDashboard.putNumber("Roller::SolenoidChanges", m_pistonChanges);
   }
 }
