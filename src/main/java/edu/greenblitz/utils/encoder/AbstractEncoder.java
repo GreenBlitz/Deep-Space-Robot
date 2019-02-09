@@ -1,4 +1,4 @@
-package edu.greenblitz.robotname.utils.encoder;
+package edu.greenblitz.utils.encoder;
 
 public abstract class AbstractEncoder implements IEncoder {
 

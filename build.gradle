@@ -39,16 +39,19 @@ def includeDesktopSupport = true
 
 // Maven central needed for JUnit
 repositories {
+    jcenter()
+    maven { url "https://jitpack.io" }
     mavenCentral()
 }
 
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
-// Also defines JUnit 4.
 dependencies {
     compile wpi.deps.wpilib()
     compile wpi.deps.vendor.java()
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
+
+   // implementation 'com.github.GreenBlitz.MotionControl:motion:master-SNAPSHOT'
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')

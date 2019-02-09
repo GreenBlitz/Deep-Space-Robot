@@ -7,9 +7,9 @@ import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.RobotMap.Chassis.Motor;
 import edu.greenblitz.robotname.RobotMap.Chassis.Sensor;
 import edu.greenblitz.robotname.commands.chassis.ArcadeDriveByJoystick;
-import edu.greenblitz.robotname.utils.drive.RobotDrive;
-import edu.greenblitz.robotname.utils.encoder.IEncoder;
-import edu.greenblitz.robotname.utils.encoder.SparkEncoder;
+import edu.greenblitz.utils.drive.RobotDrive;
+import edu.greenblitz.utils.encoder.IEncoder;
+import edu.greenblitz.utils.encoder.SparkEncoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

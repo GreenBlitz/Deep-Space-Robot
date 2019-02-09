@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -16,7 +17,6 @@ public class Robot extends TimedRobot {
      */
 
     private PowerDistributionPanel m_PDP; 
-    
     private static double m_startingVoltage;
 
     @Override

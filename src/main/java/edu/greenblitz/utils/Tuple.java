@@ -1,4 +1,4 @@
-package edu.greenblitz.robotname.utils;
+package edu.greenblitz.utils;
 
 public class Tuple<X, Y> {
     private X m_first;

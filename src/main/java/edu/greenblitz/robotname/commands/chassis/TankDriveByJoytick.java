@@ -2,7 +2,7 @@ package edu.greenblitz.robotname.commands.chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.subsystems.Chassis;
-import edu.greenblitz.robotname.utils.SmartJoystick;
+import edu.greenblitz.utils.SmartJoystick;
 
 public class TankDriveByJoytick extends Command {
 

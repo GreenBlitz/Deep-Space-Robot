@@ -6,9 +6,10 @@ import edu.greenblitz.robotname.RobotMap.Elevator.Motor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Sensor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Solenoid;
 import edu.greenblitz.robotname.commands.elevator.BrakeElevator;
-import edu.greenblitz.robotname.utils.Tuple;
-import edu.greenblitz.robotname.utils.encoder.IEncoder;
-import edu.greenblitz.robotname.utils.encoder.Taloncoder;
+import edu.greenblitz.utils.Tuple;
+import edu.greenblitz.utils.command.queue.CommandQueue;
+import edu.greenblitz.utils.encoder.IEncoder;
+import edu.greenblitz.utils.encoder.Taloncoder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -26,6 +27,8 @@ public class Elevator extends Subsystem {
   
   private static Elevator instance;
 
+  public final CommandQueue commandQueue = new CommandQueue(this);
+
   private ElevatorLevel m_level; //TODO: Add sendable chooser
   
   private WPI_TalonSRX m_motor;
@@ -36,10 +39,11 @@ public class Elevator extends Subsystem {
 
   private Elevator() {
     DANGER_ZONES.add(new Tuple<>(SAFE_TO_LOWER_DOWN - SAFETY_RANGE, SAFE_TO_LOWER_UP + SAFETY_RANGE));
+    
     m_motor = new WPI_TalonSRX(Motor.ELEVATOR);
     m_encoder = new Taloncoder(Sensor.TICKS_PER_METER, m_motor);
     m_piston = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
-    m_encoder.reset();
+    resetEncoder();
   }
 
   public boolean isInDangerZone() {
@@ -83,12 +87,16 @@ public class Elevator extends Subsystem {
     m_pistonChanges += m_piston.get() != value ? 1 : 0;
   }
 
+  public void resetEncoder() {
+    m_encoder.reset();
+  }
+
   public int getPistonChanges() {
     return m_pistonChanges;
   }
 
   public void update() {
-    SmartDashboard.putString("ELEVATOR::Command", getCurrentCommandName());
+    SmartDashboard.putString("Elevator::Command", getCurrentCommandName());
 
     for (ElevatorLevel level : ElevatorLevel.values()) {
       if (Math.abs(Elevator.getInstance().getHeight() - level.getHeight()) <= LEVEL_HEIGHT_RANGE) {

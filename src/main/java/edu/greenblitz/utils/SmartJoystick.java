@@ -1,4 +1,4 @@
-package edu.greenblitz.robotname.utils;
+package edu.greenblitz.utils;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;

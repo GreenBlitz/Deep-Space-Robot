@@ -1,9 +1,11 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.robotname.utils.SmartJoystick;
+import edu.greenblitz.robotname.RobotMap.Elevator.ElevatorLevel;
+import edu.greenblitz.robotname.commands.elevator.AddCommandToElevatorQueue;
+import edu.greenblitz.robotname.commands.elevator.SetElevatorLevel;
+import edu.greenblitz.utils.SmartJoystick;
 
 public class OI {
-
     private static OI instance;
 
     private SmartJoystick mainJoystick, sideJoystick;
@@ -11,6 +13,8 @@ public class OI {
     private OI() {
         mainJoystick = new SmartJoystick(RobotMap.Joysticks.MAIN);
         sideJoystick = new SmartJoystick(RobotMap.Joysticks.SIDE);
+
+        mainJoystick.A.whenPressed(new AddCommandToElevatorQueue(new SetElevatorLevel(ElevatorLevel.LEVEL1)));
     }
 
     public SmartJoystick getMainJoystick() {

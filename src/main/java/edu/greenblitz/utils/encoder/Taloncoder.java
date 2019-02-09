@@ -1,4 +1,4 @@
-package edu.greenblitz.robotname.utils.encoder;
+package edu.greenblitz.utils.encoder;
 
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;

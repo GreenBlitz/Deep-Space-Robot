@@ -10,7 +10,7 @@ package edu.greenblitz.robotname.commands.climber;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.subsystems.Climber;
-import edu.greenblitz.robotname.utils.SmartJoystick;
+import edu.greenblitz.utils.SmartJoystick;
 
 public class ClimbByTriggers extends Command {
   public ClimbByTriggers() {

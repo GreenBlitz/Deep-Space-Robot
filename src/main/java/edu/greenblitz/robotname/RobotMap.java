@@ -1,6 +1,6 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.robotname.utils.drive.RobotDrive;
+import edu.greenblitz.utils.drive.RobotDrive;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 
 public class RobotMap {
