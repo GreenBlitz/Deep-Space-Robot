@@ -7,7 +7,6 @@ import edu.greenblitz.robotname.RobotMap.Elevator.Sensor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Solenoid;
 import edu.greenblitz.robotname.commands.elevator.BrakeElevator;
 import edu.greenblitz.utils.Tuple;
-import edu.greenblitz.utils.command.queue.CommandQueue;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.Taloncoder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -26,8 +25,6 @@ public class Elevator extends Subsystem {
   private static final ArrayList<Tuple<Double, Double>> DANGER_ZONES = new ArrayList<Tuple<Double, Double>>();
   
   private static Elevator instance;
-
-  public final CommandQueue commandQueue = new CommandQueue(this);
 
   private ElevatorLevel m_level; //TODO: Add sendable chooser
   
