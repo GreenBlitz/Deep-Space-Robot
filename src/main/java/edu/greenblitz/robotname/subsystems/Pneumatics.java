@@ -3,6 +3,7 @@ package edu.greenblitz.robotname.subsystems;
 import edu.greenblitz.utils.sensors.PressureSensor;
 import edu.wpi.first.hal.CompressorJNI;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.greenblitz.robotname.RobotMap.Pneumatics.*;
 import edu.greenblitz.robotname.commands.pneumatics.ActivateCompressorBelow;
@@ -13,10 +14,12 @@ public class Pneumatics extends Subsystem {
 
   private PressureSensor m_pressureSensor;
   private Compressor m_compressor;
+  private DigitalInput m_switch;
 
   private Pneumatics() {
     m_pressureSensor = new PressureSensor(Sensor.Pressure);
     m_compressor = new Compressor();
+    m_switch = new DigitalInput(Sensor.Switch);
   }
 
   public double getPressure() {
@@ -30,8 +33,12 @@ public class Pneumatics extends Subsystem {
       m_compressor.stop();;
   }
 
-  public boolean isActive() {
+  public boolean isEnabled() {
     return m_compressor.enabled();
+  }
+
+  public boolean isLimitOn() {
+    return m_switch.get();
   }
 
   public static void init() {

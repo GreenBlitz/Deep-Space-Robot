@@ -140,6 +140,7 @@ public class RobotMap {
     public static class Pneumatics {
         public static class Sensor {
             public static final int Pressure = 0;
+            public static final int Switch = 0;
         }
     }
 }

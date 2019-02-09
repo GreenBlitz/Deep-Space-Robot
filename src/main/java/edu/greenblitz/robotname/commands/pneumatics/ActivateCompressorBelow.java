@@ -16,10 +16,14 @@ public class ActivateCompressorBelow extends Command {
 
   @Override
   protected void execute() {
-    if (Pneumatics.getInstance().getPressure() < m_pressure && !Pneumatics.getInstance().isActive())
+    if (Pneumatics.getInstance().isLimitOn()) {
+      if (Pneumatics.getInstance().getPressure() < m_pressure && !Pneumatics.getInstance().isEnabled())
+        Pneumatics.getInstance().setCompressor(true);
+      else if (Pneumatics.getInstance().getPressure() > m_pressure + DEADZONE && Pneumatics.getInstance().isEnabled())
+        Pneumatics.getInstance().setCompressor(false);
+    }
+    else if (!Pneumatics.getInstance().isEnabled())
       Pneumatics.getInstance().setCompressor(true);
-    else if (Pneumatics.getInstance().getPressure() > m_pressure + DEADZONE && Pneumatics.getInstance().isActive())
-      Pneumatics.getInstance().setCompressor(false);
   }
 
   @Override
