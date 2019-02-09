@@ -49,4 +49,8 @@ public static Pneumatics getInstance() {
   public void initDefaultCommand() {
     setDefaultCommand(new ActivateCompressorBelow(80));
   }
+
+  public void update() {
+    
+  }
 }

@@ -1,6 +1,5 @@
 package edu.greenblitz.robotname;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -13,6 +12,7 @@ public class Robot extends TimedRobot {
         TODO: Add algorithm check with vision
         TODO: Add automator for roller & elevator
         TODO: Add commands for roller & elevator
+        TODO: Add state machien for roller & elevator
         TODO: Add command groups
      */
 
@@ -28,6 +28,7 @@ public class Robot extends TimedRobot {
         Kicker.init();
         RearPicker.init();
         FrontPoker.init();
+        Pneumatics.init();
         OI.init();
         m_startingVoltage = m_PDP.getVoltage();
     }
@@ -67,6 +68,7 @@ public class Robot extends TimedRobot {
         Kicker.getInstance().update();
         RearPicker.getInstance().update();
         FrontPoker.getInstance().update();
+        Pneumatics.getInstance().update();
         OI.getInstance().update();
     }
 }
