@@ -108,7 +108,7 @@ public class RobotMap {
 
         public static class Solenoid {
             public static final int FORWARD = 0;
-            public static final int Backward = 0;
+            public static final int REVERSE = 0;
         }
 
         public static class Sensor {
@@ -134,6 +134,12 @@ public class RobotMap {
                 public static final int FORWARD = 0;
                 public static final int REVERSE = 0;
             }
+        }
+    }
+
+    public static class Pneumatics {
+        public static class Sensor {
+            public static final int Pressure = 0;
         }
     }
 }

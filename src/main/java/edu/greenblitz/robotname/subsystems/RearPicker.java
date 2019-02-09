@@ -16,7 +16,7 @@ public class RearPicker extends Subsystem {
   private int m_pistonChanges = 0;
 
   private RearPicker() {
-    m_piston = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.Backward);
+    m_piston = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
   }
 
   @Override

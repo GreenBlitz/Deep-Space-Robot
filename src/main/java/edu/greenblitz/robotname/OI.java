@@ -26,7 +26,8 @@ public class OI {
     }
 
     public static OI getInstance() {
-        init();
+        if (instance == null)
+            init();
         return instance;
     }
 
