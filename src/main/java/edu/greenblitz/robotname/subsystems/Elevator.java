@@ -84,6 +84,10 @@ public class Elevator extends Subsystem {
     m_pistonChanges += m_piston.get() != value ? 1 : 0;
   }
 
+  public void setPower(double power) {
+    m_motor.set(power);
+  }
+
   public void resetEncoder() {
     m_encoder.reset();
   }

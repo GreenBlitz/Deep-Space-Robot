@@ -41,9 +41,9 @@
 //     }
 
 //     public static class Rocket {
-//         public static final Point South = new Point(6.9702, 5.8105);
-//         public static final Point West = new Point(4.5708, 5.44436);
-//         public static final Point East = new Point(4.5708, 6.16737);
+//         public static final Point South = new Point(0.69702, 5.8105);
+//         public static final Point West = new Point(0.45708, 5.44436);
+//         public static final Point East = new Point(0.45708, 6.16737);
 //     }
 
 //     public static class Depot {

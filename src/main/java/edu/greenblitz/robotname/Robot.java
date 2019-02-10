@@ -11,8 +11,6 @@ public class Robot extends TimedRobot {
     /*
         TODO: Add algorithm check with vision
         TODO: Add automator for roller & elevator
-        TODO: Add commands for roller & elevator
-        TODO: Add state machien for roller & elevator
         TODO: Add command groups
      */
 
