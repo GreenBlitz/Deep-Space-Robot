@@ -8,8 +8,8 @@ public class OI {
     private SmartJoystick mainJoystick, sideJoystick;
 
     private OI() {
-        mainJoystick = new SmartJoystick(RobotMap.Joysticks.MAIN);
-        sideJoystick = new SmartJoystick(RobotMap.Joysticks.SIDE);
+        mainJoystick = new SmartJoystick(RobotMap.Joysticks.Main);
+        sideJoystick = new SmartJoystick(RobotMap.Joysticks.Side);
     }
 
     public SmartJoystick getMainJoystick() {

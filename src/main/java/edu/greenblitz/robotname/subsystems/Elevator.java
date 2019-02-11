@@ -1,12 +1,9 @@
 package edu.greenblitz.robotname.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.greenblitz.robotname.RobotMap.Elevator.ElevatorLevel;
-import edu.greenblitz.robotname.RobotMap.Elevator.Motor;
-import edu.greenblitz.robotname.RobotMap.Elevator.Sensor;
-import edu.greenblitz.robotname.RobotMap.Elevator.Solenoid;
+import edu.greenblitz.robotname.RobotMap.Elevator.*;
 import edu.greenblitz.robotname.commands.elevator.BrakeElevator;
 import edu.greenblitz.utils.Tuple;
+import edu.greenblitz.utils.ctre.SmartTalon;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.Taloncoder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -26,20 +23,24 @@ public class Elevator extends Subsystem {
   
   private static Elevator instance;
 
-  private ElevatorLevel m_level; //TODO: Add sendable chooser
+  //TODO: Add sendable chooser
+  private ElevatorLevel m_level = ElevatorLevel.GROUND; 
   
-  private WPI_TalonSRX m_motor;
+  private SmartTalon m_main,
+                     m_follower;
   private IEncoder m_encoder;
-  private DoubleSolenoid m_piston;
+  private DoubleSolenoid m_braker;
 
   private int m_pistonChanges = 0;
 
   private Elevator() {
     DANGER_ZONES.add(new Tuple<>(SAFE_TO_LOWER_DOWN - SAFETY_RANGE, SAFE_TO_LOWER_UP + SAFETY_RANGE));
     
-    m_motor = new WPI_TalonSRX(Motor.ELEVATOR);
-    m_encoder = new Taloncoder(Sensor.TICKS_PER_METER, m_motor);
-    m_piston = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
+    m_main = new SmartTalon(Motor.Main);
+    m_follower = new SmartTalon(Motor.Follower);
+    m_follower.follow(m_main);
+    m_encoder = new Taloncoder(Sensor.TicksPerMeter, m_main);
+    m_braker = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
     resetEncoder();
   }
 
@@ -80,12 +81,12 @@ public class Elevator extends Subsystem {
   }
 
   public void setState(Value value) {
-    m_piston.set(value);
-    m_pistonChanges += m_piston.get() != value ? 1 : 0;
+    m_braker.set(value);
+    m_pistonChanges += m_braker.get() != value ? 1 : 0;
   }
 
   public void setPower(double power) {
-    m_motor.set(power);
+    m_main.set(power);
   }
 
   public void resetEncoder() {

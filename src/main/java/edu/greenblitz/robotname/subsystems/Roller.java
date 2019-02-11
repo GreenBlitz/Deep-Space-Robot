@@ -22,10 +22,10 @@ public class Roller extends Subsystem {
   private int m_pistonChanges = 0;
 
   private Roller() {
-    m_piston = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
-    m_motor = new WPI_TalonSRX(Motor.ROLLER);
-    m_infrared = new DigitalInput(Sensor.IR);
-    m_limitSwitch = new DigitalInput(Sensor.LIMIT_SWITCH);
+    m_piston = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
+    m_motor = new WPI_TalonSRX(Motor.Roller);
+    m_infrared = new DigitalInput(Sensor.Infrared);
+    m_limitSwitch = new DigitalInput(Sensor.LimitSwitch);
   }
 
   public void setExtender(Value value) {

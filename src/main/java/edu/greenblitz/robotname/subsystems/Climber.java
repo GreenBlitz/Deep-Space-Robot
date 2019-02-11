@@ -13,8 +13,8 @@ public class Climber extends Subsystem {
   private WPI_TalonSRX m_extender, m_wheels;
 
   private Climber() {
-    m_extender = new WPI_TalonSRX(Motor.EXTENDER);
-    m_wheels = new WPI_TalonSRX(Motor.WHEELS);
+    m_extender = new WPI_TalonSRX(Motor.Extender);
+    m_wheels = new WPI_TalonSRX(Motor.Wheels);
   }
 
   public void setExtender(double power) {

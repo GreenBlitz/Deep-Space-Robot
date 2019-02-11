@@ -1,6 +1,6 @@
 package edu.greenblitz.utils.drive;
 
-import edu.wpi.first.wpilibj.SpeedController;
+import com.revrobotics.CANSparkMax;
 
 /**
  * This class creates a standardized way to do robot drive with our 4 Talon setup.
@@ -9,23 +9,34 @@ import edu.wpi.first.wpilibj.SpeedController;
  *
  * There is a helpful MotorID enum in place to easily differentiate the Talons from inside and outside this class.
  *
- * @see edu.wpi.first.wpilibj.SpeedController
+ * @see com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
  * @see edu.wpi.first.wpilibj.drive.RobotDriveBase
+ * @see org.usfirst.frc.team4590.robot.RobotMap
  */
 public class RobotDrive {
 
-    private SpeedController m_frontLeft,
-                       m_rearLeft,
-                       m_frontRight,
-                       m_rearRight;
+    private CANSparkMax m_frontLeft,
+                        m_middleLeft,
+                        m_rearLeft,
+                        m_frontRight,
+                        m_middleRight,
+                        m_rearRight;
 
     private double mOutputScale = 1;
     private double mPowerLimit = 1;
+    private int m_frontLeftInverted = 1, 
+                m_middleLeftInverted = 1, 
+                m_rearLeftInverted = 1, 
+                m_frontRightInverted = 1, 
+                m_middleRightInverted = 1, 
+                m_rearRightInverted = 1;
 
-    public RobotDrive(SpeedController frontLeft, SpeedController rearLeft, SpeedController frontRight, SpeedController rearRight) {
+    public RobotDrive(CANSparkMax frontLeft, CANSparkMax middleLeft, CANSparkMax rearLeft, CANSparkMax frontRight, CANSparkMax middleRight, CANSparkMax rearRight) {
         m_frontLeft = frontLeft;
+        m_middleLeft = middleLeft;
         m_rearLeft = rearLeft;
         m_frontRight = frontRight;
+        m_middleRight = middleRight;
         m_rearRight = rearRight;
     }
 
@@ -33,7 +44,7 @@ public class RobotDrive {
      * This is a helpful MotorID enum for us to easily differentiate the Talons from inside and outside this class.
      */
     public enum MotorID {
-        FRONT_LEFT, REAR_LEFT, FRONT_RIGHT, REAR_RIGHT
+        FRONT_LEFT, MIDDLE_LEFT, REAR_LEFT, FRONT_RIGHT, MIDDLE_RIGHT, REAR_RIGHT
     }
 
     /**
@@ -42,14 +53,18 @@ public class RobotDrive {
      * @param id The id of the talon based on the MotorID enum we want to get
      * @return The talon based on the MotorID given or null (if the MotorID doesn't match any of the talons
      */
-    public SpeedController getMotor(MotorID id) {
+    public CANSparkMax getMotor(MotorID id) {
         switch (id) {
             case FRONT_LEFT:
                 return m_frontLeft;
+            case MIDDLE_LEFT:
+                return m_middleLeft;
             case REAR_LEFT:
                 return m_rearLeft;
             case FRONT_RIGHT:
                 return m_frontRight;
+            case MIDDLE_RIGHT:
+                return m_middleRight;
             case REAR_RIGHT:
                 return m_rearRight;
             default:
@@ -64,7 +79,26 @@ public class RobotDrive {
      * @param inverted A boolean that says whether we should invert the direction or not
      */
     public void setInvetedMotor(MotorID id, boolean inverted) {
-        getMotor(id).setInverted(inverted);
+        switch (id) {
+            case FRONT_LEFT:
+                m_frontLeftInverted = inverted ? -1 : 1;
+                break;
+            case MIDDLE_LEFT:
+                m_middleLeftInverted = inverted ? -1 : 1;
+                break;
+            case REAR_LEFT:
+                m_rearLeftInverted = inverted ? -1 : 1;
+                break;
+            case FRONT_RIGHT:
+                m_frontRightInverted = inverted ? -1 : 1;
+                break;
+            case MIDDLE_RIGHT:
+                m_middleRightInverted = inverted ? -1 : 1;
+                break;
+            case REAR_RIGHT:
+                m_rearRightInverted = inverted ? -1 : 1;
+                break;
+        }
     }
 
     /**
@@ -160,16 +194,11 @@ public class RobotDrive {
      * @param rightOutput The original output for the right motors
      */
     public void setLeftRightMotorOutputs(double leftOutput, double rightOutput) {
-        m_frontLeft.set(limit(leftOutput * mOutputScale));
-        m_rearLeft.set(limit(leftOutput * mOutputScale));
-        m_frontRight.set(limit(rightOutput * mOutputScale));
-        m_rearRight.set(limit(rightOutput * mOutputScale));
-    }
-
-    public void stop() {
-        m_frontLeft.stopMotor();
-        m_rearLeft.stopMotor();
-        m_frontRight.stopMotor();
-        m_rearRight.stopMotor();
+        m_frontLeft.set(m_frontLeftInverted * limit(leftOutput) * mOutputScale);
+        m_middleLeft.set(m_middleLeftInverted * limit(leftOutput) * mOutputScale);
+        m_rearLeft.set(m_rearLeftInverted * limit(leftOutput) * mOutputScale);
+        m_frontRight.set(m_frontRightInverted * limit(rightOutput) * mOutputScale);
+        m_middleRight.set(m_middleRightInverted * limit(rightOutput) * mOutputScale);
+        m_rearRight.set(m_rearRightInverted * limit(rightOutput) * mOutputScale);
     }
 }

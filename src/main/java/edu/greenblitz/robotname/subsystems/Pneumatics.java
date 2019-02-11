@@ -1,7 +1,6 @@
 package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.utils.sensors.PressureSensor;
-import edu.wpi.first.hal.CompressorJNI;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -18,7 +17,7 @@ public class Pneumatics extends Subsystem {
 
   private Pneumatics() {
     m_pressureSensor = new PressureSensor(Sensor.Pressure);
-    m_compressor = new Compressor();
+    m_compressor = new Compressor(PCM.Compressor);
     m_switch = new DigitalInput(Sensor.Switch);
   }
 

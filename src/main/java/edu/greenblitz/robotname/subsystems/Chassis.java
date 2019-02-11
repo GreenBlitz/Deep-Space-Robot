@@ -22,13 +22,15 @@ public class Chassis extends Subsystem {
     private AHRS m_navX;
 
     private Chassis() {
-        var leftFront = new CANSparkMax(Motor.Left.FRONT, CANSparkMaxLowLevel.MotorType.kBrushless);
-        var leftRear = new CANSparkMax(Motor.Left.REAR, CANSparkMaxLowLevel.MotorType.kBrushless);
-        var rightFront = new CANSparkMax(Motor.Right.FRONT, CANSparkMaxLowLevel.MotorType.kBrushless);
-        var rightRear = new CANSparkMax(Motor.Right.REAR, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_robotDrive = new RobotDrive(leftFront, leftRear, rightFront, rightRear);
-        m_leftEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER, (CANSparkMax) m_robotDrive.getMotor(Sensor.Encoder.LEFT));
-        m_rightEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER, (CANSparkMax) m_robotDrive.getMotor(Sensor.Encoder.RIGHT));
+        var leftFront = new CANSparkMax(Motor.Left.Front, CANSparkMaxLowLevel.MotorType.kBrushless);
+        var leftMiddle = new CANSparkMax(Motor.Left.Middle, CANSparkMaxLowLevel.MotorType.kBrushless);
+        var leftRear = new CANSparkMax(Motor.Left.Rear, CANSparkMaxLowLevel.MotorType.kBrushless);
+        var rightFront = new CANSparkMax(Motor.Right.Front, CANSparkMaxLowLevel.MotorType.kBrushless);
+        var rightMiddle = new CANSparkMax(Motor.Right.Middle, CANSparkMaxLowLevel.MotorType.kBrushless);
+        var rightRear = new CANSparkMax(Motor.Right.Rear, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_robotDrive = new RobotDrive(leftFront, leftMiddle, leftRear, rightFront, rightMiddle, rightRear);
+        m_leftEncoder = new SparkEncoder(Sensor.Encoder.TicksPerMeter, m_robotDrive.getMotor(Sensor.Encoder.Left));
+        m_rightEncoder = new SparkEncoder(Sensor.Encoder.TicksPerMeter, m_robotDrive.getMotor(Sensor.Encoder.Right));
         m_navX = new AHRS(Sensor.NavX);
     }
 
@@ -46,7 +48,7 @@ public class Chassis extends Subsystem {
     }
 
     public void stop() {
-        m_robotDrive.stop();
+        m_robotDrive.tankDrive(0, 0);;
     }
 
     public double getDistance() {

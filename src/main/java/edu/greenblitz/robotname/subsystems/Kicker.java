@@ -15,7 +15,7 @@ public class Kicker extends Subsystem {
   private int m_pistonChanges = 0;
 
   private Kicker() {
-    m_piston = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
+    m_piston = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
   }
 
   @Override

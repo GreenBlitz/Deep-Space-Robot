@@ -12,13 +12,21 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class BrakeElevator extends Command {
+
+  private static final double POWER = 0.05;
+
   public BrakeElevator() {
     requires(Elevator.getInstance());
   }
 
   @Override
-  protected void execute() {
+  protected void initialize() {
     Elevator.getInstance().setState(Value.kForward);
+  }
+
+  @Override
+  protected void execute() {
+    Elevator.getInstance().setPower(POWER);
   }
 
   @Override
