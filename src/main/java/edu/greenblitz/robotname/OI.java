@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname;
 
+import edu.greenblitz.robotname.commands.shifter.SwitchShift;
 import edu.greenblitz.utils.SmartJoystick;
 
 public class OI {
@@ -10,6 +11,8 @@ public class OI {
     private OI() {
         mainJoystick = new SmartJoystick(RobotMap.Joysticks.Main);
         sideJoystick = new SmartJoystick(RobotMap.Joysticks.Side);
+
+        mainJoystick.A.whenPressed(new SwitchShift());
     }
 
     public SmartJoystick getMainJoystick() {

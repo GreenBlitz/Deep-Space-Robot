@@ -20,14 +20,16 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         Chassis.init();
-        Climber.init();
-        Elevator.init();
-        Roller.init();
-        Kicker.init();
-        RearPicker.init();
-        FrontPoker.init();
-        Pneumatics.init();
+        Shifter.init();
+        // Climber.init();
+        // Elevator.init();
+        // Roller.init();
+        // Kicker.init();
+        // RearPicker.init();
+        // FrontPoker.init();
+        // Pneumatics.init();
         OI.init();
+        m_PDP = new PowerDistributionPanel();
         m_startingVoltage = m_PDP.getVoltage();
     }
     
@@ -40,12 +42,12 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         updateSubsystems();
-        SmartDashboard.putNumber("Robot::SolenoidChanges", Shifter.getInstance().getPistonChanges() +
-                                                            Roller.getInstance().getPistonChanges() +
-                                                            RearPicker.getInstance().getPistonChanges() +
-                                                            Kicker.getInstance().getPistonChanges() +
-                                                            FrontPoker.getInstance().getTotalPistonChanges() +
-                                                            Elevator.getInstance().getPistonChanges());
+        // SmartDashboard.putNumber("Robot::SolenoidChanges", Shifter.getInstance().getPistonChanges() +
+        //                                                     Roller.getInstance().getPistonChanges() +
+        //                                                     RearPicker.getInstance().getPistonChanges() +
+        //                                                     Kicker.getInstance().getPistonChanges() +
+        //                                                     FrontPoker.getInstance().getTotalPistonChanges() +
+        //                                                     Elevator.getInstance().getPistonChanges());
     }
 
     @Override
@@ -60,13 +62,14 @@ public class Robot extends TimedRobot {
 
     private void updateSubsystems() {
         Chassis.getInstance().update();
-        Climber.getInstance().update();
+        Shifter.getInstance().update();
+        /*Climber.getInstance().update();
         Elevator.getInstance().update();
         Roller.getInstance().update();
         Kicker.getInstance().update();
         RearPicker.getInstance().update();
         FrontPoker.getInstance().update();
-        Pneumatics.getInstance().update();
+        Pneumatics.getInstance().update();*/
         OI.getInstance().update();
     }
 }

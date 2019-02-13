@@ -27,7 +27,7 @@ public class Shifter extends Subsystem {
      * This constructor constructs the piston.
      */
     private Shifter() {
-        m_piston = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
+        m_piston = new DoubleSolenoid(2, Solenoid.Forward, Solenoid.Reverse);
     }
 
     /**
@@ -95,7 +95,7 @@ public class Shifter extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new AutoChangeShift());
+       // setDefaultCommand(new AutoChangeShift());
     }
 
     public int getPistonChanges() {

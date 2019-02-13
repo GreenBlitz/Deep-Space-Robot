@@ -12,15 +12,15 @@ public class RobotMap {
     public static class Chassis {
         public static class Motor {
             public static class Left {
-                public static final int Front = 0;
-                public static final int Middle = 0;
-                public static final int Rear = 0;
+                public static final int Front = 1;
+                public static final int Middle = 2;
+                public static final int Rear = 3;
             }
 
             public static class Right {
-                public static final int Front = 0;
-                public static final int Middle = 0;
-                public static final int Rear = 0;
+                public static final int Front = 4;
+                public static final int Middle = 5;
+                public static final int Rear = 6;
             }
         }
         
@@ -123,7 +123,7 @@ public class RobotMap {
     public static class Shifter {
         public static class Solenoid {
             public static final int Forward = 0;
-            public static final int Reverse = 0;
+            public static final int Reverse = 1;
         }
     }
 

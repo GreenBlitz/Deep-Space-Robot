@@ -7,32 +7,38 @@
 
 package edu.greenblitz.robotname.commands.elevator;
 
+import edu.greenblitz.robotname.RobotMap.Elevator.ElevatorLevel;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class RaiseElevator extends Command implements PIDSource, PIDOutput {
+public class MoveElevator extends Command implements PIDSource, PIDOutput {
+
+  private static final double CONST = 0.05;
 
   private static final double kP = 0.5, kI = 0, kD = 0;
 
   private static int m_timesOnTarget = 0;
   private PIDController m_controller;
 
-  public RaiseElevator(double height) {
+  public MoveElevator(double height) {
     requires(Elevator.getInstance());
     m_controller = new PIDController(kP, kI, kD, this, this);
     m_controller.setAbsoluteTolerance(0.05);
     m_controller.setSetpoint(height);
-    m_controller.setOutputRange(0, 0.8);
+  }
+
+  public MoveElevator(ElevatorLevel level) {
+    this(level.getHeight());
   }
 
   @Override
   protected void initialize() {
     m_controller.enable();
+    m_timesOnTarget = 0;
   }
 
   @Override
@@ -52,12 +58,11 @@ public class RaiseElevator extends Command implements PIDSource, PIDOutput {
   protected void end() {
     m_controller.disable();
     Elevator.getInstance().setPower(0);
-    Elevator.getInstance().setState(Value.kForward);
   }
 
   @Override
   public void pidWrite(double output) {
-    Elevator.getInstance().setPower(output);
+    Elevator.getInstance().setPower(output + CONST);
   }
 
   @Override
