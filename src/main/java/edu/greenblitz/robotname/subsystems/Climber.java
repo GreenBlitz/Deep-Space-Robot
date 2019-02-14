@@ -1,20 +1,20 @@
 package edu.greenblitz.robotname.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.greenblitz.robotname.RobotMap.Climber.Motor;
+import edu.greenblitz.robotname.commands.climber.ClimberControl;
+import edu.greenblitz.utils.ctre.SmartTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.greenblitz.robotname.OI;
-import edu.greenblitz.robotname.RobotMap.Climber.*;
 
 public class Climber extends Subsystem {
 
   private static Climber instance;
 
-  private WPI_TalonSRX m_extender, m_wheels;
+  private SmartTalon m_extender, m_wheels;
 
   private Climber() {
-    m_extender = new WPI_TalonSRX(Motor.Extender);
-    m_wheels = new WPI_TalonSRX(Motor.Wheels);
+    m_extender = new SmartTalon(Motor.Extender);
+    m_wheels = new SmartTalon(Motor.Wheels);
   }
 
   public void setExtender(double power) {
@@ -27,7 +27,7 @@ public class Climber extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    OI.getInstance().getMainJoystick().A.whenPressed(null);
+    setDefaultCommand(new ClimberControl());
   }
 
   public static void init() {

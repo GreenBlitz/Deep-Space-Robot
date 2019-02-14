@@ -1,6 +1,8 @@
 package edu.greenblitz.robotname.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.greenblitz.robotname.RobotMap.Roller.Motor;
 import edu.greenblitz.robotname.RobotMap.Roller.Sensor;
 import edu.greenblitz.robotname.RobotMap.Roller.Solenoid;
@@ -16,14 +18,14 @@ public class Roller extends Subsystem {
   private static Roller instance;
 
   private DoubleSolenoid m_piston;
-  private WPI_TalonSRX m_motor;
+  private CANSparkMax m_motor;
   private DigitalInput m_infrared, m_limitSwitch;
 
   private int m_pistonChanges = 0;
 
   private Roller() {
-    m_piston = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
-    m_motor = new WPI_TalonSRX(Motor.Roller);
+    m_piston = new DoubleSolenoid(3, Solenoid.Forward, Solenoid.Reverse);
+    m_motor = new CANSparkMax(Motor.Roller, MotorType.kBrushless);
     m_infrared = new DigitalInput(Sensor.Infrared);
     m_limitSwitch = new DigitalInput(Sensor.LimitSwitch);
   }
@@ -72,6 +74,8 @@ public class Roller extends Subsystem {
   public void update() {
     SmartDashboard.putString("ROLLER::Command", getCurrentCommandName());
     SmartDashboard.putString("ROLLER::EXTENDER", getExtenderState().name());
+    SmartDashboard.putBoolean("Roller::IsBallIn", m_infrared.get());
+    SmartDashboard.putBoolean("Roller::IsBallFullyIn", m_limitSwitch.get());
     SmartDashboard.putNumber("Roller::SolenoidChanges", m_pistonChanges);
   }
 }

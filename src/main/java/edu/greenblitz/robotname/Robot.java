@@ -19,9 +19,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        Chassis.init();
-        Shifter.init();
-        // Climber.init();
+        // Chassis.init();
+        // Shifter.init();
+        Climber.init();
         // Elevator.init();
         // Roller.init();
         // Kicker.init();
@@ -61,15 +61,15 @@ public class Robot extends TimedRobot {
     }
 
     private void updateSubsystems() {
-        Chassis.getInstance().update();
-        Shifter.getInstance().update();
-        /*Climber.getInstance().update();
-        Elevator.getInstance().update();
+        // Chassis.getInstance().update();
+        // Shifter.getInstance().update();
+        // Climber.getInstance().update();
+        // Elevator.getInstance().update();
         Roller.getInstance().update();
-        Kicker.getInstance().update();
-        RearPicker.getInstance().update();
-        FrontPoker.getInstance().update();
-        Pneumatics.getInstance().update();*/
+        // Kicker.getInstance().update();
+        // RearPicker.getInstance().update();
+        // FrontPoker.getInstance().update();
+        // Pneumatics.getInstance().update();
         OI.getInstance().update();
     }
 }

@@ -2,18 +2,16 @@ package edu.greenblitz.robotname.commands.roller;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.greenblitz.robotname.subsystems.Roller;
 
-public class OpenAndCollectCargo extends Command {
-
-  public OpenAndCollectCargo() {
+public class CloseAndCollectCargoByLimitSwitch extends Command {
+  public CloseAndCollectCargoByLimitSwitch() {
     requires(Roller.getInstance());
   }
 
   @Override
   protected void initialize() {
-    Roller.getInstance().setExtender(Value.kForward);
+    Roller.getInstance().setExtender(Value.kReverse);
   }
 
   @Override
@@ -23,11 +21,11 @@ public class OpenAndCollectCargo extends Command {
 
   @Override
   protected boolean isFinished() {
-    return false;
+    return Roller.getInstance().isBallFullyIn();
   }
 
   @Override
   protected void end() {
-    Scheduler.getInstance().add(new CloseAndCollectCargo());
+    Roller.getInstance().setPower(0);
   }
 }

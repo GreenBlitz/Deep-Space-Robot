@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveElevator extends Command implements PIDSource, PIDOutput {
@@ -37,6 +38,7 @@ public class MoveElevator extends Command implements PIDSource, PIDOutput {
 
   @Override
   protected void initialize() {
+    Elevator.getInstance().setState(Value.kReverse);
     m_controller.enable();
     m_timesOnTarget = 0;
   }

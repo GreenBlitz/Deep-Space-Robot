@@ -1,6 +1,11 @@
 package edu.greenblitz.robotname.subsystems;
 
-import edu.greenblitz.robotname.RobotMap.Elevator.*;
+import java.util.ArrayList;
+
+import edu.greenblitz.robotname.RobotMap.Elevator.ElevatorLevel;
+import edu.greenblitz.robotname.RobotMap.Elevator.Motor;
+import edu.greenblitz.robotname.RobotMap.Elevator.Sensor;
+import edu.greenblitz.robotname.RobotMap.Elevator.Solenoid;
 import edu.greenblitz.robotname.commands.elevator.BrakeElevator;
 import edu.greenblitz.utils.Tuple;
 import edu.greenblitz.utils.ctre.SmartTalon;
@@ -11,19 +16,15 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.util.ArrayList;
-
 public class Elevator extends Subsystem {
 
   private static final double LEVEL_HEIGHT_RANGE = 0;
-  private static final double SAFE_TO_LOWER_DOWN = 0.05, 
-                              SAFE_TO_LOWER_UP = 0.4,
-                              SAFETY_RANGE = 0.05;
+  private static final double SAFE_TO_LOWER_DOWN = 0.05, SAFE_TO_LOWER_UP = 0.4, SAFETY_RANGE = 0.05;
   private static final ArrayList<Tuple<Double, Double>> DANGER_ZONES = new ArrayList<Tuple<Double, Double>>();
-  
+
   private static Elevator instance;
 
-  //TODO: Add sendable chooser
+  // TODO: Add sendable chooser
   private ElevatorLevel m_level = ElevatorLevel.GROUND; 
   
   private SmartTalon m_main,
@@ -40,7 +41,7 @@ public class Elevator extends Subsystem {
     m_follower = new SmartTalon(Motor.Follower);
     m_follower.follow(m_main);
     m_encoder = new Taloncoder(Sensor.TicksPerMeter, m_main);
-    m_braker = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
+    m_braker = new DoubleSolenoid(2, Solenoid.Forward, Solenoid.Reverse);
     resetEncoder();
   }
 
