@@ -1,4 +1,4 @@
-package edu.greenblitz.robotname.commands.commandGroups;
+package edu.greenblitz.robotname.commands.groups;
 
 import edu.greenblitz.robotname.commands.climber.ClimbByTriggers;
 import edu.greenblitz.robotname.commands.climber.ClimberDriveByJoystick;

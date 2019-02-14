@@ -12,7 +12,6 @@ public class AutoChangeShift extends SubsystemCommand<Shifter> {
 
     public AutoChangeShift() {
         super(Shifter.getInstance());
-
     }
 
     @Override

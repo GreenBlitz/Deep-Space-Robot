@@ -1,10 +1,11 @@
 package edu.greenblitz.robotname.subsystems;
 
+import edu.greenblitz.robotname.commands.shifter.AutoChangeShift;
+import edu.greenblitz.robotname.data.Report;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.greenblitz.robotname.RobotMap.Shifter.*;
-import edu.greenblitz.robotname.commands.shifter.AutoChangeShift;
 
 /**
  * This class is in charge of the shifter subsystem of the robot.
@@ -20,8 +21,6 @@ public class Shifter extends Subsystem {
     private static Shifter instance;
     private DoubleSolenoid m_piston;
     private ShifterState m_currentShift = ShifterState.POWER;
-
-    private int m_pistonChanges = 0;
 
     /**
      * This constructor constructs the piston.
@@ -80,8 +79,12 @@ public class Shifter extends Subsystem {
      */
     public void setShift(ShifterState state) {
         m_currentShift = state;
+        if (m_piston.get() != state.getValue()) Report.pneumaticsUsed(getName());
         m_piston.set(state.getValue());
-        m_pistonChanges += m_piston.get() != state.getValue() ? 1 : 0;
+    }
+
+    public void toggleShift() {
+        setShift(getCurrentShift() == ShifterState.POWER ? ShifterState.SPEED : ShifterState.POWER);
     }
 
     /**
@@ -95,11 +98,7 @@ public class Shifter extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-       // setDefaultCommand(new AutoChangeShift());
-    }
-
-    public int getPistonChanges() {
-        return m_pistonChanges;
+        setDefaultCommand(new AutoChangeShift());
     }
 
     /**
@@ -108,6 +107,5 @@ public class Shifter extends Subsystem {
     public void update() {
         SmartDashboard.putString("Shifter::Shift", getCurrentShift().name());
         SmartDashboard.putString("Shifter::Command", getCurrentCommandName());
-        SmartDashboard.putNumber("Shifter::SolenoidChanges", m_pistonChanges);
     }
 }

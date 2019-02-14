@@ -1,112 +1,126 @@
 package edu.greenblitz.robotname.subsystems;
 
+import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.RobotMap.Elevator.*;
 import edu.greenblitz.robotname.commands.elevator.BrakeElevator;
+import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.utils.Tuple;
 import edu.greenblitz.utils.ctre.SmartTalon;
 import edu.greenblitz.utils.encoder.IEncoder;
-import edu.greenblitz.utils.encoder.Taloncoder;
+import edu.greenblitz.utils.encoder.TalonEncoder;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Elevator extends Subsystem {
 
-  private static final double LEVEL_HEIGHT_RANGE = 0;
-  private static final double SAFE_TO_LOWER_DOWN = 0.05, 
-                              SAFE_TO_LOWER_UP = 0.4,
-                              SAFETY_RANGE = 0.05;
-  private static final ArrayList<Tuple<Double, Double>> DANGER_ZONES = new ArrayList<Tuple<Double, Double>>();
-  
-  private static Elevator instance;
+    private static final double LEVEL_HEIGHT_RANGE = 0;
+    private static final double SAFE_TO_LOWER_DOWN = 0.05,
+            SAFE_TO_LOWER_UP = 0.4,
+            SAFETY_RANGE = 0.05;
 
-  //TODO: Add sendable chooser
-  private ElevatorLevel m_level = ElevatorLevel.GROUND; 
-  
-  private SmartTalon m_main,
-                     m_follower;
-  private IEncoder m_encoder;
-  private DoubleSolenoid m_braker;
+    private static final List<Tuple<Double, Double>> DANGER_ZONES = List.of(
+            new Tuple<>(SAFE_TO_LOWER_DOWN - SAFETY_RANGE, SAFE_TO_LOWER_UP + SAFETY_RANGE)
+    );
 
-  private int m_pistonChanges = 0;
+    private static Elevator instance;
 
-  private Elevator() {
-    DANGER_ZONES.add(new Tuple<>(SAFE_TO_LOWER_DOWN - SAFETY_RANGE, SAFE_TO_LOWER_UP + SAFETY_RANGE));
-    
-    m_main = new SmartTalon(Motor.Main);
-    m_follower = new SmartTalon(Motor.Follower);
-    m_follower.follow(m_main);
-    m_encoder = new Taloncoder(Sensor.TicksPerMeter, m_main);
-    m_braker = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
-    resetEncoder();
-  }
+    //TODO: Add sendable chooser
+    private ElevatorLevel m_level = ElevatorLevel.GROUND;
 
-  public boolean isInDangerZone() {
-    for (Tuple<Double, Double> dangerZone : DANGER_ZONES) {
-      if (getHeight() > dangerZone.first() && getHeight() < dangerZone.second())
-        return true;
-    }
-    return false;
-  }
+    private SmartTalon m_main, m_follower;
+    private IEncoder m_encoder;
+    private DoubleSolenoid m_braker;
+    private DigitalInput m_infrared, m_limitSwitch;
 
-  @Override
-  public void initDefaultCommand() {
-    setDefaultCommand(new BrakeElevator());
-  }
-
-  public static void init() {
-    if (instance == null)
-      instance = new Elevator();
-  }
-
-  public static Elevator getInstance() {
-    if (instance == null)
-      init();
-    return instance;
-  }
-
-  public void setLevel(ElevatorLevel level) {
-    m_level = level;
-  }
-
-  public ElevatorLevel getLevel() {
-    return m_level;
-  }
-
-  public double getHeight() {
-    return m_encoder.getNormalizedTicks();
-  }
-
-  public void setState(Value value) {
-    m_braker.set(value);
-    m_pistonChanges += m_braker.get() != value ? 1 : 0;
-  }
-
-  public void setPower(double power) {
-    m_main.set(power);
-  }
-
-  public void resetEncoder() {
-    m_encoder.reset();
-  }
-
-  public int getPistonChanges() {
-    return m_pistonChanges;
-  }
-
-  public void update() {
-    SmartDashboard.putString("Elevator::Command", getCurrentCommandName());
-
-    for (ElevatorLevel level : ElevatorLevel.values()) {
-      if (Math.abs(Elevator.getInstance().getHeight() - level.getHeight()) <= LEVEL_HEIGHT_RANGE) {
-        Elevator.getInstance().setLevel(level);
-        break;
-      }
+    private Elevator() {
+        m_main = new SmartTalon(Motor.Main);
+        m_follower = new SmartTalon(Motor.Follower);
+        m_follower.follow(m_main);
+        m_encoder = new TalonEncoder(Sensor.TicksPerMeter, m_main);
+        m_braker = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
+        m_infrared = new DigitalInput(RobotMap.Roller.Sensor.Infrared);
+        m_limitSwitch = new DigitalInput(RobotMap.Roller.Sensor.LimitSwitch);
+        resetEncoder();
     }
 
-    SmartDashboard.putNumber("Elevator::SolenoidChanges", m_pistonChanges);
-  }
+    public boolean isInDangerZone() {
+        for (Tuple<Double, Double> dangerZone : DANGER_ZONES) {
+            if (getHeight() > dangerZone.first() && getHeight() < dangerZone.second())
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void initDefaultCommand() {
+        setDefaultCommand(new BrakeElevator());
+    }
+
+    public static void init() {
+        if (instance == null)
+            instance = new Elevator();
+    }
+
+    public static Elevator getInstance() {
+        if (instance == null)
+            init();
+        return instance;
+    }
+
+    private void setLevel(ElevatorLevel level) {
+        m_level = level;
+    }
+
+    public ElevatorLevel getLevel() {
+        return m_level;
+    }
+
+    public boolean isFloorLevel() { return m_level == ElevatorLevel.GROUND; }
+
+    public double getHeight() {
+        return m_encoder.getNormalizedTicks();
+    }
+
+    public void setState(Value value) {
+        if (m_braker.get() != value) Report.pneumaticsUsed(getName());
+        m_braker.set(value);
+    }
+
+    public void setPower(double power) {
+        m_main.set(power);
+    }
+
+    public void resetEncoder() {
+        m_encoder.reset();
+    }
+
+    public boolean isBallFullyIn() {
+        return m_limitSwitch.get();
+    }
+
+    public boolean isBallIn() {
+        return m_infrared.get();
+    }
+
+    private void updateLevel() {
+        for (ElevatorLevel level : ElevatorLevel.values()) {
+            if (Math.abs(Elevator.getInstance().getHeight() - level.getHeight()) <= LEVEL_HEIGHT_RANGE) {
+                Elevator.getInstance().setLevel(level);
+                return;
+            }
+        }
+    }
+
+    public void update() {
+        SmartDashboard.putString("Elevator::Command", getCurrentCommandName());
+        SmartDashboard.putNumber("Elevator::Height", getHeight());
+        SmartDashboard.putString("Elevator::Level", getLevel().name());
+        updateLevel();
+    }
 }

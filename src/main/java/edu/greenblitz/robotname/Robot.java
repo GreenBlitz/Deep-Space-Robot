@@ -1,9 +1,9 @@
 package edu.greenblitz.robotname;
 
+import edu.greenblitz.robotname.data.Report;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.greenblitz.robotname.subsystems.*;
 
 public class Robot extends TimedRobot {
@@ -14,8 +14,7 @@ public class Robot extends TimedRobot {
         TODO: Add command groups
      */
 
-    private PowerDistributionPanel m_PDP; 
-    private static double m_startingVoltage;
+    private PowerDistributionPanel m_pdp;
 
     @Override
     public void robotInit() {
@@ -31,25 +30,34 @@ public class Robot extends TimedRobot {
         FrontPoker.init();
         Pneumatics.init();
 
-        m_PDP = new PowerDistributionPanel();
-        m_startingVoltage = m_PDP.getVoltage();
+        m_pdp = new PowerDistributionPanel();
     }
     
     @Override
     public void disabledInit() {
-        SmartDashboard.putNumber("Robot::VoltageDifference", m_startingVoltage-m_PDP.getVoltage());
         Scheduler.getInstance().removeAll();
+        Report.toShuffleboard();
+    }
+
+    private void enabledInit() {
+        Scheduler.getInstance().removeAll();
+        Report.reset();
+        Report.voltageAtInit(m_pdp.getVoltage());
+    }
+
+    @Override
+    public void autonomousInit() {
+        enabledInit();
+    }
+
+    @Override
+    public void teleopInit() {
+        enabledInit();
     }
 
     @Override
     public void robotPeriodic() {
         updateSubsystems();
-        // SmartDashboard.putNumber("Robot::SolenoidChanges", Shifter.getInstance().getPistonChanges() +
-        //                                                     Roller.getInstance().getPistonChanges() +
-        //                                                     RearPicker.getInstance().getPistonChanges() +
-        //                                                     Kicker.getInstance().getPistonChanges() +
-        //                                                     FrontPoker.getInstance().getTotalPistonChanges() +
-        //                                                     Elevator.getInstance().getPistonChanges());
     }
 
     @Override

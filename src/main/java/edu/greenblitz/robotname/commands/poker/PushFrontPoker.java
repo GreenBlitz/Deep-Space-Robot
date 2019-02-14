@@ -1,8 +1,7 @@
-package edu.greenblitz.robotname.commands.frontPoker;
+package edu.greenblitz.robotname.commands.poker;
 
 import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.subsystems.FrontPoker;
 
 public class PushFrontPoker extends SubsystemCommand<FrontPoker> {

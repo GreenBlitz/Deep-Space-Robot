@@ -6,6 +6,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class VisionPort {
 
     private static VisionPort instance;
+
     public static VisionPort getInstance() {
         init();
         return instance;

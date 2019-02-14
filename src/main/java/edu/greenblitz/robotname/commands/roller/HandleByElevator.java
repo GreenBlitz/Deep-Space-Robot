@@ -14,7 +14,7 @@ public class HandleByElevator extends SubsystemCommand<Roller> {
 
     @Override
     protected void execute() {
-        system.setExtender(Elevator.getInstance().isInDangerZone() ? Value.kForward : Value.kReverse);
+        
     }
 
     @Override

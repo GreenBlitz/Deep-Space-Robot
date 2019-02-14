@@ -10,16 +10,15 @@ import edu.greenblitz.robotname.subsystems.Shifter;
  * The command will stop as soon as the shift is switched.
  */
 
-public class SwitchShift extends SubsystemCommand<Shifter> {
+public class ToggleShift extends SubsystemCommand<Shifter> {
 
-    public SwitchShift() {
+    public ToggleShift() {
         super(Shifter.getInstance());
     }
 
     @Override
     protected void execute() {
-        system.setShift(system.getCurrentShift() == Shifter.ShifterState.POWER ?
-                Shifter.ShifterState.SPEED : Shifter.ShifterState.POWER);
+        system.toggleShift();
     }
 
     @Override

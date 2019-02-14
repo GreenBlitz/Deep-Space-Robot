@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SetShift extends SubsystemCommand<Shifter> {
 
-    private static Shifter.ShifterState m_shifterState;
+    private Shifter.ShifterState m_shifterState;
 
     public SetShift(Shifter.ShifterState state) {
         super(Shifter.getInstance());

@@ -48,15 +48,31 @@ public class Chassis extends Subsystem {
     }
 
     public void stop() {
-        m_robotDrive.tankDrive(0, 0);;
+        m_robotDrive.tankDrive(0, 0);
     }
 
     public double getDistance() {
-        return (m_leftEncoder.getNormalizedTicks() + m_rightEncoder.getNormalizedTicks()) / 2;
+        return (getLeftDistance() + getRightDistance()) / 2;
     }
 
     public double getSpeed() {
-        return (m_leftEncoder.getNormalziedVelocity() + m_rightEncoder.getNormalziedVelocity()) / 2;
+        return (getLeftVelocity() + getRightVelocity()) / 2;
+    }
+
+    public double getLeftDistance() {
+        return m_leftEncoder.getNormalizedTicks();
+    }
+
+    public double getRightDistance() {
+        return m_rightEncoder.getNormalizedTicks();
+    }
+
+    public double getLeftVelocity() {
+        return m_leftEncoder.getNormalziedVelocity();
+    }
+
+    public double getRightVelocity() {
+        return m_rightEncoder.getNormalziedVelocity();
     }
 
     public double getAngle() {
@@ -72,6 +88,11 @@ public class Chassis extends Subsystem {
         if (instance == null)
             init();
         return instance;
+    }
+
+    public void reset() {
+        resetNavx();
+        resetEncoders();
     }
 
     public void resetNavx() {

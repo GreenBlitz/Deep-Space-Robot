@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname.subsystems;
 
+import edu.greenblitz.robotname.data.Report;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -12,8 +13,8 @@ public class FrontPoker extends Subsystem {
 
     private DoubleSolenoid m_kickerPiston, m_extenderPiston;
 
-    private int m_extenderPistonChanges = 0,
-                m_kickerPistonChanges = 0;
+    private String m_extenderPistonName = getName() + "::Extender";
+    private String m_kickerPistonName = getName() + "::Kicker";
 
     private FrontPoker() {
         m_kickerPiston = new DoubleSolenoid(Solenoid.Kicker.Forward, Solenoid.Kicker.Reverse);
@@ -36,25 +37,13 @@ public class FrontPoker extends Subsystem {
     }
 
     public void setKicker(Value value) {
+        if (m_extenderPiston.get() != value) Report.pneumaticsUsed(m_kickerPistonName);
         m_kickerPiston.set(value);
-        m_extenderPistonChanges += m_extenderPiston.get() != value ? 1 : 0;
     }
 
     public void setExtender(Value value) {
+        if (m_kickerPiston.get() != value) Report.pneumaticsUsed(m_extenderPistonName);
         m_extenderPiston.set(value);
-        m_kickerPistonChanges += m_kickerPiston.get() != value ? 1 : 0;
-    }
-
-    public int getKickerPistonChanges() {
-        return m_kickerPistonChanges;
-    }
-
-    public int getExtenderPistonChanges() {
-        return m_extenderPistonChanges;
-    }
-
-    public int getTotalPistonChanges() {
-        return m_extenderPistonChanges + m_kickerPistonChanges;
     }
 
     public Value getKickerState() {
@@ -68,9 +57,6 @@ public class FrontPoker extends Subsystem {
     public void update() {
         SmartDashboard.putString("FrontPoker::Command", getCurrentCommandName());
         SmartDashboard.putString("FrontPoker::Kicker", getKickerState().name());
-        SmartDashboard.putString("FrontPoker::EXTENDER", getExtenderState().name());
-        SmartDashboard.putNumber("FrontPoker::KickerSolenoidChanges", getKickerPistonChanges());
-        SmartDashboard.putNumber("FrontPoker::ExtenderSolenoidChanges", getExtenderPistonChanges());
-        SmartDashboard.putNumber("FrontPoker::TotalSolenoidChanges", getTotalPistonChanges());
+        SmartDashboard.putString("FrontPoker::Extender", getExtenderState().name());
     }
 }

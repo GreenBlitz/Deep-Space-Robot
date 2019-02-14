@@ -1,19 +1,18 @@
-package edu.greenblitz.robotname.commands.frontPoker;
+package edu.greenblitz.robotname.commands.poker;
 
 import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.subsystems.FrontPoker;
 
-public class ReleaseHatch extends SubsystemCommand<FrontPoker> {
+public class PullFrontPoker extends SubsystemCommand<FrontPoker> {
 
-    public ReleaseHatch() {
+    public PullFrontPoker() {
         super(FrontPoker.getInstance());
     }
 
     @Override
     protected void initialize() {
-        system.setKicker(Value.kForward);
+        system.setExtender(Value.kReverse);
     }
 
     @Override

@@ -5,27 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.greenblitz.robotname.commands.frontPoker;
+package edu.greenblitz.robotname.commands.picker;
 
 import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.greenblitz.robotname.subsystems.FrontPoker;
+import edu.greenblitz.robotname.subsystems.RearPicker;
 
-public class ToggleReleaser extends SubsystemCommand<FrontPoker> {
+public class RaiseRearPicker extends SubsystemCommand<RearPicker> {
 
-  public ToggleReleaser() {
-    super(FrontPoker.getInstance());
+  public RaiseRearPicker() {
+    super(RearPicker.getInstance());
   }
 
   @Override
   protected void execute() {
-    system.setKicker(system.getKickerState() == Value.kForward ?
-                                      Value.kReverse : Value.kForward);
+    system.setState(Value.kReverse);
   }
 
   @Override
   protected boolean isFinished() {
     return true;
   }
+
 }

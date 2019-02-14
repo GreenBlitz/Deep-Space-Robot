@@ -5,12 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.greenblitz.robotname.commands.rearPicker;
+package edu.greenblitz.robotname.commands.picker;
 
 import edu.greenblitz.utils.SmartJoystick;
 import edu.greenblitz.utils.command.JoystickCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.subsystems.RearPicker;
 

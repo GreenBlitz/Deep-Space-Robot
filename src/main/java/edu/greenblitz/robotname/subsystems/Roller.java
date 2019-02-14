@@ -5,6 +5,7 @@ import edu.greenblitz.robotname.RobotMap.Roller.Motor;
 import edu.greenblitz.robotname.RobotMap.Roller.Sensor;
 import edu.greenblitz.robotname.RobotMap.Roller.Solenoid;
 import edu.greenblitz.robotname.commands.roller.HandleByElevator;
+import edu.greenblitz.robotname.data.Report;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -12,66 +13,56 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Roller extends Subsystem {
+    private static Roller instance;
 
-  private static Roller instance;
+    private DoubleSolenoid m_piston;
+    private WPI_TalonSRX m_motor;
 
-  private DoubleSolenoid m_piston;
-  private WPI_TalonSRX m_motor;
-  private DigitalInput m_infrared, m_limitSwitch;
+    private Roller() {
+        m_piston = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
+        m_motor = new WPI_TalonSRX(Motor.Roller);
+    }
 
-  private int m_pistonChanges = 0;
+    public void setExtender(Value value) {
+        if (m_piston.get() != value) Report.pneumaticsUsed(getName());
+        m_piston.set(value);
+    }
 
-  private Roller() {
-    m_piston = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
-    m_motor = new WPI_TalonSRX(Motor.Roller);
-    m_infrared = new DigitalInput(Sensor.Infrared);
-    m_limitSwitch = new DigitalInput(Sensor.LimitSwitch);
-  }
+    public void extend() {
+        setExtender(Value.kForward);
+    }
 
-  public void setExtender(Value value) {
-    m_piston.set(value);
-    m_pistonChanges += m_piston.get() != value ? 1 : 0;
-  }
+    public void retract() {
+        setExtender(Value.kReverse);
+    }
 
-  public Value getExtenderState() {
-    return m_piston.get();
-  }
+    public Value getExtenderState() {
+        return m_piston.get();
+    }
 
-  public void setPower(double power) {
-    m_motor.set(power);
-  }
+    public void setPower(double power) {
+        m_motor.set(power);
+    }
 
-  public boolean isBallFullyIn() {
-    return m_limitSwitch.get();
-  }
+    @Override
+    public void initDefaultCommand() {
+        setDefaultCommand(new HandleByElevator());
+    }
 
-  public boolean isBallIn() {
-    return m_infrared.get();
-  }
+    public static void init() {
+        if (instance == null)
+            instance = new Roller();
+    }
 
-  public int getPistonChanges() {
-    return m_pistonChanges;
-  }
+    public static Roller getInstance() {
+        if (instance == null)
+            init();
+        return instance;
+    }
 
-  @Override
-  public void initDefaultCommand() {
-    setDefaultCommand(new HandleByElevator());
-  }
+    public void update() {
+        SmartDashboard.putString("Roller::Command", getCurrentCommandName());
+        SmartDashboard.putString("Roller::Extender", getExtenderState().name());
+    }
 
-  public static void init() {
-    if (instance == null)
-      instance = new Roller();
-  }
-
-  public static Roller getInstance() {
-    if (instance == null)
-      init();
-    return instance;
-  }
-
-  public void update() {
-    SmartDashboard.putString("ROLLER::Command", getCurrentCommandName());
-    SmartDashboard.putString("ROLLER::EXTENDER", getExtenderState().name());
-    SmartDashboard.putNumber("Roller::SolenoidChanges", m_pistonChanges);
-  }
 }

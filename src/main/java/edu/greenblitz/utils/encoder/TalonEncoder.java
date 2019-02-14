@@ -3,10 +3,10 @@ package edu.greenblitz.utils.encoder;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-public class Taloncoder extends AbstractEncoder {
+public class TalonEncoder extends AbstractEncoder {
     private SensorCollection m_talon;
 
-    public Taloncoder(double normalizeConst, TalonSRX talon) {
+    public TalonEncoder(double normalizeConst, TalonSRX talon) {
         super(normalizeConst);
         m_talon = talon.getSensorCollection();
     }
