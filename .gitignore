@@ -6,6 +6,7 @@
 # Intellij
 *.iml
 .idea/
+out/
 
 ### C++ ###
 # Prerequisites
