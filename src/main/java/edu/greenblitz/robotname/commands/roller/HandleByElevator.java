@@ -1,23 +1,24 @@
 package edu.greenblitz.robotname.commands.roller;
 
+import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.robotname.subsystems.Roller;
 
-public class HandleByElevator extends Command {
+public class HandleByElevator extends SubsystemCommand<Roller> {
 
-  public HandleByElevator() {
-    requires(Roller.getInstance());
-  }
+    public HandleByElevator() {
+        super(Roller.getInstance());
+    }
 
-  @Override
-  protected void execute() {
-    Roller.getInstance().setExtender(Elevator.getInstance().isInDangerZone() ? Value.kForward : Value.kReverse);
-  }
+    @Override
+    protected void execute() {
+        system.setExtender(Elevator.getInstance().isInDangerZone() ? Value.kForward : Value.kReverse);
+    }
 
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
+    @Override
+    protected boolean isFinished() {
+        return false;
+    }
 }

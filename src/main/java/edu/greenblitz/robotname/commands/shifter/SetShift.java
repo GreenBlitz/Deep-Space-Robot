@@ -1,6 +1,7 @@
 package edu.greenblitz.robotname.commands.shifter;
 
 import edu.greenblitz.robotname.subsystems.Shifter;
+import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -12,18 +13,18 @@ import edu.wpi.first.wpilibj.command.Command;
  * @see Shifter
  */
 
-public class SetShift extends Command {
+public class SetShift extends SubsystemCommand<Shifter> {
 
     private static Shifter.ShifterState m_shifterState;
 
     public SetShift(Shifter.ShifterState state) {
-        requires(Shifter.getInstance());
+        super(Shifter.getInstance());
         m_shifterState = state;
     }
 
     @Override
     protected void execute() {
-        Shifter.getInstance().setShift(m_shifterState);
+        system.setShift(m_shifterState);
     }
 
     @Override

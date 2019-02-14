@@ -7,19 +7,20 @@
 
 package edu.greenblitz.robotname.commands.rearPicker;
 
+import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.subsystems.RearPicker;
 
-public class LowerRearPicker extends Command {
+public class LowerRearPicker extends SubsystemCommand<RearPicker> {
   
   public LowerRearPicker() {
-    requires(RearPicker.getInstance());
+    super(RearPicker.getInstance());
   }
 
   @Override
   protected void execute() {
-    RearPicker.getInstance().setState(Value.kForward);
+    system.setState(Value.kForward);
   }
 
   @Override

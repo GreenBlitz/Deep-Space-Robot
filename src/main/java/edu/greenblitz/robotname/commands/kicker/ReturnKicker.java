@@ -7,19 +7,19 @@
 
 package edu.greenblitz.robotname.commands.kicker;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.subsystems.Kicker;
+import edu.greenblitz.utils.command.SubsystemCommand;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
-public class ReturnKicker extends Command {
+public class ReturnKicker extends SubsystemCommand<Kicker> {
   
   public ReturnKicker() {
-    requires(Kicker.getInstance());
+    super(Kicker.getInstance());
   }
 
   @Override
   protected void execute() {
-    Kicker.getInstance().setState(Value.kReverse);
+    system.setState(Value.kReverse);
   }
 
   @Override

@@ -7,32 +7,36 @@
 
 package edu.greenblitz.robotname.commands.rearPicker;
 
+import edu.greenblitz.utils.SmartJoystick;
+import edu.greenblitz.utils.command.JoystickCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.subsystems.RearPicker;
 
-public class PickByBumbers extends Command {
+public class PickByBumbers extends JoystickCommand<RearPicker> {
 
-  public PickByBumbers() {
-    requires(RearPicker.getInstance());
-  }
+    public PickByBumbers(SmartJoystick joystick) {
+        super(RearPicker.getInstance(), joystick);
+    }
 
-  @Override
-  protected void execute() {
-    if (OI.getInstance().getMainJoystick().L1.get() && OI.getInstance().getMainJoystick().R1.get())
-      RearPicker.getInstance().setState(Value.kOff);
-    else if (OI.getInstance().getMainJoystick().R1.get())
-      RearPicker.getInstance().setState(Value.kForward);
-    else if (OI.getInstance().getMainJoystick().L1.get())
-      RearPicker.getInstance().setState(Value.kReverse);
-    else
-      RearPicker.getInstance().setState(Value.kOff);
-  }
+    public PickByBumbers() { this(OI.getMainJoystick()); }
 
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
+    @Override
+    protected void execute() {
+        if (OI.getMainJoystick().L1.get() && OI.getMainJoystick().R1.get())
+            system.setState(Value.kOff);
+        else if (OI.getMainJoystick().R1.get())
+            system.setState(Value.kForward);
+        else if (OI.getMainJoystick().L1.get())
+            system.setState(Value.kReverse);
+        else
+            system.setState(Value.kOff);
+    }
+
+    @Override
+    protected boolean isFinished() {
+        return false;
+    }
 
 }

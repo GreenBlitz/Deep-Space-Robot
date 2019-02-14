@@ -19,16 +19,18 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
+        OI.init();
+
         Chassis.init();
         Shifter.init();
-        // Climber.init();
-        // Elevator.init();
-        // Roller.init();
-        // Kicker.init();
-        // RearPicker.init();
-        // FrontPoker.init();
-        // Pneumatics.init();
-        OI.init();
+        Climber.init();
+        Elevator.init();
+        Roller.init();
+        Kicker.init();
+        RearPicker.init();
+        FrontPoker.init();
+        Pneumatics.init();
+
         m_PDP = new PowerDistributionPanel();
         m_startingVoltage = m_PDP.getVoltage();
     }
@@ -61,15 +63,16 @@ public class Robot extends TimedRobot {
     }
 
     private void updateSubsystems() {
+        OI.update();
+
         Chassis.getInstance().update();
         Shifter.getInstance().update();
-        /*Climber.getInstance().update();
+        Climber.getInstance().update();
         Elevator.getInstance().update();
         Roller.getInstance().update();
         Kicker.getInstance().update();
         RearPicker.getInstance().update();
         FrontPoker.getInstance().update();
-        Pneumatics.getInstance().update();*/
-        OI.getInstance().update();
+        Pneumatics.getInstance().update();
     }
 }

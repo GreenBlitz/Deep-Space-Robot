@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.SerialPort.Port;
 
 public class RobotMap {
     public static class Joysticks {
-        public static final int Main = 0;
-        public static final int Side = 0;
+        public static final int MAIN = 0;
+        public static final int SIDE = 0;
     }
 
     public static class Chassis {

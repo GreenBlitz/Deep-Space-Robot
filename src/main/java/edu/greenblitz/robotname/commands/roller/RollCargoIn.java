@@ -8,19 +8,20 @@
 package edu.greenblitz.robotname.commands.roller;
 
 import edu.greenblitz.robotname.subsystems.Roller;
+import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class RollCargoIn extends Command {
-  public RollCargoIn() {
-    requires(Roller.getInstance());
-  }
+public class RollCargoIn extends SubsystemCommand<Roller> {
+    public RollCargoIn() {
+        super(Roller.getInstance());
+    }
 
-  @Override
-  protected void execute() {
-    Roller.getInstance().setPower(1);
-  }
+    @Override
+    protected void execute() {
+        system.setPower(1);
+    }
 
-  protected boolean isFinished() {
-    return false;
-  }
+    protected boolean isFinished() {
+        return false;
+    }
 }

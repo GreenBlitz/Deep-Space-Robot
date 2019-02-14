@@ -13,19 +13,23 @@ import edu.greenblitz.robotname.subsystems.Climber;
 import edu.greenblitz.utils.SmartJoystick;
 
 public class ClimbByTriggers extends Command {
-  public ClimbByTriggers() {
-    requires(Climber.getInstance());
-  }
+    private SmartJoystick m_joystick;
 
-  @Override
-  protected void execute() {
-    Climber.getInstance().setExtender(SmartJoystick.Axis.RIGHT_TRIGGER.getValue(OI.getInstance().getMainJoystick()) - 
-                                      SmartJoystick.Axis.LEFT_TRIGGER.getValue(OI.getInstance().getMainJoystick()));
-  }
+    public ClimbByTriggers(SmartJoystick joystick) {
+        requires(Climber.getInstance());
+        m_joystick = joystick;
+    }
 
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
+    @Override
+    protected void execute() {
+        Climber.getInstance().setExtender(
+                SmartJoystick.Axis.RIGHT_TRIGGER.getValue(m_joystick) -
+                SmartJoystick.Axis.LEFT_TRIGGER.getValue(m_joystick));
+    }
+
+    @Override
+    protected boolean isFinished() {
+        return false;
+    }
 
 }

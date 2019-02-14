@@ -8,25 +8,26 @@
 package edu.greenblitz.robotname.commands.elevator;
 
 import edu.greenblitz.robotname.subsystems.Elevator;
+import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class BrakeElevator extends Command {
+public class BrakeElevator extends SubsystemCommand<Elevator> {
 
   private static final double POWER = 0.05;
 
-  public BrakeElevator() {
-    requires(Elevator.getInstance());
+  public BrakeElevator(Elevator elevator) {
+    super(elevator);
   }
 
   @Override
   protected void initialize() {
-    Elevator.getInstance().setState(Value.kForward);
+    system.setState(Value.kForward);
   }
 
   @Override
   protected void execute() {
-    Elevator.getInstance().setPower(POWER);
+    system.setPower(POWER);
   }
 
   @Override

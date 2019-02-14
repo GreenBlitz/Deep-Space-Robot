@@ -8,17 +8,18 @@
 package edu.greenblitz.robotname.commands.roller;
 
 import edu.greenblitz.robotname.subsystems.Roller;
+import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ExtendRoller extends Command {
+public class ExtendRoller extends SubsystemCommand<Roller> {
   public ExtendRoller() {
-    requires(Roller.getInstance());
+    super(Roller.getInstance());
   }
 
   @Override
   protected void execute() {
-    Roller.getInstance().setExtender(Value.kForward);
+    system.setExtender(Value.kForward);
   }
 
   @Override

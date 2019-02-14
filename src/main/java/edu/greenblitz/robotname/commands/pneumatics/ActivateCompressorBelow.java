@@ -1,9 +1,10 @@
 package edu.greenblitz.robotname.commands.pneumatics;
 
 import edu.greenblitz.robotname.subsystems.Pneumatics;
+import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ActivateCompressorBelow extends Command {
+public class ActivateCompressorBelow extends SubsystemCommand<Pneumatics> {
 
   private static final double DEFAULT_DEADZONE = 10;
 
@@ -11,7 +12,7 @@ public class ActivateCompressorBelow extends Command {
   private double m_deadzone;
 
   public ActivateCompressorBelow(double pressure, double deadzone) {
-    requires(Pneumatics.getInstance());
+    super(Pneumatics.getInstance());
     m_limit = pressure;
     m_deadzone = deadzone;
   }
@@ -22,14 +23,14 @@ public class ActivateCompressorBelow extends Command {
 
   @Override
   protected void execute() {
-    if (Pneumatics.getInstance().isLimitOn()) {
-      if (Pneumatics.getInstance().getPressure() < m_limit)
-        Pneumatics.getInstance().setCompressor(true);
-      else if (Pneumatics.getInstance().getPressure() > m_limit + m_deadzone)
-        Pneumatics.getInstance().setCompressor(false);
+    if (system.isLimitOn()) {
+      if (system.getPressure() < m_limit)
+        system.setCompressor(true);
+      else if (system.getPressure() > m_limit + m_deadzone)
+        system.setCompressor(false);
     }
     else
-      Pneumatics.getInstance().setCompressor(true);
+      system.setCompressor(true);
   }
 
   @Override

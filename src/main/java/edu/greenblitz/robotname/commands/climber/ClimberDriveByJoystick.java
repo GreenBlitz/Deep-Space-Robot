@@ -7,24 +7,28 @@
 
 package edu.greenblitz.robotname.commands.climber;
 
+import edu.greenblitz.utils.command.JoystickCommand;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.subsystems.Climber;
 import edu.greenblitz.utils.SmartJoystick;
 
-public class ClimberDriveByJoystick extends Command {
-  public ClimberDriveByJoystick() {
-    requires(Climber.getInstance());
-  }
+public class ClimberDriveByJoystick extends JoystickCommand<Climber> {
 
-  @Override
-  protected void execute() {
-    Climber.getInstance().setWheels(SmartJoystick.Axis.LEFT_Y.getValue(OI.getInstance().getMainJoystick()));
-  }
+    public ClimberDriveByJoystick(SmartJoystick joystick) {
+        super(Climber.getInstance(), joystick);
+    }
 
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
+    public ClimberDriveByJoystick() { this(OI.getMainJoystick()); }
+
+    @Override
+    protected void execute() {
+        system.setWheels(SmartJoystick.Axis.LEFT_Y.getValue(joystick));
+    }
+
+    @Override
+    protected boolean isFinished() {
+        return false;
+    }
 
 }

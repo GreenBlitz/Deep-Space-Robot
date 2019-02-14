@@ -7,19 +7,20 @@
 
 package edu.greenblitz.robotname.commands.kicker;
 
+import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.subsystems.Kicker;
 
-public class KickCargo extends Command {
+public class KickCargo extends SubsystemCommand<Kicker> {
   
   public KickCargo() {
-    requires(Kicker.getInstance());
+    super(Kicker.getInstance());
   }
 
   @Override
   protected void execute() {
-    Kicker.getInstance().setState(Value.kForward);
+    system.setState(Value.kForward);
   }
 
   @Override

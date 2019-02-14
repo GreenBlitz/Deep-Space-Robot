@@ -8,21 +8,22 @@
 package edu.greenblitz.robotname.commands.roller;
 
 import edu.greenblitz.robotname.subsystems.Roller;
+import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class RetractRoller extends Command {
-  public RetractRoller() {
-    requires(Roller.getInstance());
-  }
+public class RetractRoller extends SubsystemCommand<Roller> {
+    public RetractRoller() {
+        super(Roller.getInstance());
+    }
 
-  @Override
-  protected void execute() {
-    Roller.getInstance().setExtender(Value.kReverse);
-  }
+    @Override
+    protected void execute() {
+        system.setExtender(Value.kReverse);
+    }
 
-  @Override
-  protected boolean isFinished() {
-    return true;
-  }
+    @Override
+    protected boolean isFinished() {
+        return true;
+    }
 }

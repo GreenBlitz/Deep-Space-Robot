@@ -1,40 +1,24 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.robotname.commands.shifter.SwitchShift;
 import edu.greenblitz.utils.SmartJoystick;
 
 public class OI {
-    private static OI instance;
+    private static SmartJoystick mainJoystick, sideJoystick;
 
-    private SmartJoystick mainJoystick, sideJoystick;
-
-    private OI() {
-        mainJoystick = new SmartJoystick(RobotMap.Joysticks.Main);
-        sideJoystick = new SmartJoystick(RobotMap.Joysticks.Side);
-
-        mainJoystick.A.whenPressed(new SwitchShift());
-    }
-
-    public SmartJoystick getMainJoystick() {
+    public static SmartJoystick getMainJoystick() {
         return mainJoystick;
     }
 
-    public SmartJoystick getSideJoystick() {
+    public static SmartJoystick getSideJoystick() {
         return sideJoystick;
     }
 
     public static void init() {
-        if (instance == null)
-            instance = new OI();
+        mainJoystick = new SmartJoystick(RobotMap.Joysticks.MAIN);
+        sideJoystick = new SmartJoystick(RobotMap.Joysticks.SIDE);
     }
 
-    public static OI getInstance() {
-        if (instance == null)
-            init();
-        return instance;
-    }
-
-    public void update() {
+    public static void update() {
 
     }
 }

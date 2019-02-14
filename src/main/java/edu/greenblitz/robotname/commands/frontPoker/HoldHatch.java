@@ -7,23 +7,24 @@
 
 package edu.greenblitz.robotname.commands.frontPoker;
 
+import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.subsystems.FrontPoker;
 
-public class HoldHatch extends Command {
- 
-  public HoldHatch() {
-    requires(FrontPoker.getInstance());
-  }
+public class HoldHatch extends SubsystemCommand<FrontPoker> {
 
-  @Override
-  protected void execute() {
-    FrontPoker.getInstance().setKicker(Value.kReverse);
-  }
+    public HoldHatch() {
+        super(FrontPoker.getInstance());
+    }
 
-  @Override
-  protected boolean isFinished() {
-    return true;
-  }
+    @Override
+    protected void execute() {
+        system.setKicker(Value.kReverse);
+    }
+
+    @Override
+    protected boolean isFinished() {
+        return true;
+    }
 }

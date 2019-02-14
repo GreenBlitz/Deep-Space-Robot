@@ -7,19 +7,20 @@
 
 package edu.greenblitz.robotname.commands.frontPoker;
 
+import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.subsystems.FrontPoker;
 
-public class ToggleReleaser extends Command {
-  
+public class ToggleReleaser extends SubsystemCommand<FrontPoker> {
+
   public ToggleReleaser() {
-    requires(FrontPoker.getInstance());
+    super(FrontPoker.getInstance());
   }
 
   @Override
   protected void execute() {
-    FrontPoker.getInstance().setKicker(FrontPoker.getInstance().getKickerState() == Value.kForward ?
+    system.setKicker(system.getKickerState() == Value.kForward ?
                                       Value.kReverse : Value.kForward);
   }
 

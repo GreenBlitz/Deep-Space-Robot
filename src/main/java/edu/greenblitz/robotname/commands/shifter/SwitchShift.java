@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname.commands.shifter;
 
+import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.subsystems.Shifter;
 
@@ -9,15 +10,15 @@ import edu.greenblitz.robotname.subsystems.Shifter;
  * The command will stop as soon as the shift is switched.
  */
 
-public class SwitchShift extends Command {
+public class SwitchShift extends SubsystemCommand<Shifter> {
 
     public SwitchShift() {
-        requires(Shifter.getInstance());
+        super(Shifter.getInstance());
     }
 
     @Override
     protected void execute() {
-        Shifter.getInstance().setShift(Shifter.getInstance().getCurrentShift() == Shifter.ShifterState.POWER ?
+        system.setShift(system.getCurrentShift() == Shifter.ShifterState.POWER ?
                 Shifter.ShifterState.SPEED : Shifter.ShifterState.POWER);
     }
 
