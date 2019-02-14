@@ -20,6 +20,8 @@ public class ClimbByTriggers extends Command {
         m_joystick = joystick;
     }
 
+    public ClimbByTriggers() { this(OI.getMainJoystick()); }
+
     @Override
     protected void execute() {
         Climber.getInstance().setExtender(

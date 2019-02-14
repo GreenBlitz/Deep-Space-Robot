@@ -36,7 +36,7 @@ public class Chassis extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new ArcadeDriveByJoystick(OI.getInstance().getMainJoystick()));
+        setDefaultCommand(new ArcadeDriveByJoystick(OI.getMainJoystick()));
     }
 
     public void arcadeDrive(double move, double rotate) {

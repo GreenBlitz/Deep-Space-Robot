@@ -16,8 +16,8 @@ public class BrakeElevator extends SubsystemCommand<Elevator> {
 
   private static final double POWER = 0.05;
 
-  public BrakeElevator(Elevator elevator) {
-    super(elevator);
+  public BrakeElevator() {
+    super(Elevator.getInstance());
   }
 
   @Override

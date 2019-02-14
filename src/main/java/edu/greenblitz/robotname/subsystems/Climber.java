@@ -27,7 +27,7 @@ public class Climber extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    OI.getInstance().getMainJoystick().A.whenPressed(null);
+    OI.getMainJoystick().A.whenPressed(null);
   }
 
   public static void init() {
