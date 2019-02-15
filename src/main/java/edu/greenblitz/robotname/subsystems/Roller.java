@@ -1,14 +1,14 @@
 package edu.greenblitz.robotname.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.robotname.RobotMap.Roller.Motor;
-import edu.greenblitz.robotname.RobotMap.Roller.Sensor;
 import edu.greenblitz.robotname.RobotMap.Roller.Solenoid;
 import edu.greenblitz.robotname.commands.roller.HandleByElevator;
 import edu.greenblitz.robotname.data.Report;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -16,11 +16,11 @@ public class Roller extends Subsystem {
     private static Roller instance;
 
     private DoubleSolenoid m_piston;
-    private WPI_TalonSRX m_motor;
+    private SpeedController m_motor;
 
     private Roller() {
         m_piston = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
-        m_motor = new WPI_TalonSRX(Motor.Roller);
+        m_motor = new CANSparkMax(Motor.Roller, CANSparkMaxLowLevel.MotorType.kBrushless);
     }
 
     public void setExtender(Value value) {

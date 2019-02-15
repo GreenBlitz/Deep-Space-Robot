@@ -9,7 +9,6 @@ package edu.greenblitz.robotname.commands.roller;
 
 import edu.greenblitz.robotname.subsystems.Roller;
 import edu.greenblitz.utils.command.SubsystemCommand;
-import edu.wpi.first.wpilibj.command.Command;
 
 public class RollCargoOut extends SubsystemCommand<Roller> {
     public RollCargoOut() {
@@ -25,4 +24,10 @@ public class RollCargoOut extends SubsystemCommand<Roller> {
     protected boolean isFinished() {
         return false;
     }
+
+    @Override
+    protected void end() {
+        system.setPower(0);
+    }
+
 }

@@ -36,25 +36,25 @@ public class RobotMap {
 
     public static class Climber {
         public static class Motor {
-            public static final int Extender = 0;
+            public static final int Extender = 6;
             public static final int Wheels = 0;
         }
     }
     
     public static class Elevator {
         public static class Motor {
-            public static final int Main = 0;
+            public static final int Main = 7;
             public static final int Follower = 0;
         }
 
         public static class Sensor {
             public static final int Encoder = 0;  
-            public static final int TicksPerMeter = 1;
+            public static final int TicksPerMeter = 5;
         }
 
         public static class Solenoid {
-            public static final int Forward = 0;
-            public static final int Reverse = 0;
+            public static final int Forward = 5;
+            public static final int Reverse = 4;
         }
 
         public static class Heights {
@@ -84,39 +84,40 @@ public class RobotMap {
 
     public static class Roller {
         public static class Motor {
-            public static final int Roller = 0;
+            public static final int Roller = 7;
         }
 
         public static class Solenoid {
-            public static final int Forward = 0;
-            public static final int Reverse = 0;
+            public static final int Forward = 4;
+            public static final int Reverse = 5;
         }
 
         public static class Sensor {
-            public static final int Infrared = 0;
-            public static final int LimitSwitch = 0;
+            public static final int Infrared = 1;
+            public static final int LimitSwitch = 9;
         }
     }
 
     public static class Kicker {
         public static class Solenoid {
-            public static final int Forward = 0;
-            public static final int Reverse = 0;
+            public static final int Forward = 6;
+            public static final int Reverse = 7;
         }
     }
 
     public static class RearPicker {
         public static class Motor {
-
+            public static final int Picker = 7;
         }
 
         public static class Solenoid {
-            public static final int Forward = 0;
-            public static final int Reverse = 0;
+            public static final int Forward = 6;
+            public static final int Reverse = 7;
         }
 
         public static class Sensor {
-            
+            public static final int LowSwitch = 4; //TODO: Rename plz
+            public static final int HighSwitch = 7;
         }
     }
 
@@ -130,13 +131,13 @@ public class RobotMap {
     public static class FrontPoker {
         public static class Solenoid {
             public static class Kicker {
-                public static final int Forward = 0;
-                public static final int Reverse = 0;
+                public static final int Forward = 1;
+                public static final int Reverse = 2;
             }
 
             public static class Extender {
-                public static final int Forward = 0;
-                public static final int Reverse = 0;
+                public static final int Forward = 6;
+                public static final int Reverse = 7;
             }
         }
     }

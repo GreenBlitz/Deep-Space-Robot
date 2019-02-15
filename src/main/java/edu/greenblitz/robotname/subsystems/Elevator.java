@@ -1,7 +1,10 @@
 package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.robotname.RobotMap;
-import edu.greenblitz.robotname.RobotMap.Elevator.*;
+import edu.greenblitz.robotname.RobotMap.Elevator.ElevatorLevel;
+import edu.greenblitz.robotname.RobotMap.Elevator.Motor;
+import edu.greenblitz.robotname.RobotMap.Elevator.Sensor;
+import edu.greenblitz.robotname.RobotMap.Elevator.Solenoid;
 import edu.greenblitz.robotname.commands.elevator.BrakeElevator;
 import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.utils.Tuple;
@@ -14,7 +17,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Elevator extends Subsystem {
@@ -46,7 +48,6 @@ public class Elevator extends Subsystem {
         m_braker = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
         m_infrared = new DigitalInput(RobotMap.Roller.Sensor.Infrared);
         m_limitSwitch = new DigitalInput(RobotMap.Roller.Sensor.LimitSwitch);
-        resetEncoder();
     }
 
     public boolean isInDangerZone() {

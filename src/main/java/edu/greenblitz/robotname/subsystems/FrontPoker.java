@@ -17,8 +17,8 @@ public class FrontPoker extends Subsystem {
     private String m_kickerPistonName = getName() + "::Kicker";
 
     private FrontPoker() {
-        m_kickerPiston = new DoubleSolenoid(Solenoid.Kicker.Forward, Solenoid.Kicker.Reverse);
-        m_extenderPiston = new DoubleSolenoid(Solenoid.Extender.Forward, Solenoid.Extender.Reverse);
+        m_kickerPiston = new DoubleSolenoid(2, Solenoid.Kicker.Forward, Solenoid.Kicker.Reverse);
+        m_extenderPiston = new DoubleSolenoid(2, Solenoid.Extender.Forward, Solenoid.Extender.Reverse);
     }
 
     @Override

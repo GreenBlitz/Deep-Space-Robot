@@ -10,20 +10,19 @@ package edu.greenblitz.robotname.commands.roller;
 import edu.greenblitz.robotname.subsystems.Roller;
 import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.command.Command;
 
 public class ExtendRoller extends SubsystemCommand<Roller> {
-  public ExtendRoller() {
-    super(Roller.getInstance());
-  }
+    public ExtendRoller() {
+        super(Roller.getInstance());
+    }
 
-  @Override
-  protected void execute() {
-    system.setExtender(Value.kForward);
-  }
+    @Override
+    protected void execute() {
+        system.setExtender(Value.kForward);
+    }
 
-  @Override
-  protected boolean isFinished() {
-    return true;
-  }
+    @Override
+    protected boolean isFinished() {
+        return true;
+    }
 }

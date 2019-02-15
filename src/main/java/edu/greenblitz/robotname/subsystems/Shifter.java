@@ -1,11 +1,11 @@
 package edu.greenblitz.robotname.subsystems;
 
+import edu.greenblitz.robotname.RobotMap.Shifter.Solenoid;
 import edu.greenblitz.robotname.commands.shifter.AutoChangeShift;
 import edu.greenblitz.robotname.data.Report;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.greenblitz.robotname.RobotMap.Shifter.*;
 
 /**
  * This class is in charge of the shifter subsystem of the robot.
