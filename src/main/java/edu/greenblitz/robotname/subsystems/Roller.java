@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.robotname.RobotMap.Roller.Motor;
 import edu.greenblitz.robotname.RobotMap.Roller.Solenoid;
-import edu.greenblitz.robotname.commands.roller.HandleByElevator;
 import edu.greenblitz.robotname.data.Report;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -40,13 +39,17 @@ public class Roller extends Subsystem {
         return m_piston.get();
     }
 
+    public boolean isExtended() { return getExtenderState() == Value.kForward; }
+
+    public boolean isRetracted() { return getExtenderState() == Value.kReverse; }
+
     public void setPower(double power) {
         m_motor.set(power);
     }
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new HandleByElevator());
+        setDefaultCommand(null);
     }
 
     public static void init() {
@@ -64,5 +67,4 @@ public class Roller extends Subsystem {
         SmartDashboard.putString("Roller::Command", getCurrentCommandName());
         SmartDashboard.putString("Roller::Extender", getExtenderState().name());
     }
-
 }

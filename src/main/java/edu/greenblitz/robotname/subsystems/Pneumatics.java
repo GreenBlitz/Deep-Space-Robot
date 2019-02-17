@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.greenblitz.robotname.RobotMap.Pneumatics.*;
-import edu.greenblitz.robotname.commands.pneumatics.ActivateCompressorBelow;
+import edu.greenblitz.robotname.commands.simple.pneumatics.ActivateCompressorBelow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Pneumatics extends Subsystem {

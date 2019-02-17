@@ -1,11 +1,13 @@
 package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.robotname.RobotMap.Shifter.Solenoid;
-import edu.greenblitz.robotname.commands.shifter.AutoChangeShift;
+import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.robotname.data.Report;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.util.logging.Logger;
 
 /**
  * This class is in charge of the shifter subsystem of the robot.
@@ -17,6 +19,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 
 public class Shifter extends Subsystem {
+
+    private static Logger logger = Logger.getLogger("Shifter");
 
     private static Shifter instance;
     private DoubleSolenoid m_piston;
@@ -79,7 +83,10 @@ public class Shifter extends Subsystem {
      */
     public void setShift(ShifterState state) {
         m_currentShift = state;
-        if (m_piston.get() != state.getValue()) Report.pneumaticsUsed(getName());
+        if (m_piston.get() != state.getValue()) {
+            Report.pneumaticsUsed(getName());
+            logger.finest("Shifted to " + state + " gear");
+        }
         m_piston.set(state.getValue());
     }
 

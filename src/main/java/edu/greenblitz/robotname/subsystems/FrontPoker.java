@@ -46,12 +46,53 @@ public class FrontPoker extends Subsystem {
         m_extenderPiston.set(value);
     }
 
+    public void extend() {
+        setExtender(Value.kForward);
+    }
+
+    public void retract() {
+        setExtender(Value.kReverse);
+    }
+
+    public void openKicker() {
+        setKicker(Value.kForward);
+    }
+
+    public void closeKicker() {
+        setKicker(Value.kReverse);
+    }
+
+    public void fullClose() {
+        closeKicker();
+        retract();
+    }
+
     public Value getKickerState() {
         return m_kickerPiston.get();
     }
 
     public Value getExtenderState() {
         return m_extenderPiston.get();
+    }
+
+    public boolean isRetracted() {
+        return getExtenderState() == Value.kReverse;
+    }
+
+    public boolean isExtended() {
+        return getExtenderState() == Value.kForward;
+    }
+
+    public boolean isClosed() {
+        return getKickerState() == Value.kReverse;
+    }
+
+    public boolean isOpened() {
+        return getKickerState() == Value.kForward;
+    }
+
+    public boolean isFullyClosed() {
+        return isClosed() && isRetracted();
     }
 
     public void update() {

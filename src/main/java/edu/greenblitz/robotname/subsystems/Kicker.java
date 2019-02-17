@@ -37,6 +37,26 @@ public class Kicker extends Subsystem {
         m_piston.set(value);
     }
 
+    public void kick() {
+        setState(Value.kForward);
+    }
+
+    public void unkick() {
+        setState(Value.kReverse);
+    }
+
+    public Value getState() {
+        return m_piston.get();
+    }
+
+    public boolean isOpen() {
+        return getState() == Value.kForward;
+    }
+
+    public boolean isClosed() {
+        return getState() == Value.kReverse;
+    }
+
     public void update() {
         SmartDashboard.putString("Kicker::Command", getCurrentCommandName());
         SmartDashboard.putString("Kicker::State", m_piston.get().name());

@@ -5,7 +5,7 @@ import edu.greenblitz.robotname.RobotMap.Elevator.ElevatorLevel;
 import edu.greenblitz.robotname.RobotMap.Elevator.Motor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Sensor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Solenoid;
-import edu.greenblitz.robotname.commands.elevator.BrakeElevator;
+import edu.greenblitz.robotname.commands.simple.elevator.BrakeElevator;
 import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.utils.Tuple;
 import edu.greenblitz.utils.ctre.SmartTalon;
@@ -32,7 +32,6 @@ public class Elevator extends Subsystem {
 
     private static Elevator instance;
 
-    //TODO: Add sendable chooser
     private ElevatorLevel m_level = ElevatorLevel.GROUND;
 
     private SmartTalon m_main, m_follower;

@@ -1,6 +1,7 @@
 package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.data.Report;
+import edu.greenblitz.utils.Logging;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -18,6 +19,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
+        Logging.init();
         OI.init();
 
         Chassis.init();

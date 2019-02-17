@@ -2,6 +2,7 @@ package edu.greenblitz.utils.ctre;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 /**
  * This class uses a device number in order create a TalonSRX object, while optimizing a few things with the set() function.
@@ -13,7 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
  * @see com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
  */
 
-public class SmartTalon extends TalonSRX {
+public class SmartTalon extends WPI_TalonSRX {
 
 	private boolean wasSet;
 
