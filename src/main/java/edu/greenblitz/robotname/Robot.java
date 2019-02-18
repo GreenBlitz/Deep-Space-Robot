@@ -39,6 +39,10 @@ public class Robot extends TimedRobot {
     public void disabledInit() {
         Scheduler.getInstance().removeAll();
         Report.toShuffleboard();
+
+        System.out.println("-----------------------------------------------------");
+        System.out.println(Report.getTotalReport());
+        System.out.println("-----------------------------------------------------");
     }
 
     private void enabledInit() {

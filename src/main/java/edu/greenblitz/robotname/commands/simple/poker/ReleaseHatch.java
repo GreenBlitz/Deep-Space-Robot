@@ -1,8 +1,7 @@
 package edu.greenblitz.robotname.commands.simple.poker;
 
-import edu.greenblitz.utils.command.SubsystemCommand;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.greenblitz.robotname.subsystems.FrontPoker;
+import edu.greenblitz.utils.command.SubsystemCommand;
 
 public class ReleaseHatch extends SubsystemCommand<FrontPoker> {
 
@@ -12,7 +11,7 @@ public class ReleaseHatch extends SubsystemCommand<FrontPoker> {
 
     @Override
     protected void initialize() {
-        system.setKicker(Value.kForward);
+        system.release();
     }
 
     @Override

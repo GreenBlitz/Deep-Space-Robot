@@ -12,19 +12,19 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.greenblitz.robotname.subsystems.RearPicker;
 
 public class LowerRearPicker extends SubsystemCommand<RearPicker> {
-  
-  public LowerRearPicker() {
-    super(RearPicker.getInstance());
-  }
 
-  @Override
-  protected void execute() {
-    system.setState(Value.kForward);
-  }
+    public LowerRearPicker() {
+        super(RearPicker.getInstance());
+    }
 
-  @Override
-  protected boolean isFinished() {
-    return true;
-  }
+    @Override
+    protected void execute() {
+        system.pick();
+    }
+
+    @Override
+    protected boolean isFinished() {
+        return true;
+    }
 
 }

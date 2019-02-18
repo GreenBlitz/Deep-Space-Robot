@@ -1,8 +1,7 @@
 package edu.greenblitz.robotname.commands.simple.poker;
 
-import edu.greenblitz.utils.command.SubsystemCommand;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.greenblitz.robotname.subsystems.FrontPoker;
+import edu.greenblitz.utils.command.SubsystemCommand;
 
 public class PullFrontPoker extends SubsystemCommand<FrontPoker> {
 
@@ -12,7 +11,7 @@ public class PullFrontPoker extends SubsystemCommand<FrontPoker> {
 
     @Override
     protected void initialize() {
-        system.setExtender(Value.kReverse);
+        system.retract();
     }
 
     @Override

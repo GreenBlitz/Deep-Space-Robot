@@ -18,8 +18,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Elevator extends Subsystem {
+
+    private static Logger logger = Logger.getLogger("elevator");
 
     private static final double LEVEL_HEIGHT_RANGE = 0;
     private static final double SAFE_TO_LOWER_DOWN = 0.05,
@@ -47,6 +50,8 @@ public class Elevator extends Subsystem {
         m_braker = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
         m_infrared = new DigitalInput(RobotMap.Roller.Sensor.Infrared);
         m_limitSwitch = new DigitalInput(RobotMap.Roller.Sensor.LimitSwitch);
+
+        logger.info("instantiated");
     }
 
     public boolean isInDangerZone() {
@@ -87,17 +92,35 @@ public class Elevator extends Subsystem {
         return m_encoder.getNormalizedTicks();
     }
 
-    public void setState(Value value) {
-        if (m_braker.get() != value) Report.pneumaticsUsed(getName());
+    private void setBrakeState(Value value) {
+        if (m_braker.get() != value) {
+            Report.pneumaticsUsed(getName());
+            if (value == Value.kForward) {
+                logger.fine("braking");
+            } else {
+                logger.fine("brake released");
+            }
+        }
         m_braker.set(value);
+    }
+
+    public void brake() {
+        setBrakeState(Value.kForward);
+    }
+
+    public void releaseBrake() {
+        setBrakeState(Value.kReverse);
     }
 
     public void setPower(double power) {
         m_main.set(power);
+        logger.finest("power: " + power);
     }
 
     public void resetEncoder() {
         m_encoder.reset();
+
+        logger.config("encoders reset");
     }
 
     public boolean isBallFullyIn() {
@@ -111,7 +134,8 @@ public class Elevator extends Subsystem {
     private void updateLevel() {
         for (ElevatorLevel level : ElevatorLevel.values()) {
             if (Math.abs(Elevator.getInstance().getHeight() - level.getHeight()) <= LEVEL_HEIGHT_RANGE) {
-                Elevator.getInstance().setLevel(level);
+                setLevel(level);
+                logger.fine("level: " + getLevel());
                 return;
             }
         }

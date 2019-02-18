@@ -24,7 +24,7 @@ public class ClimbByTriggers extends Command {
 
     @Override
     protected void execute() {
-        Climber.getInstance().setExtender(
+        Climber.getInstance().extend(
                 SmartJoystick.Axis.RIGHT_TRIGGER.getValue(m_joystick) -
                 SmartJoystick.Axis.LEFT_TRIGGER.getValue(m_joystick));
     }

@@ -22,7 +22,7 @@ public class ClimberDriveByJoystick extends JoystickCommand<Climber> {
 
     @Override
     protected void execute() {
-        system.setWheels(SmartJoystick.Axis.LEFT_Y.getValue(joystick));
+        system.drive(SmartJoystick.Axis.LEFT_Y.getValue(joystick));
     }
 
     @Override

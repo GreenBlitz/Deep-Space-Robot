@@ -13,24 +13,24 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class BrakeElevator extends SubsystemCommand<Elevator> {
 
-  private static final double POWER = 0.05;
+    private static final double POWER = 0.05;
 
-  public BrakeElevator() {
-    super(Elevator.getInstance());
-  }
+    public BrakeElevator() {
+        super(Elevator.getInstance());
+    }
 
-  @Override
-  protected void initialize() {
-    system.setState(Value.kForward);
-  }
+    @Override
+    protected void initialize() {
+        system.brake();
+    }
 
-  @Override
-  protected void execute() {
-    system.setPower(POWER);
-  }
+    @Override
+    protected void execute() {
+        system.setPower(POWER);
+    }
 
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
+    @Override
+    protected boolean isFinished() {
+        return false;
+    }
 }

@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 public class Shifter extends Subsystem {
 
-    private static Logger logger = Logger.getLogger("Shifter");
+    private static Logger logger = Logger.getLogger("shifter");
 
     private static Shifter instance;
     private DoubleSolenoid m_piston;
@@ -31,6 +31,8 @@ public class Shifter extends Subsystem {
      */
     private Shifter() {
         m_piston = new DoubleSolenoid(2, Solenoid.Forward, Solenoid.Reverse);
+
+        logger.info("instantiated");
     }
 
     /**
@@ -60,10 +62,10 @@ public class Shifter extends Subsystem {
         POWER(DoubleSolenoid.Value.kForward),
         SPEED(DoubleSolenoid.Value.kReverse);
 
-        private DoubleSolenoid.Value mValue;
+        private DoubleSolenoid.Value m_value;
 
         ShifterState(DoubleSolenoid.Value value) {
-            mValue = value;
+            m_value = value;
         }
 
         /**
@@ -72,7 +74,7 @@ public class Shifter extends Subsystem {
          * @return The current state of the piston (off/forward/reverse)
          */
         public DoubleSolenoid.Value getValue() {
-            return mValue;
+            return m_value;
         }
     }
 
@@ -81,17 +83,25 @@ public class Shifter extends Subsystem {
      *
      * @param state A value based off of the ShifterState enum. This value is then set as the state the piston is in.
      */
-    public void setShift(ShifterState state) {
+    private void setShift(ShifterState state) {
         m_currentShift = state;
         if (m_piston.get() != state.getValue()) {
             Report.pneumaticsUsed(getName());
-            logger.finest("Shifted to " + state + " gear");
+            logger.fine("gear: " + state);
         }
         m_piston.set(state.getValue());
     }
 
     public void toggleShift() {
         setShift(getCurrentShift() == ShifterState.POWER ? ShifterState.SPEED : ShifterState.POWER);
+    }
+
+    public void toSpeed() {
+        setShift(ShifterState.SPEED);
+    }
+
+    public void toPower() {
+        setShift(ShifterState.POWER);
     }
 
     /**

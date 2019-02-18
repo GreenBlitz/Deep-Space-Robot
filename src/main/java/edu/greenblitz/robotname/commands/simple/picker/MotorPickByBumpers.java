@@ -5,31 +5,31 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.greenblitz.robotname.commands.rearPicker;
+package edu.greenblitz.robotname.commands.simple.picker;
 
 import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.subsystems.RearPicker;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class MotorPickByBumpers extends Command {
-  public MotorPickByBumpers() {
-    requires(RearPicker.getInstance());
-  }
+    public MotorPickByBumpers() {
+        requires(RearPicker.getInstance());
+    }
 
-  @Override
-  protected void execute() {
-    if (OI.getInstance().getMainJoystick().L1.get() && OI.getInstance().getMainJoystick().R1.get())
-      RearPicker.getInstance().setPower(0);
-    else if (OI.getInstance().getMainJoystick().R1.get() && !RearPicker.getInstance().isRaised())
-      RearPicker.getInstance().setPower(-0.6);
-    else if (OI.getInstance().getMainJoystick().L1.get() && !RearPicker.getInstance().isLowered())
-      RearPicker.getInstance().setPower(0.6);
-    else
-      RearPicker.getInstance().setPower(0);
-  }
+    @Override
+    protected void execute() {
+        if (OI.getMainJoystick().L1.get() && OI.getMainJoystick().R1.get())
+            RearPicker.getInstance().setPower(0);
+        else if (OI.getMainJoystick().R1.get() && !RearPicker.getInstance().isRaised())
+            RearPicker.getInstance().setPower(-0.6);
+        else if (OI.getMainJoystick().L1.get() && !RearPicker.getInstance().isLowered())
+            RearPicker.getInstance().setPower(0.6);
+        else
+            RearPicker.getInstance().setPower(0);
+    }
 
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
+    @Override
+    protected boolean isFinished() {
+        return false;
+    }
 }

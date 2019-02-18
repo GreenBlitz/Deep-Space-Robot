@@ -7,7 +7,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.greenblitz.robotname.RobotMap.Kicker.*;
 
+import java.util.logging.Logger;
+
 public class Kicker extends Subsystem {
+
+    private static Logger logger = Logger.getLogger("kicker");
 
     private static Kicker instance;
 
@@ -15,6 +19,8 @@ public class Kicker extends Subsystem {
 
     private Kicker() {
         m_piston = new DoubleSolenoid(2, Solenoid.Forward, Solenoid.Reverse);
+
+        logger.info("instantiated");
     }
 
     @Override
@@ -32,8 +38,12 @@ public class Kicker extends Subsystem {
         return instance;
     }
 
-    public void setState(Value value) {
-        if (m_piston.get() != value) Report.pneumaticsUsed(getName());
+    private void setState(Value value) {
+        if (m_piston.get() != value) {
+            Report.pneumaticsUsed(getName());
+            var state = (value == Value.kForward) ? "kicking" : "waiting";
+            logger.fine("state: " + state);
+        }
         m_piston.set(value);
     }
 

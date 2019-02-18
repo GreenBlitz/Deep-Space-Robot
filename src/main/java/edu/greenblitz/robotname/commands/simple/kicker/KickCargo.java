@@ -12,19 +12,19 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.greenblitz.robotname.subsystems.Kicker;
 
 public class KickCargo extends SubsystemCommand<Kicker> {
-  
-  public KickCargo() {
-    super(Kicker.getInstance());
-  }
 
-  @Override
-  protected void execute() {
-    system.setState(Value.kForward);
-  }
+    public KickCargo() {
+        super(Kicker.getInstance());
+    }
 
-  @Override
-  protected boolean isFinished() {
-    return true;
-  }
+    @Override
+    protected void execute() {
+        system.kick();
+    }
+
+    @Override
+    protected boolean isFinished() {
+        return true;
+    }
 
 }

@@ -17,12 +17,12 @@ public class AutoChangeShift extends SubsystemCommand<Shifter> {
     protected void execute() {
         if (Chassis.getInstance().getSpeed() > TO_SPEED_THRESHOLD &&
                 system.getCurrentShift() == Shifter.ShifterState.POWER) {
-            Shifter.getInstance().setShift(Shifter.ShifterState.SPEED);
+            system.toSpeed();
         }
 
         if (Chassis.getInstance().getSpeed() < TO_POWER_THRESHOLD &&
                 system.getCurrentShift() == Shifter.ShifterState.SPEED) {
-            system.setShift(Shifter.ShifterState.POWER);
+            system.toPower();
         }
     }
 

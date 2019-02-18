@@ -8,7 +8,11 @@ import edu.greenblitz.robotname.RobotMap.Pneumatics.*;
 import edu.greenblitz.robotname.commands.simple.pneumatics.ActivateCompressorBelow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.util.logging.Logger;
+
 public class Pneumatics extends Subsystem {
+
+    private static Logger logger = Logger.getLogger("pneumatics");
 
     private static Pneumatics instance;
 
@@ -20,6 +24,8 @@ public class Pneumatics extends Subsystem {
         m_pressureSensor = new PressureSensor(Sensor.Pressure);
         m_compressor = new Compressor(PCM.Compressor);
         m_switch = new DigitalInput(Sensor.Switch);
+
+        logger.info("instantiated");
     }
 
     public double getPressure() {
@@ -27,10 +33,13 @@ public class Pneumatics extends Subsystem {
     }
 
     public void setCompressor(boolean isActive) {
-        if (isActive)
+        if (isActive) {
+            logger.fine("compressor is activated, at pressure: " + getPressure());
             m_compressor.start();
-        else
+        } else {
+            logger.fine("compressor is de-activated, at pressure: " + getPressure());
             m_compressor.stop();
+        }
     }
 
     public boolean isEnabled() {

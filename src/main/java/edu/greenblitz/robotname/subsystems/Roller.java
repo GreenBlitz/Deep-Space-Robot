@@ -11,7 +11,11 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.util.logging.Logger;
+
 public class Roller extends Subsystem {
+    private static Logger logger = Logger.getLogger("roller");
+
     private static Roller instance;
 
     private DoubleSolenoid m_piston;
@@ -20,10 +24,16 @@ public class Roller extends Subsystem {
     private Roller() {
         m_piston = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
         m_motor = new CANSparkMax(Motor.Roller, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+        logger.info("instantiated");
     }
 
-    public void setExtender(Value value) {
-        if (m_piston.get() != value) Report.pneumaticsUsed(getName());
+    private void setExtender(Value value) {
+        if (m_piston.get() != value) {
+            Report.pneumaticsUsed(getName());
+            var state = value == Value.kForward ? "extended" : "retracted";
+            logger.fine("state " + state);
+        }
         m_piston.set(value);
     }
 
@@ -45,6 +55,7 @@ public class Roller extends Subsystem {
 
     public void setPower(double power) {
         m_motor.set(power);
+        logger.finest("power: " + power);
     }
 
     @Override

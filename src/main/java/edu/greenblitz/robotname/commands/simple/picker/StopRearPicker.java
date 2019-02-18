@@ -7,24 +7,23 @@
 
 package edu.greenblitz.robotname.commands.simple.picker;
 
-import edu.greenblitz.utils.command.SubsystemCommand;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.greenblitz.robotname.subsystems.RearPicker;
+import edu.greenblitz.utils.command.SubsystemCommand;
 
 public class StopRearPicker extends SubsystemCommand<RearPicker> {
-  
-  public StopRearPicker() {
-    super(RearPicker.getInstance());
-  }
 
-  @Override
-  protected void execute() {
-    system.setState(Value.kOff);
-  }
+    public StopRearPicker() {
+        super(RearPicker.getInstance());
+    }
 
-  @Override
-  protected boolean isFinished() {
-    return true;
-  }
+    @Override
+    protected void execute() {
+        system.hold();
+    }
+
+    @Override
+    protected boolean isFinished() {
+        return true;
+    }
 
 }

@@ -13,11 +13,17 @@ import edu.greenblitz.utils.encoder.SparkEncoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import javax.swing.undo.CannotRedoException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Chassis extends Subsystem {
+
+    private static Logger logger = Logger.getLogger("chassis");
 
     private static Chassis instance;
 
-    private RobotDrive m_robotDrive;
+    private RobotDrive<CANSparkMax> m_robotDrive;
     private IEncoder m_leftEncoder, m_rightEncoder;
     private AHRS m_navX;
 
@@ -28,10 +34,12 @@ public class Chassis extends Subsystem {
         var rightFront = new CANSparkMax(Motor.Right.Front, CANSparkMaxLowLevel.MotorType.kBrushless);
         var rightMiddle = new CANSparkMax(Motor.Right.Middle, CANSparkMaxLowLevel.MotorType.kBrushless);
         var rightRear = new CANSparkMax(Motor.Right.Rear, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_robotDrive = new RobotDrive(leftFront, leftMiddle, leftRear, rightFront, rightMiddle, rightRear);
+        m_robotDrive = new RobotDrive<>(logger, leftFront, leftMiddle, leftRear, rightFront, rightMiddle, rightRear);
         m_leftEncoder = new SparkEncoder(Sensor.Encoder.TicksPerMeter, m_robotDrive.getMotor(Sensor.Encoder.Left));
         m_rightEncoder = new SparkEncoder(Sensor.Encoder.TicksPerMeter, m_robotDrive.getMotor(Sensor.Encoder.Right));
         m_navX = new AHRS(Sensor.NavX);
+
+        logger.info("instantiated");
     }
 
     @Override
@@ -97,11 +105,13 @@ public class Chassis extends Subsystem {
 
     public void resetNavx() {
         m_navX.reset();
+        logger.config("gyro reset");
     }
 
     public void resetEncoders() {
         m_rightEncoder.reset();
         m_leftEncoder.reset();
+        logger.config("encoders reset");
     }
 
     public void update() {

@@ -22,10 +22,10 @@ public class ClimberControl extends JoystickCommand<Climber> {
 
     @Override
     protected void execute() {
-        system.setExtender(
+        system.extend(
                 SmartJoystick.Axis.RIGHT_TRIGGER.getValue(joystick) -
                 SmartJoystick.Axis.LEFT_TRIGGER.getValue(joystick));
-        system.setWheels(
+        system.drive(
                 SmartJoystick.Axis.LEFT_Y.getValue(joystick));
     }
 

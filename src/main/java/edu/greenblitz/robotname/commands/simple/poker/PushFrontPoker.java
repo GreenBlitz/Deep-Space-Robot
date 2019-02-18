@@ -1,22 +1,21 @@
 package edu.greenblitz.robotname.commands.simple.poker;
 
-import edu.greenblitz.utils.command.SubsystemCommand;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.greenblitz.robotname.subsystems.FrontPoker;
+import edu.greenblitz.utils.command.SubsystemCommand;
 
 public class PushFrontPoker extends SubsystemCommand<FrontPoker> {
 
-  public PushFrontPoker() {
-    super(FrontPoker.getInstance());
-  }
+    public PushFrontPoker() {
+        super(FrontPoker.getInstance());
+    }
 
-  @Override
-  protected void initialize() {
-    system.setExtender(Value.kForward);
-  }
+    @Override
+    protected void initialize() {
+        system.extend();
+    }
 
-  @Override
-  protected boolean isFinished() {
-    return true;
-  }
+    @Override
+    protected boolean isFinished() {
+        return true;
+    }
 }

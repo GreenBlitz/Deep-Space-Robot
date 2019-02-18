@@ -1,44 +1,57 @@
 package edu.greenblitz.utils.drive;
 
-import com.revrobotics.CANSparkMax;
+import edu.wpi.first.wpilibj.SpeedController;
+
+import java.util.logging.Logger;
 
 /**
  * This class creates a standardized way to do robot drive with our 4 Talon setup.
  * A lot of this class is made obsolete by the RobotDrive() class in WPIlib. However, the enums here are still very useful.
  * setRightLeftMotorOutput() sets the motor outputs based on the limit and the output scale.
- *
+ * <p>
  * There is a helpful MotorID enum in place to easily differentiate the Talons from inside and outside this class.
  *
  * @see com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
  * @see edu.wpi.first.wpilibj.drive.RobotDriveBase
- * @see org.usfirst.frc.team4590.robot.RobotMap
  */
-public class RobotDrive {
+public class RobotDrive<C extends SpeedController> {
 
-    private CANSparkMax m_frontLeft,
-                        m_middleLeft,
-                        m_rearLeft,
-                        m_frontRight,
-                        m_middleRight,
-                        m_rearRight;
+    private Logger logger;
 
-    private double mOutputScale = 1;
-    private double mPowerLimit = 1;
-    private int m_frontLeftInverted = 1, 
-                m_middleLeftInverted = 1, 
-                m_rearLeftInverted = 1, 
-                m_frontRightInverted = 1, 
-                m_middleRightInverted = 1, 
-                m_rearRightInverted = 1;
+    private C m_frontLeft,
+            m_middleLeft,
+            m_rearLeft,
+            m_frontRight,
+            m_middleRight,
+            m_rearRight;
 
-    public RobotDrive(CANSparkMax frontLeft, CANSparkMax middleLeft, CANSparkMax rearLeft, CANSparkMax frontRight, CANSparkMax middleRight, CANSparkMax rearRight) {
+    private double m_outputScale = 1;
+    private double m_powerLimit = 1;
+    private int m_frontLeftInverted = 1,
+            m_middleLeftInverted = 1,
+            m_rearLeftInverted = 1,
+            m_frontRightInverted = 1,
+            m_middleRightInverted = 1,
+            m_rearRightInverted = 1;
+
+    public RobotDrive(Logger activityLogger, C frontLeft, C middleLeft, C rearLeft, C frontRight, C middleRight, C rearRight) {
         m_frontLeft = frontLeft;
         m_middleLeft = middleLeft;
         m_rearLeft = rearLeft;
         m_frontRight = frontRight;
         m_middleRight = middleRight;
         m_rearRight = rearRight;
+        logger = activityLogger;
+
+        if (logger != null) {
+            logger.info("RobotDrive is instantiated");
+        }
     }
+
+    public RobotDrive(C frontLeft, C middleLeft, C rearLeft, C frontRight, C middleRight, C rearRight) {
+        this(null, frontLeft, middleLeft, rearLeft, frontRight, middleRight, rearRight);
+    }
+
 
     /**
      * This is a helpful MotorID enum for us to easily differentiate the Talons from inside and outside this class.
@@ -53,7 +66,7 @@ public class RobotDrive {
      * @param id The id of the talon based on the MotorID enum we want to get
      * @return The talon based on the MotorID given or null (if the MotorID doesn't match any of the talons
      */
-    public CANSparkMax getMotor(MotorID id) {
+    public C getMotor(MotorID id) {
         switch (id) {
             case FRONT_LEFT:
                 return m_frontLeft;
@@ -68,14 +81,14 @@ public class RobotDrive {
             case REAR_RIGHT:
                 return m_rearRight;
             default:
-                return null;
+                throw new IllegalArgumentException("roses are red. violets are blue. I don't know this enum (" + id + "), what should I do?");
         }
     }
 
     /**
      * This function inverts the motor it was given the MotorID for.
      *
-     * @param id The id of the talon based on the MotorID enum we want to invert
+     * @param id       The id of the talon based on the MotorID enum we want to invert
      * @param inverted A boolean that says whether we should invert the direction or not
      */
     public void setInvetedMotor(MotorID id, boolean inverted) {
@@ -102,77 +115,90 @@ public class RobotDrive {
     }
 
     /**
-     * This function gives all outputs to the talon an output scale. (mOutputScale)
+     * This function gives all outputs to the talon an output scale. (m_outputScale)
      *
      * @param maxOutput A output scale that will scale all outputs given to the talon.
      */
     public void setOutputScale(double maxOutput) {
-        mOutputScale = maxOutput;
+        m_outputScale = maxOutput;
     }
 
     /**
-     * This function sets a power limit for the talon. (mPowerLimit)
+     * This function sets a power limit for the talon. (m_powerLimit)
      *
      * @param powerLimit A power limit that will be applied to the talon.
      */
     public void setPowerLimit(double powerLimit) {
-        mPowerLimit = powerLimit;
+        m_powerLimit = powerLimit;
     }
 
     /**
      * This function is a regular arcadeDrive() function, only using the output scale and power limit we included.
      *
-     * @param moveValue The output value of the move portion of the arcade drive.
-     * @param rotateValue The output value of the rotation portion of the arcade drive.
+     * @param rotate   The output value of the move portion of the arcade drive.
+     * @param move The output value of the rotation portion of the arcade drive.
      */
-    public void arcadeDrive(double moveValue, double rotateValue) {
-        double tmp = moveValue;
-        moveValue = rotateValue;
-        rotateValue = -tmp;
+    public void arcadeDrive(double move, double rotate, boolean square) {
+        logFinest("arcadeDrive (%b): move-%f, rotate-%f", square, move, rotate);
 
         double leftMotorSpeed;
         double rightMotorSpeed;
 
-        moveValue = limit(-moveValue);
-        rotateValue = limit(rotateValue);
+        rotate = limit(rotate);
+        move = limit(move);
 
-        moveValue = Math.copySign(moveValue * moveValue, moveValue);
-        rotateValue = Math.copySign(rotateValue * rotateValue, rotateValue);
+        if (square) {
+            rotate = Math.copySign(rotate * rotate, rotate);
+            move = Math.copySign(move * move, move);
+        }
 
-        if (moveValue > 0.0) {
-            if (rotateValue > 0.0) {
-                leftMotorSpeed = moveValue - rotateValue;
-                rightMotorSpeed = Math.max(moveValue, rotateValue);
+        if (rotate > 0.0) {
+            if (move > 0.0) {
+                leftMotorSpeed = rotate - move;
+                rightMotorSpeed = Math.max(rotate, move);
             } else {
-                leftMotorSpeed = Math.max(moveValue, -rotateValue);
-                rightMotorSpeed = moveValue + rotateValue;
+                leftMotorSpeed = Math.max(rotate, -move);
+                rightMotorSpeed = rotate + move;
             }
         } else {
-            if (rotateValue > 0.0) {
-                leftMotorSpeed = -Math.max(-moveValue, rotateValue);
-                rightMotorSpeed = moveValue + rotateValue;
+            if (move > 0.0) {
+                leftMotorSpeed = -Math.max(-rotate, move);
+                rightMotorSpeed = rotate + move;
             } else {
-                leftMotorSpeed = moveValue - rotateValue;
-                rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
+                leftMotorSpeed = rotate - move;
+                rightMotorSpeed = -Math.max(-rotate, -move);
             }
         }
+
         setLeftRightMotorOutputs(leftMotorSpeed, rightMotorSpeed);
     }
 
     /**
      * This function is a regular tankDrive() function, only using the output scale and power limit we included.
      *
-     * @param leftValue The output value given to the left motors
-     * @param rightValue The output value given to the right motors
+     * @param left  The output value given to the left motors
+     * @param right The output value given to the right motors
      */
-    public void tankDrive(double leftValue, double rightValue) {
-        leftValue = limit(-leftValue);
-        rightValue = limit(-rightValue);
+    public void tankDrive(double left, double right, boolean square) {
+        logFinest("tankDrive (%b): left-%f, right-%f", square, left, right);
 
-        leftValue = Math.copySign(leftValue * leftValue, leftValue);
-        rightValue = Math.copySign(rightValue * rightValue, rightValue);
+        if (square) {
+            left = Math.copySign(left * left, left);
+            right = Math.copySign(right * right, right);
+        }
 
-        setLeftRightMotorOutputs(leftValue, rightValue);
+        left = limit(left);
+        right = limit(right);
+
+        setLeftRightMotorOutputs(left, right);
+    }
+
+    public void arcadeDrive(double move, double rotate) {
+        arcadeDrive(move, rotate, false);
+    }
+
+    public void tankDrive(double left, double right) {
+        tankDrive(left, right, false);
     }
 
     /**
@@ -183,22 +209,47 @@ public class RobotDrive {
      */
     private double limit(double value) {
         if (value > 0)
-            return Math.min(value, mPowerLimit);
-        return Math.max(value, -mPowerLimit);
+            return Math.min(value, m_powerLimit);
+        return Math.max(value, -m_powerLimit);
     }
 
     /**
      * This function multiplies the motor outputs by the output scale, making sure they don't go over the power limit still.
      *
-     * @param leftOutput The original output for the left motors
+     * @param leftOutput  The original output for the left motors
      * @param rightOutput The original output for the right motors
      */
-    public void setLeftRightMotorOutputs(double leftOutput, double rightOutput) {
-        m_frontLeft.set(m_frontLeftInverted * limit(leftOutput) * mOutputScale);
-        m_middleLeft.set(m_middleLeftInverted * limit(leftOutput) * mOutputScale);
-        m_rearLeft.set(m_rearLeftInverted * limit(leftOutput) * mOutputScale);
-        m_frontRight.set(m_frontRightInverted * limit(rightOutput) * mOutputScale);
-        m_middleRight.set(m_middleRightInverted * limit(rightOutput) * mOutputScale);
-        m_rearRight.set(m_rearRightInverted * limit(rightOutput) * mOutputScale);
+    private void setLeftRightMotorOutputs(double leftOutput, double rightOutput) {
+        var left = limit(leftOutput) * m_outputScale;
+        var right = limit(rightOutput) * m_outputScale;
+
+        var fl = m_frontLeftInverted * left; // front left
+        var ml = m_middleLeftInverted * left; // mid left
+        var rl = m_rearLeftInverted * left; // rear left
+
+        var fr = m_frontRightInverted * right; // front right
+        var mr = m_middleRightInverted * right; // mid right
+        var rr = m_rearRightInverted * right; // rear right
+
+        m_frontLeft.set(fl);
+        m_middleLeft.set(ml);
+        m_rearLeft.set(rl);
+        m_frontRight.set(fr);
+        m_middleRight.set(mr);
+        m_rearRight.set(rr);
+
+        logFinest(
+                "setting motors: left - [%f, %f, %f], right - [%f, %f, %f]",
+                fl, ml, rl, fr, mr, rr);
+    }
+
+    private void logFinest(String msg) {
+        if (logger != null) {
+            logger.fine(msg);
+        }
+    }
+
+    private void logFinest(String msg, Object... args) {
+        logFinest(String.format(msg, args));
     }
 }

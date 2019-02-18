@@ -13,18 +13,17 @@ import edu.greenblitz.robotname.subsystems.FrontPoker;
 
 public class ToggleReleaser extends SubsystemCommand<FrontPoker> {
 
-  public ToggleReleaser() {
-    super(FrontPoker.getInstance());
-  }
+    public ToggleReleaser() {
+        super(FrontPoker.getInstance());
+    }
 
-  @Override
-  protected void execute() {
-    system.setKicker(system.getKickerState() == Value.kForward ?
-                                      Value.kReverse : Value.kForward);
-  }
+    @Override
+    protected void execute() {
+        system.toggleHolder();
+    }
 
-  @Override
-  protected boolean isFinished() {
-    return true;
-  }
+    @Override
+    protected boolean isFinished() {
+        return true;
+    }
 }
