@@ -1,31 +1,31 @@
-package edu.greenblitz.robotname.commands.simple.chassis;
+package edu.greenblitz.robotname.commands.simple.chassis.vision;
 
-import edu.greenblitz.robotname.VisionPort;
+import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
+import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.command.Command;
 
-public class AlignToVisionTarget extends Command implements PIDSource, PIDOutput {
+public class AlignToVisionTarget extends SubsystemCommand<Chassis> implements PIDSource, PIDOutput {
 
-    private static final double FULL_POWER = 0.5;
-    private static final long TIME_ON_TARGET = 200;
+    private static final double FULL_POWER = 0;
+    private static final long TIME_ON_TARGET = 0;
     private long m_onTarget = -1;
-    private static final double kP = 0.045, kI = 0, kD = 0.0001;
+    private static final double kP = 0, kI = 0, kD = 0;
 
     private PIDController m_controller;
 
     public AlignToVisionTarget(){
-        requires(Chassis.getInstance());
+        super(Chassis.getInstance());
         m_controller = new PIDController(kP, kI, kD, this, this);
     }
 
     @Override
     public void initialize() {
-        System.out.println("initializing AlignToVisionTarget");
-        m_controller.setAbsoluteTolerance(3);
+        VisionMaster.getInstance().setCurrentAlgorithm(VisionMaster.Algorithm.TARGETS);
+        m_controller.setAbsoluteTolerance(0);
         m_controller.setSetpoint(0);
         m_controller.setOutputRange(-FULL_POWER, FULL_POWER);
         m_controller.enable();
@@ -47,8 +47,7 @@ public class AlignToVisionTarget extends Command implements PIDSource, PIDOutput
 
     @Override
     public void pidWrite(double output) {
-        System.out.println("tank drive by param " + output);
-        Chassis.getInstance().tankDrive(-output, -output);
+        system.tankDrive(-output, output);
     }
 
     @Override
@@ -62,12 +61,11 @@ public class AlignToVisionTarget extends Command implements PIDSource, PIDOutput
     @Override
     public void end(){
         m_controller.disable();
-        Chassis.getInstance().stop();
+        system.stop();
     }
 
     @Override
     public double pidGet() {
-        System.out.println("returning pidGet: "+ VisionPort.getInstance().getHatchAngle());
-        return VisionPort.getInstance().getHatchAngle();
+        return VisionMaster.getInstance().getStandardizedData().centerAngle;
     }
 }

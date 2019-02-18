@@ -7,7 +7,7 @@
 
 package edu.greenblitz.robotname.commands.simple.elevator;
 
-import edu.greenblitz.robotname.RobotMap.Elevator.ElevatorLevel;
+import edu.greenblitz.robotname.subsystems.Elevator.Level;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.PIDController;
@@ -31,7 +31,7 @@ public class MoveElevatorByPID extends SubsystemCommand<Elevator> implements PID
         m_controller.setSetpoint(height);
     }
 
-    public MoveElevatorByPID(ElevatorLevel level) {
+    public MoveElevatorByPID(Level level) {
         this(level.getHeight());
     }
 

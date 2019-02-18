@@ -4,7 +4,12 @@ import edu.wpi.first.wpilibj.command.Command;
 
 import java.util.Map;
 
-public abstract class MapChoiceCommand<C> extends MultiChoiceCommand {
+/**
+ * The most likely implementation of {@link DynamicCommand}: using a map to convert from state to command.
+ * The map has to be passed in construction and shouldn't be changed after that.
+ * @param <C> state
+ */
+public abstract class MapChoiceCommand<C> extends DynamicCommand {
     private Map<C, Command> m_commandMap;
 
     protected MapChoiceCommand(Map<C, Command> commandMap) {
@@ -15,8 +20,10 @@ public abstract class MapChoiceCommand<C> extends MultiChoiceCommand {
     protected final Command pick() {
         var opt = state();
         if (!m_commandMap.containsKey(opt)) {
-            System.err.println("Invalid option: " + opt);
+            logger.warning("Invalid option: " + opt);
             return null;
+        } else {
+            logger.fine("current state: " + opt);
         }
         return m_commandMap.get(opt);
     }

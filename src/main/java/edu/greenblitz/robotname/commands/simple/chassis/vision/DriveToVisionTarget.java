@@ -5,9 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.greenblitz.robotname.commands.simple.chassis;
+package edu.greenblitz.robotname.commands.simple.chassis.vision;
 
-import edu.greenblitz.robotname.VisionPort;
+import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -64,7 +64,7 @@ public class DriveToVisionTarget extends Command implements PIDSource, PIDOutput
         if (Math.abs(output) < MINIMUM_OUTPUT)
             output = Math.signum(output) * MINIMUM_OUTPUT;
         SmartDashboard.putNumber("PID Output", output);
-        Chassis.getInstance().arcadeDrive(-output, -turnkP*(VisionPort.getInstance().getHatchAngle()));
+        Chassis.getInstance().arcadeDrive(-output, -turnkP*(VisionMaster.getInstance().getHatchAngle()));
     }
 
     @Override
@@ -77,6 +77,6 @@ public class DriveToVisionTarget extends Command implements PIDSource, PIDOutput
 
     @Override
     public double pidGet() {
-        return VisionPort.getInstance().getHatchDistance();
+        return VisionMaster.getInstance().getHatchDistance();
     }
 }

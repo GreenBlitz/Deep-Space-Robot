@@ -51,9 +51,9 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 
-   // implementation 'com.github.GreenBlitz.MotionControl:motion:master-SNAPSHOT'
+    implementation 'com.github.GreenBlitz.MotionControl:motion:master-SNAPSHOT'
+    compile group: 'com.google.guava', name: 'guava', version: '11.0.2'
 }
-
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
 // in order to make them all available at runtime. Also adding the manifest so WPILib
