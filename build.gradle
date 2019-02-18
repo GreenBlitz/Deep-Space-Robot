@@ -51,7 +51,7 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 
-    implementation 'com.github.GreenBlitz.MotionControl:motion:master-SNAPSHOT'
+    implementation 'com.github.GreenBlitz.MotionControl:motion:c605e1c31ae86b302965d55afcf6fd31b2f1d178'
     compile group: 'com.google.guava', name: 'guava', version: '11.0.2'
 }
 

@@ -8,75 +8,60 @@
 package edu.greenblitz.robotname.commands.simple.chassis.vision;
 
 import edu.greenblitz.robotname.data.vision.VisionMaster;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
+import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.greenblitz.robotname.subsystems.Chassis;
+import org.greenblitz.motion.pid.MultivariablePIDController;
+import org.greenblitz.motion.pid.PIDObject;
+import org.greenblitz.motion.tolerance.AbsoluteTolerance;
 
-public class DriveToVisionTarget extends Command implements PIDSource, PIDOutput {
+public class DriveToVisionTarget extends Command {
 
-    private static final double kP = 0.75, kI = 0, kD = 0, turnkP = 0.03;
-    private PIDController m_controller;
+    private static final PIDObject drive = new PIDObject(0, 0, 0);
+    private static final PIDObject turn = new PIDObject(0, 0, 0);
+
+    private MultivariablePIDController m_controller;
+
     private static final long TIME_ON_TARGET = 200;
     private long m_onTarget = -1;
-    private static final double MINIMUM_OUTPUT = 0.35;
 
     public DriveToVisionTarget() {
         requires(Chassis.getInstance());
-        m_controller = new PIDController(kP, kI, kD, this, this);
+        m_controller = new MultivariablePIDController(2);
+        m_controller.config(0, drive, new AbsoluteTolerance(0.1));
+        m_controller.config(1, turn, new AbsoluteTolerance(3));
     }
 
     @Override
     protected void initialize() {
         m_onTarget = -1;
-        m_controller.setAbsoluteTolerance(0.1);
-        m_controller.setSetpoint(0.5);
-        m_controller.setOutputRange(-0.8, 0.8);
-        m_controller.enable();
+        m_controller.setGoals(0.5, 0);
     }
 
     @Override
     protected void execute() {
-        if (m_controller.onTarget())
+        var state = VisionMaster.getInstance().getStandardizedData();
+        var inputDrive = Math.hypot(state.x, state.y);
+        var inputTurn = VisionMaster.getInstance().getStandardizedData().centerAngle;
+        var pidResult = m_controller.calculate(inputDrive, inputTurn);
+
+        Chassis.getInstance().arcadeDrive(pidResult[0], pidResult[1]);
+
+        if (m_controller.isFinished())
             if (m_onTarget == -1)
                 m_onTarget = System.currentTimeMillis();
             else
                 m_onTarget = -1;
+
     }
 
     @Override
     protected boolean isFinished() {
-        //return m_controller.onTarget() && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
-        return false;
+        return m_controller.isFinished() && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
     }
 
     @Override
     protected void end() {
-        m_controller.disable();
         Chassis.getInstance().stop();
-    }
-
-    @Override
-    public void pidWrite(double output) {
-        if (Math.abs(output) < MINIMUM_OUTPUT)
-            output = Math.signum(output) * MINIMUM_OUTPUT;
-        SmartDashboard.putNumber("PID Output", output);
-        Chassis.getInstance().arcadeDrive(-output, -turnkP*(VisionMaster.getInstance().getHatchAngle()));
-    }
-
-    @Override
-    public void setPIDSourceType(PIDSourceType pidSource) {}
-
-    @Override
-    public PIDSourceType getPIDSourceType() {
-        return PIDSourceType.kDisplacement;
-    }
-
-    @Override
-    public double pidGet() {
-        return VisionMaster.getInstance().getHatchDistance();
     }
 }
