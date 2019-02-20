@@ -26,8 +26,6 @@ public class RobotMap {
         
         public static class Sensor {
             public static class Encoder {
-                public static final RobotDrive.MotorID Left = RobotDrive.MotorID.FRONT_LEFT;
-                public static final RobotDrive.MotorID Right = RobotDrive.MotorID.FRONT_RIGHT;
                 public static final int TicksPerMeter = 1;
             }
             public static final Port NavX = Port.kMXP;
@@ -102,7 +100,7 @@ public class RobotMap {
         }
 
         public static class Sensor {
-            public static final int LowSwitch = 4; //TODO: Rename plz
+            public static final int LowSwitch = 4;
             public static final int HighSwitch = 7;
         }
     }
