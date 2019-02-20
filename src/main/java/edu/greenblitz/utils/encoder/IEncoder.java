@@ -28,7 +28,7 @@ public interface IEncoder {
         return getRawTicks() * invert() / getNormalizeConst();
     }
 
-    default double getNormalziedVelocity() {
+    default double getNormalizedVelocity() {
         return getTickRate() * invert() / getNormalizeConst();
     }
 

@@ -74,11 +74,11 @@ public class Chassis extends Subsystem {
     }
 
     public double getLeftVelocity() {
-        return m_leftEncoder.getNormalziedVelocity();
+        return m_leftEncoder.getNormalizedVelocity();
     }
 
     public double getRightVelocity() {
-        return m_rightEncoder.getNormalziedVelocity();
+        return m_rightEncoder.getNormalizedVelocity();
     }
 
     public double getAngle() {
@@ -114,8 +114,8 @@ public class Chassis extends Subsystem {
 
     public void update() {
         SmartDashboard.putString("Chassis::Command", getCurrentCommandName());
-        SmartDashboard.putNumber("Chassis::LeftSpeed", m_leftEncoder.getNormalziedVelocity());
-        SmartDashboard.putNumber("Chassis::RightSpeed", m_rightEncoder.getNormalziedVelocity());
+        SmartDashboard.putNumber("Chassis::LeftSpeed", m_leftEncoder.getNormalizedVelocity());
+        SmartDashboard.putNumber("Chassis::RightSpeed", m_rightEncoder.getNormalizedVelocity());
         SmartDashboard.putNumber("Chassis::Speed", getSpeed());
         SmartDashboard.putNumber("Chassis::Distance", getDistance());
         SmartDashboard.putNumber("Chassis::Angle", getAngle());
