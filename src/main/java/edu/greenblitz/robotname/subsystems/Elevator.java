@@ -1,12 +1,12 @@
 package edu.greenblitz.robotname.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.RobotMap.Elevator.Motor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Sensor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Solenoid;
 import edu.greenblitz.robotname.commands.simple.elevator.BrakeElevator;
 import edu.greenblitz.robotname.data.Report;
-import edu.greenblitz.utils.ctre.SmartTalon;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.TalonEncoder;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -48,14 +48,14 @@ public class Elevator extends Subsystem {
 
     private Level m_level = Level.GROUND;
 
-    private SmartTalon m_main, m_follower;
+    private WPI_TalonSRX m_main, m_follower;
     private IEncoder m_encoder;
     private DoubleSolenoid m_braker;
     private DigitalInput m_infrared, m_limitSwitch;
 
     private Elevator() {
-        m_main = new SmartTalon(Motor.Main);
-        m_follower = new SmartTalon(Motor.Follower);
+        m_main = new WPI_TalonSRX(Motor.Main);
+        m_follower = new WPI_TalonSRX(Motor.Follower);
         m_follower.follow(m_main);
         m_encoder = new TalonEncoder(Sensor.TicksPerMeter, m_main);
         m_braker = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
