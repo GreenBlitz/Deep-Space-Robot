@@ -1,12 +1,11 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.utils.drive.RobotDrive;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 
 public class RobotMap {
     public static class Joysticks {
         public static final int MAIN = 0;
-        public static final int SIDE = 0;
+        public static final int SIDE = 1;
     }
 
     public static class Chassis {
