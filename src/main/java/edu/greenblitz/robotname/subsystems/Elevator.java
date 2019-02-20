@@ -40,6 +40,10 @@ public class Elevator extends Subsystem {
         public double getHeight() {
             return m_height;
         }
+
+        public boolean greater(Level other) {
+            return getHeight() >= other.getHeight();
+        }
     }
 
     private static Elevator instance;

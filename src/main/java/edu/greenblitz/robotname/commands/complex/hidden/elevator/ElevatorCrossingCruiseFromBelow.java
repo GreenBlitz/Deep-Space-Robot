@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  * Handles an elevator move from lvl0 to above lvl1
  */
-public class ElevatorCrossing1FromBelow extends CommandGroup {
-    public ElevatorCrossing1FromBelow(double height) {
+public class ElevatorCrossingCruiseFromBelow extends CommandGroup {
+    public ElevatorCrossingCruiseFromBelow(double height) {
         addSequential(new EnsureRollerExtended());
         addSequential(new MoveElevator(height));
         addSequential(new EnsureRollerRetracted());
