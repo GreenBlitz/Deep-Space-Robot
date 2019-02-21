@@ -32,7 +32,6 @@ public class Elevator extends Subsystem {
 
     private static Elevator instance;
 
-    //TODO: Add sendable chooser
     private ElevatorLevel m_level = ElevatorLevel.GROUND;
 
     private SmartTalon m_main, m_follower;
@@ -45,7 +44,7 @@ public class Elevator extends Subsystem {
         m_follower = new SmartTalon(Motor.Follower);
         m_follower.follow(m_main);
         m_encoder = new TalonEncoder(Sensor.TicksPerMeter, m_main);
-        m_braker = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
+        m_braker = new DoubleSolenoid(2, Solenoid.Forward, Solenoid.Reverse);
         m_infrared = new DigitalInput(RobotMap.Roller.Sensor.Infrared);
         m_limitSwitch = new DigitalInput(RobotMap.Roller.Sensor.LimitSwitch);
     }

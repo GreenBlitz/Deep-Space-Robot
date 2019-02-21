@@ -3,6 +3,7 @@ package edu.greenblitz.robotname.commands.roller;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.robotname.subsystems.Roller;
 
 public class OpenAndCollectCargoByIR extends Command {
@@ -23,7 +24,7 @@ public class OpenAndCollectCargoByIR extends Command {
 
   @Override
   protected boolean isFinished() {
-    return Roller.getInstance().isBallIn();
+    return Elevator.getInstance().isBallIn();
   }
 
   @Override

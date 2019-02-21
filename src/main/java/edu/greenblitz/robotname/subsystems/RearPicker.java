@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.greenblitz.robotname.RobotMap.RearPicker.Motor;
 import edu.greenblitz.robotname.RobotMap.RearPicker.Sensor;
 import edu.greenblitz.robotname.RobotMap.RearPicker.Solenoid;
+import edu.greenblitz.robotname.commands.picker.PickByBumbers;
 import edu.greenblitz.robotname.data.Report;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -29,7 +30,7 @@ public class RearPicker extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(null);
+        setDefaultCommand(new PickByBumbers());
     }
 
     public static void init() {

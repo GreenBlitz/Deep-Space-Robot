@@ -98,8 +98,8 @@ public class Report {
     }
 
     private void pneumaticsToShuffleboard() {
-        for (var key : m_pneumatics.keySet()) {
-            SmartDashboard.putNumber(PNEUMATICS + "::" + key, getPneumaticsUsed(key));
+        for (var entry : m_pneumatics.entrySet()) {
+            SmartDashboard.putNumber(PNEUMATICS + "::" + entry.getKey(), entry.getValue());
         }
         SmartDashboard.putNumber(PNEUMATICS + "::Total", getTotalPneumaticsUsage());
     }

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.SerialPort.Port;
 public class RobotMap {
     public static class Joysticks {
         public static final int MAIN = 0;
-        public static final int SIDE = 0;
+        public static final int SIDE = 1;
     }
 
     public static class Chassis {
@@ -43,7 +43,7 @@ public class RobotMap {
     
     public static class Elevator {
         public static class Motor {
-            public static final int Main = 7;
+            public static final int Main = 6;
             public static final int Follower = 0;
         }
 
@@ -111,8 +111,8 @@ public class RobotMap {
         }
 
         public static class Solenoid {
-            public static final int Forward = 6;
-            public static final int Reverse = 7;
+            public static final int Forward = 4;
+            public static final int Reverse = 5;
         }
 
         public static class Sensor {
@@ -131,8 +131,8 @@ public class RobotMap {
     public static class FrontPoker {
         public static class Solenoid {
             public static class Kicker {
-                public static final int Forward = 1;
-                public static final int Reverse = 2;
+                public static final int Forward = 0;
+                public static final int Reverse = 1;
             }
 
             public static class Extender {

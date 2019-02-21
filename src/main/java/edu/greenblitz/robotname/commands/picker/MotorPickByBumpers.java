@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.greenblitz.robotname.commands.rearPicker;
+package edu.greenblitz.robotname.commands.picker;
 
 import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.subsystems.RearPicker;
@@ -18,11 +18,11 @@ public class MotorPickByBumpers extends Command {
 
   @Override
   protected void execute() {
-    if (OI.getInstance().getMainJoystick().L1.get() && OI.getInstance().getMainJoystick().R1.get())
+    if (OI.getMainJoystick().L1.get() && OI.getMainJoystick().R1.get())
       RearPicker.getInstance().setPower(0);
-    else if (OI.getInstance().getMainJoystick().R1.get() && !RearPicker.getInstance().isRaised())
+    else if (OI.getMainJoystick().R1.get() && !RearPicker.getInstance().isRaised())
       RearPicker.getInstance().setPower(-0.6);
-    else if (OI.getInstance().getMainJoystick().L1.get() && !RearPicker.getInstance().isLowered())
+    else if (OI.getMainJoystick().L1.get() && !RearPicker.getInstance().isLowered())
       RearPicker.getInstance().setPower(0.6);
     else
       RearPicker.getInstance().setPower(0);

@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class BrakeElevator extends SubsystemCommand<Elevator> {
 
-  private static final double POWER = 0.05;
+  private static final double POWER = 0.1;
 
   public BrakeElevator() {
     super(Elevator.getInstance());
