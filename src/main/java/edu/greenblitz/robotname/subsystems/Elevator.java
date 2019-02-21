@@ -1,14 +1,12 @@
 package edu.greenblitz.robotname.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.greenblitz.robotname.RobotMap;
-import edu.greenblitz.robotname.RobotMap.Elevator.ElevatorLevel;
 import edu.greenblitz.robotname.RobotMap.Elevator.Motor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Sensor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Solenoid;
-import edu.greenblitz.robotname.commands.elevator.BrakeElevator;
+import edu.greenblitz.robotname.commands.simple.elevator.BrakeElevator;
 import edu.greenblitz.robotname.data.Report;
-import edu.greenblitz.utils.Tuple;
-import edu.greenblitz.utils.ctre.SmartTalon;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.TalonEncoder;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -17,44 +15,58 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.util.List;
+import java.util.logging.Logger;
+
+import static edu.greenblitz.robotname.RobotMap.Elevator.Heights;
 
 public class Elevator extends Subsystem {
 
-    private static final double LEVEL_HEIGHT_RANGE = 0;
-    private static final double SAFE_TO_LOWER_DOWN = 0.05,
-            SAFE_TO_LOWER_UP = 0.4,
-            SAFETY_RANGE = 0.05;
+    private static Logger logger = Logger.getLogger("elevator");
 
-    private static final List<Tuple<Double, Double>> DANGER_ZONES = List.of(
-            new Tuple<>(SAFE_TO_LOWER_DOWN - SAFETY_RANGE, SAFE_TO_LOWER_UP + SAFETY_RANGE)
-    );
+    public enum Level {
+        GROUND(Heights.GROUND),
+        CRUISE(Heights.CRUISE),
+        CARGO(Heights.CARGO),
+        ROCKET_LOW(Heights.ROCKET_LOW),
+        ROCKET_MID(Heights.ROCKET_MID),
+        ROCKET_HIGH(Heights.ROCKET_HIGH);
+
+        private double m_height;
+
+        Level(double height) {
+            m_height = height;
+        }
+
+        public double getHeight() {
+            return m_height;
+        }
+
+        public boolean greater(Level other) {
+            return getHeight() >= other.getHeight();
+        }
+    }
 
     private static Elevator instance;
 
-    private ElevatorLevel m_level = ElevatorLevel.GROUND;
+    private static final double LEVEL_HEIGHT_TOLERANCE = 0.05;
 
-    private SmartTalon m_main, m_follower;
+    private Level m_level = Level.GROUND;
+
+    private WPI_TalonSRX m_main, m_follower;
     private IEncoder m_encoder;
     private DoubleSolenoid m_braker;
     private DigitalInput m_infrared, m_limitSwitch;
 
     private Elevator() {
-        m_main = new SmartTalon(Motor.Main);
-        m_follower = new SmartTalon(Motor.Follower);
+        m_main = new WPI_TalonSRX(Motor.Main);
+        m_follower = new WPI_TalonSRX(Motor.Follower);
         m_follower.follow(m_main);
         m_encoder = new TalonEncoder(Sensor.TicksPerMeter, m_main);
         m_braker = new DoubleSolenoid(2, Solenoid.Forward, Solenoid.Reverse);
         m_infrared = new DigitalInput(RobotMap.Roller.Sensor.Infrared);
         m_limitSwitch = new DigitalInput(RobotMap.Roller.Sensor.LimitSwitch);
-    }
 
-    public boolean isInDangerZone() {
-        for (Tuple<Double, Double> dangerZone : DANGER_ZONES) {
-            if (getHeight() > dangerZone.first() && getHeight() < dangerZone.second())
-                return true;
-        }
-        return false;
+        logger.info("instantiated");
     }
 
     @Override
@@ -73,31 +85,55 @@ public class Elevator extends Subsystem {
         return instance;
     }
 
-    private void setLevel(ElevatorLevel level) {
+    private void setLevel(Level level) {
         m_level = level;
     }
 
-    public ElevatorLevel getLevel() {
+    public Level getLevel() {
         return m_level;
     }
 
-    public boolean isFloorLevel() { return m_level == ElevatorLevel.GROUND; }
+    public boolean isFloorLevel() {
+        return m_level == Level.GROUND;
+    }
 
     public double getHeight() {
         return m_encoder.getNormalizedTicks();
     }
 
-    public void setState(Value value) {
-        if (m_braker.get() != value) Report.pneumaticsUsed(getName());
+    private void setBrakeState(Value value) {
+        if (m_braker.get() != value) {
+            Report.pneumaticsUsed(getName());
+            if (value == Value.kForward) {
+                logger.fine("braking");
+            } else {
+                logger.fine("brake released");
+            }
+        }
         m_braker.set(value);
+    }
+
+    public void brake() {
+        setBrakeState(Value.kForward);
+    }
+
+    public void releaseBrake() {
+        setBrakeState(Value.kReverse);
     }
 
     public void setPower(double power) {
         m_main.set(power);
+        logger.finest("power: " + power);
     }
 
     public void resetEncoder() {
         m_encoder.reset();
+
+        logger.config("encoders reset");
+    }
+
+    public void reset() {
+        resetEncoder();
     }
 
     public boolean isBallFullyIn() {
@@ -109,9 +145,10 @@ public class Elevator extends Subsystem {
     }
 
     private void updateLevel() {
-        for (ElevatorLevel level : ElevatorLevel.values()) {
-            if (Math.abs(Elevator.getInstance().getHeight() - level.getHeight()) <= LEVEL_HEIGHT_RANGE) {
-                Elevator.getInstance().setLevel(level);
+        for (Level level : Level.values()) {
+            if (Math.abs(getHeight() - level.getHeight()) <= LEVEL_HEIGHT_TOLERANCE) {
+                setLevel(level);
+                logger.fine("level: " + getLevel());
                 return;
             }
         }

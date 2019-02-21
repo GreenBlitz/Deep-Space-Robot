@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.robotname.RobotMap.Roller.Motor;
 import edu.greenblitz.robotname.RobotMap.Roller.Solenoid;
-import edu.greenblitz.robotname.commands.roller.HandleByElevator;
 import edu.greenblitz.robotname.data.Report;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -12,7 +11,11 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.util.logging.Logger;
+
 public class Roller extends Subsystem {
+    private static Logger logger = Logger.getLogger("roller");
+
     private static Roller instance;
 
     private DoubleSolenoid m_piston;
@@ -21,10 +24,16 @@ public class Roller extends Subsystem {
     private Roller() {
         m_piston = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
         m_motor = new CANSparkMax(Motor.Roller, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+        logger.info("instantiated");
     }
 
-    public void setExtender(Value value) {
-        if (m_piston.get() != value) Report.pneumaticsUsed(getName());
+    private void setExtender(Value value) {
+        if (m_piston.get() != value) {
+            Report.pneumaticsUsed(getName());
+            var state = value == Value.kForward ? "extended" : "retracted";
+            logger.fine("state " + state);
+        }
         m_piston.set(value);
     }
 
@@ -40,13 +49,18 @@ public class Roller extends Subsystem {
         return m_piston.get();
     }
 
+    public boolean isExtended() { return getExtenderState() == Value.kForward; }
+
+    public boolean isRetracted() { return getExtenderState() == Value.kReverse; }
+
     public void setPower(double power) {
         m_motor.set(power);
+        logger.finest("power: " + power);
     }
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new HandleByElevator());
+        setDefaultCommand(null);
     }
 
     public static void init() {
@@ -64,5 +78,4 @@ public class Roller extends Subsystem {
         SmartDashboard.putString("Roller::Command", getCurrentCommandName());
         SmartDashboard.putString("Roller::Extender", getExtenderState().name());
     }
-
 }

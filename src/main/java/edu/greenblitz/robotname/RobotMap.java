@@ -1,6 +1,5 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.utils.drive.RobotDrive;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 
 public class RobotMap {
@@ -26,8 +25,6 @@ public class RobotMap {
         
         public static class Sensor {
             public static class Encoder {
-                public static final RobotDrive.MotorID Left = RobotDrive.MotorID.FRONT_LEFT;
-                public static final RobotDrive.MotorID Right = RobotDrive.MotorID.FRONT_RIGHT;
                 public static final int TicksPerMeter = 1;
             }
             public static final Port NavX = Port.kMXP;
@@ -59,27 +56,13 @@ public class RobotMap {
 
         public static class Heights {
             public static final double GROUND = 0;
-            public static final double LEVEL1 = 0;
-            public static final double LEVEL2 = 0;
-            public static final double LEVEL3 = 0;
+            public static final double CRUISE = 0;
+            public static final double CARGO = 0;
+            public static final double ROCKET_LOW = 0;
+            public static final double ROCKET_MID = 0;
+            public static final double ROCKET_HIGH = 0;
         }
 
-        public enum ElevatorLevel {
-            GROUND(Heights.GROUND),
-            LEVEL1(Heights.LEVEL1),
-            LEVEL2(Heights.LEVEL2),
-            LEVEL3(Heights.LEVEL3);
-
-            private double m_height;
-
-            ElevatorLevel(double height) {
-                m_height = height;
-            }
-
-            public double getHeight() {
-                return m_height;
-            }
-        }
     }
 
     public static class Roller {
@@ -116,7 +99,7 @@ public class RobotMap {
         }
 
         public static class Sensor {
-            public static final int LowSwitch = 4; //TODO: Rename plz
+            public static final int LowSwitch = 4;
             public static final int HighSwitch = 7;
         }
     }

@@ -1,6 +1,6 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2019.1.1"
+    id "edu.wpi.first.GradleRIO" version "2019.3.1"
 }
 
 def ROBOT_MAIN_CLASS = "edu.greenblitz.robotname.Main"
@@ -35,7 +35,7 @@ deploy {
 }
 
 // Set this to true to enable desktop support.
-def includeDesktopSupport = true
+def includeDesktopSupport = false
 
 // Maven central needed for JUnit
 repositories {
@@ -51,7 +51,8 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 
-   // implementation 'com.github.GreenBlitz.MotionControl:motion:master-SNAPSHOT'
+    implementation 'com.github.GreenBlitz.MotionControl:motion:5306eef8abd59d55f833ebc610d4882d35a6b3a8'
+    compile group: 'com.google.guava', name: 'guava', version: '11.0.2'
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')

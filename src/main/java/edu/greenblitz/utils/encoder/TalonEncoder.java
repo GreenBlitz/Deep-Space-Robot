@@ -4,25 +4,30 @@ import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class TalonEncoder extends AbstractEncoder {
-    private SensorCollection m_talon;
+    private TalonSRX m_talon;
 
     public TalonEncoder(double normalizeConst, TalonSRX talon) {
         super(normalizeConst);
-        m_talon = talon.getSensorCollection();
+        m_talon = talon;
     }
 
     @Override
     public void reset() {
-        m_talon.setQuadraturePosition(0, 100);
+        m_talon.setSelectedSensorPosition(0);
     }
 
     @Override
     public int getRawTicks() {
-        return m_talon.getQuadraturePosition();
+        return m_talon.getSelectedSensorPosition();
     }
 
     @Override
     public double getTickRate() {
-        return m_talon.getQuadratureVelocity() * 10;
+        return m_talon.getSelectedSensorVelocity();
+    }
+
+    @Override
+    public double getNormalizedVelocity() {
+        return getTickRate() * 10 / getNormalizeConst();
     }
 }

@@ -1,11 +1,13 @@
 package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.robotname.RobotMap.Shifter.Solenoid;
-import edu.greenblitz.robotname.commands.shifter.AutoChangeShift;
+import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.robotname.data.Report;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.util.logging.Logger;
 
 /**
  * This class is in charge of the shifter subsystem of the robot.
@@ -18,6 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shifter extends Subsystem {
 
+    private static Logger logger = Logger.getLogger("shifter");
+
     private static Shifter instance;
     private DoubleSolenoid m_piston;
     private ShifterState m_currentShift = ShifterState.POWER;
@@ -27,6 +31,8 @@ public class Shifter extends Subsystem {
      */
     private Shifter() {
         m_piston = new DoubleSolenoid(2, Solenoid.Forward, Solenoid.Reverse);
+
+        logger.info("instantiated");
     }
 
     /**
@@ -56,10 +62,10 @@ public class Shifter extends Subsystem {
         POWER(DoubleSolenoid.Value.kForward),
         SPEED(DoubleSolenoid.Value.kReverse);
 
-        private DoubleSolenoid.Value mValue;
+        private DoubleSolenoid.Value m_value;
 
         ShifterState(DoubleSolenoid.Value value) {
-            mValue = value;
+            m_value = value;
         }
 
         /**
@@ -68,7 +74,7 @@ public class Shifter extends Subsystem {
          * @return The current state of the piston (off/forward/reverse)
          */
         public DoubleSolenoid.Value getValue() {
-            return mValue;
+            return m_value;
         }
     }
 
@@ -77,14 +83,25 @@ public class Shifter extends Subsystem {
      *
      * @param state A value based off of the ShifterState enum. This value is then set as the state the piston is in.
      */
-    public void setShift(ShifterState state) {
+    private void setShift(ShifterState state) {
         m_currentShift = state;
-        if (m_piston.get() != state.getValue()) Report.pneumaticsUsed(getName());
+        if (m_piston.get() != state.getValue()) {
+            Report.pneumaticsUsed(getName());
+            logger.fine("gear: " + state);
+        }
         m_piston.set(state.getValue());
     }
 
     public void toggleShift() {
         setShift(getCurrentShift() == ShifterState.POWER ? ShifterState.SPEED : ShifterState.POWER);
+    }
+
+    public void toSpeed() {
+        setShift(ShifterState.SPEED);
+    }
+
+    public void toPower() {
+        setShift(ShifterState.POWER);
     }
 
     /**

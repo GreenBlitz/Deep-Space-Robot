@@ -3,11 +3,15 @@ package edu.greenblitz.robotname.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.greenblitz.robotname.RobotMap.Climber.Motor;
-import edu.greenblitz.robotname.commands.climber.ClimberControl;
+import edu.greenblitz.robotname.commands.simple.climber.ClimberControl;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.util.logging.Logger;
+
 public class Climber extends Subsystem {
+
+    private static Logger logger = Logger.getLogger("climber");
 
     private static Climber instance;
 
@@ -16,13 +20,20 @@ public class Climber extends Subsystem {
     private Climber() {
         m_extender = new WPI_TalonSRX(Motor.Extender);
         m_wheels = new WPI_TalonSRX(Motor.Wheels);
+
+        logger.info("instantiated");
     }
 
-    public void setExtender(double power) {
+    public void extend(double power) {
+        if (Math.abs(power - m_extender.get()) < 10E-7) {
+            logger.fine("extending!");
+        }
+        logger.finest("extender: " + power);
         m_extender.set(power);
     }
 
-    public void setWheels(double power) {
+    public void drive(double power) {
+        logger.finest("wheels: " + power);
         m_wheels.set(power);
     }
 

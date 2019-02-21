@@ -53,6 +53,13 @@ public class Report {
         instance.pneumaticsToShuffleboard();
     }
 
+    public static String getTotalReport() {
+        var pneumatics = instance.getPneumaticsReport();
+        var voltage = instance.getVoltageReport();
+        var report = "Report:";
+        return report + '\n' + voltage + '\n' + pneumatics;
+    }
+
     @Deprecated
     public static void toDashboard() {
         toShuffleboard();
@@ -102,6 +109,19 @@ public class Report {
             SmartDashboard.putNumber(PNEUMATICS + "::" + entry.getKey(), entry.getValue());
         }
         SmartDashboard.putNumber(PNEUMATICS + "::Total", getTotalPneumaticsUsage());
+    }
+
+    private String getPneumaticsReport() {
+        var sb = new StringBuilder();
+        for (var key : m_pneumatics.keySet()) {
+            sb.append('\t').append(key).append(": ").append(m_pneumatics.get(key)).append('\n');
+        }
+        sb.append('\t').append("total: ").append(getTotalPneumaticsUsage());
+        return sb.toString();
+    }
+
+    private String getVoltageReport() {
+        return String.format("\tvoltage at report init: %f", getVoltageAtInit());
     }
 
     private void initVoltageToShuffleboard() {
