@@ -1,8 +1,6 @@
 package edu.greenblitz.utils;
 
-import java.util.logging.Formatter;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 public class Logging {
 
@@ -11,5 +9,7 @@ public class Logging {
 
     public static void init() {
         System.setProperty(FORMATTER_PROPERTY, LOG_PATTERN);
+        Logger.getGlobal().setLevel(Level.FINE);
+        Logger.getGlobal().getHandlers()[0].setLevel(Level.FINE);
     }
 }

@@ -58,7 +58,7 @@ public class Elevator extends Subsystem {
             GROUND(Heights.Hatch.GROUND),
             CRUISE(Heights.Hatch.CRUISE),
             SHIP(Heights.Hatch.SHIP),
-            COLLECT(Heights.Cargo.COLLECT),
+            COLLECT(Heights.Hatch.COLLECT),
             ROCKET_LOW(Heights.Hatch.ROCKET_LOW),
             ROCKET_MID(Heights.Hatch.ROCKET_MID),
             ROCKET_HIGH(Heights.Hatch.ROCKET_HIGH);

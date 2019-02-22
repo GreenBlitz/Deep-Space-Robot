@@ -1,5 +1,7 @@
 package edu.greenblitz.robotname;
 
+import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
+import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;
 import edu.greenblitz.utils.hid.CustomControlBoard;
 import edu.greenblitz.utils.hid.SmartJoystick;
 
@@ -23,7 +25,7 @@ public class OI {
 
     public static void init() {
         mainJoystick = new SmartJoystick(RobotMap.Joysticks.MAIN);
-        sideJoystick = new CustomControlBoard(RobotMap.Joysticks.SIDE);
+        //sideJoystick = new CustomControlBoard(RobotMap.Joysticks.SIDE);
     }
 
     public static State getOIState() {

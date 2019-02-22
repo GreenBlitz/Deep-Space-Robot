@@ -6,7 +6,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.RobotMap.Chassis.Motor;
 import edu.greenblitz.robotname.RobotMap.Chassis.Sensor;
-import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
+import edu.greenblitz.robotname.commands.simple.chassis.driver.TankDriveByJoytick;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.SparkEncoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -25,29 +25,31 @@ public class Chassis extends Subsystem {
     private AHRS m_navX;
 
     private Chassis() {
-        m_leftFront = new CANSparkMax(Motor.Left.FRONT, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_leftLeader = new CANSparkMax(Motor.Left.MIDDLE, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_leftRear = new CANSparkMax(Motor.Left.REAR, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_rightFront = new CANSparkMax(Motor.Right.FRONT, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_rightLeader = new CANSparkMax(Motor.Right.MIDDLE, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_rightRear = new CANSparkMax(Motor.Right.REAR, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_leftFront = new CANSparkMax(Motor.Left.TOP, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_leftLeader = new CANSparkMax(Motor.Left.BOTTOM, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_leftRear = new CANSparkMax(Motor.Left.BACK, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_rightFront = new CANSparkMax(Motor.Right.TOP, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_rightLeader = new CANSparkMax(Motor.Right.BOTTOM, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_rightRear = new CANSparkMax(Motor.Right.BACK, CANSparkMaxLowLevel.MotorType.kBrushless);
 
         m_leftFront.follow(m_leftLeader);
         m_leftRear.follow(m_leftLeader);
+
+        m_leftLeader.setInverted(true);
 
         m_rightFront.follow(m_rightLeader);
         m_rightRear.follow(m_rightLeader);
 
         m_leftEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER, m_leftLeader);
         m_rightEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER, m_rightLeader);
-        m_navX = new AHRS(Sensor.NAVX);
+        //m_navX = new AHRS(Sensor.NAVX);
 
         logger.info("instantiated");
     }
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new ArcadeDriveByJoystick(OI.getMainJoystick()));
+        setDefaultCommand(new TankDriveByJoytick(OI.getMainJoystick()));
     }
 
     public void arcadeDrive(double move, double rotate) {
@@ -99,7 +101,7 @@ public class Chassis extends Subsystem {
     }
 
     public void reset() {
-        resetNavx();
+        //resetNavx();
         resetEncoders();
     }
 
@@ -120,11 +122,11 @@ public class Chassis extends Subsystem {
         SmartDashboard.putNumber("Chassis::RightSpeed", m_rightEncoder.getNormalizedVelocity());
         SmartDashboard.putNumber("Chassis::Speed", getVelocity());
         SmartDashboard.putNumber("Chassis::Distance", getDistance());
-        SmartDashboard.putNumber("Chassis::Angle", getAngle());
+        //SmartDashboard.putNumber("Chassis::Angle", getAngle());
     }
 
     private void setLeftRightMotorOutput(double l, double r) {
-        m_leftLeader.set(l);
-        m_rightLeader.set(r);
+        m_leftLeader.set(0.5 * l);
+        m_rightLeader.set(0.5 * r);
     }
 }

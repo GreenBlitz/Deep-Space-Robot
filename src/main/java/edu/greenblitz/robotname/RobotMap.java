@@ -5,27 +5,27 @@ import edu.wpi.first.wpilibj.SerialPort.Port;
 public class RobotMap {
     public static class Joysticks {
         public static final int MAIN = 0;
-        public static final int SIDE = 0;
+        public static final int SIDE = 1;
     }
 
     public static class Chassis {
         public static class Motor {
             public static class Left {
-                public static final int FRONT = 0;
-                public static final int MIDDLE = 0;
-                public static final int REAR = 0;
+                public static final int TOP = 4;
+                public static final int BOTTOM = 2;
+                public static final int BACK = 5;
             }
 
             public static class Right {
-                public static final int FRONT = 0;
-                public static final int MIDDLE = 0;
-                public static final int REAR = 0;
+                public static final int TOP = 1;
+                public static final int BOTTOM = 6;
+                public static final int BACK = 3;
             }
         }
         
         public static class Sensor {
             public static class Encoder {
-                public static final int TICKS_PER_METER = 0;
+                public static final int TICKS_PER_METER = 1;
             }
             public static final Port NAVX = Port.kMXP;
         }
@@ -51,7 +51,6 @@ public class RobotMap {
         }
 
         public static class Sensor {
-            public static final int ENCODER = 0;
             public static final int TICKS_PER_METER = 0;
         }
 
@@ -124,8 +123,8 @@ public class RobotMap {
 
     public static class Shifter {
         public static class Solenoid {
-            public static final int FORWARD = 0;
-            public static final int REVERSE = 0;
+            public static final int FORWARD = 2;
+            public static final int REVERSE = 3;
         }
     }
 
@@ -145,8 +144,8 @@ public class RobotMap {
 
     public static class Pneumatics {
         public static class Sensor {
-            public static final int PRESSURE = 0;
-            public static final int SWITCH = 0;
+            public static final int PRESSURE = 3;
+            public static final int SWITCH = 9;
         }
 
         public static class PCM {

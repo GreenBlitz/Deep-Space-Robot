@@ -6,6 +6,7 @@ import edu.greenblitz.utils.command.SubsystemCommand;
 public class HandleCompressor extends SubsystemCommand<Pneumatics> {
 
     private long lastActivationTime, lastActivationDuration, lastSleepDuration;
+    boolean rise;
 
     public HandleCompressor() {
         super(Pneumatics.getInstance());
@@ -21,14 +22,16 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
         if (system.getPressure() > system.getCriticalPressureHeld()) {
             executeRestricted();
         } else {
-            if (system.getPressure() < system.getMinPressureReleased() && !system.isEnabled()) {
+            if (system.getPressure() < system.getMinPressureReleased()) {
                 system.compress();
-            } else if (system.getPressure() >= system.getMaxPressureReleased() && system.isEnabled()) {
+                rise = true;
+            } else if (system.getPressure() >= system.getMaxPressureReleased()) {
                 system.stop();
+                rise = false;
             }
         }
     }
-
+ 
     private void executeRestricted() {
         var time = System.currentTimeMillis();
         if (time > lastActivationTime + lastSleepDuration + lastActivationDuration) {
@@ -60,8 +63,8 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
     }
 
     private void resetTiming(long t0) {
-        var full = system.getFullDutyCycle();
-        var percent = system.getDutyCiclePercent();
+        var full = system.getFullDutyCycle() * 1000;
+        var percent = system.getDutyCyclePercent();
 
         var part = full * percent;
 

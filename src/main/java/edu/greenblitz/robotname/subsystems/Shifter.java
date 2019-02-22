@@ -48,8 +48,6 @@ public class Shifter extends Subsystem {
      * @return The current instance of the class
      */
     public static Shifter getInstance() {
-        if (instance == null)
-            init();
         return instance;
     }
 

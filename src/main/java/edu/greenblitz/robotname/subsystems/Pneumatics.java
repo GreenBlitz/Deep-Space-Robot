@@ -37,6 +37,7 @@ public class Pneumatics extends Subsystem {
     private Pneumatics() {
         m_pressureSensor = new PressureSensor(Sensor.PRESSURE);
         m_compressor = new Compressor(PCM.COMPRESSOR);
+        m_compressor.stop();
         m_switch = new DigitalInput(Sensor.SWITCH);
 
         logger.info("instantiated");
@@ -49,7 +50,7 @@ public class Pneumatics extends Subsystem {
     private void setCompressor(boolean isActive) {
         if (isActive) {
             logger.fine("compressor is activated, at pressure: " + getPressure());
-            m_compressor.start();
+            //m_compressor.start();
         } else {
             logger.fine("compressor is de-activated, at pressure: " + getPressure());
             m_compressor.stop();
@@ -92,7 +93,7 @@ public class Pneumatics extends Subsystem {
         return SmartDashboard.getNumber(SMD_DEADZONE, DEFAULT_DEADZONE);
     }
 
-    public double getDutyCiclePercent() {
+    public double getDutyCyclePercent() {
         return SmartDashboard.getNumber(SMD_DUTY_CYCLE_PERCENT, DEFAULT_DUTY_CYCLE_PERCENT);
     }
 
