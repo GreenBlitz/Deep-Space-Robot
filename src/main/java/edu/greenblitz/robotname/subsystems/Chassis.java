@@ -25,12 +25,12 @@ public class Chassis extends Subsystem {
     private AHRS m_navX;
 
     private Chassis() {
-        m_leftFront = new CANSparkMax(Motor.Left.Front, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_leftLeader = new CANSparkMax(Motor.Left.Middle, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_leftRear = new CANSparkMax(Motor.Left.Rear, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_rightFront = new CANSparkMax(Motor.Right.Front, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_rightLeader = new CANSparkMax(Motor.Right.Middle, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_rightRear = new CANSparkMax(Motor.Right.Rear, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_leftFront = new CANSparkMax(Motor.Left.FRONT, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_leftLeader = new CANSparkMax(Motor.Left.MIDDLE, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_leftRear = new CANSparkMax(Motor.Left.REAR, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_rightFront = new CANSparkMax(Motor.Right.FRONT, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_rightLeader = new CANSparkMax(Motor.Right.MIDDLE, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_rightRear = new CANSparkMax(Motor.Right.REAR, CANSparkMaxLowLevel.MotorType.kBrushless);
 
         m_leftFront.follow(m_leftLeader);
         m_leftRear.follow(m_leftLeader);
@@ -38,9 +38,9 @@ public class Chassis extends Subsystem {
         m_rightFront.follow(m_rightLeader);
         m_rightRear.follow(m_rightLeader);
 
-        m_leftEncoder = new SparkEncoder(Sensor.Encoder.TicksPerMeter, m_leftLeader);
-        m_rightEncoder = new SparkEncoder(Sensor.Encoder.TicksPerMeter, m_rightLeader);
-        m_navX = new AHRS(Sensor.NavX);
+        m_leftEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER, m_leftLeader);
+        m_rightEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER, m_rightLeader);
+        m_navX = new AHRS(Sensor.NAVX);
 
         logger.info("instantiated");
     }
@@ -66,7 +66,7 @@ public class Chassis extends Subsystem {
         return (getLeftDistance() + getRightDistance()) / 2;
     }
 
-    public double getSpeed() {
+    public double getVelocity() {
         return (getLeftVelocity() + getRightVelocity()) / 2;
     }
 
@@ -91,13 +91,10 @@ public class Chassis extends Subsystem {
     }
 
     public static void init() {
-        if (instance == null)
-            instance = new Chassis();
+        if (instance == null) instance = new Chassis();
     }
 
     public static Chassis getInstance() {
-        if (instance == null)
-            init();
         return instance;
     }
 
@@ -121,7 +118,7 @@ public class Chassis extends Subsystem {
         SmartDashboard.putString("Chassis::Command", getCurrentCommandName());
         SmartDashboard.putNumber("Chassis::LeftSpeed", m_leftEncoder.getNormalizedVelocity());
         SmartDashboard.putNumber("Chassis::RightSpeed", m_rightEncoder.getNormalizedVelocity());
-        SmartDashboard.putNumber("Chassis::Speed", getSpeed());
+        SmartDashboard.putNumber("Chassis::Speed", getVelocity());
         SmartDashboard.putNumber("Chassis::Distance", getDistance());
         SmartDashboard.putNumber("Chassis::Angle", getAngle());
     }

@@ -5,25 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.greenblitz.robotname.commands.simple.picker;
+package edu.greenblitz.robotname.commands.simple.roller;
 
-import edu.greenblitz.robotname.subsystems.RearPicker;
+import edu.greenblitz.robotname.subsystems.Roller;
 import edu.greenblitz.utils.command.SubsystemCommand;
 
-public class RaiseRearPicker extends SubsystemCommand<RearPicker> {
-
-    public RaiseRearPicker() {
-        super(RearPicker.getInstance());
+public class RollIn extends SubsystemCommand<Roller> {
+    public RollIn() {
+        super(Roller.getInstance());
     }
 
     @Override
     protected void execute() {
-        system.stand();
+        system.rollIn();
+    }
+
+    protected boolean isFinished() {
+        return false;
     }
 
     @Override
-    protected boolean isFinished() {
-        return true;
+    protected void end() {
+        system.stop();
     }
-
 }

@@ -17,12 +17,12 @@ public class FrontPoker extends Subsystem {
 
     private DoubleSolenoid m_holderPiston, m_extenderPiston;
 
-    private String m_extenderPistonName = getName() + "::Extender";
+    private String m_extenderPistonName = getName() + "::EXTENDER";
     private String m_kickerPistonName = getName() + "::Kicker";
 
     private FrontPoker() {
-        m_holderPiston = new DoubleSolenoid(2, Solenoid.Kicker.Forward, Solenoid.Kicker.Reverse);
-        m_extenderPiston = new DoubleSolenoid(2, Solenoid.Extender.Forward, Solenoid.Extender.Reverse);
+        m_holderPiston = new DoubleSolenoid(2, Solenoid.Kicker.FORWARD, Solenoid.Kicker.REVERSE);
+        m_extenderPiston = new DoubleSolenoid(2, Solenoid.Extender.FORWARD, Solenoid.Extender.REVERSE);
 
         logger.info("instantiated");
     }
@@ -116,6 +116,6 @@ public class FrontPoker extends Subsystem {
     public void update() {
         SmartDashboard.putString("FrontPoker::Command", getCurrentCommandName());
         SmartDashboard.putString("FrontPoker::Kicker", getHolderState().name());
-        SmartDashboard.putString("FrontPoker::Extender", getExtenderState().name());
+        SmartDashboard.putString("FrontPoker::EXTENDER", getExtenderState().name());
     }
 }

@@ -5,134 +5,152 @@ import edu.wpi.first.wpilibj.SerialPort.Port;
 public class RobotMap {
     public static class Joysticks {
         public static final int MAIN = 0;
-        public static final int SIDE = 1;
+        public static final int SIDE = 0;
     }
 
     public static class Chassis {
         public static class Motor {
             public static class Left {
-                public static final int Front = 1;
-                public static final int Middle = 2;
-                public static final int Rear = 3;
+                public static final int FRONT = 0;
+                public static final int MIDDLE = 0;
+                public static final int REAR = 0;
             }
 
             public static class Right {
-                public static final int Front = 4;
-                public static final int Middle = 5;
-                public static final int Rear = 6;
+                public static final int FRONT = 0;
+                public static final int MIDDLE = 0;
+                public static final int REAR = 0;
             }
         }
         
         public static class Sensor {
             public static class Encoder {
-                public static final int TicksPerMeter = 1;
+                public static final int TICKS_PER_METER = 0;
             }
-            public static final Port NavX = Port.kMXP;
+            public static final Port NAVX = Port.kMXP;
         }
     }
 
     public static class Climber {
         public static class Motor {
-            public static final int Extender = 6;
-            public static final int Wheels = 0;
-        }
-    }
-    
-    public static class Elevator {
-        public static class Motor {
-            public static final int Main = 7;
-            public static final int Follower = 0;
+            public static final int EXTENDER = 0;
+            public static final int WHEELS = 0;
+            public static final int BIG_0 = 0;
+            public static final int BIG_1 = 0;
         }
 
         public static class Sensor {
-            public static final int Encoder = 0;  
-            public static final int TicksPerMeter = 5;
+            public static final int LIMIT_SWITCH = 0;
+        }
+    }
+
+    public static class Elevator {
+        public static class Motor {
+            public static final int MAIN = 0;
+            public static final int FOLLOWER = 0;
+        }
+
+        public static class Sensor {
+            public static final int ENCODER = 0;
+            public static final int TICKS_PER_METER = 0;
         }
 
         public static class Solenoid {
-            public static final int Forward = 5;
-            public static final int Reverse = 4;
+            public static final int FORWARD = 0;
+            public static final int REVERSE = 0;
         }
 
         public static class Heights {
-            public static final double GROUND = 0;
-            public static final double CRUISE = 0;
-            public static final double CARGO = 0;
-            public static final double ROCKET_LOW = 0;
-            public static final double ROCKET_MID = 0;
-            public static final double ROCKET_HIGH = 0;
-        }
+            public static class Cargo {
+                public static final double GROUND = 0;
+                public static final double CRUISE = 0;
+                public static final double SHIP = 0;
+                public static final double ROCKET_LOW = 0;
+                public static final double ROCKET_MID = 0;
+                public static final double ROCKET_HIGH = 0;
+                public static final double COLLECT = 0;
+            }
 
+            public static class Hatch {
+                public static final double GROUND = 0;
+                public static final double CRUISE = 0;
+                public static final double SHIP = 0;
+                public static final double ROCKET_LOW = 0;
+                public static final double ROCKET_MID = 0;
+                public static final double ROCKET_HIGH = 0;
+                public static final double COLLECT = 0;
+            }
+        }
     }
 
     public static class Roller {
         public static class Motor {
-            public static final int Roller = 7;
+            public static final int ROLLER = 0;
         }
 
         public static class Solenoid {
-            public static final int Forward = 4;
-            public static final int Reverse = 5;
+            public static final int FORWARD = 0;
+            public static final int REVERSE = 0;
         }
 
         public static class Sensor {
-            public static final int Infrared = 1;
-            public static final int LimitSwitch = 9;
+            public static final int INFRARED = 0;
+            public static final int LIMIT_SWITCH = 0;
         }
     }
 
     public static class Kicker {
         public static class Solenoid {
-            public static final int Forward = 6;
-            public static final int Reverse = 7;
+            public static final int FORWARD = 0;
+            public static final int REVERSE = 0;
         }
     }
 
     public static class RearPicker {
         public static class Motor {
-            public static final int Picker = 7;
+            public static final int PICKER = 0;
         }
 
         public static class Solenoid {
-            public static final int Forward = 6;
-            public static final int Reverse = 7;
+            public static final int FORWARD = 0;
+            public static final int REVERSE = 0;
         }
 
         public static class Sensor {
-            public static final int LowSwitch = 4;
-            public static final int HighSwitch = 7;
+            public static final int LOW_SWITCH = 0;
+            public static final int HIGH_SWITCH = 0;
         }
     }
 
     public static class Shifter {
         public static class Solenoid {
-            public static final int Forward = 0;
-            public static final int Reverse = 1;
+            public static final int FORWARD = 0;
+            public static final int REVERSE = 0;
         }
     }
 
     public static class FrontPoker {
         public static class Solenoid {
             public static class Kicker {
-                public static final int Forward = 1;
-                public static final int Reverse = 2;
+                public static final int FORWARD = 0;
+                public static final int REVERSE = 0;
             }
 
             public static class Extender {
-                public static final int Forward = 6;
-                public static final int Reverse = 7;
+                public static final int FORWARD = 0;
+                public static final int REVERSE = 0;
             }
         }
     }
 
     public static class Pneumatics {
         public static class Sensor {
-            public static final int Pressure = 0;
-            public static final int Switch = 0;
+            public static final int PRESSURE = 0;
+            public static final int SWITCH = 0;
         }
 
         public static class PCM {
-            public static final int Compressor = 0;
+            public static final int COMPRESSOR = 0;
         }
     }
 }

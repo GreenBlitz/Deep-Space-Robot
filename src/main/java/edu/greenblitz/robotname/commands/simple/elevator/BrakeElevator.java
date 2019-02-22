@@ -33,4 +33,9 @@ public class BrakeElevator extends SubsystemCommand<Elevator> {
     protected boolean isFinished() {
         return false;
     }
+
+    @Override
+    protected void end() {
+        system.releaseBrake();
+    }
 }

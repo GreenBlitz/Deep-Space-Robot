@@ -30,7 +30,7 @@ public class Shifter extends Subsystem {
      * This constructor constructs the piston.
      */
     private Shifter() {
-        m_piston = new DoubleSolenoid(2, Solenoid.Forward, Solenoid.Reverse);
+        m_piston = new DoubleSolenoid(2, Solenoid.FORWARD, Solenoid.REVERSE);
 
         logger.info("instantiated");
     }

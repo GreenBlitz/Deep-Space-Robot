@@ -10,14 +10,14 @@ package edu.greenblitz.robotname.commands.simple.roller;
 import edu.greenblitz.robotname.subsystems.Roller;
 import edu.greenblitz.utils.command.SubsystemCommand;
 
-public class RollCargoOut extends SubsystemCommand<Roller> {
-    public RollCargoOut() {
+public class RollOut extends SubsystemCommand<Roller> {
+    public RollOut() {
         super(Roller.getInstance());
     }
 
     @Override
     protected void execute() {
-        system.setPower(-1);
+        system.rollOut();
     }
 
     @Override
@@ -27,7 +27,7 @@ public class RollCargoOut extends SubsystemCommand<Roller> {
 
     @Override
     protected void end() {
-        system.setPower(0);
+        system.stop();
     }
 
 }

@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname.commands.complex.exposed;
 
+import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.ElevatorAboveCruise;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.ElevatorCrossingCruiseFromAbove;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.ElevatorCrossingCruiseFromBelow;
@@ -9,7 +10,11 @@ import edu.greenblitz.utils.command.dynamic.DynamicCommand;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveElevatorTo extends DynamicCommand {
-    private static final Elevator.Level CRITICAL_LEVEL = Elevator.Level.CRUISE;
+
+    private static Elevator.Level getCriticalLevel() {
+        if (OI.isStateCargo()) return Elevator.Level.Cargo.CRUISE;
+        else return Elevator.Level.Hatch.CRUISE;
+    }
 
     private Elevator.Level m_destination;
 
@@ -19,10 +24,11 @@ public class MoveElevatorTo extends DynamicCommand {
 
     @Override
     protected Command pick() {
-        var initalHeight = Elevator.getInstance().getLevel();
+        var initialHeight = Elevator.getInstance().getLevel();
+        var criticalLevel = getCriticalLevel();
 
-        var isInitialHigher = initalHeight.greater(CRITICAL_LEVEL);
-        var isDestHigher = m_destination.greater(CRITICAL_LEVEL);
+        var isInitialHigher = initialHeight.greaterThan(criticalLevel);
+        var isDestHigher = m_destination.greaterThan(criticalLevel);
 
         if (isInitialHigher && isDestHigher) {
             // No interactions at all

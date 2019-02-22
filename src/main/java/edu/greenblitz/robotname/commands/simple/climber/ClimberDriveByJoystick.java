@@ -10,12 +10,12 @@ package edu.greenblitz.robotname.commands.simple.climber;
 import edu.greenblitz.utils.command.JoystickCommand;
 import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.subsystems.Climber;
-import edu.greenblitz.utils.SmartJoystick;
+import edu.greenblitz.utils.hid.SmartJoystick;
 
-public class ClimberDriveByJoystick extends JoystickCommand<Climber> {
+public class ClimberDriveByJoystick extends JoystickCommand<Climber.Wheels> {
 
     public ClimberDriveByJoystick(SmartJoystick joystick) {
-        super(Climber.getInstance(), joystick);
+        super(Climber.getInstance().getWheels(), joystick);
     }
 
     public ClimberDriveByJoystick() { this(OI.getMainJoystick()); }

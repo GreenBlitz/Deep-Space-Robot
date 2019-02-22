@@ -16,14 +16,17 @@ import java.util.logging.Logger;
 public class Roller extends Subsystem {
     private static Logger logger = Logger.getLogger("roller");
 
+    private static final double ROLL_IN = 0;
+    private static final double ROLL_OUT = 0;
+
     private static Roller instance;
 
     private DoubleSolenoid m_piston;
     private SpeedController m_motor;
 
     private Roller() {
-        m_piston = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
-        m_motor = new CANSparkMax(Motor.Roller, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_piston = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
+        m_motor = new CANSparkMax(Motor.ROLLER, CANSparkMaxLowLevel.MotorType.kBrushless);
 
         logger.info("instantiated");
     }
@@ -53,9 +56,21 @@ public class Roller extends Subsystem {
 
     public boolean isRetracted() { return getExtenderState() == Value.kReverse; }
 
-    public void setPower(double power) {
+    private void setPower(double power) {
         m_motor.set(power);
         logger.finest("power: " + power);
+    }
+
+    public void rollOut() {
+        setPower(ROLL_OUT);
+    }
+
+    public void rollIn() {
+        setPower(ROLL_IN);
+    }
+
+    public void stop() {
+        setPower(0);
     }
 
     @Override
@@ -69,13 +84,11 @@ public class Roller extends Subsystem {
     }
 
     public static Roller getInstance() {
-        if (instance == null)
-            init();
         return instance;
     }
 
     public void update() {
-        SmartDashboard.putString("Roller::Command", getCurrentCommandName());
-        SmartDashboard.putString("Roller::Extender", getExtenderState().name());
+        SmartDashboard.putString("ROLLER::Command", getCurrentCommandName());
+        SmartDashboard.putString("ROLLER::EXTENDER", getExtenderState().name());
     }
 }

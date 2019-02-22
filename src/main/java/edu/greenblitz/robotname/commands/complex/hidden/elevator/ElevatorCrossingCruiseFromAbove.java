@@ -6,8 +6,8 @@ import edu.greenblitz.utils.command.dynamic.BinaryChoiceCommand;
 public class ElevatorCrossingCruiseFromAbove extends BinaryChoiceCommand {
     public ElevatorCrossingCruiseFromAbove(double height) {
         super(
-                new ElevatorCrossing1FromAboveWithoutBall(height),
-                new ElevatorCrossing1FromAboveWithBall(height));
+                new ElevatorCrossingCruiseFromAboveWithoutBall(height),
+                new ElevatorCrossingCruiseFromAboveWithBall(height));
     }
 
     @Override

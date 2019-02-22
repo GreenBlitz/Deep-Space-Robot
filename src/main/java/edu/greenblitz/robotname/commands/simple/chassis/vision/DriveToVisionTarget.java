@@ -9,7 +9,6 @@ package edu.greenblitz.robotname.commands.simple.chassis.vision;
 
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 import org.greenblitz.motion.pid.MultivariablePIDController;
 import org.greenblitz.motion.pid.PIDObject;
@@ -17,8 +16,11 @@ import org.greenblitz.motion.tolerance.AbsoluteTolerance;
 
 public class DriveToVisionTarget extends Command {
 
-    private static final PIDObject drive = new PIDObject(0, 0, 0);
-    private static final PIDObject turn = new PIDObject(0, 0, 0);
+    private static final int DRIVE_IDX = 0;
+    private static final int TURN_IDX = 1;
+
+    private static final PIDObject DRIVE = new PIDObject(0, 0, 0);
+    private static final PIDObject TURN = new PIDObject(0, 0, 0);
 
     private MultivariablePIDController m_controller;
 
@@ -28,14 +30,14 @@ public class DriveToVisionTarget extends Command {
     public DriveToVisionTarget() {
         requires(Chassis.getInstance());
         m_controller = new MultivariablePIDController(2);
-        m_controller.config(0, drive, new AbsoluteTolerance(0.1));
-        m_controller.config(1, turn, new AbsoluteTolerance(3));
+        m_controller.configure(DRIVE_IDX, DRIVE, new AbsoluteTolerance(0.1));
+        m_controller.configure(TURN_IDX, TURN, new AbsoluteTolerance(3));
     }
 
     @Override
     protected void initialize() {
         m_onTarget = -1;
-        m_controller.setGoals(0.5, 0);
+        m_controller.setGoals(0, 0);
     }
 
     @Override

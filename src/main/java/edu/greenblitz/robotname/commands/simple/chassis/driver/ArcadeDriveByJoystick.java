@@ -2,7 +2,7 @@ package edu.greenblitz.robotname.commands.simple.chassis.driver;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.subsystems.Chassis;
-import edu.greenblitz.utils.SmartJoystick;
+import edu.greenblitz.utils.hid.SmartJoystick;
 
 public class ArcadeDriveByJoystick extends Command {
 

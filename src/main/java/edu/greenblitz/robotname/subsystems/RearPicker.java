@@ -9,7 +9,6 @@ import edu.greenblitz.robotname.data.Report;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -26,10 +25,10 @@ public class RearPicker extends Subsystem {
     private DigitalInput m_lowSwitch, m_highSwitch;
 
     private RearPicker() {
-        m_piston = new DoubleSolenoid(3, Solenoid.Forward, Solenoid.Reverse);
-        m_motor = new CANSparkMax(Motor.Picker, MotorType.kBrushless);
-        m_lowSwitch = new DigitalInput(Sensor.LowSwitch);
-        m_highSwitch = new DigitalInput(Sensor.HighSwitch);
+        m_piston = new DoubleSolenoid(3, Solenoid.FORWARD, Solenoid.REVERSE);
+        m_motor = new CANSparkMax(Motor.PICKER, MotorType.kBrushless);
+        m_lowSwitch = new DigitalInput(Sensor.LOW_SWITCH);
+        m_highSwitch = new DigitalInput(Sensor.HIGH_SWITCH);
 
         logger.info("instantiated");
     }

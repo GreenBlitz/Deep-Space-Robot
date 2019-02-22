@@ -1,6 +1,7 @@
 package edu.greenblitz.robotname.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.RobotMap.Elevator.Motor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Sensor;
@@ -23,26 +24,55 @@ public class Elevator extends Subsystem {
 
     private static Logger logger = Logger.getLogger("elevator");
 
-    public enum Level {
-        GROUND(Heights.GROUND),
-        CRUISE(Heights.CRUISE),
-        CARGO(Heights.CARGO),
-        ROCKET_LOW(Heights.ROCKET_LOW),
-        ROCKET_MID(Heights.ROCKET_MID),
-        ROCKET_HIGH(Heights.ROCKET_HIGH);
+    public interface Level {
+        double getHeight();
 
-        private double m_height;
+        String name();
 
-        Level(double height) {
-            m_height = height;
+        default boolean greaterThan(Level other) {
+            return getHeight() >= getHeight();
         }
 
-        public double getHeight() {
-            return m_height;
+        enum Cargo implements Level {
+            GROUND(Heights.Cargo.GROUND),
+            COLLECT(Heights.Cargo.COLLECT),
+            CRUISE(Heights.Cargo.CRUISE),
+            SHIP(Heights.Cargo.SHIP),
+            ROCKET_LOW(Heights.Cargo.ROCKET_LOW),
+            ROCKET_MID(Heights.Cargo.ROCKET_MID),
+            ROCKET_HIGH(Heights.Cargo.ROCKET_HIGH);
+
+            private double m_height;
+
+            Cargo(double height) {
+                m_height = height;
+            }
+
+            @Override
+            public double getHeight() {
+                return m_height;
+            }
         }
 
-        public boolean greater(Level other) {
-            return getHeight() >= other.getHeight();
+        enum Hatch implements Level {
+            GROUND(Heights.Hatch.GROUND),
+            CRUISE(Heights.Hatch.CRUISE),
+            SHIP(Heights.Hatch.SHIP),
+            COLLECT(Heights.Cargo.COLLECT),
+            ROCKET_LOW(Heights.Hatch.ROCKET_LOW),
+            ROCKET_MID(Heights.Hatch.ROCKET_MID),
+            ROCKET_HIGH(Heights.Hatch.ROCKET_HIGH);
+
+            private double m_height;
+
+            Hatch(double height) {
+                m_height = height;
+            }
+
+            @Override
+            public double getHeight() {
+                return m_height;
+            }
         }
     }
 
@@ -50,21 +80,20 @@ public class Elevator extends Subsystem {
 
     private static final double LEVEL_HEIGHT_TOLERANCE = 0.05;
 
-    private Level m_level = Level.GROUND;
-
     private WPI_TalonSRX m_main, m_follower;
     private IEncoder m_encoder;
     private DoubleSolenoid m_braker;
     private DigitalInput m_infrared, m_limitSwitch;
+    private Level m_level;
 
     private Elevator() {
-        m_main = new WPI_TalonSRX(Motor.Main);
-        m_follower = new WPI_TalonSRX(Motor.Follower);
+        m_main = new WPI_TalonSRX(Motor.MAIN);
+        m_follower = new WPI_TalonSRX(Motor.FOLLOWER);
         m_follower.follow(m_main);
-        m_encoder = new TalonEncoder(Sensor.TicksPerMeter, m_main);
-        m_braker = new DoubleSolenoid(Solenoid.Forward, Solenoid.Reverse);
-        m_infrared = new DigitalInput(RobotMap.Roller.Sensor.Infrared);
-        m_limitSwitch = new DigitalInput(RobotMap.Roller.Sensor.LimitSwitch);
+        m_encoder = new TalonEncoder(Sensor.TICKS_PER_METER, m_main);
+        m_braker = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
+        m_infrared = new DigitalInput(RobotMap.Roller.Sensor.INFRARED);
+        m_limitSwitch = new DigitalInput(RobotMap.Roller.Sensor.LIMIT_SWITCH);
 
         logger.info("instantiated");
     }
@@ -80,8 +109,6 @@ public class Elevator extends Subsystem {
     }
 
     public static Elevator getInstance() {
-        if (instance == null)
-            init();
         return instance;
     }
 
@@ -94,7 +121,8 @@ public class Elevator extends Subsystem {
     }
 
     public boolean isFloorLevel() {
-        return m_level == Level.GROUND;
+        return m_level.getHeight() == Level.Cargo.GROUND.getHeight() ||
+                m_level.getHeight() == Level.Hatch.GROUND.getHeight();
     }
 
     public double getHeight() {
@@ -145,7 +173,8 @@ public class Elevator extends Subsystem {
     }
 
     private void updateLevel() {
-        for (Level level : Level.values()) {
+        Level[] current = OI.getOIState() == OI.State.CARGO ? Level.Cargo.values() : Level.Hatch.values();
+        for (Level level : current) {
             if (Math.abs(getHeight() - level.getHeight()) <= LEVEL_HEIGHT_TOLERANCE) {
                 setLevel(level);
                 logger.fine("level: " + getLevel());
