@@ -41,16 +41,17 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         Logging.init();
         OI.init();
+        Report.init();
 
-        Chassis.init();
-        Shifter.init();
-        Climber.init();
+        // Chassis.init();
+        // Shifter.init();
+        // Climber.init();
         Elevator.init();
         Roller.init();
         Kicker.init();
-        RearPicker.init();
-        FrontPoker.init();
-        Pneumatics.init();
+        // RearPicker.init();
+        // FrontPoker.init();
+        // Pneumatics.init();
 
         m_state = new GeneralState();
 
@@ -107,15 +108,15 @@ public class Robot extends TimedRobot {
     private void updateSubsystems() {
         OI.update();
 
-        Chassis.getInstance().update();
-        Shifter.getInstance().update();
-        Climber.getInstance().update();
+        // Chassis.getInstance().update();
+        // Shifter.getInstance().update();
+        // Climber.getInstance().update();
         Elevator.getInstance().update();
         Roller.getInstance().update();
         Kicker.getInstance().update();
         RearPicker.getInstance().update();
         FrontPoker.getInstance().update();
-        Pneumatics.getInstance().update();
+        // Pneumatics.getInstance().update();
 
         m_state.update();
     }
