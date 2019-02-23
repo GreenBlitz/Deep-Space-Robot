@@ -7,44 +7,31 @@ import edu.greenblitz.robotname.RobotMap.Climber.Sensor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.logging.Logger;
 
 import static com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Climber {
 
-    private static Logger logger = Logger.getLogger("climber");
     private static Climber instance;
 
     public static void init() {
-        Extender.init();
-        Wheels.init();
-        Big.init();
-
         instance = new Climber();
     }
 
     public static Climber getInstance() {
         return instance;
     }
+    private Logger logger;
 
-    public static class Extender extends Subsystem {
-        private static Extender instance;
-
-        private static void init() {
-            instance = new Extender();
-        }
-
-        private static Extender getInstance() {
-            return instance;
-        }
-
+    public class Extender extends Subsystem {
         private CANSparkMax m_extender;
 
         private Extender() {
             m_extender = new CANSparkMax(Motor.EXTENDER, MotorType.kBrushless);
-            logger.info("extender: instantiated");
+            logger.info("instantiated");
         }
 
         @Override
@@ -57,30 +44,17 @@ public class Climber {
         }
 
         public void extend(double power) {
-            if (Math.abs(power - m_extender.get()) < 10E-7) {
-                logger.finer("extending!");
-            }
-            logger.finest("extender: " + power);
+            logger.trace(power);
             m_extender.set(power);
         }
     }
 
-    public static class Wheels extends Subsystem {
-        private static Wheels instance;
-
-        private static void init() {
-            instance = new Wheels();
-        }
-
-        private static Wheels getInstance() {
-            return instance;
-        }
-
+    public class Wheels extends Subsystem {
         private WPI_TalonSRX m_wheels;
 
         private Wheels() {
             m_wheels = new WPI_TalonSRX(Motor.WHEELS);
-            logger.info("wheels: instantiated");
+            logger.info("instantiated");
         }
 
         @Override
@@ -94,22 +68,11 @@ public class Climber {
 
         public void drive(double power) {
             m_wheels.set(power);
-            logger.finest("wheels: " + power);
+            logger.trace(power);
         }
     }
 
-    public static class Big extends Subsystem {
-
-        private static Big instance;
-
-        private static void init() {
-            instance = new Big();
-        }
-
-        private static Big getInstance() {
-            return instance;
-        }
-
+    public class Big extends Subsystem {
         private WPI_TalonSRX m_bigLeader;
         private WPI_TalonSRX m_bigFollower;
         private DigitalInput m_limitSwitch;
@@ -121,7 +84,7 @@ public class Climber {
 
             m_bigFollower.follow(m_bigLeader);
 
-            logger.info("big: instantiated");
+            logger.info("instantiated");
         }
 
         @Override
@@ -157,9 +120,10 @@ public class Climber {
     private Big m_big;
 
     private Climber() {
-        m_extender = Extender.getInstance();
-        m_wheels = Wheels.getInstance();
-        m_big = Big.getInstance();
+        logger = LogManager.getLogger();
+        m_extender = new Extender();
+        m_wheels = new Wheels();
+        m_big = new Big();
     }
 
     public Extender getExtender() {
@@ -172,6 +136,10 @@ public class Climber {
 
     public Big getBig() {
         return m_big;
+    }
+
+    public Logger getLogger() {
+        return logger;
     }
 
     public void update() {

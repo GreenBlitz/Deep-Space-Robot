@@ -6,12 +6,11 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.greenblitz.robotname.RobotMap.FrontPoker.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.logging.Logger;
 
 public class FrontPoker extends Subsystem {
-
-    private static Logger logger = Logger.getLogger("poker");
 
     private static FrontPoker instance;
 
@@ -20,10 +19,12 @@ public class FrontPoker extends Subsystem {
     private String m_extenderPistonName = getName() + "::EXTENDER";
     private String m_kickerPistonName = getName() + "::Kicker";
 
+    private Logger logger;
+
     private FrontPoker() {
         m_holderPiston = new DoubleSolenoid(2, Solenoid.Kicker.FORWARD, Solenoid.Kicker.REVERSE);
         m_extenderPiston = new DoubleSolenoid(2, Solenoid.Extender.FORWARD, Solenoid.Extender.REVERSE);
-
+        logger = LogManager.getLogger();
         logger.info("instantiated");
     }
 
@@ -46,7 +47,7 @@ public class FrontPoker extends Subsystem {
         if (m_extenderPiston.get() != value) {
             Report.pneumaticsUsed(m_kickerPistonName);
             String state = (value == Value.kForward) ? "hold" : "released";
-            logger.fine("holder state: " + state);
+            logger.debug("holder state: " + state);
         }
         m_holderPiston.set(value);
     }
@@ -55,7 +56,7 @@ public class FrontPoker extends Subsystem {
         if (m_holderPiston.get() != value) {
             Report.pneumaticsUsed(m_extenderPistonName);
             String state = (value == Value.kForward) ? "extended" : "retracted";
-            logger.fine("extender state: " + state);
+            logger.debug("extender state: " + state);
         }
         m_extenderPiston.set(value);
     }
@@ -117,5 +118,9 @@ public class FrontPoker extends Subsystem {
         SmartDashboard.putString("FrontPoker::Command", getCurrentCommandName());
         SmartDashboard.putString("FrontPoker::Kicker", getHolderState().name());
         SmartDashboard.putString("FrontPoker::EXTENDER", getExtenderState().name());
+    }
+
+    public Logger getLogger() {
+        return logger;
     }
 }

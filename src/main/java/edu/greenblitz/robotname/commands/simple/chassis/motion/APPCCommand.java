@@ -30,7 +30,7 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
         var expected = m_controller.getPath().getLast();
         var actual = system.getLocation();
         var diff = new Position(expected.getX() - actual.getX(), expected.getY() - actual.getY(), expected.getAngle() - actual.getAngle());
-        system.getLogger().fine("APPC command ended with error=[" + diff + "]");
+        system.getLogger().debug("APPC command ended with error=[" + diff + "]");
     }
 
     @Override

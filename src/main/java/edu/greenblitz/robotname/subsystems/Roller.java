@@ -10,12 +10,10 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Roller extends Subsystem {
-    private static Logger logger = Logger.getLogger("roller");
-
     private static final double ROLL_IN = 0;
     private static final double ROLL_OUT = 0;
 
@@ -23,10 +21,12 @@ public class Roller extends Subsystem {
 
     private DoubleSolenoid m_piston;
     private SpeedController m_motor;
+    private Logger logger;
 
     private Roller() {
         m_piston = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
         m_motor = new CANSparkMax(Motor.ROLLER, CANSparkMaxLowLevel.MotorType.kBrushless);
+        logger = LogManager.getLogger();
 
         logger.info("instantiated");
     }
@@ -35,7 +35,7 @@ public class Roller extends Subsystem {
         if (m_piston.get() != value) {
             Report.pneumaticsUsed(getName());
             var state = value == Value.kForward ? "extended" : "retracted";
-            logger.fine("state " + state);
+            logger.debug("state " + state);
         }
         m_piston.set(value);
     }
@@ -58,7 +58,7 @@ public class Roller extends Subsystem {
 
     private void setPower(double power) {
         m_motor.set(power);
-        logger.finest("power: " + power);
+        logger.trace(power);
     }
 
     public void rollOut() {

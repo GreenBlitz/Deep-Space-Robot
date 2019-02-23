@@ -2,19 +2,15 @@ package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.RobotMap.Pneumatics.Sensor;
-import edu.greenblitz.robotname.commands.simple.pneumatics.HandleCompressor;
 import edu.greenblitz.utils.sensors.PressureSensor;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Pneumatics extends Subsystem {
-
-    private static Logger logger = Logger.getLogger("pneumatics");
-
     private static final double DEFAULT_DUTY_CYCLE_PERCENT = 0.1;
     private static final double DEFAULT_MIN_PRESSURE_RELEASED = 40;
     private static final double DEFAULT_MAX_PRESSURE_RELEASED = 80;
@@ -32,14 +28,16 @@ public class Pneumatics extends Subsystem {
     private PressureSensor m_pressureSensor;
     private Compressor m_compressor;
     private DigitalInput m_switch;
+    private Logger logger;
 
     private Pneumatics() {
+        logger = LogManager.getLogger();
+        logger.info("instantiated");
+
         m_pressureSensor = new PressureSensor(Sensor.PRESSURE);
         m_compressor = new Compressor(RobotMap.Pneumatics.PCM);
         stop();
         //m_switch = new DigitalInput(Sensor.SWITCH);
-
-        logger.info("instantiated");
     }
 
     public double getPressure() {
@@ -48,10 +46,10 @@ public class Pneumatics extends Subsystem {
 
     private void setCompressor(boolean isActive) {
         if (isActive) {
-            logger.fine("compressor is activated, at pressure: " + getPressure());
+            logger.debug("compressor is activated, at pressure: " + getPressure());
             m_compressor.start();
         } else {
-            logger.fine("compressor is de-activated, at pressure: " + getPressure());
+            logger.debug("compressor is de-activated, at pressure: " + getPressure());
             m_compressor.stop();
         }
     }
