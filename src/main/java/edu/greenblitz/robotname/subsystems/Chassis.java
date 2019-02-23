@@ -4,27 +4,32 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.greenblitz.robotname.OI;
+import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.RobotMap.Chassis.Motor;
 import edu.greenblitz.robotname.RobotMap.Chassis.Sensor;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.TankDriveByJoytick;
+import edu.greenblitz.robotname.data.LocalizerRunner;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.SparkEncoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.greenblitz.motion.base.Position;
 
 import java.util.logging.Logger;
 
 public class Chassis extends Subsystem {
-
-    private static Logger logger = Logger.getLogger("chassis");
-
     private static Chassis instance;
+
+    private Logger logger;
 
     private CANSparkMax m_leftFront, m_leftLeader, m_leftRear, m_rightFront, m_rightLeader, m_rightRear;
     private IEncoder m_leftEncoder, m_rightEncoder;
     private AHRS m_navX;
+    private LocalizerRunner m_localizer;
 
     private Chassis() {
+        logger = Logger.getLogger("chassis");
+
         m_leftFront = new CANSparkMax(Motor.Left.TOP, CANSparkMaxLowLevel.MotorType.kBrushless);
         m_leftLeader = new CANSparkMax(Motor.Left.BOTTOM, CANSparkMaxLowLevel.MotorType.kBrushless);
         m_leftRear = new CANSparkMax(Motor.Left.BACK, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -42,7 +47,9 @@ public class Chassis extends Subsystem {
 
         m_leftEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER, m_leftLeader);
         m_rightEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER, m_rightLeader);
-        //m_navX = new AHRS(Sensor.NAVX);
+        m_navX = new AHRS(Sensor.NAVX);
+
+        m_localizer = new LocalizerRunner(RobotMap.Chassis.Data.WHEEL_BASE_RADIUS, m_leftEncoder, m_rightEncoder);
 
         logger.info("instantiated");
     }
@@ -101,7 +108,7 @@ public class Chassis extends Subsystem {
     }
 
     public void reset() {
-        //resetNavx();
+        resetNavx();
         resetEncoders();
     }
 
@@ -122,11 +129,20 @@ public class Chassis extends Subsystem {
         SmartDashboard.putNumber("Chassis::RightSpeed", m_rightEncoder.getNormalizedVelocity());
         SmartDashboard.putNumber("Chassis::Speed", getVelocity());
         SmartDashboard.putNumber("Chassis::Distance", getDistance());
-        //SmartDashboard.putNumber("Chassis::Angle", getAngle());
+        SmartDashboard.putNumber("Chassis::Angle", getAngle());
+        SmartDashboard.putNumberArray("Chassis::Location", getLocation().get());
+    }
+
+    public Position getLocation() {
+        return m_localizer.getLocation();
+    }
+
+    public Logger getLogger() {
+        return logger;
     }
 
     private void setLeftRightMotorOutput(double l, double r) {
-        m_leftLeader.set(0.5 * l);
-        m_rightLeader.set(0.5 * r);
+        m_leftLeader.set(l);
+        m_rightLeader.set(r);
     }
 }

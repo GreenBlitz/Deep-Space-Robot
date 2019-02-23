@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.logging.Logger;
 
+import static edu.greenblitz.robotname.RobotMap.Shifter.PCM;
+
 /**
  * This class is in charge of the shifter subsystem of the robot.
  * This subsystem includes a DoubleSolenoid.
@@ -30,7 +32,7 @@ public class Shifter extends Subsystem {
      * This constructor constructs the piston.
      */
     private Shifter() {
-        m_piston = new DoubleSolenoid(2, Solenoid.FORWARD, Solenoid.REVERSE);
+        m_piston = new DoubleSolenoid(PCM, Solenoid.FORWARD, Solenoid.REVERSE);
 
         logger.info("instantiated");
     }
@@ -113,7 +115,7 @@ public class Shifter extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new AutoChangeShift());
+        setDefaultCommand(null);
     }
 
     /**

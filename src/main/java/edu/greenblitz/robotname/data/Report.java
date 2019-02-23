@@ -116,7 +116,7 @@ public class Report {
         for (var key : m_pneumatics.keySet()) {
             sb.append('\t').append(key).append(": ").append(m_pneumatics.get(key)).append('\n');
         }
-        sb.append('\t').append("total: ").append(getTotalPneumaticsUsage());
+        sb.append('\t').append("total pneumatics usage: ").append(getTotalPneumaticsUsage());
         return sb.toString();
     }
 

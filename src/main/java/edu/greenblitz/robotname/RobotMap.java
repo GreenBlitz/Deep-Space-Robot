@@ -29,6 +29,10 @@ public class RobotMap {
             }
             public static final Port NAVX = Port.kMXP;
         }
+
+        public static class Data {
+            public static final double WHEEL_BASE_RADIUS = 0;
+        }
     }
 
     public static class Climber {
@@ -126,6 +130,8 @@ public class RobotMap {
             public static final int FORWARD = 2;
             public static final int REVERSE = 3;
         }
+
+        public static final int PCM = 0;
     }
 
     public static class FrontPoker {
@@ -143,13 +149,11 @@ public class RobotMap {
     }
 
     public static class Pneumatics {
+        public static final int PCM = 0;
+
         public static class Sensor {
             public static final int PRESSURE = 3;
             public static final int SWITCH = 9;
-        }
-
-        public static class PCM {
-            public static final int COMPRESSOR = 0;
         }
     }
 }
