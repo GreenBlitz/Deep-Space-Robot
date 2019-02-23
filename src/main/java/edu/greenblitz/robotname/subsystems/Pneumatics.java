@@ -37,7 +37,7 @@ public class Pneumatics extends Subsystem {
         m_pressureSensor = new PressureSensor(Sensor.PRESSURE);
         m_compressor = new Compressor(RobotMap.Pneumatics.PCM);
         stop();
-        //m_switch = new DigitalInput(Sensor.SWITCH);
+        m_switch = new DigitalInput(Sensor.SWITCH);
 
         logger.info("instantiated");
     }
@@ -49,9 +49,11 @@ public class Pneumatics extends Subsystem {
     private void setCompressor(boolean isActive) {
         if (isActive) {
             logger.fine("compressor is activated, at pressure: " + getPressure());
+            System.out.println("compressing");
             m_compressor.start();
         } else {
             logger.fine("compressor is de-activated, at pressure: " + getPressure());
+            System.out.println("not compressing");
             m_compressor.stop();
         }
     }
@@ -68,12 +70,8 @@ public class Pneumatics extends Subsystem {
         return m_compressor.enabled();
     }
 
-    public boolean isLimitOn() {
-        return false;
-    }//m_switch.get();
-
     public boolean isGameMode() {
-        return isLimitOn();
+        return m_switch.get();
     }
 
     public static void init() {
@@ -82,8 +80,6 @@ public class Pneumatics extends Subsystem {
     }
 
     public static Pneumatics getInstance() {
-        if (instance == null)
-            init();
         return instance;
     }
 
@@ -116,6 +112,6 @@ public class Pneumatics extends Subsystem {
     public void update() {
         SmartDashboard.putNumber("Pneumatics::Pressure", m_pressureSensor.getPressure());
         SmartDashboard.putBoolean("Pneumatics::Status", isEnabled());
-        SmartDashboard.putBoolean("Pneumatics::Limit Switch Status", isLimitOn());
+        SmartDashboard.putBoolean("Pneumatics::Limit Switch Status", isGameMode());
     }
 }

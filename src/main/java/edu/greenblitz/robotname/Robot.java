@@ -41,14 +41,14 @@ public class Robot extends TimedRobot {
         Logger.getLogger("chassis").fine("fine");
         Logger.getLogger("chassis").info("info");
         System.out.println("shit logged");
-        //Chassis.init();
-        //Shifter.init();
+        Chassis.init();
+        Shifter.init();
         //Climber.init();
         //Elevator.init();
         //Roller.init();
         //Kicker.init();
         //FrontPoker.init();
-        //Pneumatics.init();
+        Pneumatics.init();
 
         //m_state = new GeneralState();
         //m_pdp = new PowerDistributionPanel();
@@ -105,14 +105,14 @@ public class Robot extends TimedRobot {
     }
 
     private void updateSubsystems() {
-        //Chassis.getInstance().update();
-        //Shifter.getInstance().update();
+        Chassis.getInstance().update();
+        Shifter.getInstance().update();
         //Climber.getInstance().update();
         //Elevator.getInstance().update();
         //Roller.getInstance().update();
         //Kicker.getInstance().update();
         //FrontPoker.getInstance().update();
-        //Pneumatics.getInstance().update();
+        Pneumatics.getInstance().update();
 
         //OI.update();
         //m_state.update();

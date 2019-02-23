@@ -25,7 +25,8 @@ public class RobotMap {
         
         public static class Sensor {
             public static class Encoder {
-                public static final int TICKS_PER_METER = 1;
+                public static final int TICKS_PER_METER_POWER = 2295;
+                public static final int TICKS_PER_METER_SPEED = 1;
             }
             public static final Port NAVX = Port.kMXP;
         }

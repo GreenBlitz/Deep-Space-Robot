@@ -45,8 +45,8 @@ public class Chassis extends Subsystem {
         m_rightFront.follow(m_rightLeader);
         m_rightRear.follow(m_rightLeader);
 
-        m_leftEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER, m_leftLeader);
-        m_rightEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER, m_rightLeader);
+        m_leftEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER_POWER, m_leftLeader);
+        m_rightEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER_POWER, m_rightLeader);
         m_navX = new AHRS(Sensor.NAVX);
 
         m_localizer = new LocalizerRunner(RobotMap.Chassis.Data.WHEEL_BASE_RADIUS, m_leftEncoder, m_rightEncoder);
@@ -56,7 +56,7 @@ public class Chassis extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new TankDriveByJoytick(OI.getMainJoystick()));
+//        setDefaultCommand(new TankDriveByJoytick(OI.getMainJoystick()));
     }
 
     public void arcadeDrive(double move, double rotate) {
@@ -131,6 +131,8 @@ public class Chassis extends Subsystem {
         SmartDashboard.putNumber("Chassis::Distance", getDistance());
         SmartDashboard.putNumber("Chassis::Angle", getAngle());
         SmartDashboard.putNumberArray("Chassis::Location", getLocation().get());
+        SmartDashboard.putNumber("Chassis::LeftTicks", m_leftEncoder.getRawTicks());
+        SmartDashboard.putNumber("Chassis::RightTicks", m_rightEncoder.getRawTicks());
     }
 
     public Position getLocation() {
