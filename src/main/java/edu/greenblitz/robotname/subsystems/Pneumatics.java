@@ -2,6 +2,7 @@ package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.RobotMap.Pneumatics.Sensor;
+import edu.greenblitz.robotname.commands.simple.pneumatics.HandleCompressor;
 import edu.greenblitz.utils.sensors.PressureSensor;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -108,7 +109,7 @@ public class Pneumatics extends Subsystem {
     }
 
     public void update() {
-        SmartDashboard.putNumber("Pneumatics::Pressure", m_pressureSensor.getPressure());
+        SmartDashboard.putNumber("Pneumatics::Pressure", getPressure());
         SmartDashboard.putBoolean("Pneumatics::Status", isEnabled());
         SmartDashboard.putBoolean("Pneumatics::Limit Switch Status", isGameMode());
     }

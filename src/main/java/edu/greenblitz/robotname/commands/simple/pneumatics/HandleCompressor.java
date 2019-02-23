@@ -13,6 +13,7 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
 
     @Override
     protected void initialize() {
+        system.stop();
         resetTiming(System.currentTimeMillis());
     }
 

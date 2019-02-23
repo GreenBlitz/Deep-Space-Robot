@@ -1,9 +1,10 @@
 package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.data.GeneralState;
-import edu.greenblitz.robotname.data.LocalizerRunner;
 import edu.greenblitz.robotname.data.Report;
-import edu.greenblitz.robotname.subsystems.*;
+import edu.greenblitz.robotname.subsystems.Chassis;
+import edu.greenblitz.robotname.subsystems.Pneumatics;
+import edu.greenblitz.robotname.subsystems.Shifter;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -11,8 +12,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.greenblitz.debug.RemoteGuydeBugger;
-import org.greenblitz.motion.base.Position;
 
 import java.util.function.Supplier;
 
@@ -65,11 +64,11 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit() {
         Scheduler.getInstance().removeAll();
-//        Report.toShuffleboard();
+        Report.toShuffleboard();
 
-//        System.out.println("-----------------------------------------------------");
-//        System.out.println(Report.getTotalReport());
-//        System.out.println("-----------------------------------------------------");
+        System.out.println("-----------------------------------------------------");
+        System.out.println(Report.getTotalReport());
+        System.out.println("-----------------------------------------------------");
     }
 
     private void matchInit() {
@@ -94,6 +93,7 @@ public class Robot extends TimedRobot {
             logger.info("testing...");
             // This is for testing
             matchInit();
+            Shifter.getInstance().toPower();
         }
     }
 

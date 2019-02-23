@@ -9,12 +9,14 @@ package edu.greenblitz.robotname.commands.simple.chassis.vision;
 
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
+import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.wpi.first.wpilibj.command.Command;
 import org.greenblitz.motion.pid.MultivariablePIDController;
 import org.greenblitz.motion.pid.PIDObject;
 import org.greenblitz.motion.tolerance.AbsoluteTolerance;
+import org.greenblitz.motion.tolerance.ITolerance;
 
-public class DriveToVisionTarget extends Command {
+public class DriveToVisionTarget extends SubsystemCommand<Chassis> {
 
     private static final int DRIVE_IDX = 0;
     private static final int TURN_IDX = 1;
@@ -22,16 +24,19 @@ public class DriveToVisionTarget extends Command {
     private static final PIDObject DRIVE = new PIDObject(0, 0, 0);
     private static final PIDObject TURN = new PIDObject(0, 0, 0);
 
+    private static final ITolerance DRIVE_TOL = new AbsoluteTolerance(0.1);
+    private static final ITolerance TURN_TOL  = new AbsoluteTolerance(3);
+
     private MultivariablePIDController m_controller;
 
     private static final long TIME_ON_TARGET = 200;
     private long m_onTarget = -1;
 
     public DriveToVisionTarget() {
-        requires(Chassis.getInstance());
+        super(Chassis.getInstance());
         m_controller = new MultivariablePIDController(2);
-        m_controller.configure(DRIVE_IDX, DRIVE, new AbsoluteTolerance(0.1));
-        m_controller.configure(TURN_IDX, TURN, new AbsoluteTolerance(3));
+        m_controller.configure(DRIVE_IDX, DRIVE, DRIVE_TOL);
+        m_controller.configure(TURN_IDX, TURN, TURN_TOL);
     }
 
     @Override
@@ -54,7 +59,6 @@ public class DriveToVisionTarget extends Command {
                 m_onTarget = System.currentTimeMillis();
             else
                 m_onTarget = -1;
-
     }
 
     @Override
