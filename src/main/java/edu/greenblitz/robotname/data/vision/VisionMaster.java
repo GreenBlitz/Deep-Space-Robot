@@ -3,13 +3,16 @@ package edu.greenblitz.robotname.data.vision;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class VisionMaster {
 
     public enum Algorithm {
         CARGO("send_cargo"),
         TARGETS("send_vision_targets"),
-        HATCH("send_hatch");
+        HATCH("send_hatch"),
+        RAMP("send_ramp");
 
         public final String rawAlgorithmName;
 
@@ -35,8 +38,10 @@ public class VisionMaster {
     private NetworkTable m_visionTable;
     private NetworkTableEntry m_algorithm;
     private NetworkTableEntry m_values;
+    private Logger logger;
 
     public VisionMaster() {
+        logger = LogManager.getLogger(getClass());
         m_visionTable = NetworkTableInstance.getDefault().getTable("vision");
         m_algorithm = m_visionTable.getEntry("algorithm");
         m_values = m_visionTable.getEntry("output");
@@ -47,11 +52,32 @@ public class VisionMaster {
     }
 
     public double[] getCurrentVisionData() {
-        return m_values.getValue().getDoubleArray();
+        var ret = m_values.getValue().getDoubleArray();
+        if (ret.length == 4) {
+            logger.warn("vision returned more than 4 values");
+            return new double[]{0, 0, 0, 0};
+        }
+        return ret;
     }
 
     public StandardVisionData getStandardizedData() {
         return new StandardVisionData(getCurrentVisionData());
+    }
+
+    public double getDistance() {
+        return getStandardizedData().getDistance();
+    }
+
+    public double getPlaneryDistance() {
+        return getStandardizedData().getPlaneryDistance();
+    }
+
+    public double getRelativeAngle() {
+        return getStandardizedData().getRelativeAngle();
+    }
+
+    public double getAngle() {
+        return getStandardizedData().getCenterAngle();
     }
 
     public void getCurrentVisionData(double[] dest) {
