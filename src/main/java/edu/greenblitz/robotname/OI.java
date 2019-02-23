@@ -2,6 +2,8 @@ package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
+import edu.greenblitz.robotname.commands.simple.pneumatics.CompressorOff;
+import edu.greenblitz.robotname.commands.simple.pneumatics.CompressorOn;
 import edu.greenblitz.utils.hid.CustomControlBoard;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import org.greenblitz.motion.base.Position;
@@ -64,6 +66,9 @@ public class OI {
                         new Position(1, 2, 0)),
                 0.8, 0.2, false, 0, 0.5, 1));
         mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
+
+        mainJoystick.X.whenPressed(new CompressorOn(0));
+        mainJoystick.Y.whenPressed(new CompressorOff(0));
     }
 
     public static State getOIState() {

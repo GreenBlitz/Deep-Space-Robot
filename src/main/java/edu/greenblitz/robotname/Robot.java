@@ -83,7 +83,7 @@ public class Robot extends TimedRobot {
         } else {
             // This is for practicing
             matchInit();
-            Shifter.getInstance().toPower();
+            Shifter.getInstance().setShift(Shifter.Gear.POWER);
         }
     }
 

@@ -19,7 +19,7 @@ public class CompressorOff extends SubsystemCommand<Pneumatics> {
 
     @Override
     protected void initialize() {
-        system.stop();
+        system.setCompressor(false);
     }
 
     @Override

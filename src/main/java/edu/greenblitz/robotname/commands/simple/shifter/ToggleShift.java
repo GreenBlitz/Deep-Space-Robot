@@ -4,7 +4,7 @@ import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.greenblitz.robotname.subsystems.Shifter;
 
 /**
- * This command switches the ShifterState from the state it is currently in.
+ * This command switches the Gear from the state it is currently in.
  * This command uses the Shifter subsystem.
  * The command will stop as soon as the shift is switched.
  */

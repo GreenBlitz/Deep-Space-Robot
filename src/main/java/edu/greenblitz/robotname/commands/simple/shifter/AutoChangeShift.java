@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname.commands.simple.shifter;
 
+import edu.greenblitz.robotname.commands.simple.pneumatics.GracefulShifterSwitch;
 import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.robotname.subsystems.Shifter;
@@ -23,17 +24,17 @@ public class AutoChangeShift extends SubsystemCommand<Shifter> {
     @Override
     protected void execute() {
         if (Math.abs(Chassis.getInstance().getVelocity()) > TO_SPEED_THRESHOLD &&
-                system.getCurrentShift() == Shifter.ShifterState.POWER &&
+                system.getCurrentShift() == Shifter.Gear.POWER &&
                 System.currentTimeMillis() - t0 > TIMEOUT) {
-            system.toSpeed();
             t0 = System.currentTimeMillis();
+            new GracefulShifterSwitch(Shifter.Gear.SPEED, 100).start();
         }
 
         if (Math.abs(Chassis.getInstance().getVelocity()) < TO_POWER_THRESHOLD &&
-                system.getCurrentShift() == Shifter.ShifterState.SPEED &&
+                system.getCurrentShift() == Shifter.Gear.SPEED &&
                 System.currentTimeMillis() - t0 > TIMEOUT) {
-            system.toPower();
             t0 = System.currentTimeMillis();
+            new GracefulShifterSwitch(Shifter.Gear.POWER, 100).start();
         }
     }
 

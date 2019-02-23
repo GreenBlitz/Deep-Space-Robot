@@ -11,7 +11,7 @@ public class ToSpeed extends SubsystemCommand<Shifter> {
 
     @Override
     protected void execute() {
-        system.toSpeed();
+        system.setShift(Shifter.Gear.SPEED);
     }
 
     @Override

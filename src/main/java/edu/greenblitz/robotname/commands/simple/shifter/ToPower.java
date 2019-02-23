@@ -11,7 +11,7 @@ public class ToPower extends SubsystemCommand<Shifter> {
 
     @Override
     protected void execute() {
-        system.toPower();
+        system.setShift(Shifter.Gear.POWER);
     }
 
     @Override

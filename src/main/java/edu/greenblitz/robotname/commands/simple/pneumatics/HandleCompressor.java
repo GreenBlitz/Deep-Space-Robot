@@ -13,7 +13,7 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
 
     @Override
     protected void initialize() {
-        system.stop();
+        system.setCompressor(false);
         resetTiming(System.currentTimeMillis());
     }
 
@@ -24,12 +24,12 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
         } else {
             if (system.isGameMode()) {
                 if (system.getPressure() < system.getMinPressureReleased()) {
-                    system.compress();
+                    system.setCompressor(true);
                 } else if (system.getPressure() >= system.getMaxPressureReleased()) {
-                    system.stop();
+                    system.setCompressor(false);
                 }
             } else {
-                system.compress();
+                system.setCompressor(true);
             }
         }
     }
@@ -41,18 +41,10 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
         }
 
         if (time <= lastActivationTime + lastActivationDuration) {
-            system.compress();
+            system.setCompressor(true);
         } else {
-            system.stop();
+            system.setCompressor(false);
         }
-    }
-
-    private void executeHeld() {
-        system.compress();
-    }
-
-    private void executeReleased() {
-        system.stop();
     }
 
     @Override

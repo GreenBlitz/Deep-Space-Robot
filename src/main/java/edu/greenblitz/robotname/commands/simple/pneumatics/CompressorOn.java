@@ -19,7 +19,7 @@ public class CompressorOn extends SubsystemCommand<Pneumatics> {
 
     @Override
     protected void initialize() {
-        system.compress();
+        system.setCompressor(true);
     }
 
     @Override

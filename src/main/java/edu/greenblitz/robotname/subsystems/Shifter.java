@@ -24,9 +24,8 @@ public class Shifter extends Subsystem {
 
     private static Shifter instance;
 
-    private static final long CHASSIS_SLEEP_TIME = 15;
     private DoubleSolenoid m_piston;
-    private ShifterState m_currentShift = ShifterState.POWER;
+    private Gear m_currentShift = Gear.POWER;
     private Logger logger;
 
     /**
@@ -60,13 +59,13 @@ public class Shifter extends Subsystem {
      * POWER - Piston is in a forward state.
      * SPEED - Piston is in a reverse state.
      */
-    public enum ShifterState {
+    public enum Gear {
         POWER(DoubleSolenoid.Value.kForward),
         SPEED(DoubleSolenoid.Value.kReverse);
 
         private DoubleSolenoid.Value m_value;
 
-        ShifterState(DoubleSolenoid.Value value) {
+        Gear(DoubleSolenoid.Value value) {
             m_value = value;
         }
 
@@ -83,36 +82,27 @@ public class Shifter extends Subsystem {
     /**
      * This function sets the state of the piston based on the value received.
      *
-     * @param state A value based off of the ShifterState enum. This value is then set as the state the piston is in.
+     * @param state A value based off of the Gear enum. This value is then set as the state the piston is in.
      */
-    private void setShift(ShifterState state) {
+    public void setShift(Gear state) {
         m_currentShift = state;
         if (m_piston.get() != state.getValue()) {
             Report.pneumaticsUsed(getName());
-            logger.debug("gear: " + state);
+            logger.debug("shifted to {}", state);
         }
         m_piston.set(state.getValue());
-        Chassis.getInstance().sleep(System.currentTimeMillis(), CHASSIS_SLEEP_TIME);
     }
 
     public void toggleShift() {
-        setShift(getCurrentShift() == ShifterState.POWER ? ShifterState.SPEED : ShifterState.POWER);
-    }
-
-    public void toSpeed() {
-        setShift(ShifterState.SPEED);
-    }
-
-    public void toPower() {
-        setShift(ShifterState.POWER);
+        setShift(getCurrentShift() == Gear.POWER ? Gear.SPEED : Gear.POWER);
     }
 
     /**
-     * This function returns the current state of the piston through the ShifterState enum.
+     * This function returns the current state of the piston through the Gear enum.
      *
-     * @return The state of the piston through the ShifterState enum
+     * @return The state of the piston through the Gear enum
      */
-    public ShifterState getCurrentShift() {
+    public Gear getCurrentShift() {
         return m_currentShift;
     }
 

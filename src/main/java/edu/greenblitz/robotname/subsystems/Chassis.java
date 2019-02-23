@@ -3,9 +3,11 @@ package edu.greenblitz.robotname.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.RobotMap.Chassis.Motor;
 import edu.greenblitz.robotname.RobotMap.Chassis.Sensor;
+import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.robotname.data.LocalizerRunner;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.SparkEncoder;
@@ -25,9 +27,6 @@ public class Chassis extends Subsystem {
     private IEncoder m_leftEncoder, m_rightEncoder;
     private AHRS m_navX;
     private LocalizerRunner m_localizer;
-
-    private long m_sleepTime = -1;
-    private long m_sleepLength = -1;
 
     private Chassis() {
         logger = LogManager.getLogger(getClass());
@@ -58,15 +57,15 @@ public class Chassis extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-//        setDefaultCommand(new TankDriveByJoytick(OI.getMainJoystick()));
+        setDefaultCommand(new ArcadeDriveByJoystick(OI.getMainJoystick()));
     }
 
     public void arcadeDrive(double move, double rotate) {
-        drive(move + rotate, move - rotate);
+        setLeftRightMotorOutput(move + rotate, move - rotate);
     }
 
     public void tankDrive(double left, double right) {
-        drive(left, right);
+        setLeftRightMotorOutput(left, right);
     }
 
     public void stop() {
@@ -144,22 +143,7 @@ public class Chassis extends Subsystem {
     public Logger getLogger() {
         return logger;
     }
-
-    public boolean shouldSleep() {
-        var now = System.currentTimeMillis();
-        return m_sleepTime <= now && now <= m_sleepTime + m_sleepLength;
-    }
-
-    public void sleep(long current, long length) {
-        m_sleepLength = length;
-        m_sleepTime = current;
-    }
-
-    private void drive(double l, double r) {
-        if (shouldSleep()) setLeftRightMotorOutput(0, 0);
-        else setLeftRightMotorOutput(l, r);
-    }
-
+    
     private void setLeftRightMotorOutput(double l, double r) {
         m_leftLeader.set(l);
         m_rightLeader.set(r);

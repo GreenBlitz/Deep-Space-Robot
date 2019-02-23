@@ -29,6 +29,7 @@ public class Pneumatics extends Subsystem {
     private PressureSensor m_pressureSensor;
     private Compressor m_compressor;
     private DigitalInput m_switch;
+    private boolean m_activated;
     private Logger logger;
 
     private Pneumatics() {
@@ -37,7 +38,7 @@ public class Pneumatics extends Subsystem {
 
         m_pressureSensor = new PressureSensor(Sensor.PRESSURE);
         m_compressor = new Compressor(RobotMap.Pneumatics.PCM);
-        stop();
+        setCompressor(false);
         m_switch = new DigitalInput(Sensor.SWITCH);
     }
 
@@ -45,22 +46,15 @@ public class Pneumatics extends Subsystem {
         return m_pressureSensor.getPressure();
     }
 
-    private void setCompressor(boolean isActive) {
-        if (isActive) {
-            logger.debug("compressor is activated, at pressure: " + getPressure());
+    public void setCompressor(boolean compress) {
+        if (compress) {
+            if (!isEnabled() && !m_activated) logger.debug("compressor is activated, at pressure: " + getPressure());
             m_compressor.start();
         } else {
-            logger.debug("compressor is de-activated, at pressure: " + getPressure());
+            if (isEnabled() && m_activated) logger.debug("compressor is de-activated, at pressure: " + getPressure());
             m_compressor.stop();
         }
-    }
-
-    public void compress() {
-        setCompressor(true);
-    }
-
-    public void stop() {
-        setCompressor(false);
+        m_activated = compress;
     }
 
     public boolean isEnabled() {
@@ -83,7 +77,6 @@ public class Pneumatics extends Subsystem {
     @Override
     public void initDefaultCommand() {
         setDefaultCommand(new HandleCompressor());
-//        setDefaultCommand(null);
     }
 
     public double getDutyCyclePercent() {
