@@ -30,7 +30,7 @@ public class Shifter extends Subsystem {
      */
     private Shifter() {
         m_piston = new DoubleSolenoid(PCM, Solenoid.FORWARD, Solenoid.REVERSE);
-        logger = LogManager.getLogger();
+        logger = LogManager.getLogger(getClass());
 
         logger.info("instantiated");
     }

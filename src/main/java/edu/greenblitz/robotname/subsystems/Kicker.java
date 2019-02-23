@@ -18,7 +18,7 @@ public class Kicker extends Subsystem {
 
     private Kicker() {
         m_piston = new DoubleSolenoid(2, Solenoid.FORWARD, Solenoid.REVERSE);
-        logger = LogManager.getLogger();
+        logger = LogManager.getLogger(getClass());
 
         logger.info("instantiated");
     }

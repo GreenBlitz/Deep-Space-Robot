@@ -120,7 +120,7 @@ public class Climber {
     private Big m_big;
 
     private Climber() {
-        logger = LogManager.getLogger();
+        logger = LogManager.getLogger(getClass());
         m_extender = new Extender();
         m_wheels = new Wheels();
         m_big = new Big();

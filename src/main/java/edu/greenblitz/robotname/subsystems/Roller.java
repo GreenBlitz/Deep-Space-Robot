@@ -26,7 +26,7 @@ public class Roller extends Subsystem {
     private Roller() {
         m_piston = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
         m_motor = new CANSparkMax(Motor.ROLLER, CANSparkMaxLowLevel.MotorType.kBrushless);
-        logger = LogManager.getLogger();
+        logger = LogManager.getLogger(getClass());
 
         logger.info("instantiated");
     }

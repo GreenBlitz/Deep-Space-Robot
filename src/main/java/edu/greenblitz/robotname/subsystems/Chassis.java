@@ -3,11 +3,9 @@ package edu.greenblitz.robotname.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.RobotMap.Chassis.Motor;
 import edu.greenblitz.robotname.RobotMap.Chassis.Sensor;
-import edu.greenblitz.robotname.commands.simple.chassis.driver.TankDriveByJoytick;
 import edu.greenblitz.robotname.data.LocalizerRunner;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.SparkEncoder;
@@ -29,7 +27,7 @@ public class Chassis extends Subsystem {
     private LocalizerRunner m_localizer;
 
     private Chassis() {
-        logger = LogManager.getLogger();
+        logger = LogManager.getLogger(getClass());
 
         m_leftFront = new CANSparkMax(Motor.Left.TOP, CANSparkMaxLowLevel.MotorType.kBrushless);
         m_leftLeader = new CANSparkMax(Motor.Left.BOTTOM, CANSparkMaxLowLevel.MotorType.kBrushless);

@@ -24,7 +24,7 @@ public class FrontPoker extends Subsystem {
     private FrontPoker() {
         m_holderPiston = new DoubleSolenoid(2, Solenoid.Kicker.FORWARD, Solenoid.Kicker.REVERSE);
         m_extenderPiston = new DoubleSolenoid(2, Solenoid.Extender.FORWARD, Solenoid.Extender.REVERSE);
-        logger = LogManager.getLogger();
+        logger = LogManager.getLogger(getClass());
         logger.info("instantiated");
     }
 

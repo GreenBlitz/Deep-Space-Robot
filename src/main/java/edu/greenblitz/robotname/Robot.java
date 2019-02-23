@@ -40,16 +40,16 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         Chassis.init();
         Shifter.init();
-        Climber.init();
-        Elevator.init();
-        Roller.init();
-        Kicker.init();
-        FrontPoker.init();
+//        Climber.init();
+//        Elevator.init();
+//        Roller.init();
+//        Kicker.init();
+//        FrontPoker.init();
         Pneumatics.init();
 
-        m_state = new GeneralState();
-        m_pdp = new PowerDistributionPanel();
-        Report.init();
+//        m_state = new GeneralState();
+//        m_pdp = new PowerDistributionPanel();
+//        Report.init();
 
         OI.init();
     }
@@ -57,17 +57,17 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit() {
         Scheduler.getInstance().removeAll();
-        Report.toShuffleboard();
+//        Report.toShuffleboard();
 
         System.out.println("-----------------------------------------------------");
-        System.out.println(Report.getTotalReport());
+//        System.out.println(Report.getTotalReport());
         System.out.println("-----------------------------------------------------");
     }
 
     private void matchInit() {
         Scheduler.getInstance().removeAll();
         reset();
-        Report.voltageAtInit(m_pdp.getVoltage());
+//        Report.voltageAtInit(m_pdp.getVoltage());
     }
 
     @Override
@@ -104,22 +104,22 @@ public class Robot extends TimedRobot {
     private void updateSubsystems() {
         Chassis.getInstance().update();
         Shifter.getInstance().update();
-        Climber.getInstance().update();
-        Elevator.getInstance().update();
-        Roller.getInstance().update();
-        Kicker.getInstance().update();
-        FrontPoker.getInstance().update();
+//        Climber.getInstance().update();
+//        Elevator.getInstance().update();
+//        Roller.getInstance().update();
+//        Kicker.getInstance().update();
+//        FrontPoker.getInstance().update();
         Pneumatics.getInstance().update();
 
         OI.update();
-        m_state.update();
+//        m_state.update();
     }
 
     private void reset() {
         Chassis.getInstance().reset();
-        Elevator.getInstance().reset();
+//        Elevator.getInstance().reset();
 
-        Report.reset();
+//        Report.reset();
         m_state.reset();
     }
 

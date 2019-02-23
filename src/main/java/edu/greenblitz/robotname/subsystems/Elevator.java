@@ -93,7 +93,7 @@ public class Elevator extends Subsystem {
         m_braker = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
         m_infrared = new DigitalInput(RobotMap.Roller.Sensor.INFRARED);
         m_limitSwitch = new DigitalInput(RobotMap.Roller.Sensor.LIMIT_SWITCH);
-        logger = LogManager.getLogger();
+        logger = LogManager.getLogger(getClass());
         logger.info("instantiated");
     }
 

@@ -31,7 +31,7 @@ public class Pneumatics extends Subsystem {
     private Logger logger;
 
     private Pneumatics() {
-        logger = LogManager.getLogger();
+        logger = LogManager.getLogger(getClass());
         logger.info("instantiated");
 
         m_pressureSensor = new PressureSensor(Sensor.PRESSURE);
