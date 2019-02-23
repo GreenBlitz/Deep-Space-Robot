@@ -1,6 +1,7 @@
 package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.robotname.RobotMap.Shifter.Solenoid;
+import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.robotname.data.Report;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -20,7 +21,10 @@ import static edu.greenblitz.robotname.RobotMap.Shifter.PCM;
  */
 
 public class Shifter extends Subsystem {
+
     private static Shifter instance;
+
+    private static final long CHASSIS_SLEEP_TIME = 15;
     private DoubleSolenoid m_piston;
     private ShifterState m_currentShift = ShifterState.POWER;
     private Logger logger;
@@ -88,6 +92,7 @@ public class Shifter extends Subsystem {
             logger.debug("gear: " + state);
         }
         m_piston.set(state.getValue());
+        Chassis.getInstance().sleep(System.currentTimeMillis(), CHASSIS_SLEEP_TIME);
     }
 
     public void toggleShift() {
@@ -113,7 +118,7 @@ public class Shifter extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(null);
+        setDefaultCommand(new AutoChangeShift());
     }
 
     /**

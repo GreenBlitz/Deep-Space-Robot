@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
 
 //        m_state = new GeneralState();
 //        m_pdp = new PowerDistributionPanel();
-//        Report.init();
+        Report.init();
 
         OI.init();
     }
@@ -57,10 +57,10 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit() {
         Scheduler.getInstance().removeAll();
-//        Report.toShuffleboard();
+        Report.toShuffleboard();
 
         System.out.println("-----------------------------------------------------");
-//        System.out.println(Report.getTotalReport());
+        System.out.println(Report.getTotalReport());
         System.out.println("-----------------------------------------------------");
     }
 
@@ -83,6 +83,7 @@ public class Robot extends TimedRobot {
         } else {
             // This is for practicing
             matchInit();
+            Shifter.getInstance().toPower();
         }
     }
 
@@ -120,7 +121,7 @@ public class Robot extends TimedRobot {
 //        Elevator.getInstance().reset();
 
 //        Report.reset();
-        m_state.reset();
+//        m_state.reset();
     }
 
     public GeneralState getState() {

@@ -66,6 +66,6 @@ public class AlignToVisionTarget extends SubsystemCommand<Chassis> implements PI
 
     @Override
     public double pidGet() {
-        return VisionMaster.getInstance().getStandardizedData().centerAngle;
+        return VisionMaster.getInstance().getStandardizedData().getCenterAngle();
     }
 }

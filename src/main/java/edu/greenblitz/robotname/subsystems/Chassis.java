@@ -26,6 +26,9 @@ public class Chassis extends Subsystem {
     private AHRS m_navX;
     private LocalizerRunner m_localizer;
 
+    private long m_sleepTime = -1;
+    private long m_sleepLength = -1;
+
     private Chassis() {
         logger = LogManager.getLogger(getClass());
 
@@ -59,11 +62,11 @@ public class Chassis extends Subsystem {
     }
 
     public void arcadeDrive(double move, double rotate) {
-        setLeftRightMotorOutput(move + rotate, move - rotate);
+        drive(move + rotate, move - rotate);
     }
 
     public void tankDrive(double left, double right) {
-        setLeftRightMotorOutput(left, right);
+        drive(left, right);
     }
 
     public void stop() {
@@ -140,6 +143,21 @@ public class Chassis extends Subsystem {
 
     public Logger getLogger() {
         return logger;
+    }
+
+    public boolean shouldSleep() {
+        var now = System.currentTimeMillis();
+        return m_sleepTime <= now && now <= m_sleepTime + m_sleepLength;
+    }
+
+    public void sleep(long current, long length) {
+        m_sleepLength = length;
+        m_sleepTime = current;
+    }
+
+    private void drive(double l, double r) {
+        if (shouldSleep()) setLeftRightMotorOutput(0, 0);
+        else setLeftRightMotorOutput(l, r);
     }
 
     private void setLeftRightMotorOutput(double l, double r) {

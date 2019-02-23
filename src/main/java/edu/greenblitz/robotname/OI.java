@@ -1,13 +1,10 @@
 package edu.greenblitz.robotname;
 
+import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
-import edu.greenblitz.robotname.commands.simple.pneumatics.HandleCompressor;
-import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
-import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;
 import edu.greenblitz.utils.hid.CustomControlBoard;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import org.greenblitz.motion.base.Position;
-import org.greenblitz.motion.pathing.BasicAngleInterpolator;
 import org.greenblitz.motion.pathing.Path;
 
 public class OI {
@@ -66,8 +63,7 @@ public class OI {
                         new Position(1, 1.9, 0),
                         new Position(1, 2, 0)),
                 0.8, 0.2, false, 0, 0.5, 1));
-        mainJoystick.X.whenPressed(new ToSpeed());
-        mainJoystick.Y.whenPressed(new ToPower());
+        mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
     }
 
     public static State getOIState() {
