@@ -4,12 +4,15 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+import java.util.logging.LogManager;
+
 public class VisionMaster {
 
     public enum Algorithm {
         CARGO("send_cargo"),
         TARGETS("send_vision_targets"),
-        HATCH("send_hatch");
+        HATCH("send_hatch"),
+        RAMP("send_ramp");
 
         public final String rawAlgorithmName;
 
@@ -47,11 +50,32 @@ public class VisionMaster {
     }
 
     public double[] getCurrentVisionData() {
-        return m_values.getValue().getDoubleArray();
+        var ret = m_values.getValue().getDoubleArray();
+        if (ret.length == 4) {
+            // TODO: error printing
+
+        }
+        return ret.length == 4 ? ret : new double[]{0, 0, 0, 0};
     }
 
     public StandardVisionData getStandardizedData() {
         return new StandardVisionData(getCurrentVisionData());
+    }
+
+    public double getDistance() {
+        return getStandardizedData().getDistance();
+    }
+
+    public double getPlaneryDistance() {
+        return getStandardizedData().getPlaneryDistance();
+    }
+
+    public double getRelativeAngle() {
+        return getStandardizedData().getRelativeAngle();
+    }
+
+    public double getAngle() {
+        return getStandardizedData().getCenterAngle();
     }
 
     public void getCurrentVisionData(double[] dest) {

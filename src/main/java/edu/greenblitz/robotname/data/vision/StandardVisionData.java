@@ -2,30 +2,50 @@ package edu.greenblitz.robotname.data.vision;
 
 public class StandardVisionData {
     /**
-     * X coordinate of the target
+     * X coordinate of the target (horizontal distance)
      */
     public double x;
 
     /**
-     * Y coordinate of the data
+     * Y coordinate of the data (vertical distance)
      */
     public double y;
 
     /**
-     * The angle between the line between the target center and robot center, to the normal to the robot center
+     * Z coordinate of the data (depth)
      */
-    public double centerAngle;
+    public double z;
 
     /**
      * The angle of the target, relative to the robot
      */
     public double angle;
 
-    public StandardVisionData(double x, double y, double centerAngle, double angle) {
+    public StandardVisionData(double x, double y, double z, double angle) {
         this.x = x;
         this.y = y;
-        this.centerAngle = centerAngle;
+        this.z = z;
         this.angle = angle;
+    }
+
+    public double getDistance() {
+        return Math.sqrt(x * x + y * y + z * z);
+    }
+
+    /**
+     *
+     * @return distance to target ignoring y component
+     */
+    public double getPlaneryDistance() {
+        return Math.hypot(x, z);
+    }
+
+    public double getRelativeAngle() {
+        return angle;
+    }
+
+    public double getCenterAngle() {
+        return Math.atan2(z, x);
     }
 
     public StandardVisionData(double[] rawData) {
