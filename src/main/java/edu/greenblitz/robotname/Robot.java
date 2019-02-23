@@ -1,6 +1,7 @@
 package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.data.GeneralState;
+import edu.greenblitz.robotname.data.LocalizerRunner;
 import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.robotname.subsystems.*;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -8,6 +9,10 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.greenblitz.debug.RemoteGuydeBugger;
+import org.greenblitz.motion.base.Position;
 
 import java.util.function.Supplier;
 
@@ -35,10 +40,13 @@ public class Robot extends TimedRobot {
 
     private PowerDistributionPanel m_pdp;
     private GeneralState m_state;
+    private Logger logger;
 
     @Override
     public void robotInit() {
+        logger = LogManager.getLogger(getClass());
         Chassis.init();
+        Chassis.getInstance().startLoclizer();
         Shifter.init();
 //        Climber.init();
 //        Elevator.init();
@@ -49,7 +57,7 @@ public class Robot extends TimedRobot {
 
 //        m_state = new GeneralState();
 //        m_pdp = new PowerDistributionPanel();
-//        Report.init();
+        Report.init();
 
         OI.init();
     }
@@ -59,12 +67,13 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().removeAll();
 //        Report.toShuffleboard();
 
-        System.out.println("-----------------------------------------------------");
+//        System.out.println("-----------------------------------------------------");
 //        System.out.println(Report.getTotalReport());
-        System.out.println("-----------------------------------------------------");
+//        System.out.println("-----------------------------------------------------");
     }
 
     private void matchInit() {
+        Chassis.getInstance().reset();
         Scheduler.getInstance().removeAll();
         reset();
 //        Report.voltageAtInit(m_pdp.getVoltage());
@@ -78,10 +87,12 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         if (DriverStation.getInstance().isFMSAttached()) {
+            logger.info("WERE IN FOR A REAL MATCH BOYS!");
             // This is for a real match
             Scheduler.getInstance().removeAll();
         } else {
-            // This is for practicing
+            logger.info("testing...");
+            // This is for testing
             matchInit();
         }
     }
@@ -120,7 +131,7 @@ public class Robot extends TimedRobot {
 //        Elevator.getInstance().reset();
 
 //        Report.reset();
-        m_state.reset();
+//        m_state.reset();
     }
 
     public GeneralState getState() {

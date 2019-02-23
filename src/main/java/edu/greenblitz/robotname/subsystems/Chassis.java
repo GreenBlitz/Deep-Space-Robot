@@ -49,6 +49,7 @@ public class Chassis extends Subsystem {
         m_navX = new AHRS(Sensor.NAVX);
 
         m_localizer = new LocalizerRunner(RobotMap.Chassis.Data.WHEEL_BASE_RADIUS, m_leftEncoder, m_rightEncoder);
+        m_localizer.disableGyro();
 
         logger.info("instantiated");
     }
@@ -109,6 +110,7 @@ public class Chassis extends Subsystem {
     public void reset() {
         resetNavx();
         resetEncoders();
+        m_localizer.reset();
     }
 
     public void resetNavx() {
@@ -145,5 +147,9 @@ public class Chassis extends Subsystem {
     private void setLeftRightMotorOutput(double l, double r) {
         m_leftLeader.set(l);
         m_rightLeader.set(r);
+    }
+
+    public void startLoclizer(){
+        m_localizer.start();
     }
 }

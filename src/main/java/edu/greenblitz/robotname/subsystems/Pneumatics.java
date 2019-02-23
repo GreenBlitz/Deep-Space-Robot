@@ -29,6 +29,7 @@ public class Pneumatics extends Subsystem {
     private Compressor m_compressor;
     private DigitalInput m_switch;
     private Logger logger;
+    private boolean m_activated;
 
     private Pneumatics() {
         logger = LogManager.getLogger(getClass());
@@ -36,8 +37,8 @@ public class Pneumatics extends Subsystem {
 
         m_pressureSensor = new PressureSensor(Sensor.PRESSURE);
         m_compressor = new Compressor(RobotMap.Pneumatics.PCM);
-        stop();
         m_switch = new DigitalInput(Sensor.SWITCH);
+        stop();
     }
 
     public double getPressure() {
@@ -46,12 +47,13 @@ public class Pneumatics extends Subsystem {
 
     private void setCompressor(boolean isActive) {
         if (isActive) {
-            logger.debug("compressor is activated, at pressure: " + getPressure());
+            if (!isEnabled() && !m_activated) logger.debug("compressor is activated, at pressure: " + getPressure());
             m_compressor.start();
         } else {
-            logger.debug("compressor is de-activated, at pressure: " + getPressure());
+            if (isEnabled() && m_activated) logger.debug("compressor is de-activated, at pressure: " + getPressure());
             m_compressor.stop();
         }
+        m_activated = isActive;
     }
 
     public void compress() {
@@ -81,7 +83,7 @@ public class Pneumatics extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        //setDefaultCommand(new HandleCompressor());
+//        setDefaultCommand(new HandleCompressor());
         setDefaultCommand(null);
     }
 

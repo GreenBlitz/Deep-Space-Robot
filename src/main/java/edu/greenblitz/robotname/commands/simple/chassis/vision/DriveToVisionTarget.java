@@ -44,7 +44,7 @@ public class DriveToVisionTarget extends Command {
     protected void execute() {
         var state = VisionMaster.getInstance().getStandardizedData();
         var inputDrive = Math.hypot(state.x, state.y);
-        var inputTurn = VisionMaster.getInstance().getStandardizedData().centerAngle;
+        var inputTurn = VisionMaster.getInstance().getStandardizedData().getCenterAngle();
         var pidResult = m_controller.calculate(inputDrive, inputTurn);
 
         Chassis.getInstance().arcadeDrive(pidResult[0], pidResult[1]);

@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname.data;
 
+import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.PeriodicRunner;
 import edu.greenblitz.utils.encoder.IEncoder;
@@ -59,11 +60,16 @@ public class LocalizerRunner extends PeriodicRunner {
 
     @Override
     protected void whenActive() {
+        var lTicks = m_leftEncoder.getNormalizedTicks();
+        var rTicks = m_rightEncoder.getNormalizedTicks();
+
         if (useGyro) {
-            m_localizer.update(m_leftEncoder.getNormalizedTicks(), m_rightEncoder.getNormalizedTicks(), -Chassis.getInstance().getAngle());
+            m_localizer.update(lTicks, rTicks, -Chassis.getInstance().getAngle());
         } else {
-            m_localizer.update(m_leftEncoder.getNormalizedTicks(), m_rightEncoder.getNormalizedTicks());
+            m_localizer.update(lTicks, rTicks);
         }
+
+        //System.out.println("left="+lTicks+", right="+rTicks+", dist="+ RobotMap.Chassis.Data.WHEEL_BASE_RADIUS);
     }
 
     @Override
