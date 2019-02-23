@@ -13,9 +13,10 @@ import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.SparkEncoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.greenblitz.motion.base.Position;
 
-import java.util.logging.Logger;
 
 public class Chassis extends Subsystem {
     private static Chassis instance;
@@ -28,7 +29,7 @@ public class Chassis extends Subsystem {
     private LocalizerRunner m_localizer;
 
     private Chassis() {
-        logger = Logger.getLogger("chassis");
+        logger = LogManager.getLogger();
 
         m_leftFront = new CANSparkMax(Motor.Left.TOP, CANSparkMaxLowLevel.MotorType.kBrushless);
         m_leftLeader = new CANSparkMax(Motor.Left.BOTTOM, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -114,13 +115,13 @@ public class Chassis extends Subsystem {
 
     public void resetNavx() {
         m_navX.reset();
-        logger.config("gyro reset");
+        logger.debug("gyro reset");
     }
 
     public void resetEncoders() {
         m_rightEncoder.reset();
         m_leftEncoder.reset();
-        logger.config("encoders reset");
+        logger.debug("encoders reset");
     }
 
     public void update() {

@@ -1,13 +1,12 @@
 package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.robotname.RobotMap.Shifter.Solenoid;
-import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.robotname.data.Report;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static edu.greenblitz.robotname.RobotMap.Shifter.PCM;
 
@@ -21,18 +20,17 @@ import static edu.greenblitz.robotname.RobotMap.Shifter.PCM;
  */
 
 public class Shifter extends Subsystem {
-
-    private static Logger logger = Logger.getLogger("shifter");
-
     private static Shifter instance;
     private DoubleSolenoid m_piston;
     private ShifterState m_currentShift = ShifterState.POWER;
+    private Logger logger;
 
     /**
      * This constructor constructs the piston.
      */
     private Shifter() {
         m_piston = new DoubleSolenoid(PCM, Solenoid.FORWARD, Solenoid.REVERSE);
+        logger = LogManager.getLogger();
 
         logger.info("instantiated");
     }
@@ -87,7 +85,7 @@ public class Shifter extends Subsystem {
         m_currentShift = state;
         if (m_piston.get() != state.getValue()) {
             Report.pneumaticsUsed(getName());
-            logger.fine("gear: " + state);
+            logger.debug("gear: " + state);
         }
         m_piston.set(state.getValue());
     }
@@ -124,5 +122,9 @@ public class Shifter extends Subsystem {
     public void update() {
         SmartDashboard.putString("Shifter::Shift", getCurrentShift().name());
         SmartDashboard.putString("Shifter::Command", getCurrentCommandName());
+    }
+
+    public Logger getLogger() {
+        return logger;
     }
 }

@@ -2,13 +2,14 @@ package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.data.GeneralState;
 import edu.greenblitz.robotname.data.Report;
-import edu.greenblitz.utils.Logging;
-import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.greenblitz.robotname.subsystems.*;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 import java.util.function.Supplier;
-import java.util.logging.Logger;
 
 public class Robot extends TimedRobot {
 
@@ -37,40 +38,36 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        Logging.init();
-        Logger.getLogger("chassis").fine("fine");
-        Logger.getLogger("chassis").info("info");
-        System.out.println("shit logged");
         Chassis.init();
         Shifter.init();
-        //Climber.init();
-        //Elevator.init();
-        //Roller.init();
-        //Kicker.init();
-        //FrontPoker.init();
+        Climber.init();
+        Elevator.init();
+        Roller.init();
+        Kicker.init();
+        FrontPoker.init();
         Pneumatics.init();
 
-        //m_state = new GeneralState();
-        //m_pdp = new PowerDistributionPanel();
-        //Report.init();
+        m_state = new GeneralState();
+        m_pdp = new PowerDistributionPanel();
+        Report.init();
 
-        //OI.init();
+        OI.init();
     }
-    
+
     @Override
     public void disabledInit() {
         Scheduler.getInstance().removeAll();
-        //Report.toShuffleboard();
+        Report.toShuffleboard();
 
         System.out.println("-----------------------------------------------------");
-        //System.out.println(Report.getTotalReport());
+        System.out.println(Report.getTotalReport());
         System.out.println("-----------------------------------------------------");
     }
 
     private void matchInit() {
         Scheduler.getInstance().removeAll();
         reset();
-        //Report.voltageAtInit(m_pdp.getVoltage());
+        Report.voltageAtInit(m_pdp.getVoltage());
     }
 
     @Override
@@ -107,23 +104,23 @@ public class Robot extends TimedRobot {
     private void updateSubsystems() {
         Chassis.getInstance().update();
         Shifter.getInstance().update();
-        //Climber.getInstance().update();
-        //Elevator.getInstance().update();
-        //Roller.getInstance().update();
-        //Kicker.getInstance().update();
-        //FrontPoker.getInstance().update();
+        Climber.getInstance().update();
+        Elevator.getInstance().update();
+        Roller.getInstance().update();
+        Kicker.getInstance().update();
+        FrontPoker.getInstance().update();
         Pneumatics.getInstance().update();
 
-        //OI.update();
-        //m_state.update();
+        OI.update();
+        m_state.update();
     }
 
     private void reset() {
-        //Chassis.getInstance().reset();
-        //Elevator.getInstance().reset();
+        Chassis.getInstance().reset();
+        Elevator.getInstance().reset();
 
-        //Report.reset();
-        //m_state.reset();
+        Report.reset();
+        m_state.reset();
     }
 
     public GeneralState getState() {

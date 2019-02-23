@@ -15,14 +15,12 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static edu.greenblitz.robotname.RobotMap.Elevator.Heights;
 
 public class Elevator extends Subsystem {
-
-    private static Logger logger = Logger.getLogger("elevator");
 
     public interface Level {
         double getHeight();
@@ -85,6 +83,7 @@ public class Elevator extends Subsystem {
     private DoubleSolenoid m_braker;
     private DigitalInput m_infrared, m_limitSwitch;
     private Level m_level;
+    private Logger logger;
 
     private Elevator() {
         m_main = new WPI_TalonSRX(Motor.MAIN);
@@ -94,7 +93,7 @@ public class Elevator extends Subsystem {
         m_braker = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
         m_infrared = new DigitalInput(RobotMap.Roller.Sensor.INFRARED);
         m_limitSwitch = new DigitalInput(RobotMap.Roller.Sensor.LIMIT_SWITCH);
-
+        logger = LogManager.getLogger();
         logger.info("instantiated");
     }
 
@@ -133,9 +132,9 @@ public class Elevator extends Subsystem {
         if (m_braker.get() != value) {
             Report.pneumaticsUsed(getName());
             if (value == Value.kForward) {
-                logger.fine("braking");
+                logger.debug("braking");
             } else {
-                logger.fine("brake released");
+                logger.debug("brake released");
             }
         }
         m_braker.set(value);
@@ -151,13 +150,13 @@ public class Elevator extends Subsystem {
 
     public void setPower(double power) {
         m_main.set(power);
-        logger.finest("power: " + power);
+        logger.trace(power);
     }
 
     public void resetEncoder() {
         m_encoder.reset();
 
-        logger.config("encoders reset");
+        logger.debug("encoders reset");
     }
 
     public void reset() {
@@ -177,7 +176,7 @@ public class Elevator extends Subsystem {
         for (Level level : current) {
             if (Math.abs(getHeight() - level.getHeight()) <= LEVEL_HEIGHT_TOLERANCE) {
                 setLevel(level);
-                logger.fine("level: " + getLevel());
+                logger.debug("level: " + getLevel());
                 return;
             }
         }

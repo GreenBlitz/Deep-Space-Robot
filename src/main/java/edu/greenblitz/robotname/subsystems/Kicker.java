@@ -6,19 +6,19 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.greenblitz.robotname.RobotMap.Kicker.*;
-
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Kicker extends Subsystem {
-
-    private static Logger logger = Logger.getLogger("kicker");
 
     private static Kicker instance;
 
     private DoubleSolenoid m_piston;
+    private Logger logger;
 
     private Kicker() {
         m_piston = new DoubleSolenoid(2, Solenoid.FORWARD, Solenoid.REVERSE);
+        logger = LogManager.getLogger();
 
         logger.info("instantiated");
     }
@@ -42,7 +42,7 @@ public class Kicker extends Subsystem {
         if (m_piston.get() != value) {
             Report.pneumaticsUsed(getName());
             var state = (value == Value.kForward) ? "kicking" : "waiting";
-            logger.fine("state: " + state);
+            logger.debug("state: " + state);
         }
         m_piston.set(value);
     }
@@ -68,7 +68,10 @@ public class Kicker extends Subsystem {
     }
 
     public void update() {
-        SmartDashboard.putString("Kicker::Command", getCurrentCommandName());
-        SmartDashboard.putString("Kicker::State", m_piston.get().name());
+
+    }
+
+    public Logger getLogger() {
+        return logger;
     }
 }
