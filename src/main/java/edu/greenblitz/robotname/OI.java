@@ -35,7 +35,7 @@ public class OI {
                 new Path<>(APPCCommand.getPath("Vis Cargoship1.pf1.csv")),
                 new Position(-3.0734, 1.5, 0),
 
-                0.5, 0.2, false, 0.3, 0.5, 1));
+                0.5, 0.2, false, 0.3, 0.5, .7));
         mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
 
         mainJoystick.X.whenPressed(new CompressorOn(0));

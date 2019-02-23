@@ -108,7 +108,7 @@ public class Shifter extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new AutoChangeShift());
+        //setDefaultCommand(new AutoChangeShift());
     }
 
     /**

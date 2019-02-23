@@ -150,7 +150,7 @@ public class RobotMap {
     }
 
     public static class Pneumatics {
-        public static final int PCM = 22;
+        public static final int PCM = 21;
 
         public static class Sensor {
             public static final int PRESSURE = 3;

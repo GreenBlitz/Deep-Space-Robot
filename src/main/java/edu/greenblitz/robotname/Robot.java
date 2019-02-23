@@ -93,7 +93,8 @@ public class Robot extends TimedRobot {
             logger.info("testing...");
             // This is for testing
             matchInit();
-            Shifter.getInstance().setShift(Shifter.Gear.POWER);
+            // TODO change to Power later
+            Shifter.getInstance().setShift(Shifter.Gear.SPEED);
         }
     }
 

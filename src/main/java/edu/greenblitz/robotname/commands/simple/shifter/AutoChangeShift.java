@@ -8,7 +8,7 @@ import org.greenblitz.motion.app.Localizer;
 
 public class AutoChangeShift extends SubsystemCommand<Shifter> {
 
-    private static final double TO_POWER_THRESHOLD = 2.4,
+    private static final double TO_POWER_THRESHOLD = 1,
             TO_SPEED_THRESHOLD = 2;
     private static final long TIMEOUT = 1000;
     private double t0;
@@ -28,16 +28,18 @@ public class AutoChangeShift extends SubsystemCommand<Shifter> {
                 system.getCurrentShift() == Shifter.Gear.POWER &&
                 System.currentTimeMillis() - t0 > TIMEOUT) {
             t0 = System.currentTimeMillis();
+            Shifter.getInstance().setShift(Shifter.Gear.SPEED);
             Localizer.getInstance().setSleep(50, Chassis.getInstance().getLeftVelocity(), Chassis.getInstance().getRightVelocity());
-            new GracefulShifterSwitch(Shifter.Gear.SPEED, 100).start();
+//            new GracefulShifterSwitch(Shifter.Gear.SPEED, 100).start();
         }
 
         if (Math.abs(Chassis.getInstance().getVelocity()) < TO_POWER_THRESHOLD &&
                 system.getCurrentShift() == Shifter.Gear.SPEED &&
                 System.currentTimeMillis() - t0 > TIMEOUT) {
             t0 = System.currentTimeMillis();
+            Shifter.getInstance().setShift(Shifter.Gear.POWER);
             Localizer.getInstance().setSleep(50, Chassis.getInstance().getLeftVelocity(), Chassis.getInstance().getRightVelocity());
-            new GracefulShifterSwitch(Shifter.Gear.POWER, 100).start();
+//            new GracefulShifterSwitch(Shifter.Gear.POWER, 100).start();
         }
     }
 
