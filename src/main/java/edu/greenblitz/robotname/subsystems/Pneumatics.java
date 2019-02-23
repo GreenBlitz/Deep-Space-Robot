@@ -38,8 +38,8 @@ public class Pneumatics extends Subsystem {
 
         m_pressureSensor = new PressureSensor(Sensor.PRESSURE);
         m_compressor = new Compressor(RobotMap.Pneumatics.PCM);
-        setCompressor(false);
         m_switch = new DigitalInput(Sensor.SWITCH);
+        setCompressor(false);
     }
 
     public double getPressure() {
@@ -54,6 +54,7 @@ public class Pneumatics extends Subsystem {
             if (isEnabled() && m_activated) logger.debug("compressor is de-activated, at pressure: " + getPressure());
             m_compressor.stop();
         }
+
         m_activated = compress;
     }
 

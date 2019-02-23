@@ -2,12 +2,16 @@ package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.data.GeneralState;
 import edu.greenblitz.robotname.data.Report;
-import edu.greenblitz.robotname.subsystems.*;
+import edu.greenblitz.robotname.subsystems.Chassis;
+import edu.greenblitz.robotname.subsystems.Pneumatics;
+import edu.greenblitz.robotname.subsystems.Shifter;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.function.Supplier;
 
@@ -35,10 +39,13 @@ public class Robot extends TimedRobot {
 
     private PowerDistributionPanel m_pdp;
     private GeneralState m_state;
+    private Logger logger;
 
     @Override
     public void robotInit() {
+        logger = LogManager.getLogger(getClass());
         Chassis.init();
+        Chassis.getInstance().startLoclizer();
         Shifter.init();
 //        Climber.init();
 //        Elevator.init();
@@ -65,6 +72,7 @@ public class Robot extends TimedRobot {
     }
 
     private void matchInit() {
+        Chassis.getInstance().reset();
         Scheduler.getInstance().removeAll();
         reset();
 //        Report.voltageAtInit(m_pdp.getVoltage());
@@ -78,10 +86,12 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         if (DriverStation.getInstance().isFMSAttached()) {
+            logger.info("WERE IN FOR A REAL MATCH BOYS!");
             // This is for a real match
             Scheduler.getInstance().removeAll();
         } else {
-            // This is for practicing
+            logger.info("testing...");
+            // This is for testing
             matchInit();
             Shifter.getInstance().setShift(Shifter.Gear.POWER);
         }
