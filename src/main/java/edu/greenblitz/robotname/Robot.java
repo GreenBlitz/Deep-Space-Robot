@@ -130,7 +130,7 @@ public class Robot extends TimedRobot {
         Chassis.getInstance().reset();
 //        Elevator.getInstance().reset();
 
-//        Report.reset();
+        Report.reset();
 //        m_state.reset();
     }
 

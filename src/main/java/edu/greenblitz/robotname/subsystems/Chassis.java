@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.greenblitz.motion.app.Localizer;
 import org.greenblitz.motion.base.Position;
 
 
@@ -48,7 +49,7 @@ public class Chassis extends Subsystem {
 
         m_leftEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER_POWER, m_leftLeader);
         m_rightEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER_POWER, m_rightLeader);
-        m_navX = new AHRS(Sensor.NAVX);
+        //m_navX = new AHRS(Sensor.NAVX);
 
         m_localizer = new LocalizerRunner(RobotMap.Chassis.Data.WHEEL_BASE_RADIUS, m_leftEncoder, m_rightEncoder);
         m_localizer.disableGyro();
@@ -98,7 +99,8 @@ public class Chassis extends Subsystem {
     }
 
     public double getAngle() {
-        return m_navX.getYaw();
+        //return m_navX.getYaw();
+        return 0;
     }
 
     public static void init() {
@@ -116,8 +118,8 @@ public class Chassis extends Subsystem {
     }
 
     public void resetNavx() {
-        m_navX.reset();
-        logger.debug("gyro reset");
+        //m_navX.reset();
+        //logger.debug("gyro reset");
     }
 
     public void resetEncoders() {
@@ -136,6 +138,10 @@ public class Chassis extends Subsystem {
         SmartDashboard.putNumberArray("Chassis::Location", getLocation().get());
         SmartDashboard.putNumber("Chassis::LeftTicks", m_leftEncoder.getRawTicks());
         SmartDashboard.putNumber("Chassis::RightTicks", m_rightEncoder.getRawTicks());
+        SmartDashboard.putNumber("Chassis::x", Localizer.getInstance().getLocation().getX());
+        SmartDashboard.putNumber("Chassis::y", Localizer.getInstance().getLocation().getY());
+        SmartDashboard.putNumber("Chassis::angle", Localizer.getInstance().getLocation().getAngle());
+
     }
 
     public Position getLocation() {

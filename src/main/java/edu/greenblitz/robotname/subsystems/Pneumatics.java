@@ -6,10 +6,13 @@ import edu.greenblitz.robotname.commands.simple.pneumatics.HandleCompressor;
 import edu.greenblitz.utils.sensors.PressureSensor;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import static edu.greenblitz.robotname.RobotMap.Pneumatics.PCM;
 
 public class Pneumatics extends Subsystem {
     private static final double DEFAULT_DUTY_CYCLE_PERCENT = 0.1;
@@ -37,7 +40,7 @@ public class Pneumatics extends Subsystem {
         logger.info("instantiated");
 
         m_pressureSensor = new PressureSensor(Sensor.PRESSURE);
-        m_compressor = new Compressor(RobotMap.Pneumatics.PCM);
+        m_compressor = new Compressor(PCM);
         m_switch = new DigitalInput(Sensor.SWITCH);
         setCompressor(false);
     }
@@ -48,10 +51,10 @@ public class Pneumatics extends Subsystem {
 
     public void setCompressor(boolean compress) {
         if (compress) {
-            if (!isEnabled() && !m_activated) logger.debug("compressor is activated, at pressure: " + getPressure());
+            if (!isEnabled() && !m_activated) logger.debug("compressor is activated, at pressure: {}", getPressure());
             m_compressor.start();
         } else {
-            if (isEnabled() && m_activated) logger.debug("compressor is de-activated, at pressure: " + getPressure());
+            if (isEnabled() && m_activated) logger.debug("compressor is de-activated, at pressure: {}", getPressure());
             m_compressor.stop();
         }
 
@@ -104,5 +107,6 @@ public class Pneumatics extends Subsystem {
         SmartDashboard.putNumber("Pneumatics::Pressure", getPressure());
         SmartDashboard.putBoolean("Pneumatics::Status", isEnabled());
         SmartDashboard.putBoolean("Pneumatics::Limit Switch Status", isGameMode());
+        SmartDashboard.putString("Pneumatics::Command", getCurrentCommandName());
     }
 }

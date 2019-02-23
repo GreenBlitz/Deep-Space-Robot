@@ -27,18 +27,15 @@ public class OI {
         return sideJoystick;
     }
 
-    public static void init() {
+    public static void init () {
         mainJoystick = new SmartJoystick(RobotMap.Joysticks.MAIN);
         sideJoystick = new CustomControlBoard(RobotMap.Joysticks.SIDE);
 
         mainJoystick.A.whenPressed(new APPCCommand(
-                new Path<>(
-                        new Position(0, 0, 0),
-                        new Position(0, 1, 0),
+                new Path<>(APPCCommand.getPath("Vis Cargoship1.pf1.csv")),
+                new Position(-3.0734, 1.5, 0),
 
-                        new Position(1, 1, 0),
-                        new Position(1, 2, 0)),
-                0.8, 0.2, false, 0, 0.5, 1));
+                0.5, 0.2, false, 0.3, 0.5, 1));
         mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
 
         mainJoystick.X.whenPressed(new CompressorOn(0));
