@@ -107,7 +107,7 @@ public class Pneumatics extends Subsystem {
     }
 
     public void update() {
-        SmartDashboard.putNumber("Pneumatics::Pressure", m_pressureSensor.getPressure());
+        SmartDashboard.putNumber("Pneumatics::Pressure", getPressure());
         SmartDashboard.putBoolean("Pneumatics::Status", isEnabled());
         SmartDashboard.putBoolean("Pneumatics::Limit Switch Status", isGameMode());
     }

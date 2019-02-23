@@ -13,6 +13,7 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
 
     @Override
     protected void initialize() {
+        system.stop();
         resetTiming(System.currentTimeMillis());
     }
 
@@ -34,7 +35,6 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
     }
 
     private void executeRestricted() {
-        System.out.println("duty");
         var time = System.currentTimeMillis();
         if (time > lastActivationTime + lastSleepDuration + lastActivationDuration) {
             resetTiming(time);
