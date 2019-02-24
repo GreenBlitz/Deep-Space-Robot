@@ -1,7 +1,11 @@
 package edu.greenblitz.robotname.commands.simple.elevator;
 
-public class MoveElevator extends MoveElevatorByProfiling {
-    public MoveElevator(double height) {
-        super(height);
+import edu.greenblitz.robotname.subsystems.Elevator;
+
+public class MoveElevator extends MoveElevatorByMagic {
+    private static final long TIME_ON_TARGET = 50;
+
+    public MoveElevator(Elevator.Level level) {
+        super(level, Elevator.MAGIC_LOOP_IDX, TIME_ON_TARGET);
     }
 }

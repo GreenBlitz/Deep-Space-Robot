@@ -31,8 +31,7 @@ public class OI {
         return sideJoystick;
     }
 
-    public static void init (
-    ) {
+    public static void init () {
         mainJoystick = new SmartJoystick(RobotMap.Joysticks.MAIN);
         sideJoystick = new CustomControlBoard(RobotMap.Joysticks.SIDE);
 

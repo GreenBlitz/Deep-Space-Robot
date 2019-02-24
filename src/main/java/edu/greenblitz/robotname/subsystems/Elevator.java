@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.RobotMap;
@@ -27,8 +28,10 @@ public class Elevator extends Subsystem {
 
         String name();
 
+        OI.State state();
+
         default boolean greaterThan(Level other) {
-            return getHeight() >= getHeight();
+            return getHeight() >= other.getHeight();
         }
 
         enum Cargo implements Level {
@@ -49,6 +52,11 @@ public class Elevator extends Subsystem {
             @Override
             public double getHeight() {
                 return m_height;
+            }
+
+            @Override
+            public OI.State state() {
+                return OI.State.CARGO;
             }
         }
 
@@ -71,6 +79,11 @@ public class Elevator extends Subsystem {
             public double getHeight() {
                 return m_height;
             }
+
+            @Override
+            public OI.State state() {
+                return OI.State.HATCH;
+            }
         }
     }
 
@@ -78,22 +91,32 @@ public class Elevator extends Subsystem {
 
     private static final double LEVEL_HEIGHT_TOLERANCE = 0.05;
 
-    private WPI_TalonSRX m_main, m_follower;
+    public static final int MAGIC_LOOP_IDX = 0;
+    public static final int POSITION_LOOP_IDX = 1;
+
+    public static final int MAIN_PID_IDX = 0;
+    public static final int AUXILARY_PID_IDX = 1;
+
+    private static final double TICKS_PER_METER = 0;
+
+    private WPI_TalonSRX m_leader, m_follower;
     private IEncoder m_encoder;
-    private DoubleSolenoid m_braker;
+    private DoubleSolenoid m_brake;
     private DigitalInput m_infrared, m_limitSwitch;
     private Level m_level;
     private Logger logger;
 
     private Elevator() {
-        m_main = new WPI_TalonSRX(Motor.MAIN);
+        logger = LogManager.getLogger(getClass());
+
+        m_leader = new WPI_TalonSRX(Motor.MAIN);
         m_follower = new WPI_TalonSRX(Motor.FOLLOWER);
-        m_follower.follow(m_main);
-        m_encoder = new TalonEncoder(Sensor.TICKS_PER_METER, m_main);
-        m_braker = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
+        m_follower.follow(m_leader);
+        m_encoder = new TalonEncoder(Sensor.TICKS_PER_METER, m_leader);
+        m_brake = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
         m_infrared = new DigitalInput(RobotMap.Roller.Sensor.INFRARED);
         m_limitSwitch = new DigitalInput(RobotMap.Roller.Sensor.LIMIT_SWITCH);
-        logger = LogManager.getLogger(getClass());
+
         logger.info("instantiated");
     }
 
@@ -113,6 +136,7 @@ public class Elevator extends Subsystem {
 
     private void setLevel(Level level) {
         m_level = level;
+        logger.debug("current level: " + level);
     }
 
     public Level getLevel() {
@@ -129,7 +153,7 @@ public class Elevator extends Subsystem {
     }
 
     private void setBrakeState(Value value) {
-        if (m_braker.get() != value) {
+        if (m_brake.get() != value) {
             Report.pneumaticsUsed(getName());
             if (value == Value.kForward) {
                 logger.debug("braking");
@@ -137,7 +161,7 @@ public class Elevator extends Subsystem {
                 logger.debug("brake released");
             }
         }
-        m_braker.set(value);
+        m_brake.set(value);
     }
 
     public void brake() {
@@ -148,9 +172,31 @@ public class Elevator extends Subsystem {
         setBrakeState(Value.kReverse);
     }
 
-    public void setPower(double power) {
-        m_main.set(power);
+    public void setRawPower(double power) {
+        m_leader.set(power);
         logger.trace(power);
+    }
+
+    public void stop() {
+        m_leader.stopMotor();
+    }
+
+    public void setMainLoopIdx(int loopIdx) {
+        logger.debug("set main loop index to {}", loopIdx);
+        m_leader.selectProfileSlot(loopIdx, MAIN_PID_IDX);
+    }
+
+    public void setAuxiliaryLoopIdx(int loopIdx) {
+        logger.debug("set auxiliary loop index to {}", loopIdx);
+        m_leader.selectProfileSlot(loopIdx, AUXILARY_PID_IDX);
+    }
+
+    public void setPosition(Level level) {
+        m_leader.set(ControlMode.Position, TICKS_PER_METER * level.getHeight());
+    }
+
+    public void setSmartPosition(Level level) {
+        m_leader.set(ControlMode.MotionMagic, TICKS_PER_METER * level.getHeight());
     }
 
     public void resetEncoder() {
@@ -176,7 +222,6 @@ public class Elevator extends Subsystem {
         for (Level level : current) {
             if (Math.abs(getHeight() - level.getHeight()) <= LEVEL_HEIGHT_TOLERANCE) {
                 setLevel(level);
-                logger.debug("level: " + getLevel());
                 return;
             }
         }
