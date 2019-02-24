@@ -40,7 +40,7 @@ public class OI {
                 new Path<>(APPCCommand.getPath("Vis Cargoship1.pf1.csv")),
                 new Position(-3.0734, 1.5, 0),
 
-                0.6, 0.23, false, 0.2, 0.7, .6));
+                0.6, 0.20, false, 0.2, 0.7, .6));
         mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
 
         mainJoystick.X.whenPressed(new APPCCommand(
@@ -50,7 +50,7 @@ public class OI {
         mainJoystick.Y.whenPressed(new APPCCommand(
                 new Path<>(APPCCommand.getPath("Pure Cargoship3.pf1.csv")),
                 null,
-                0.7, 0.23, false, 0.2, 0.7, .3));
+                0.7, 0.23, false, 0.2, 2, .3));
     }
 
     public static State getOIState() {

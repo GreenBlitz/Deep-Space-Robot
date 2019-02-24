@@ -5,17 +5,17 @@ import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.robotname.subsystems.Pneumatics;
 import edu.greenblitz.robotname.subsystems.Shifter;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.function.Supplier;
 
 public class Robot extends TimedRobot {
+
+    AnalogInput IRSensor = new AnalogInput(3);
 
     private static class RobotSupplier implements Supplier<Robot> {
         private Robot currentRobot;
