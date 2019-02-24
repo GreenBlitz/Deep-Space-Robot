@@ -7,18 +7,15 @@
 
 package edu.greenblitz.robotname.commands.simple.elevator;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.greenblitz.robotname.subsystems.Elevator;
 
-// TODO: motionify
-public class MoveElevatorByProfiling extends Command {
-    private double m_height;
-
-    public MoveElevatorByProfiling(double height) {
-        m_height = height;
+public class MoveElevatorByMagic extends AbstractNativeElevatorMove {
+    public MoveElevatorByMagic(Elevator.Level destination, int loopIdx, long timeOnTarget) {
+        super(destination, loopIdx, timeOnTarget);
     }
 
     @Override
-    protected boolean isFinished() {
-        return false;
+    void startNativeMove() {
+        system.setSmartPosition(m_destination);
     }
 }

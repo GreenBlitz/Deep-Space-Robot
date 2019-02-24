@@ -15,23 +15,21 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 
-public class MoveElevatorByPID extends SubsystemCommand<Elevator> implements PIDSource, PIDOutput {
+public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> implements PIDSource, PIDOutput {
 
-    private static final double CONST = 0.05;
-
-    private static final double kP = 0.5, kI = 0, kD = 0;
+    private static final double kP = 0, kI = 0, kD = 0, kF = 0;
 
     private static int m_timesOnTarget = 0;
     private PIDController m_controller;
 
-    public MoveElevatorByPID(double height) {
+    public MoveElevatorByExternalPID(double height) {
         super(Elevator.getInstance());
-        m_controller = new PIDController(kP, kI, kD, this, this);
+        m_controller = new PIDController(kP, kI, kD, kF, this, this);
         m_controller.setAbsoluteTolerance(0.05);
         m_controller.setSetpoint(height);
     }
 
-    public MoveElevatorByPID(Level level) {
+    public MoveElevatorByExternalPID(Level level) {
         this(level.getHeight());
     }
 
@@ -57,12 +55,12 @@ public class MoveElevatorByPID extends SubsystemCommand<Elevator> implements PID
     @Override
     protected void end() {
         m_controller.disable();
-        system.setPower(0);
+        system.stop();
     }
 
     @Override
     public void pidWrite(double output) {
-        system.setPower(output + CONST);
+        system.setRawPower(output);
     }
 
     @Override

@@ -1,12 +1,10 @@
 package edu.greenblitz.robotname.subsystems;
 
-import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.RobotMap.Pneumatics.Sensor;
 import edu.greenblitz.robotname.commands.simple.pneumatics.HandleCompressor;
 import edu.greenblitz.utils.sensors.PressureSensor;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
