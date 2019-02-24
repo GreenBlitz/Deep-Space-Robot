@@ -47,8 +47,8 @@ public class Chassis extends Subsystem {
         m_rightFront.follow(m_rightLeader);
         m_rightRear.follow(m_rightLeader);
 
-        m_leftEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER_POWER, m_leftLeader);
-        m_rightEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER_POWER, m_rightLeader);
+        m_leftEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER_SPEED, m_leftLeader);
+        m_rightEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER_SPEED, m_rightLeader);
         //m_navX = new AHRS(Sensor.NAVX);
 
         m_localizer = new LocalizerRunner(RobotMap.Chassis.Data.WHEEL_BASE_RADIUS, m_leftEncoder, m_rightEncoder);
@@ -134,13 +134,12 @@ public class Chassis extends Subsystem {
         SmartDashboard.putNumber("Chassis::RightSpeed", m_rightEncoder.getNormalizedVelocity());
         SmartDashboard.putNumber("Chassis::Speed", getVelocity());
         SmartDashboard.putNumber("Chassis::Distance", getDistance());
-        SmartDashboard.putNumber("Chassis::Angle", getAngle());
         SmartDashboard.putNumberArray("Chassis::Location", getLocation().get());
         SmartDashboard.putNumber("Chassis::LeftTicks", m_leftEncoder.getRawTicks());
         SmartDashboard.putNumber("Chassis::RightTicks", m_rightEncoder.getRawTicks());
         SmartDashboard.putNumber("Chassis::x", Localizer.getInstance().getLocation().getX());
         SmartDashboard.putNumber("Chassis::y", Localizer.getInstance().getLocation().getY());
-        SmartDashboard.putNumber("Chassis::angle", Localizer.getInstance().getLocation().getAngle());
+        SmartDashboard.putNumber("Chassis::angle", Math.toDegrees(Localizer.getInstance().getLocation().getAngle()));
 
     }
 

@@ -8,6 +8,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.Level;
 import org.greenblitz.debug.RemoteCSVTarget;
+import org.greenblitz.debug.RemoteGuydeBugger;
 import org.greenblitz.motion.app.AdaptivePurePursuitController;
 import org.greenblitz.motion.app.Localizer;
 import org.greenblitz.motion.base.Point;
@@ -37,9 +38,16 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
 
     @Override
     protected void initialize(){
-        if (startPos != null)
+        if (this.startPos != null)
             Localizer.getInstance().reset(Chassis.getInstance().getLeftDistance(),
-                    Chassis.getInstance().getRightDistance(), startPos);
+                    Chassis.getInstance().getRightDistance(), this.startPos);
+        else
+            Localizer.getInstance().resetEncoders(Chassis.getInstance().getLeftDistance(),
+                    Chassis.getInstance().getRightDistance());
+        system.getLogger().debug("initial: {}, end: {}, current: {}",
+                m_controller.getPath().get(0), m_controller.getPath().getLast(),
+                Localizer.getInstance().getLocation());
+
     }
 
     @Override
@@ -47,8 +55,8 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
         Position loc = system.getLocation();
         var moveValues = m_controller.iteration(loc);
         system.tankDrive(moveValues[0], moveValues[1]);
-        system.getLogger().debug(system.getLocation());
         m_logger.report(loc.getX(), loc.getY());
+        RemoteGuydeBugger.report(loc.getX(), loc.getY(), loc.getAngle());
     }
 
     @Override

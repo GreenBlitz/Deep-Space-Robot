@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
         Pneumatics.init();
 
 //        m_state = new GeneralState();
-//        m_pdp = new PowerDistributionPanel();
+        m_pdp = new PowerDistributionPanel();
         Report.init();
 
         OI.init();
@@ -64,6 +64,7 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit() {
         Scheduler.getInstance().removeAll();
+        Shifter.getInstance().setShift(Shifter.Gear.POWER);
         Report.toShuffleboard();
 
         System.out.println("-----------------------------------------------------");
@@ -75,7 +76,7 @@ public class Robot extends TimedRobot {
         Chassis.getInstance().reset();
         Scheduler.getInstance().removeAll();
         reset();
-//        Report.voltageAtInit(m_pdp.getVoltage());
+        Report.voltageAtInit(m_pdp.getVoltage());
     }
 
     @Override
