@@ -4,6 +4,7 @@ import edu.greenblitz.robotname.data.Report;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.greenblitz.robotname.RobotMap.Kicker.*;
 import org.apache.logging.log4j.LogManager;
@@ -17,14 +18,24 @@ public class Kicker extends Subsystem {
     private Logger logger;
 
     private Kicker() {
-        m_piston = new DoubleSolenoid(2, Solenoid.FORWARD, Solenoid.REVERSE);
         logger = LogManager.getLogger(getClass());
+
+        m_piston = new DoubleSolenoid(2, Solenoid.FORWARD, Solenoid.REVERSE);
+
+        addChild(m_piston);
 
         logger.info("instantiated");
     }
 
     @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addBooleanProperty("state", this::isOpen, null);
+    }
+
+    @Override
     public void initDefaultCommand() {
+        setDefaultCommand(null);
     }
 
     public static void init() {
@@ -65,10 +76,6 @@ public class Kicker extends Subsystem {
 
     public boolean isClosed() {
         return getState() == Value.kReverse;
-    }
-
-    public void update() {
-
     }
 
     public Logger getLogger() {

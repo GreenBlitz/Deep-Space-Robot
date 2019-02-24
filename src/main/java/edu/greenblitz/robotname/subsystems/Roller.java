@@ -9,9 +9,11 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.logging.LogManager;
 
 public class Roller extends Subsystem {
     private static final double ROLL_IN = 0;
@@ -24,11 +26,21 @@ public class Roller extends Subsystem {
     private Logger logger;
 
     private Roller() {
-        m_piston = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
-        m_motor = new CANSparkMax(Motor.ROLLER, CANSparkMaxLowLevel.MotorType.kBrushless);
         logger = LogManager.getLogger(getClass());
 
+        m_piston = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
+        m_motor = new CANSparkMax(Motor.ROLLER, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+        addChild(m_piston);
+        addChild(m_motor);
+
         logger.info("instantiated");
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addBooleanProperty("extender", this::isExtended, null);
     }
 
     private void setExtender(Value value) {
@@ -58,7 +70,6 @@ public class Roller extends Subsystem {
 
     private void setPower(double power) {
         m_motor.set(power);
-        logger.trace(power);
     }
 
     public void rollOut() {
@@ -85,10 +96,5 @@ public class Roller extends Subsystem {
 
     public static Roller getInstance() {
         return instance;
-    }
-
-    public void update() {
-        SmartDashboard.putString("ROLLER::Command", getCurrentCommandName());
-        SmartDashboard.putString("ROLLER::EXTENDER", getExtenderState().name());
     }
 }

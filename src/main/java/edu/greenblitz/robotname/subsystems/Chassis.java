@@ -9,9 +9,12 @@ import edu.greenblitz.robotname.RobotMap.Chassis.Motor;
 import edu.greenblitz.robotname.RobotMap.Chassis.Sensor;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.robotname.data.LocalizerRunner;
+import edu.greenblitz.utils.SendableSparkMax;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.SparkEncoder;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,7 +27,8 @@ public class Chassis extends Subsystem {
 
     private Logger logger;
 
-    private CANSparkMax m_leftFront, m_leftLeader, m_leftRear, m_rightFront, m_rightLeader, m_rightRear;
+    private CANSparkMax m_leftFront, m_leftRear, m_rightFront, m_rightRear;
+    private SendableSparkMax m_leftLeader, m_rightLeader;
     private IEncoder m_leftEncoder, m_rightEncoder;
     private AHRS m_navX;
     private LocalizerRunner m_localizer;
@@ -33,10 +37,10 @@ public class Chassis extends Subsystem {
         logger = LogManager.getLogger(getClass());
 
         m_leftFront = new CANSparkMax(Motor.Left.TOP, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_leftLeader = new CANSparkMax(Motor.Left.BOTTOM, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_leftLeader = new SendableSparkMax(Motor.Left.BOTTOM, CANSparkMaxLowLevel.MotorType.kBrushless);
         m_leftRear = new CANSparkMax(Motor.Left.BACK, CANSparkMaxLowLevel.MotorType.kBrushless);
         m_rightFront = new CANSparkMax(Motor.Right.TOP, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_rightLeader = new CANSparkMax(Motor.Right.BOTTOM, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_rightLeader = new SendableSparkMax(Motor.Right.BOTTOM, CANSparkMaxLowLevel.MotorType.kBrushless);
         m_rightRear = new CANSparkMax(Motor.Right.BACK, CANSparkMaxLowLevel.MotorType.kBrushless);
 
         m_leftFront.follow(m_leftLeader);
@@ -54,7 +58,18 @@ public class Chassis extends Subsystem {
         m_localizer = new LocalizerRunner(RobotMap.Chassis.Data.WHEEL_BASE_RADIUS, m_leftEncoder, m_rightEncoder);
         m_localizer.disableGyro();
 
+        addChild(m_leftLeader);
+        addChild(m_rightLeader);
+        //addChild(m_navX);
+
         logger.info("instantiated");
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addDoubleProperty("left velocity", this::getLeftVelocity, null);
+        builder.addDoubleProperty("right velocity", this::getRightVelocity, null);
     }
 
     @Override
@@ -126,21 +141,6 @@ public class Chassis extends Subsystem {
         m_rightEncoder.reset();
         m_leftEncoder.reset();
         logger.debug("encoders reset");
-    }
-
-    public void update() {
-        SmartDashboard.putString("Chassis::Command", getCurrentCommandName());
-        SmartDashboard.putNumber("Chassis::LeftSpeed", m_leftEncoder.getNormalizedVelocity());
-        SmartDashboard.putNumber("Chassis::RightSpeed", m_rightEncoder.getNormalizedVelocity());
-        SmartDashboard.putNumber("Chassis::Speed", getVelocity());
-        SmartDashboard.putNumber("Chassis::Distance", getDistance());
-        SmartDashboard.putNumberArray("Chassis::Location", getLocation().get());
-        SmartDashboard.putNumber("Chassis::LeftTicks", m_leftEncoder.getRawTicks());
-        SmartDashboard.putNumber("Chassis::RightTicks", m_rightEncoder.getRawTicks());
-        SmartDashboard.putNumber("Chassis::x", Localizer.getInstance().getLocation().getX());
-        SmartDashboard.putNumber("Chassis::y", Localizer.getInstance().getLocation().getY());
-        SmartDashboard.putNumber("Chassis::angle", Math.toDegrees(Localizer.getInstance().getLocation().getAngle()));
-
     }
 
     public Position getLocation() {

@@ -19,19 +19,16 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
 
     @Override
     protected void execute() {
-        if (system.getPressure() > system.getCriticalPressureHeld()) {
-            executeRestricted();
-        } else {
-            if (system.isGameMode()) {
-                if (system.getPressure() < system.getMinPressureReleased()) {
-                    system.setCompressor(true);
-                } else if (system.getPressure() >= system.getMaxPressureReleased()) {
-                    system.setCompressor(false);
-                }
-            } else {
+        if (system.isGameMode()) {
+            if (system.getPressure() < system.getMinPressureReleased()) {
                 system.setCompressor(true);
+            } else if (system.getPressure() >= system.getMaxPressureReleased()) {
+                system.setCompressor(false);
             }
+        } else {
+            system.setCompressor(true);
         }
+
     }
 
     private void executeRestricted() {
@@ -59,7 +56,7 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
         var part = full * percent;
 
         lastActivationTime = t0;
-        lastActivationDuration =  (long) part;
+        lastActivationDuration = (long) part;
         lastSleepDuration = (long) (full - part);
     }
 }

@@ -2,10 +2,11 @@ package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.data.GeneralState;
 import edu.greenblitz.robotname.data.Report;
-import edu.greenblitz.robotname.subsystems.Chassis;
-import edu.greenblitz.robotname.subsystems.Pneumatics;
-import edu.greenblitz.robotname.subsystems.Shifter;
-import edu.wpi.first.wpilibj.*;
+import edu.greenblitz.robotname.subsystems.*;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
@@ -14,8 +15,6 @@ import org.apache.logging.log4j.Logger;
 import java.util.function.Supplier;
 
 public class Robot extends TimedRobot {
-
-    AnalogInput IRSensor = new AnalogInput(3);
 
     private static class RobotSupplier implements Supplier<Robot> {
         private Robot currentRobot;
@@ -45,7 +44,6 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         logger = LogManager.getLogger(getClass());
         Chassis.init();
-        Chassis.getInstance().startLoclizer();
         Shifter.init();
 //        Climber.init();
 //        Elevator.init();
@@ -59,6 +57,20 @@ public class Robot extends TimedRobot {
         Report.init();
 
         OI.init();
+
+        SmartDashboard.putData(Scheduler.getInstance());
+        SmartDashboard.putData(Chassis.getInstance());
+        SmartDashboard.putData(Shifter.getInstance());
+//        SmartDashboard.putData(Climber.getInstance().getBig());
+//        SmartDashboard.putData(Climber.getInstance().getWheels());
+//        SmartDashboard.putData(Climber.getInstance().getExtender());
+//        SmartDashboard.putData(Elevator.getInstance());
+//        SmartDashboard.putData(Roller.getInstance());
+//        SmartDashboard.putData(Kicker.getInstance());
+//        SmartDashboard.putData(FrontPoker.getInstance());
+        SmartDashboard.putData(Pneumatics.getInstance());
+
+        Chassis.getInstance().startLoclizer();
     }
 
     @Override
@@ -101,7 +113,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
-        updateSubsystems();
+        update();
     }
 
     @Override
@@ -114,16 +126,7 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
     }
 
-    private void updateSubsystems() {
-        Chassis.getInstance().update();
-        Shifter.getInstance().update();
-//        Climber.getInstance().update();
-//        Elevator.getInstance().update();
-//        Roller.getInstance().update();
-//        Kicker.getInstance().update();
-//        FrontPoker.getInstance().update();
-        Pneumatics.getInstance().update();
-
+    private void update() {
         OI.update();
 //        m_state.update();
     }

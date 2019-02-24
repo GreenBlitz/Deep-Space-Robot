@@ -6,6 +6,7 @@ import edu.greenblitz.utils.sensors.PressureSensor;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,12 +36,17 @@ public class Pneumatics extends Subsystem {
 
     private Pneumatics() {
         logger = LogManager.getLogger(getClass());
-        logger.info("instantiated");
 
         m_pressureSensor = new PressureSensor(Sensor.PRESSURE);
         m_compressor = new Compressor(PCM);
         m_switch = new DigitalInput(Sensor.SWITCH);
         setCompressor(false);
+
+        addChild(m_pressureSensor);
+        addChild(m_switch);
+        addChild(m_compressor);
+
+        logger.info("instantiated");
     }
 
     public double getPressure() {
@@ -77,6 +83,14 @@ public class Pneumatics extends Subsystem {
     }
 
     @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addDoubleProperty("pressure", this::getPressure, null);
+        builder.addBooleanProperty("status", this::isEnabled, null);
+        builder.addBooleanProperty("limit status", this::isGameMode, null);
+    }
+
+    @Override
     public void initDefaultCommand() {
         setDefaultCommand(new HandleCompressor());
     }
@@ -99,12 +113,5 @@ public class Pneumatics extends Subsystem {
 
     public double getFullDutyCycle() {
         return SmartDashboard.getNumber(SMD_FULL_DUTY_CYCLE, DEFAULT_FULL_DUTY_CYCLE);
-    }
-
-    public void update() {
-        SmartDashboard.putNumber("Pneumatics::Pressure", getPressure());
-        SmartDashboard.putBoolean("Pneumatics::Status", isEnabled());
-        SmartDashboard.putBoolean("Pneumatics::Limit Switch Status", isGameMode());
-        SmartDashboard.putString("Pneumatics::Command", getCurrentCommandName());
     }
 }

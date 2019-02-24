@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -95,7 +96,7 @@ public class Elevator extends Subsystem {
     public static final int POSITION_LOOP_IDX = 1;
 
     public static final int MAIN_PID_IDX = 0;
-    public static final int AUXILARY_PID_IDX = 1;
+    public static final int AUXILIARY_PID_IDX = 1;
 
     private static final double TICKS_PER_METER = 0;
 
@@ -116,6 +117,11 @@ public class Elevator extends Subsystem {
         m_brake = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
         m_infrared = new DigitalInput(RobotMap.Roller.Sensor.INFRARED);
         m_limitSwitch = new DigitalInput(RobotMap.Roller.Sensor.LIMIT_SWITCH);
+
+        addChild(m_leader);
+        addChild(m_brake);
+        addChild(m_infrared);
+        addChild(m_limitSwitch);
 
         logger.info("instantiated");
     }
@@ -152,24 +158,17 @@ public class Elevator extends Subsystem {
         return m_encoder.getNormalizedTicks();
     }
 
-    private void setBrakeState(Value value) {
+    public void brake(boolean state) {
+        var value = state ? Value.kForward : Value.kReverse;
         if (m_brake.get() != value) {
             Report.pneumaticsUsed(getName());
-            if (value == Value.kForward) {
+            if (state) {
                 logger.debug("braking");
             } else {
                 logger.debug("brake released");
             }
         }
         m_brake.set(value);
-    }
-
-    public void brake() {
-        setBrakeState(Value.kForward);
-    }
-
-    public void releaseBrake() {
-        setBrakeState(Value.kReverse);
     }
 
     public void setRawPower(double power) {
@@ -188,7 +187,7 @@ public class Elevator extends Subsystem {
 
     public void setAuxiliaryLoopIdx(int loopIdx) {
         logger.debug("set auxiliary loop index to {}", loopIdx);
-        m_leader.selectProfileSlot(loopIdx, AUXILARY_PID_IDX);
+        m_leader.selectProfileSlot(loopIdx, AUXILIARY_PID_IDX);
     }
 
     public void setPosition(Level level) {
@@ -227,10 +226,14 @@ public class Elevator extends Subsystem {
         }
     }
 
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addDoubleProperty("height", this::getHeight, null);
+        builder.addStringProperty("level", () -> getLevel().name(), null);
+    }
+
     public void update() {
-        SmartDashboard.putString("Elevator::Command", getCurrentCommandName());
-        SmartDashboard.putNumber("Elevator::Height", getHeight());
-        SmartDashboard.putString("Elevator::Level", getLevel().name());
         updateLevel();
     }
 }

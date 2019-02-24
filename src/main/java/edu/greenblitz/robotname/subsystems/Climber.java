@@ -4,8 +4,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.robotname.RobotMap.Climber.Motor;
 import edu.greenblitz.robotname.RobotMap.Climber.Sensor;
+import edu.greenblitz.utils.SendableSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,10 +29,14 @@ public class Climber {
     private Logger logger;
 
     public class Extender extends Subsystem {
-        private CANSparkMax m_extender;
+        private SendableSparkMax m_extender;
 
         private Extender() {
-            m_extender = new CANSparkMax(Motor.EXTENDER, MotorType.kBrushless);
+            super("Climber::Extender");
+
+            m_extender = new SendableSparkMax(Motor.EXTENDER, MotorType.kBrushless, getName());
+            addChild(m_extender);
+
             logger.info("instantiated");
         }
 
@@ -39,12 +45,7 @@ public class Climber {
             setDefaultCommand(null);
         }
 
-        private void update() {
-            SmartDashboard.putString("Climber::Extender::Current Command", getCurrentCommandName());
-        }
-
         public void extend(double power) {
-            logger.trace(power);
             m_extender.set(power);
         }
     }
@@ -53,7 +54,11 @@ public class Climber {
         private WPI_TalonSRX m_wheels;
 
         private Wheels() {
+            super("Climber::Wheels");
             m_wheels = new WPI_TalonSRX(Motor.WHEELS);
+
+            addChild(m_wheels);
+
             logger.info("instantiated");
         }
 
@@ -62,13 +67,8 @@ public class Climber {
             setDefaultCommand(null);
         }
 
-        private void update() {
-            SmartDashboard.putString("Climber::Wheels::Current Command", getCurrentCommandName());
-        }
-
         public void drive(double power) {
             m_wheels.set(power);
-            logger.trace(power);
         }
     }
 
@@ -83,6 +83,9 @@ public class Climber {
             m_limitSwitch = new DigitalInput(Sensor.LIMIT_SWITCH);
 
             m_bigFollower.follow(m_bigLeader);
+
+            addChild(m_bigLeader);
+            addChild(m_limitSwitch);
 
             logger.info("instantiated");
         }
@@ -100,17 +103,18 @@ public class Climber {
             set(power);
         }
 
-        public boolean isActive() {
+        public boolean isAtLimit() {
             return m_limitSwitch.get();
         }
 
-        private void update() {
-            SmartDashboard.putBoolean("Climber::BIG::Limit Switch", isActive());
-            SmartDashboard.putString("Climber::BIG::Current Command", getCurrentCommandName());
+        @Override
+        public void initSendable(SendableBuilder builder) {
+            super.initSendable(builder);
+            builder.addBooleanProperty("limit switch", this::isAtLimit, null);
         }
 
         private void set(double power) {
-            if (isActive()) m_bigLeader.set(power);
+            if (isAtLimit()) m_bigLeader.set(power);
             else m_bigLeader.set(0);
         }
     }
@@ -140,11 +144,5 @@ public class Climber {
 
     public Logger getLogger() {
         return logger;
-    }
-
-    public void update() {
-        m_big.update();
-        m_wheels.update();
-        m_extender.update();
     }
 }
