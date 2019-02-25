@@ -49,7 +49,7 @@ public class StandardVisionData {
     }
 
     public double getCenterAngle() {
-        return Math.atan2(z, x);
+        return Math.atan2(x, z);
     }
 
     public StandardVisionData(double[] rawData) {

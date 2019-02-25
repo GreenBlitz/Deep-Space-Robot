@@ -18,8 +18,8 @@ public class TriggerDriveByVision extends SubsystemCommand<Chassis>  {
     private PIDController m_pid;
 
 
-    private static final double limitUpper = 0.3, limitAbs = 0.06;
-    private static final double kP = 0.2*(2*limitUpper/Math.PI), Ki = 0, Kd = 0;
+    private static final double limitUpper = 0.3, limitAbs = 0.03;
+    private static final double kP = 0.5*(2*limitUpper/Math.PI), Ki = 0, Kd = 0;
 
     public TriggerDriveByVision(){
         super(Chassis.getInstance());
