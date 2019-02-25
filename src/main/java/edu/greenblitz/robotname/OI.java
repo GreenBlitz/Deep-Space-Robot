@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname;
 
+import edu.greenblitz.robotname.commands.simple.chassis.vision.TriggerDriveByVision;
 import edu.greenblitz.utils.hid.CustomControlBoard;
 import edu.greenblitz.utils.hid.SmartJoystick;
 
@@ -24,6 +25,8 @@ public class OI {
     public static void init() {
         mainJoystick = new SmartJoystick(RobotMap.Joysticks.MAIN);
         sideJoystick = new CustomControlBoard(RobotMap.Joysticks.SIDE);
+
+        mainJoystick.A.whenPressed(new TriggerDriveByVision());
     }
 
     public static State getOIState() {

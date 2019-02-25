@@ -1,5 +1,9 @@
 package edu.greenblitz.robotname.data.vision;
 
+import org.greenblitz.motion.base.Position;
+
+import java.awt.*;
+
 public class StandardVisionData {
     /**
      * X coordinate of the target (horizontal distance)

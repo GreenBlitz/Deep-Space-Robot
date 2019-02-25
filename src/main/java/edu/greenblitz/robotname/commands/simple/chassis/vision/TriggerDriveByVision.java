@@ -10,23 +10,27 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import org.greenblitz.motion.pid.PIDController;
 import org.greenblitz.motion.pid.PIDObject;
+import org.greenblitz.motion.tolerance.AbsoluteTolerance;
+import org.opencv.core.Mat;
 
 public class TriggerDriveByVision extends SubsystemCommand<Chassis>  {
 
-    private org.greenblitz.motion.pid.PIDController m_pid;
+    private PIDController m_pid;
 
 
-
-    private static final double kP = 1, Ki = 0, Kd = 0;
+    private static final double limitUpper = 0.3, limitAbs = 0.06;
+    private static final double kP = 0.2*(2*limitUpper/Math.PI), Ki = 0, Kd = 0;
 
     public TriggerDriveByVision(){
         super(Chassis.getInstance());
-        m_pid = new PIDController(new PIDObject(kP,Ki,Kd));
+        m_pid = new PIDController(new PIDObject(kP, Ki, Kd, 0),
+                new AbsoluteTolerance(Math.toRadians(3.0)));
     }
 
     @Override
     protected void initialize(){
-        m_pid.configure(0,0,0,0);
+        m_pid.configure(VisionMaster.getInstance().getStandardizedData().getCenterAngle(),0,
+                -limitUpper, limitUpper, limitAbs);
     }
 
     @Override
@@ -34,27 +38,12 @@ public class TriggerDriveByVision extends SubsystemCommand<Chassis>  {
         return false;
     }
 
-//    @Override
-//    public void pidWrite(double output) {
-//        System.out.println("Wow driving - " + output);
-//        Chassis.getInstance().arcadeDrive(OI.getMainJoystick().getAxisValue(SmartJoystick.Axis.RIGHT_TRIGGER),
-//                                        output);
-//    }
-//
-//    @Override
-//    public void setPIDSourceType(PIDSourceType pidSource) {
-//
-//    }
-//
-//    @Override
-//    public PIDSourceType getPIDSourceType() {
-//        return PIDSourceType.kDisplacement;
-//    }
-//
-//    @Override
-//    public double pidGet() {
-//        double angle = VisionMaster.getInstance().getStandardizedData().getCenterAngle();
-//        System.out.println("NICE ANGLE - " + angle);
-//        return angle;
-//    }
+    @Override
+    protected void execute(){
+        System.out.println("angle = " + Math.toDegrees(VisionMaster.getInstance().getStandardizedData().getCenterAngle()));
+        double output = -m_pid.calculatePID(VisionMaster.getInstance().getStandardizedData().getCenterAngle());
+        Chassis.getInstance().arcadeDrive(OI.getMainJoystick().getAxisValue(SmartJoystick.Axis.RIGHT_TRIGGER),
+                                        output);
+    }
+
 }

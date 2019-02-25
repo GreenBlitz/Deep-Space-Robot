@@ -3,6 +3,7 @@ package edu.greenblitz.robotname.data.vision;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,6 +55,10 @@ public class VisionMaster {
     }
 
     public double[] getCurrentVisionData() {
+        if (m_values.getType() != NetworkTableType.kDoubleArray){
+            logger.warn("vision value not double array");
+            return new double[]{0, 0, 0, 0};
+        }
         var ret = m_values.getValue().getDoubleArray();
         if (ret.length > 4) {
             logger.warn("vision returned more than 4 values");

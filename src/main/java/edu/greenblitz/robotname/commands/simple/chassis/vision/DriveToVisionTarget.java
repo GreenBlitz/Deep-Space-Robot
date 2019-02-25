@@ -35,8 +35,8 @@ public class DriveToVisionTarget extends SubsystemCommand<Chassis> {
     public DriveToVisionTarget() {
         super(Chassis.getInstance());
         m_controller = new MultivariablePIDController(2);
-        m_controller.configure(DRIVE_IDX, DRIVE, DRIVE_TOL);
-        m_controller.configure(TURN_IDX, TURN, TURN_TOL);
+        m_controller.setPIDObject(DRIVE_IDX, DRIVE, DRIVE_TOL);
+        m_controller.setPIDObject(TURN_IDX, TURN, TURN_TOL);
     }
 
     @Override
@@ -48,13 +48,13 @@ public class DriveToVisionTarget extends SubsystemCommand<Chassis> {
     @Override
     protected void execute() {
         var state = VisionMaster.getInstance().getStandardizedData();
-        var inputDrive = Math.hypot(state.x, state.y);
+        var inputDrive = state.getPlaneryDistance();
         var inputTurn = VisionMaster.getInstance().getStandardizedData().getCenterAngle();
         var pidResult = m_controller.calculate(inputDrive, inputTurn);
 
         Chassis.getInstance().arcadeDrive(pidResult[0], pidResult[1]);
 
-        if (m_controller.isFinished())
+        if (m_controller.isFinished(new double[] {inputDrive, inputTurn}))
             if (m_onTarget == -1)
                 m_onTarget = System.currentTimeMillis();
             else
@@ -63,7 +63,11 @@ public class DriveToVisionTarget extends SubsystemCommand<Chassis> {
 
     @Override
     protected boolean isFinished() {
-        return m_controller.isFinished() && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
+        var state = VisionMaster.getInstance().getStandardizedData();
+        var inputDrive = state.getPlaneryDistance();
+        var inputTurn = VisionMaster.getInstance().getStandardizedData().getCenterAngle();
+        var arr = new double[] { inputDrive, inputTurn };
+        return m_controller.isFinished(arr) && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
     }
 
     @Override

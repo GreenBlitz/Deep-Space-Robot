@@ -51,7 +51,7 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 
-    compile 'com.github.GreenBlitz.MotionControl:motion:dev-SNAPSHOT'
+    compile 'com.github.GreenBlitz.MotionControl:motion:37f317a6cdabb7fcd50a21f704f51adfafd295ec'
     compile group: 'com.google.guava', name: 'guava', version: '11.0.2'
 
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.2'
@@ -59,7 +59,7 @@ dependencies {
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
-// in order to make them all available at runtime. Also adding the manifest so WPILib
+// in order to make them all available at runtime. Also adding  the manifest so WPILib
 // knows where to look for our Robot Class.
 jar {
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
