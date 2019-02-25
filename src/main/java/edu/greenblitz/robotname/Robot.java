@@ -43,32 +43,33 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         logger = LogManager.getLogger(getClass());
+        Report.init();
+
         Chassis.init();
-//        Shifter.init();
+        Shifter.init();
 //        Climber.init();
 //        Elevator.init();
 //        Roller.init();
 //        Kicker.init();
-//        FrontPoker.init();
-//        Pneumatics.init();
+        FrontPoker.init();
+        Pneumatics.init();
 
 //        m_state = new GeneralState();
         m_pdp = new PowerDistributionPanel();
-        Report.init();
 
         OI.init();
 
         SmartDashboard.putData(Scheduler.getInstance());
         SmartDashboard.putData(Chassis.getInstance());
-//        SmartDashboard.putData(Shifter.getInstance());
+        SmartDashboard.putData(Shifter.getInstance());
 //        SmartDashboard.putData(Climber.getInstance().getBig());
 //        SmartDashboard.putData(Climber.getInstance().getWheels());
 //        SmartDashboard.putData(Climber.getInstance().getExtender());
 //        SmartDashboard.putData(Elevator.getInstance());
 //        SmartDashboard.putData(Roller.getInstance());
 //        SmartDashboard.putData(Kicker.getInstance());
-//        SmartDashboard.putData(FrontPoker.getInstance());
-//        SmartDashboard.putData(Pneumatics.getInstance());
+        SmartDashboard.putData(FrontPoker.getInstance());
+        SmartDashboard.putData(Pneumatics.getInstance());
 
         Chassis.getInstance().startLoclizer();
     }
@@ -76,7 +77,7 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit() {
         Scheduler.getInstance().removeAll();
-//        Shifter.getInstance().setShift(Shifter.Gear.POWER);
+        Shifter.getInstance().setShift(Shifter.Gear.POWER);
         Report.toShuffleboard();
 
         System.out.println("-----------------------------------------------------");
@@ -107,7 +108,7 @@ public class Robot extends TimedRobot {
             // This is for testing
             matchInit();
             // TODO change to Power later
-//            Shifter.getInstance().setShift(Shifter.Gear.SPEED);
+            Shifter.getInstance().setShift(Shifter.Gear.SPEED);
         }
     }
 

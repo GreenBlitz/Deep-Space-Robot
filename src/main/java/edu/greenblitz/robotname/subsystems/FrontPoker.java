@@ -5,10 +5,11 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.greenblitz.robotname.RobotMap.FrontPoker.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import static edu.greenblitz.robotname.RobotMap.FrontPoker.Solenoid.PCM;
 
 
 public class FrontPoker extends Subsystem {
@@ -17,19 +18,21 @@ public class FrontPoker extends Subsystem {
 
     private DoubleSolenoid m_holderPiston, m_extenderPiston;
 
-    private String m_extenderPistonName = getName() + "::EXTENDER";
-    private String m_kickerPistonName = getName() + "::Kicker";
+    private String m_extenderPistonName = getName() + "::Extender";
+    private String m_holderPistonName = getName() + "::Holder";
 
     private Logger logger;
 
     private FrontPoker() {
         logger = LogManager.getLogger(getClass());
 
-        m_holderPiston = new DoubleSolenoid(2, Solenoid.Kicker.FORWARD, Solenoid.Kicker.REVERSE);
-        m_extenderPiston = new DoubleSolenoid(2, Solenoid.Extender.FORWARD, Solenoid.Extender.REVERSE);
+        m_holderPiston = new DoubleSolenoid(PCM, Solenoid.Holder.FORWARD, Solenoid.Holder.REVERSE);
+//        m_extenderPiston = new DoubleSolenoid(PCM, Solenoid.Extender.FORWARD, Solenoid.Extender.REVERSE);
 
         addChild(m_holderPiston);
-        addChild(m_extenderPiston);
+        m_holderPiston.setName("holder");
+
+//        addChild(m_extenderPiston);
 
         logger.info("instantiated");
     }
@@ -52,8 +55,8 @@ public class FrontPoker extends Subsystem {
 
     public void hold(boolean state) {
         var value = state ? Value.kForward : Value.kReverse;
-        if (m_extenderPiston.get() != value) {
-            Report.pneumaticsUsed(m_kickerPistonName);
+        if (m_holderPiston.get() != value) {
+            Report.pneumaticsUsed(m_holderPistonName);
             logger.debug("holder state: {}", (value == Value.kForward) ? "hold" : "released");
         }
         m_holderPiston.set(value);
@@ -61,7 +64,7 @@ public class FrontPoker extends Subsystem {
 
     public void extend(boolean state) {
         var value = state ? Value.kForward : Value.kReverse;
-        if (m_holderPiston.get() != value) {
+        if (m_extenderPiston.get() != value) {
             Report.pneumaticsUsed(m_extenderPistonName);
             logger.debug("extender state: {}", (value == Value.kForward) ? "extended" : "retracted");
         }
@@ -104,8 +107,8 @@ public class FrontPoker extends Subsystem {
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
-        builder.addStringProperty("kicker", () -> getHolderState().name(), null);
-        builder.addStringProperty("extender", () -> getExtenderState().name(), null);
+        builder.addStringProperty("holder state name", () -> getHolderState().name(), null);
+//        builder.addStringProperty("extender", () -> getExtenderState().name(), null);
     }
 
     public Logger getLogger() {

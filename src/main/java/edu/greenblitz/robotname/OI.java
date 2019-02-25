@@ -1,5 +1,11 @@
 package edu.greenblitz.robotname;
 
+import edu.greenblitz.robotname.commands.simple.pneumatics.CompressorOff;
+import edu.greenblitz.robotname.commands.simple.pneumatics.CompressorOn;
+import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
+import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
+import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
+import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;
 import edu.greenblitz.utils.hid.CustomControlBoard;
 import edu.greenblitz.utils.hid.SmartJoystick;
 
@@ -24,6 +30,11 @@ public class OI {
     public static void init() {
         mainJoystick = new SmartJoystick(RobotMap.Joysticks.MAIN);
         sideJoystick = new CustomControlBoard(RobotMap.Joysticks.SIDE);
+
+        mainJoystick.A.whenPressed(new HoldHatch());
+        mainJoystick.B.whenPressed(new ReleaseHatch());
+        mainJoystick.X.whenPressed(new CompressorOff(0));
+        mainJoystick.Y.whenPressed(new CompressorOn(0));
     }
 
     public static State getOIState() {

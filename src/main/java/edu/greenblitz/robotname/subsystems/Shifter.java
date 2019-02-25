@@ -38,7 +38,7 @@ public class Shifter extends Subsystem {
         m_piston = new DoubleSolenoid(PCM, Solenoid.FORWARD, Solenoid.REVERSE);
 
         addChild(m_piston);
-
+        setShift(Gear.POWER);
         logger.info("instantiated");
     }
 
@@ -112,7 +112,7 @@ public class Shifter extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new AutoChangeShift());
+        setDefaultCommand(null);
     }
 
     @Override

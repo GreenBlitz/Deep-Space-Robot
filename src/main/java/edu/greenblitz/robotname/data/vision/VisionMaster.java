@@ -83,4 +83,8 @@ public class VisionMaster {
     public void getCurrentVisionData(double[] dest) {
         m_values.getDoubleArray(dest);
     }
+
+    public void setVisionAlgorithm(Algorithm algo) {
+        m_visionTable.getEntry("algorithm").setString(algo.getRawName());
+    }
 }

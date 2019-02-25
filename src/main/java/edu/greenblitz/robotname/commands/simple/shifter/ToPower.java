@@ -16,6 +16,6 @@ public class ToPower extends SubsystemCommand<Shifter> {
 
     @Override
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 }

@@ -137,15 +137,17 @@ public class RobotMap {
 
     public static class FrontPoker {
         public static class Solenoid {
-            public static class Kicker {
-                public static final int FORWARD = 0;
-                public static final int REVERSE = 0;
+            public static class Holder {
+                public static final int FORWARD = 4;
+                public static final int REVERSE = 5;
             }
 
             public static class Extender {
                 public static final int FORWARD = 0;
                 public static final int REVERSE = 0;
             }
+
+            public static final int PCM = 21;
         }
     }
 
