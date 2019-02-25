@@ -11,7 +11,7 @@ public class ReleaseHatch extends SubsystemCommand<FrontPoker> {
 
     @Override
     protected void initialize() {
-        system.release();
+        system.hold(false);
     }
 
     @Override

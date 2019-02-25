@@ -19,7 +19,7 @@ public class HoldHatch extends SubsystemCommand<FrontPoker> {
 
     @Override
     protected void execute() {
-        system.hold();
+        system.hold(true);
     }
 
     @Override

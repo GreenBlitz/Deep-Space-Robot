@@ -190,12 +190,12 @@ public class Elevator extends Subsystem {
         m_leader.selectProfileSlot(loopIdx, AUXILIARY_PID_IDX);
     }
 
-    public void setPosition(Level level) {
-        m_leader.set(ControlMode.Position, TICKS_PER_METER * level.getHeight());
+    public void setPosition(double level) {
+        m_leader.set(ControlMode.Position, TICKS_PER_METER * level);
     }
 
-    public void setSmartPosition(Level level) {
-        m_leader.set(ControlMode.MotionMagic, TICKS_PER_METER * level.getHeight());
+    public void setSmartPosition(double level) {
+        m_leader.set(ControlMode.MotionMagic, TICKS_PER_METER * level);
     }
 
     public void resetEncoder() {

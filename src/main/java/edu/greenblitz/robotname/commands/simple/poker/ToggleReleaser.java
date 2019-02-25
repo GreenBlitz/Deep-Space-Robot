@@ -19,7 +19,7 @@ public class ToggleReleaser extends SubsystemCommand<FrontPoker> {
 
     @Override
     protected void execute() {
-        system.toggleHolder();
+        system.hold(system.getHolderState() != Value.kForward);
     }
 
     @Override

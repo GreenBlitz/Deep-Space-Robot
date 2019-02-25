@@ -10,7 +10,7 @@ public class RetractPoker extends SubsystemCommand<FrontPoker> {
 
     @Override
     protected void initialize() {
-        system.retract();
+        system.extend(false);
     }
 
     @Override

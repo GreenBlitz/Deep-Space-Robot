@@ -11,7 +11,7 @@ public class PushFrontPoker extends SubsystemCommand<FrontPoker> {
 
     @Override
     protected void initialize() {
-        system.extend();
+        system.extend(true);
     }
 
     @Override

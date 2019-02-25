@@ -4,13 +4,13 @@ import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.SubsystemCommand;
 
 public abstract class AbstractNativeElevatorMove extends SubsystemCommand<Elevator> {
-    protected final Elevator.Level m_destination;
+    protected final double m_destination;
     private final int m_loopIdx;
     protected final long m_timeOnTarget;
     private long m_firstOnTarget;
 
 
-    public AbstractNativeElevatorMove(Elevator.Level destination, int loopIdx, long timeOnTarget) {
+    public AbstractNativeElevatorMove(double destination, int loopIdx, long timeOnTarget) {
         super(Elevator.getInstance());
         this.m_destination = destination;
         this.m_loopIdx = loopIdx;
@@ -27,7 +27,7 @@ public abstract class AbstractNativeElevatorMove extends SubsystemCommand<Elevat
 
     @Override
     protected final void execute() {
-        if (system.getLevel() == m_destination) {
+        if (system.getHeight() == m_destination) {
             if (m_firstOnTarget == -1) {
                 m_firstOnTarget = System.currentTimeMillis();
             }

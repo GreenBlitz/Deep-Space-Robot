@@ -4,7 +4,7 @@ import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.SubsystemCommand;
 
 public class MoveElevatorByNativePID extends AbstractNativeElevatorMove {
-    public MoveElevatorByNativePID(Elevator.Level destination, int loopIdx, long timeOnTarget) {
+    public MoveElevatorByNativePID(double destination, int loopIdx, long timeOnTarget) {
         super(destination, loopIdx, timeOnTarget);
     }
 

@@ -10,7 +10,7 @@ package edu.greenblitz.robotname.commands.simple.elevator;
 import edu.greenblitz.robotname.subsystems.Elevator;
 
 public class MoveElevatorByMagic extends AbstractNativeElevatorMove {
-    public MoveElevatorByMagic(Elevator.Level destination, int loopIdx, long timeOnTarget) {
+    public MoveElevatorByMagic(double destination, int loopIdx, long timeOnTarget) {
         super(destination, loopIdx, timeOnTarget);
     }
 
