@@ -44,13 +44,13 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         logger = LogManager.getLogger(getClass());
         Chassis.init();
-        Shifter.init();
+//        Shifter.init();
 //        Climber.init();
 //        Elevator.init();
 //        Roller.init();
 //        Kicker.init();
 //        FrontPoker.init();
-        Pneumatics.init();
+//        Pneumatics.init();
 
 //        m_state = new GeneralState();
         m_pdp = new PowerDistributionPanel();
@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putData(Scheduler.getInstance());
         SmartDashboard.putData(Chassis.getInstance());
-        SmartDashboard.putData(Shifter.getInstance());
+//        SmartDashboard.putData(Shifter.getInstance());
 //        SmartDashboard.putData(Climber.getInstance().getBig());
 //        SmartDashboard.putData(Climber.getInstance().getWheels());
 //        SmartDashboard.putData(Climber.getInstance().getExtender());
@@ -68,7 +68,7 @@ public class Robot extends TimedRobot {
 //        SmartDashboard.putData(Roller.getInstance());
 //        SmartDashboard.putData(Kicker.getInstance());
 //        SmartDashboard.putData(FrontPoker.getInstance());
-        SmartDashboard.putData(Pneumatics.getInstance());
+//        SmartDashboard.putData(Pneumatics.getInstance());
 
         Chassis.getInstance().startLoclizer();
     }
@@ -76,7 +76,7 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit() {
         Scheduler.getInstance().removeAll();
-        Shifter.getInstance().setShift(Shifter.Gear.POWER);
+//        Shifter.getInstance().setShift(Shifter.Gear.POWER);
         Report.toShuffleboard();
 
         System.out.println("-----------------------------------------------------");
@@ -107,7 +107,7 @@ public class Robot extends TimedRobot {
             // This is for testing
             matchInit();
             // TODO change to Power later
-            Shifter.getInstance().setShift(Shifter.Gear.SPEED);
+//            Shifter.getInstance().setShift(Shifter.Gear.SPEED);
         }
     }
 
@@ -128,6 +128,7 @@ public class Robot extends TimedRobot {
 
     private void update() {
         OI.update();
+//        Elevator.getInstance().update();
 //        m_state.update();
     }
 

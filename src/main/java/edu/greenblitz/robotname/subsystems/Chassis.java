@@ -8,6 +8,7 @@ import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.RobotMap.Chassis.Motor;
 import edu.greenblitz.robotname.RobotMap.Chassis.Sensor;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
+import edu.greenblitz.robotname.commands.simple.chassis.driver.TankDriveByJoytick;
 import edu.greenblitz.robotname.data.LocalizerRunner;
 import edu.greenblitz.utils.SendableSparkMax;
 import edu.greenblitz.utils.encoder.IEncoder;
@@ -36,17 +37,17 @@ public class Chassis extends Subsystem {
     private Chassis() {
         logger = LogManager.getLogger(getClass());
 
-        m_leftFront = new CANSparkMax(Motor.Left.TOP, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_leftLeader = new SendableSparkMax(Motor.Left.BOTTOM, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_leftRear = new CANSparkMax(Motor.Left.BACK, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_rightFront = new CANSparkMax(Motor.Right.TOP, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_rightLeader = new SendableSparkMax(Motor.Right.BOTTOM, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_rightRear = new CANSparkMax(Motor.Right.BACK, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_leftFront = new CANSparkMax(Motor.Left.FOLLOWER1, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_leftLeader = new SendableSparkMax(Motor.Left.LEADER, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_leftRear = new CANSparkMax(Motor.Left.FOLLOWER2, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_rightFront = new CANSparkMax(Motor.Right.FOLLOWER1, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_rightLeader = new SendableSparkMax(Motor.Right.LEADER, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_rightRear = new CANSparkMax(Motor.Right.FOLLOWER2, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+        m_leftLeader.setInverted(true);
 
         m_leftFront.follow(m_leftLeader);
         m_leftRear.follow(m_leftLeader);
-
-        m_leftLeader.setInverted(true);
 
         m_rightFront.follow(m_rightLeader);
         m_rightRear.follow(m_rightLeader);
