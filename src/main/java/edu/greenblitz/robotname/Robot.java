@@ -2,6 +2,8 @@ package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.data.GeneralState;
 import edu.greenblitz.robotname.data.Report;
+import edu.greenblitz.robotname.data.vision.StandardVisionData;
+import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -69,7 +71,7 @@ public class Robot extends TimedRobot {
 //        SmartDashboard.putData(Kicker.getInstance());
 //        SmartDashboard.putData(FrontPoker.getInstance());
 //        SmartDashboard.putData(Pneumatics.getInstance());
-
+        VisionMaster.init();
         Chassis.getInstance().startLoclizer();
     }
 
@@ -130,6 +132,9 @@ public class Robot extends TimedRobot {
         OI.update();
 //        Elevator.getInstance().update();
 //        m_state.update();
+        StandardVisionData data = VisionMaster.getInstance().getStandardizedData();
+
+        logger.debug("Vision :" + data);
     }
 
     private void reset() {

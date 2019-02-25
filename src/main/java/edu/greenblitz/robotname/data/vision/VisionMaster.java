@@ -6,6 +6,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
+
 public class VisionMaster {
 
     public enum Algorithm {
@@ -53,7 +55,7 @@ public class VisionMaster {
 
     public double[] getCurrentVisionData() {
         var ret = m_values.getValue().getDoubleArray();
-        if (ret.length == 4) {
+        if (ret.length > 4) {
             logger.warn("vision returned more than 4 values");
             return new double[]{0, 0, 0, 0};
         }

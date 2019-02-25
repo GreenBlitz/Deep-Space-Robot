@@ -51,7 +51,7 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 
-    compile 'com.github.GreenBlitz.MotionControl:motion:master-SNAPSHOT'
+    compile 'com.github.GreenBlitz.MotionControl:motion:dev-SNAPSHOT'
     compile group: 'com.google.guava', name: 'guava', version: '11.0.2'
 
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.2'

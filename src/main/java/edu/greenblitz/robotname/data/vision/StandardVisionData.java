@@ -51,4 +51,10 @@ public class StandardVisionData {
     public StandardVisionData(double[] rawData) {
         this(rawData[0], rawData[1], rawData[2], rawData[3]);
     }
+
+    @Override
+    public String toString() {
+
+        return "relative " + String.format("%.4f",getRelativeAngle()) + " center " + String.format("%.4f",getCenterAngle());
+    }
 }

@@ -157,6 +157,11 @@ public class Chassis extends Subsystem {
         m_rightLeader.set(r);
     }
 
+    public void setRampingRate(double timeToTopSpeed){
+        m_leftLeader.setOpenLoopRampRate(timeToTopSpeed);
+        m_rightLeader.setOpenLoopRampRate(timeToTopSpeed);
+    }
+
     public void startLoclizer(){
         m_localizer.start();
     }
