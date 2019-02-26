@@ -19,7 +19,7 @@ public class CustomControlBoard extends GenericHID {
         }
     }
 
-    // The names are cringe. You are more than invited to find better ones. ~ karlo
+    // The names make me cringe. You are more than invited to find better ones. ~ karlo
     public final CustomButton
             BIG_RED, BIG_BLUE, BIG_YELLOW, BIG_GREEN,
             RIGHT_BLACK, RIGHT_WHITE, LEFT_BLACK, LEFT_WHITE,

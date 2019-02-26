@@ -47,14 +47,14 @@ public class Robot extends TimedRobot {
 
         Chassis.init();
         Shifter.init();
-//        Climber.init();
-//        Elevator.init();
-//        Roller.init();
-//        Kicker.init();
+        Climber.init();
+        Elevator.init();
+        Roller.init();
+        Kicker.init();
         FrontPoker.init();
         Pneumatics.init();
 
-//        m_state = new GeneralState();
+        m_state = new GeneralState();
         m_pdp = new PowerDistributionPanel();
 
         OI.init();
@@ -62,12 +62,12 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData(Scheduler.getInstance());
         SmartDashboard.putData(Chassis.getInstance());
         SmartDashboard.putData(Shifter.getInstance());
-//        SmartDashboard.putData(Climber.getInstance().getBig());
-//        SmartDashboard.putData(Climber.getInstance().getWheels());
-//        SmartDashboard.putData(Climber.getInstance().getExtender());
-//        SmartDashboard.putData(Elevator.getInstance());
-//        SmartDashboard.putData(Roller.getInstance());
-//        SmartDashboard.putData(Kicker.getInstance());
+        SmartDashboard.putData(Climber.getInstance().getBig());
+        SmartDashboard.putData(Climber.getInstance().getWheels());
+        SmartDashboard.putData(Climber.getInstance().getExtender());
+        SmartDashboard.putData(Elevator.getInstance());
+        SmartDashboard.putData(Roller.getInstance());
+        SmartDashboard.putData(Kicker.getInstance());
         SmartDashboard.putData(FrontPoker.getInstance());
         SmartDashboard.putData(Pneumatics.getInstance());
 
@@ -129,16 +129,16 @@ public class Robot extends TimedRobot {
 
     private void update() {
         OI.update();
-//        Elevator.getInstance().update();
-//        m_state.update();
+        Elevator.getInstance().update();
+        m_state.update();
     }
 
     private void reset() {
         Chassis.getInstance().reset();
-//        Elevator.getInstance().reset();
+        Elevator.getInstance().reset();
 
         Report.reset();
-//        m_state.reset();
+        m_state.reset();
     }
 
     public GeneralState getState() {

@@ -62,6 +62,7 @@ public class RobotMap {
         public static class Solenoid {
             public static final int FORWARD = 0;
             public static final int REVERSE = 0;
+            public static final int PCM = -1;
         }
 
         public static class Heights {
@@ -107,6 +108,7 @@ public class RobotMap {
         public static class Solenoid {
             public static final int FORWARD = 0;
             public static final int REVERSE = 0;
+            public static final int PCM = 0;
         }
     }
 

@@ -1,10 +1,11 @@
 package edu.greenblitz.robotname.data;
 
-import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.PeriodicRunner;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.wpi.first.wpilibj.DriverStation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.greenblitz.motion.app.Localizer;
 import org.greenblitz.motion.base.Position;
 
@@ -19,6 +20,8 @@ public class LocalizerRunner extends PeriodicRunner {
 
     private boolean m_resetOnDisable = false;
 
+    private Logger logger;
+
     public LocalizerRunner(long period, double wheelBase, IEncoder leftEncoder, IEncoder rightEncoder) {
         super(period);
         m_localizer = Localizer.getInstance();
@@ -28,10 +31,18 @@ public class LocalizerRunner extends PeriodicRunner {
         m_rightEncoder = rightEncoder;
         rightEncoder.reset();
         enableGyro();
+        logger = LogManager.getLogger(getClass());
     }
 
-    public void enableGyro() {useGyro = true;}
-    public void disableGyro() {useGyro = false;}
+    public void enableGyro() {
+        useGyro = true;
+        logger.debug("gyro enabled!");
+    }
+
+    public void disableGyro() {
+        useGyro = false;
+        logger.debug("gyro disabled!");
+    }
 
     public LocalizerRunner(double wheelBase, IEncoder leftEncoder, IEncoder rightEncoder) {
         this(20, wheelBase, leftEncoder, rightEncoder);
@@ -68,8 +79,6 @@ public class LocalizerRunner extends PeriodicRunner {
         } else {
             m_localizer.update(lTicks, rTicks);
         }
-
-        //System.out.println("left="+lTicks+", right="+rTicks+", dist="+ RobotMap.Chassis.Data.WHEEL_BASE_RADIUS);
     }
 
     @Override
@@ -83,6 +92,19 @@ public class LocalizerRunner extends PeriodicRunner {
 
     public void reset() {
         m_localizer.reset(m_leftEncoder.getNormalizedTicks(), m_rightEncoder.getNormalizedTicks());
+        logger.debug("reset!");
+    }
+
+    @Override
+    public void start() {
+        super.start();
+        logger.debug("start!");
+    }
+
+    @Override
+    public void stop() {
+        super.stop();
+        logger.debug("stop!");
     }
 
     public void forceSetLocation(Position location, double currentLeftDistance, double currentRightDistance) {

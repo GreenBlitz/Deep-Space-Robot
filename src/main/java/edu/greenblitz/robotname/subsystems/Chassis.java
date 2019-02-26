@@ -60,7 +60,9 @@ public class Chassis extends Subsystem {
         m_localizer.disableGyro();
 
         addChild(m_leftLeader);
+        m_leftLeader.setName("left");
         addChild(m_rightLeader);
+        m_rightLeader.setName("right");
         //addChild(m_navX);
 
         logger.info("instantiated");

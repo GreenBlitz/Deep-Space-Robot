@@ -27,12 +27,13 @@ public class FrontPoker extends Subsystem {
         logger = LogManager.getLogger(getClass());
 
         m_holderPiston = new DoubleSolenoid(PCM, Solenoid.Holder.FORWARD, Solenoid.Holder.REVERSE);
-//        m_extenderPiston = new DoubleSolenoid(PCM, Solenoid.Extender.FORWARD, Solenoid.Extender.REVERSE);
+        m_extenderPiston = new DoubleSolenoid(PCM, Solenoid.Extender.FORWARD, Solenoid.Extender.REVERSE);
 
         addChild(m_holderPiston);
         m_holderPiston.setName("holder");
 
-//        addChild(m_extenderPiston);
+        addChild(m_extenderPiston);
+        m_holderPiston.setName("extender");
 
         logger.info("instantiated");
     }
@@ -48,8 +49,6 @@ public class FrontPoker extends Subsystem {
     }
 
     public static FrontPoker getInstance() {
-        if (instance == null)
-            init();
         return instance;
     }
 

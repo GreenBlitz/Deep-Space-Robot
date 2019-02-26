@@ -1,6 +1,7 @@
 package edu.greenblitz.robotname.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.RobotMap;
@@ -99,7 +100,8 @@ public class Elevator extends Subsystem {
 
     private static final double TICKS_PER_METER = 0;
 
-    private WPI_TalonSRX m_leader, m_follower;
+    private WPI_TalonSRX m_leader;
+    private TalonSRX m_follower;
     private IEncoder m_encoder;
     private DoubleSolenoid m_brake;
     private DigitalInput m_infrared, m_limitSwitch;
@@ -110,10 +112,10 @@ public class Elevator extends Subsystem {
         logger = LogManager.getLogger(getClass());
 
         m_leader = new WPI_TalonSRX(Motor.MAIN);
-        m_follower = new WPI_TalonSRX(Motor.FOLLOWER);
+        m_follower = new TalonSRX(Motor.FOLLOWER);
         m_follower.follow(m_leader);
         m_encoder = new TalonEncoder(Sensor.TICKS_PER_METER, m_leader);
-        m_brake = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
+        m_brake = new DoubleSolenoid(Solenoid.PCM, Solenoid.FORWARD, Solenoid.REVERSE);
         m_infrared = new DigitalInput(RobotMap.Roller.Sensor.INFRARED);
         m_limitSwitch = new DigitalInput(RobotMap.Roller.Sensor.LIMIT_SWITCH);
 
@@ -172,7 +174,6 @@ public class Elevator extends Subsystem {
 
     public void setRawPower(double power) {
         m_leader.set(power);
-        logger.trace(power);
     }
 
     public void stop() {
@@ -228,7 +229,8 @@ public class Elevator extends Subsystem {
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
-        builder.addDoubleProperty("height", this::getHeight, null);
+        builder.addDoubleProperty("height", this::getHeight, this::setSmartPosition);
+        builder.addDoubleProperty("power", () -> m_leader.get(), this::setRawPower);
         builder.addStringProperty("level", () -> getLevel().name(), null);
     }
 

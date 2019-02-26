@@ -46,7 +46,7 @@ public class Shifter extends Subsystem {
      * This function creates a new instance of this class.
      */
     public static void init() {
-        instance = new Shifter();
+        if (instance == null) instance = new Shifter();
     }
 
     /**

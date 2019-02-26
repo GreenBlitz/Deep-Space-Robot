@@ -20,7 +20,7 @@ public class Kicker extends Subsystem {
     private Kicker() {
         logger = LogManager.getLogger(getClass());
 
-        m_piston = new DoubleSolenoid(2, Solenoid.FORWARD, Solenoid.REVERSE);
+        m_piston = new DoubleSolenoid(Solenoid.PCM, Solenoid.FORWARD, Solenoid.REVERSE);
 
         addChild(m_piston);
 
@@ -39,13 +39,10 @@ public class Kicker extends Subsystem {
     }
 
     public static void init() {
-        if (instance == null)
-            instance = new Kicker();
+        if (instance == null) instance = new Kicker();
     }
 
     public static Kicker getInstance() {
-        if (instance == null)
-            init();
         return instance;
     }
 

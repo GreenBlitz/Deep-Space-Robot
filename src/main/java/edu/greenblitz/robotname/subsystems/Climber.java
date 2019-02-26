@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import edu.greenblitz.robotname.RobotMap.Climber.Motor;
@@ -20,7 +21,7 @@ public class Climber {
     private static Climber instance;
 
     public static void init() {
-        instance = new Climber();
+        if (instance == null) instance = new Climber();
     }
 
     public static Climber getInstance() {
@@ -34,7 +35,7 @@ public class Climber {
         private Extender() {
             super("Climber::Extender");
 
-            m_extender = new SendableSparkMax(Motor.EXTENDER, MotorType.kBrushless, getName());
+            m_extender = new SendableSparkMax(Motor.EXTENDER, MotorType.kBrushless);
             addChild(m_extender);
 
             logger.info("instantiated");
@@ -74,12 +75,12 @@ public class Climber {
 
     public class Big extends Subsystem {
         private WPI_TalonSRX m_bigLeader;
-        private WPI_TalonSRX m_bigFollower;
+        private TalonSRX m_bigFollower;
         private DigitalInput m_limitSwitch;
 
         private Big() {
             m_bigLeader = new WPI_TalonSRX(Motor.BIG_0);
-            m_bigFollower = new WPI_TalonSRX(Motor.BIG_1);
+            m_bigFollower = new TalonSRX(Motor.BIG_1);
             m_limitSwitch = new DigitalInput(Sensor.LIMIT_SWITCH);
 
             m_bigFollower.follow(m_bigLeader);
@@ -115,7 +116,7 @@ public class Climber {
 
         private void set(double power) {
             if (isAtLimit()) m_bigLeader.set(power);
-            else m_bigLeader.set(0);
+            else m_bigLeader.stopMotor();
         }
     }
 
