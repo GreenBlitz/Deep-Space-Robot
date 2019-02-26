@@ -2,6 +2,8 @@ package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.data.GeneralState;
 import edu.greenblitz.robotname.data.Report;
+import edu.greenblitz.robotname.data.vision.StandardVisionData;
+import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -128,7 +130,6 @@ public class Robot extends TimedRobot {
     }
 
     private void update() {
-        OI.update();
         Elevator.getInstance().update();
         m_state.update();
     }

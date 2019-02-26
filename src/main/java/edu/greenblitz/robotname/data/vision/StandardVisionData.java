@@ -1,5 +1,9 @@
 package edu.greenblitz.robotname.data.vision;
 
+import org.greenblitz.motion.base.Position;
+
+import java.awt.*;
+
 public class StandardVisionData {
     /**
      * X coordinate of the target (horizontal distance)
@@ -45,10 +49,16 @@ public class StandardVisionData {
     }
 
     public double getCenterAngle() {
-        return Math.atan2(z, x);
+        return Math.atan2(x, z);
     }
 
     public StandardVisionData(double[] rawData) {
         this(rawData[0], rawData[1], rawData[2], rawData[3]);
+    }
+
+    @Override
+    public String toString() {
+
+        return "relative " + String.format("%.4f",getRelativeAngle()) + " center " + String.format("%.4f",getCenterAngle());
     }
 }

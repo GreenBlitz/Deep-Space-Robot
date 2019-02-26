@@ -6,6 +6,10 @@ import edu.greenblitz.utils.hid.SmartJoystick;
 
 public class ArcadeDriveByJoystick extends Command {
 
+  public static final double SPEED_MULT = 1;
+  public static final double TURN_MULT = 1;
+  public static final double RAMPING_RATE_JOYSTIK = 1;
+
   private SmartJoystick m_joystick;
 
   public ArcadeDriveByJoystick(SmartJoystick joystick) {
@@ -14,9 +18,14 @@ public class ArcadeDriveByJoystick extends Command {
   }
 
   @Override
+  protected void initialize() {
+    Chassis.getInstance().setRampingRate(RAMPING_RATE_JOYSTIK);
+  }
+
+  @Override
   protected void execute() {
-    Chassis.getInstance().arcadeDrive(SmartJoystick.Axis.LEFT_Y.getValue(m_joystick),
-                                      SmartJoystick.Axis.RIGHT_X.getValue(m_joystick));
+    Chassis.getInstance().arcadeDrive(SmartJoystick.Axis.LEFT_Y.getValue(m_joystick) * SPEED_MULT,
+                                      SmartJoystick.Axis.RIGHT_X.getValue(m_joystick) * TURN_MULT);
   }
 
   @Override
@@ -26,6 +35,7 @@ public class ArcadeDriveByJoystick extends Command {
 
   @Override
   protected void end() {
+    Chassis.getInstance().setRampingRate(0);
     Chassis.getInstance().stop();
   }
 }
