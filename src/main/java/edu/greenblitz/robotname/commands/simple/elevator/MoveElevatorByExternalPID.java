@@ -7,26 +7,25 @@
 
 package edu.greenblitz.robotname.commands.simple.elevator;
 
-import edu.greenblitz.robotname.subsystems.Elevator.Level;
 import edu.greenblitz.robotname.subsystems.Elevator;
+import edu.greenblitz.robotname.subsystems.Elevator.Level;
 import edu.greenblitz.utils.command.SubsystemCommand;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
+import org.greenblitz.motion.pid.PIDController;
+import org.greenblitz.motion.pid.PIDObject;
+import org.greenblitz.motion.tolerance.AbsoluteTolerance;
+import org.greenblitz.motion.tolerance.ITolerance;
 
-public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> implements PIDSource, PIDOutput {
+public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
 
-    private static final double kP = 0, kI = 0, kD = 0, kF = 0;
-
+    private static final PIDObject PID_CONFIG = new PIDObject(0, 0, 0, 0);
+    private static final ITolerance TOLERANCE = new AbsoluteTolerance(0);
     private static int m_timesOnTarget = 0;
     private PIDController m_controller;
 
     public MoveElevatorByExternalPID(double height) {
         super(Elevator.getInstance());
-        m_controller = new PIDController(kP, kI, kD, kF, this, this);
-        m_controller.setAbsoluteTolerance(0.05);
-        m_controller.setSetpoint(height);
+        m_controller = new PIDController(PID_CONFIG, TOLERANCE);
+        m_controller.setGoal(height);
     }
 
     public MoveElevatorByExternalPID(Level level) {
@@ -35,13 +34,12 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> implem
 
     @Override
     protected void initialize() {
-        m_controller.enable();
         m_timesOnTarget = 0;
     }
 
     @Override
     protected void execute() {
-        if (m_controller.onTarget())
+        if (m_controller.isFinished())
             m_timesOnTarget++;
         else
             m_timesOnTarget = 0;
@@ -54,26 +52,6 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> implem
 
     @Override
     protected void end() {
-        m_controller.disable();
         system.stop();
-    }
-
-    @Override
-    public void pidWrite(double output) {
-        system.setRawPower(output);
-    }
-
-    @Override
-    public void setPIDSourceType(PIDSourceType pidSource) {
-    }
-
-    @Override
-    public PIDSourceType getPIDSourceType() {
-        return PIDSourceType.kDisplacement;
-    }
-
-    @Override
-    public double pidGet() {
-        return system.getHeight();
     }
 }
