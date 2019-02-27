@@ -156,7 +156,6 @@ public class Chassis extends Subsystem {
     private void setLeftRightMotorOutput(double l, double r) {
         m_leftLeader.set(l);
         m_rightLeader.set(r);
-        System.out.println(l + " " + r);
     }
 
     public void setRampingRate(double timeToTopSpeed){
