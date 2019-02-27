@@ -2,9 +2,11 @@ package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.data.GeneralState;
 import edu.greenblitz.robotname.data.Report;
-import edu.greenblitz.robotname.data.vision.StandardVisionData;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
-import edu.greenblitz.robotname.subsystems.*;
+import edu.greenblitz.robotname.subsystems.FrontPoker;
+import edu.greenblitz.robotname.subsystems.Kicker;
+import edu.greenblitz.robotname.subsystems.Pneumatics;
+import edu.greenblitz.robotname.subsystems.Roller;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -47,39 +49,41 @@ public class Robot extends TimedRobot {
         logger = LogManager.getLogger(getClass());
         Report.init();
 
-        Chassis.init();
-        Shifter.init();
-        Climber.init();
-        Elevator.init();
+//        Chassis.init();
+//        Shifter.init();
+//        Climber.init();
+//        Elevator.init();
         Roller.init();
         Kicker.init();
         FrontPoker.init();
         Pneumatics.init();
 
-        m_state = new GeneralState();
+
+//        m_state = new GeneralState();
         m_pdp = new PowerDistributionPanel();
 
         OI.init();
 
         SmartDashboard.putData(Scheduler.getInstance());
-        SmartDashboard.putData(Chassis.getInstance());
-        SmartDashboard.putData(Shifter.getInstance());
-        SmartDashboard.putData(Climber.getInstance().getBig());
-        SmartDashboard.putData(Climber.getInstance().getWheels());
-        SmartDashboard.putData(Climber.getInstance().getExtender());
-        SmartDashboard.putData(Elevator.getInstance());
+
+//        SmartDashboard.putData(Chassis.getInstance());
+//        SmartDashboard.putData(Shifter.getInstance());
+//        SmartDashboard.putData(Climber.getInstance().getBig());
+//        SmartDashboard.putData(Climber.getInstance().getWheels());
+//        SmartDashboard.putData(Climber.getInstance().getExtender());
+//        SmartDashboard.putData(Elevator.getInstance());
         SmartDashboard.putData(Roller.getInstance());
         SmartDashboard.putData(Kicker.getInstance());
         SmartDashboard.putData(FrontPoker.getInstance());
         SmartDashboard.putData(Pneumatics.getInstance());
 
-        Chassis.getInstance().startLoclizer();
+        VisionMaster.init();
+        // Chassis.getInstance().startLoclizer();
     }
 
     @Override
     public void disabledInit() {
         Scheduler.getInstance().removeAll();
-        Shifter.getInstance().setShift(Shifter.Gear.POWER);
         Report.toShuffleboard();
 
         System.out.println("-----------------------------------------------------");
@@ -88,7 +92,7 @@ public class Robot extends TimedRobot {
     }
 
     private void matchInit() {
-        Chassis.getInstance().reset();
+        // Chassis.getInstance().reset();
         Scheduler.getInstance().removeAll();
         reset();
         Report.voltageAtInit(m_pdp.getVoltage());
@@ -109,8 +113,6 @@ public class Robot extends TimedRobot {
             logger.info("testing...");
             // This is for testing
             matchInit();
-            // TODO change to Power later
-            Shifter.getInstance().setShift(Shifter.Gear.SPEED);
         }
     }
 
@@ -130,16 +132,17 @@ public class Robot extends TimedRobot {
     }
 
     private void update() {
-        Elevator.getInstance().update();
-        m_state.update();
+//        Elevator.getInstance().update();
+//        m_state.update();
+        OI.update();
     }
 
     private void reset() {
-        Chassis.getInstance().reset();
-        Elevator.getInstance().reset();
+//        Chassis.getInstance().reset();
+//        Elevator.getInstance().reset();
 
         Report.reset();
-        m_state.reset();
+//        m_state.reset();
     }
 
     public GeneralState getState() {

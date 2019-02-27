@@ -57,12 +57,18 @@ public class RobotMap {
 
         public static class Sensor {
             public static final int TICKS_PER_METER = 0;
+            public static final int INFRARED = 0;
+            public static final int LIMIT_SWITCH = 0;
         }
 
         public static class Solenoid {
             public static final int FORWARD = 0;
             public static final int REVERSE = 0;
+<<<<<<< HEAD
             public static final int PCM = -1;
+=======
+            public static final int PCM = 0;
+>>>>>>> d17625f7d824c6a005985938feee4b432e8f3bcc
         }
 
         public static class Heights {
@@ -94,19 +100,16 @@ public class RobotMap {
         }
 
         public static class Solenoid {
-            public static final int FORWARD = 0;
-            public static final int REVERSE = 0;
-        }
-
-        public static class Sensor {
-            public static final int INFRARED = 0;
-            public static final int LIMIT_SWITCH = 0;
+            public static final int FORWARD = 6;
+            public static final int REVERSE = 7;
+            public static final int PCM = 21;
         }
     }
 
     public static class Kicker {
         public static class Solenoid {
             public static final int FORWARD = 0;
+<<<<<<< HEAD
             public static final int REVERSE = 0;
             public static final int PCM = 0;
         }
@@ -125,13 +128,17 @@ public class RobotMap {
         public static class Sensor {
             public static final int LOW_SWITCH = 0;
             public static final int HIGH_SWITCH = 0;
+=======
+            public static final int REVERSE = 1;
+            public static final int PCM = 22;
+>>>>>>> d17625f7d824c6a005985938feee4b432e8f3bcc
         }
     }
 
     public static class Shifter {
         public static class Solenoid {
-            public static final int FORWARD = 2;
-            public static final int REVERSE = 3;
+            public static final int FORWARD = 4;
+            public static final int REVERSE = 5;
         }
 
         public static final int PCM = 21;
@@ -140,13 +147,18 @@ public class RobotMap {
     public static class FrontPoker {
         public static class Solenoid {
             public static class Holder {
+<<<<<<< HEAD
                 public static final int FORWARD = 4;
                 public static final int REVERSE = 5;
+=======
+                public static final int FORWARD = 2;
+                public static final int REVERSE = 3;
+>>>>>>> d17625f7d824c6a005985938feee4b432e8f3bcc
             }
 
             public static class Extender {
                 public static final int FORWARD = 0;
-                public static final int REVERSE = 0;
+                public static final int REVERSE = 1;
             }
 
             public static final int PCM = 21;

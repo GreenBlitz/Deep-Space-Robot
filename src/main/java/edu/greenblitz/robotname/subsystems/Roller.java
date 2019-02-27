@@ -27,11 +27,11 @@ public class Roller extends Subsystem {
     private Roller() {
         logger = LogManager.getLogger(getClass());
 
-        m_piston = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
-        m_motor = new CANSparkMax(Motor.ROLLER, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_piston = new DoubleSolenoid(Solenoid.PCM, Solenoid.FORWARD, Solenoid.REVERSE);
+//        m_motor = new CANSparkMax(Motor.ROLLER, CANSparkMaxLowLevel.MotorType.kBrushless);
 
         addChild(m_piston);
-        addChild(m_motor);
+//        addChild(m_motor);
 
         logger.info("instantiated");
     }
@@ -42,21 +42,13 @@ public class Roller extends Subsystem {
         builder.addBooleanProperty("extender", this::isExtended, null);
     }
 
-    private void setExtender(Value value) {
+    public void setExtender(boolean state) {
+        var value = state ? Value.kForward : Value.kReverse;
         if (m_piston.get() != value) {
             Report.pneumaticsUsed(getName());
-            var state = value == Value.kForward ? "extended" : "retracted";
-            logger.debug("state " + state);
+            logger.debug("state: {}", state ? "extended" : "retracted");
         }
         m_piston.set(value);
-    }
-
-    public void extend() {
-        setExtender(Value.kForward);
-    }
-
-    public void retract() {
-        setExtender(Value.kReverse);
     }
 
     public Value getExtenderState() {
@@ -68,7 +60,8 @@ public class Roller extends Subsystem {
     public boolean isRetracted() { return getExtenderState() == Value.kReverse; }
 
     private void setPower(double power) {
-        m_motor.set(power);
+//        m_motor.set(power);
+        throw new UnsupportedOperationException("roller motor isn't connected");
     }
 
     public void rollOut() {

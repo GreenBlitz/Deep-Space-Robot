@@ -46,21 +46,13 @@ public class Kicker extends Subsystem {
         return instance;
     }
 
-    private void setState(Value value) {
+    public void kick(boolean state) {
+        var value = state ? Value.kForward : Value.kReverse;
         if (m_piston.get() != value) {
             Report.pneumaticsUsed(getName());
-            var state = (value == Value.kForward) ? "kicking" : "waiting";
-            logger.debug("state: " + state);
+            logger.debug("state: {}", state ? "kicking" : "unkicking");
         }
         m_piston.set(value);
-    }
-
-    public void kick() {
-        setState(Value.kForward);
-    }
-
-    public void unkick() {
-        setState(Value.kReverse);
     }
 
     public Value getState() {

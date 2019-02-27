@@ -26,8 +26,8 @@ public class FrontPoker extends Subsystem {
     private FrontPoker() {
         logger = LogManager.getLogger(getClass());
 
-        m_holderPiston = new DoubleSolenoid(PCM, Solenoid.Holder.FORWARD, Solenoid.Holder.REVERSE);
-        m_extenderPiston = new DoubleSolenoid(PCM, Solenoid.Extender.FORWARD, Solenoid.Extender.REVERSE);
+        m_holderPiston = new DoubleSolenoid(Solenoid.PCM, Solenoid.Holder.FORWARD, Solenoid.Holder.REVERSE);
+        m_extenderPiston = new DoubleSolenoid(Solenoid.PCM, Solenoid.Extender.FORWARD, Solenoid.Extender.REVERSE);
 
         addChild(m_holderPiston);
         m_holderPiston.setName("holder");
@@ -53,10 +53,10 @@ public class FrontPoker extends Subsystem {
     }
 
     public void hold(boolean state) {
-        var value = state ? Value.kForward : Value.kReverse;
-        if (m_holderPiston.get() != value) {
+        var value = state ? Value.kReverse : Value.kForward;
+        if (m_extenderPiston.get() != value) {
             Report.pneumaticsUsed(m_holderPistonName);
-            logger.debug("holder state: {}", (value == Value.kForward) ? "hold" : "released");
+            logger.debug("holder state: {}", state ? "hold" : "released");
         }
         m_holderPiston.set(value);
     }
@@ -65,8 +65,9 @@ public class FrontPoker extends Subsystem {
         var value = state ? Value.kForward : Value.kReverse;
         if (m_extenderPiston.get() != value) {
             Report.pneumaticsUsed(m_extenderPistonName);
-            logger.debug("extender state: {}", (value == Value.kForward) ? "extended" : "retracted");
+            logger.debug("extender state: {}", state ? "extended" : "retracted");
         }
+        logger.debug("raw extender value: {}", value);
         m_extenderPiston.set(value);
     }
 
@@ -88,19 +89,19 @@ public class FrontPoker extends Subsystem {
     }
 
     public boolean isExtended() {
-        return getExtenderState() == Value.kForward;
+        return !isRetracted();
     }
 
-    public boolean isClosed() {
-        return getHolderState() == Value.kReverse;
+    public boolean isHeld() {
+        return getHolderState() != Value.kReverse;
     }
 
-    public boolean isOpened() {
-        return getHolderState() == Value.kForward;
+    public boolean isReleased() {
+        return !isHeld();
     }
 
     public boolean isFullyClosed() {
-        return isClosed() && isRetracted();
+        return isHeld() && isRetracted();
     }
 
     @Override

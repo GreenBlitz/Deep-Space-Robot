@@ -22,7 +22,6 @@ import org.apache.logging.log4j.Logger;
 import org.greenblitz.motion.app.Localizer;
 import org.greenblitz.motion.base.Position;
 
-
 public class Chassis extends Subsystem {
     private static Chassis instance;
 
