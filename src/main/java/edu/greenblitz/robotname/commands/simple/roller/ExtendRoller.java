@@ -18,7 +18,7 @@ public class ExtendRoller extends SubsystemCommand<Roller> {
 
     @Override
     protected void execute() {
-        system.extend();
+        system.setExtender(true);
     }
 
     @Override

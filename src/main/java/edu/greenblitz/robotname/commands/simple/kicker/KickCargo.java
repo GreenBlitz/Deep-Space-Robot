@@ -19,7 +19,7 @@ public class KickCargo extends SubsystemCommand<Kicker> {
 
     @Override
     protected void execute() {
-        system.kick();
+        system.kick(true);
     }
 
     @Override

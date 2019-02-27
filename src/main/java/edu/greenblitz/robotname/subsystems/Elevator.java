@@ -113,14 +113,14 @@ public class Elevator extends Subsystem {
         m_follower = new WPI_TalonSRX(Motor.FOLLOWER);
         m_follower.follow(m_leader);
         m_encoder = new TalonEncoder(Sensor.TICKS_PER_METER, m_leader);
-        m_brake = new DoubleSolenoid(Solenoid.FORWARD, Solenoid.REVERSE);
-        m_infrared = new DigitalInput(RobotMap.Roller.Sensor.INFRARED);
-        m_limitSwitch = new DigitalInput(RobotMap.Roller.Sensor.LIMIT_SWITCH);
+        m_brake = new DoubleSolenoid(Solenoid.PCM, Solenoid.FORWARD, Solenoid.REVERSE);
+//        m_infrared = new DigitalInput(RobotMap.Elevator.Sensor.INFRARED);
+//        m_limitSwitch = new DigitalInput(RobotMap.Elevator.Sensor.LIMIT_SWITCH);
 
         addChild(m_leader);
         addChild(m_brake);
-        addChild(m_infrared);
-        addChild(m_limitSwitch);
+//        addChild(m_infrared);
+//        addChild(m_limitSwitch);
 
         logger.info("instantiated");
     }
@@ -208,11 +208,13 @@ public class Elevator extends Subsystem {
     }
 
     public boolean isBallFullyIn() {
-        return m_limitSwitch.get();
+        throw new UnsupportedOperationException("sensors aren't connected");
+//        return m_limitSwitch.get();
     }
 
     public boolean isBallIn() {
-        return m_infrared.get();
+        throw new UnsupportedOperationException("sensors aren't connected");
+//        return m_infrared.get();
     }
 
     private void updateLevel() {

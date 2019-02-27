@@ -1,6 +1,11 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.robotname.commands.simple.chassis.vision.TriggerDriveByVision;
+import edu.greenblitz.robotname.commands.simple.kicker.ToggleKicker;
+import edu.greenblitz.robotname.commands.simple.poker.ExtendPoker;
+import edu.greenblitz.robotname.commands.simple.poker.RetractPoker;
+import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
+import edu.greenblitz.robotname.commands.simple.roller.ExtendRoller;
+import edu.greenblitz.robotname.commands.simple.roller.ToggleRoller;
 import edu.greenblitz.utils.hid.CustomControlBoard;
 import edu.greenblitz.utils.hid.SmartJoystick;
 
@@ -26,7 +31,8 @@ public class OI {
         mainJoystick = new SmartJoystick(RobotMap.Joysticks.MAIN);
         sideJoystick = new CustomControlBoard(RobotMap.Joysticks.SIDE);
 
-        mainJoystick.A.whenPressed(new TriggerDriveByVision());
+        mainJoystick.A.whenPressed(new ToggleRoller());
+        mainJoystick.B.whenPressed(new TogglePokerExtender());
     }
 
     public static State getOIState() {

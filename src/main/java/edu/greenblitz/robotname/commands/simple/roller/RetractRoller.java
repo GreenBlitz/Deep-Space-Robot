@@ -17,7 +17,7 @@ public class RetractRoller extends SubsystemCommand<Roller> {
 
     @Override
     protected void execute() {
-        system.retract();
+        system.setExtender(false);
     }
 
     @Override

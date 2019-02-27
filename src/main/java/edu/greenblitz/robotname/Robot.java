@@ -45,14 +45,14 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         logger = LogManager.getLogger(getClass());
-        Chassis.init();
+//        Chassis.init();
 //        Shifter.init();
 //        Climber.init();
 //        Elevator.init();
-//        Roller.init();
-//        Kicker.init();
-//        FrontPoker.init();
-//        Pneumatics.init();
+        Roller.init();
+        Kicker.init();
+        FrontPoker.init();
+        Pneumatics.init();
 
 //        m_state = new GeneralState();
         m_pdp = new PowerDistributionPanel();
@@ -61,24 +61,23 @@ public class Robot extends TimedRobot {
         OI.init();
 
         SmartDashboard.putData(Scheduler.getInstance());
-        SmartDashboard.putData(Chassis.getInstance());
+//        SmartDashboard.putData(Chassis.getInstance());
 //        SmartDashboard.putData(Shifter.getInstance());
 //        SmartDashboard.putData(Climber.getInstance().getBig());
 //        SmartDashboard.putData(Climber.getInstance().getWheels());
 //        SmartDashboard.putData(Climber.getInstance().getExtender());
 //        SmartDashboard.putData(Elevator.getInstance());
-//        SmartDashboard.putData(Roller.getInstance());
-//        SmartDashboard.putData(Kicker.getInstance());
-//        SmartDashboard.putData(FrontPoker.getInstance());
-//        SmartDashboard.putData(Pneumatics.getInstance());
+        SmartDashboard.putData(Roller.getInstance());
+        SmartDashboard.putData(Kicker.getInstance());
+        SmartDashboard.putData(FrontPoker.getInstance());
+        SmartDashboard.putData(Pneumatics.getInstance());
         VisionMaster.init();
-        Chassis.getInstance().startLoclizer();
+        // Chassis.getInstance().startLoclizer();
     }
 
     @Override
     public void disabledInit() {
         Scheduler.getInstance().removeAll();
-//        Shifter.getInstance().setShift(Shifter.Gear.POWER);
         Report.toShuffleboard();
 
         System.out.println("-----------------------------------------------------");
@@ -87,7 +86,7 @@ public class Robot extends TimedRobot {
     }
 
     private void matchInit() {
-        Chassis.getInstance().reset();
+        // Chassis.getInstance().reset();
         Scheduler.getInstance().removeAll();
         reset();
         Report.voltageAtInit(m_pdp.getVoltage());
@@ -108,8 +107,6 @@ public class Robot extends TimedRobot {
             logger.info("testing...");
             // This is for testing
             matchInit();
-            // TODO change to Power later
-//            Shifter.getInstance().setShift(Shifter.Gear.SPEED);
         }
     }
 
@@ -132,13 +129,10 @@ public class Robot extends TimedRobot {
         OI.update();
 //        Elevator.getInstance().update();
 //        m_state.update();
-        StandardVisionData data = VisionMaster.getInstance().getStandardizedData();
-
-        logger.debug("Vision :" + data);
     }
 
     private void reset() {
-        Chassis.getInstance().reset();
+        // Chassis.getInstance().reset();
 //        Elevator.getInstance().reset();
 
         Report.reset();

@@ -18,7 +18,7 @@ public class CloseKicker extends SubsystemCommand<Kicker> {
 
     @Override
     protected void execute() {
-        system.unkick();
+        system.kick(false);
     }
 
     @Override

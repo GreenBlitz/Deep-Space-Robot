@@ -10,7 +10,7 @@ public class EnsureRollerRetracted extends SubsystemCommand<Roller> {
 
     @Override
     protected void initialize() {
-        system.retract();
+        system.setExtender(false);
     }
 
     @Override
