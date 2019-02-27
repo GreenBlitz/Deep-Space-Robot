@@ -2,14 +2,12 @@ package edu.greenblitz.robotname.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.revrobotics.CANSparkMax;
 import edu.greenblitz.robotname.RobotMap.Climber.Motor;
 import edu.greenblitz.robotname.RobotMap.Climber.Sensor;
-import edu.greenblitz.utils.SendableSparkMax;
+import edu.greenblitz.utils.sendables.SendableSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

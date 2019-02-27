@@ -5,26 +5,32 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package edu.greenblitz.robotname.commands.simple.roller;
+package edu.greenblitz.robotname.commands.simple.kicker;
 
-import edu.greenblitz.robotname.subsystems.Roller;
+import edu.greenblitz.robotname.subsystems.Kicker;
 import edu.greenblitz.robotname.subsystems.TimedSubsystem;
 import edu.greenblitz.utils.command.TimedSubsystemCommand;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class ExtendRoller extends TimedSubsystemCommand<Roller> {
-    private static final long ROLLER_EXTENSION_TIMEOUT = 1000;
+public class Unkick extends TimedSubsystemCommand<Kicker> {
 
-    public ExtendRoller() {
-        super(Roller.getInstance(), ROLLER_EXTENSION_TIMEOUT);
-    }
+    private static final long KICKER_CLOSE_TIMEOUT = 1000;
 
     @Override
     protected TimedSubsystem[] requirements() {
         return new TimedSubsystem[]{};
     }
 
+    public Unkick(long ms) {
+        super(Kicker.getInstance(), ms);
+    }
+
+    public Unkick() {
+        this(KICKER_CLOSE_TIMEOUT);
+    }
+
     @Override
     protected void timedInitialize() {
-        system.extend();
+        system.unkick();
     }
 }

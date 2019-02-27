@@ -2,32 +2,32 @@ package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.robotname.RobotMap.Roller.Solenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class Roller extends Subsystem {
+public class Roller extends TimedSubsystem {
     private static final double ROLL_IN = 0;
     private static final double ROLL_OUT = 0;
 
     private static Roller instance;
 
-    private DoubleSolenoid m_piston;
+    private SendableDoubleSolenoid m_piston;
     private SpeedController m_motor;
     private Logger logger;
 
     private Roller() {
         logger = LogManager.getLogger(getClass());
 
-        m_piston = new DoubleSolenoid(Solenoid.PCM, Solenoid.FORWARD, Solenoid.REVERSE);
+        m_piston = new SendableDoubleSolenoid(Solenoid.PCM, Solenoid.FORWARD, Solenoid.REVERSE);
 //        m_motor = new CANSparkMax(Motor.ROLLER, CANSparkMaxLowLevel.MotorType.kBrushless);
 
         addChild(m_piston);
+        m_piston.setName("ball center-er piston");
 //        addChild(m_motor);
 
         logger.info("instantiated");
@@ -36,7 +36,7 @@ public class Roller extends Subsystem {
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
-        builder.addBooleanProperty("extender", this::isExtended, null);
+        builder.addBooleanProperty("extender", this::isExtended, this::setExtender);
     }
 
     public void setExtender(boolean state) {
@@ -59,6 +59,14 @@ public class Roller extends Subsystem {
     private void setPower(double power) {
 //        m_motor.set(power);
         throw new UnsupportedOperationException("roller motor isn't connected");
+    }
+
+    public void extend() {
+        setExtender(true);
+    }
+
+    public void retract() {
+        setExtender(false);
     }
 
     public void rollOut() {

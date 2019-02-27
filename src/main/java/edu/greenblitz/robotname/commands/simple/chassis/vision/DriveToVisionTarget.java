@@ -10,7 +10,6 @@ package edu.greenblitz.robotname.commands.simple.chassis.vision;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.command.SubsystemCommand;
-import edu.wpi.first.wpilibj.command.Command;
 import org.greenblitz.motion.pid.MultivariablePIDController;
 import org.greenblitz.motion.pid.PIDObject;
 import org.greenblitz.motion.tolerance.AbsoluteTolerance;
@@ -25,7 +24,7 @@ public class DriveToVisionTarget extends SubsystemCommand<Chassis> {
     private static final PIDObject TURN = new PIDObject(0, 0, 0);
 
     private static final ITolerance DRIVE_TOL = new AbsoluteTolerance(0.1);
-    private static final ITolerance TURN_TOL  = new AbsoluteTolerance(3);
+    private static final ITolerance TURN_TOL = new AbsoluteTolerance(3);
 
     private MultivariablePIDController m_controller;
 
@@ -54,7 +53,7 @@ public class DriveToVisionTarget extends SubsystemCommand<Chassis> {
 
         Chassis.getInstance().arcadeDrive(pidResult[DRIVE_IDX], pidResult[TURN_IDX]);
 
-        if (m_controller.isFinished(new double[] {inputDrive, inputTurn}))
+        if (m_controller.isFinished(new double[]{inputDrive, inputTurn}))
             if (m_onTarget == -1)
                 m_onTarget = System.currentTimeMillis();
             else
@@ -66,12 +65,13 @@ public class DriveToVisionTarget extends SubsystemCommand<Chassis> {
         var state = VisionMaster.getInstance().getStandardizedData();
         var inputDrive = state.getPlaneryDistance();
         var inputTurn = VisionMaster.getInstance().getStandardizedData().getCenterAngle();
-        var arr = new double[] { inputDrive, inputTurn };
+        var arr = new double[]{inputDrive, inputTurn};
         return m_controller.isFinished(arr) && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
     }
 
     @Override
     protected void end() {
+        super.end();
         Chassis.getInstance().stop();
     }
 }

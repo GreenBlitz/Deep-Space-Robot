@@ -1,8 +1,9 @@
 package edu.greenblitz.utils.command.dynamic;
 
+import edu.greenblitz.utils.command.GBCommand;
 import edu.wpi.first.wpilibj.command.Command;
-
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * A command whose behaviour is set when it is started, by choosing and running another command.
@@ -18,20 +19,21 @@ import java.util.logging.Logger;
  *
  * @see edu.wpi.first.wpilibj.command.ConditionalCommand
  */
-public abstract class DynamicCommand extends Command {
-    protected static Logger logger = Logger.getLogger("chosen commands");
+public abstract class DynamicCommand extends GBCommand {
+    protected static Logger logger = LogManager.getLogger("chosen commands");
 
     private Command chosen;
 
     @Override
     public synchronized void start() {
+        super.start();
         chosen = pick();
-        logger.fine(chosen.getName());
         chosen.start();
     }
 
     @Override
     protected void end() {
+        super.end();
         chosen = null;
     }
 

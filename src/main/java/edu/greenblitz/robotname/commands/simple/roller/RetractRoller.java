@@ -7,21 +7,26 @@
 
 package edu.greenblitz.robotname.commands.simple.roller;
 
+import edu.greenblitz.robotname.subsystems.Elevator;
+import edu.greenblitz.robotname.subsystems.Kicker;
 import edu.greenblitz.robotname.subsystems.Roller;
-import edu.greenblitz.utils.command.SubsystemCommand;
+import edu.greenblitz.robotname.subsystems.TimedSubsystem;
+import edu.greenblitz.utils.command.TimedSubsystemCommand;
 
-public class RetractRoller extends SubsystemCommand<Roller> {
+public class RetractRoller extends TimedSubsystemCommand<Roller> {
+    private static final long ROLLER_RETRACTION_TIMEOUT = 1000;
+
     public RetractRoller() {
-        super(Roller.getInstance());
+        super(Roller.getInstance(), ROLLER_RETRACTION_TIMEOUT);
     }
 
     @Override
-    protected void execute() {
-        system.setExtender(false);
+    protected TimedSubsystem[] requirements() {
+        return new TimedSubsystem[]{Kicker.getInstance(), Elevator.getInstance()};
     }
 
     @Override
-    protected boolean isFinished() {
-        return system.isRetracted();
+    protected void timedInitialize() {
+        system.retract();
     }
 }

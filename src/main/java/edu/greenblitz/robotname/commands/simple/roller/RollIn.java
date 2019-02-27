@@ -26,6 +26,7 @@ public class RollIn extends SubsystemCommand<Roller> {
 
     @Override
     protected void end() {
+        super.end();
         system.stop();
     }
 }

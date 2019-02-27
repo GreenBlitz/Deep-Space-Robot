@@ -20,10 +20,10 @@ public abstract class MapChoiceCommand<C> extends DynamicCommand {
     protected final Command pick() {
         var opt = state();
         if (!m_commandMap.containsKey(opt)) {
-            logger.warning("Invalid option: " + opt);
+            logger.warn("Invalid option: " + opt);
             return null;
         } else {
-            logger.fine("current state: " + opt);
+            logger.debug("current state: " + opt);
         }
         return m_commandMap.get(opt);
     }

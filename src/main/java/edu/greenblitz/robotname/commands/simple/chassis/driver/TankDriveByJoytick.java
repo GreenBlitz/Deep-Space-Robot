@@ -1,10 +1,11 @@
 package edu.greenblitz.robotname.commands.simple.chassis.driver;
 
+import edu.greenblitz.utils.command.GBCommand;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.hid.SmartJoystick;
 
-public class TankDriveByJoytick extends Command {
+public class TankDriveByJoytick extends GBCommand {
 
   private SmartJoystick m_joystick;
 

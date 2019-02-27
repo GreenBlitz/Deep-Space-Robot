@@ -8,18 +8,14 @@ import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.RobotMap.Chassis.Motor;
 import edu.greenblitz.robotname.RobotMap.Chassis.Sensor;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
-import edu.greenblitz.robotname.commands.simple.chassis.driver.TankDriveByJoytick;
 import edu.greenblitz.robotname.data.LocalizerRunner;
-import edu.greenblitz.utils.SendableSparkMax;
+import edu.greenblitz.utils.sendables.SendableSparkMax;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.SparkEncoder;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.greenblitz.motion.app.Localizer;
 import org.greenblitz.motion.base.Position;
 
 public class Chassis extends Subsystem {
@@ -70,8 +66,6 @@ public class Chassis extends Subsystem {
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
-        builder.addDoubleProperty("left velocity", this::getLeftVelocity, null);
-        builder.addDoubleProperty("right velocity", this::getRightVelocity, null);
     }
 
     @Override

@@ -6,7 +6,6 @@ import edu.greenblitz.utils.command.SubsystemCommand;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.logging.log4j.Level;
 import org.greenblitz.debug.RemoteCSVTarget;
 import org.greenblitz.debug.RemoteGuydeBugger;
 import org.greenblitz.motion.app.AdaptivePurePursuitController;
@@ -37,7 +36,7 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
     }
 
     @Override
-    protected void initialize(){
+    protected void initialize() {
         if (this.startPos != null)
             Localizer.getInstance().reset(Chassis.getInstance().getLeftDistance(),
                     Chassis.getInstance().getRightDistance(), this.startPos);
@@ -61,6 +60,7 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
 
     @Override
     protected void end() {
+        super.end();
         var expected = m_controller.getPath().getLast();
         var actual = system.getLocation();
         var diff = new Position(expected.getX() - actual.getX(), expected.getY() - actual.getY(), expected.getAngle() - actual.getAngle());

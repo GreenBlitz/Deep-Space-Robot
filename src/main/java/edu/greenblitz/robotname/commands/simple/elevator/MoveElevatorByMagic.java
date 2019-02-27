@@ -7,6 +7,10 @@
 
 package edu.greenblitz.robotname.commands.simple.elevator;
 
+import edu.greenblitz.robotname.subsystems.Poker;
+import edu.greenblitz.robotname.subsystems.Roller;
+import edu.wpi.first.wpilibj.command.Subsystem;
+
 public class MoveElevatorByMagic extends AbstractNativeElevatorMove {
     public MoveElevatorByMagic(double destination, int loopIdx, long timeOnTarget) {
         super(destination, loopIdx, timeOnTarget);

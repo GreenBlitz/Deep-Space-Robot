@@ -35,6 +35,7 @@ public class BrakeElevator extends SubsystemCommand<Elevator> {
 
     @Override
     protected void end() {
+        super.end();
         system.brake(false);
     }
 }

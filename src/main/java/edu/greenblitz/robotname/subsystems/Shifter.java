@@ -2,6 +2,7 @@ package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.robotname.RobotMap.Shifter.Solenoid;
+import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
@@ -23,7 +24,7 @@ public class Shifter extends Subsystem {
 
     private static Shifter instance;
 
-    private DoubleSolenoid m_piston;
+    private SendableDoubleSolenoid m_piston;
     private Gear m_currentShift = Gear.POWER;
     private Logger logger;
 
@@ -33,7 +34,7 @@ public class Shifter extends Subsystem {
     private Shifter() {
         logger = LogManager.getLogger(getClass());
 
-        m_piston = new DoubleSolenoid(PCM, Solenoid.FORWARD, Solenoid.REVERSE);
+        m_piston = new SendableDoubleSolenoid(PCM, Solenoid.FORWARD, Solenoid.REVERSE);
 
         addChild(m_piston);
         setShift(Gear.POWER);

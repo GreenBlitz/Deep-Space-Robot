@@ -7,10 +7,11 @@
 
 package edu.greenblitz.robotname.commands.simple.chassis;
 
+import edu.greenblitz.utils.command.GBCommand;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.subsystems.Chassis;
 
-public class StopChassis extends Command {
+public class StopChassis extends GBCommand {
   
   public StopChassis() {
     requires(Chassis.getInstance());

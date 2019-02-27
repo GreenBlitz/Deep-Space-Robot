@@ -1,11 +1,12 @@
 package edu.greenblitz.utils.command.chain;
 
+import edu.greenblitz.utils.command.GBCommand;
+import edu.wpi.first.wpilibj.command.Command;
+
 import java.util.Optional;
 import java.util.Vector;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class CommandChain extends Command {
+public class CommandChain extends GBCommand {
 
     public CommandChain() {
         addCommand(new Command() {

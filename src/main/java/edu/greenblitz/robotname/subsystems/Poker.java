@@ -2,10 +2,8 @@ package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.robotname.RobotMap.FrontPoker.Solenoid;
-import edu.greenblitz.robotname.data.Report;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,11 +11,11 @@ import org.apache.logging.log4j.Logger;
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 
 // TODO: there is a weird bug - the extender is actually extended in kReverse, not kForward. Re-inspect upon final robot (the piston isn't fully connected)
-public class Poker extends Subsystem {
+public class Poker extends TimedSubsystem {
 
     private static Poker instance;
 
-    private DoubleSolenoid m_holderPiston, m_extenderPiston;
+    private SendableDoubleSolenoid m_holderPiston, m_extenderPiston;
 
     private String m_extenderPistonName = getName() + "::Extender";
     private String m_holderPistonName = getName() + "::Holder";
@@ -27,8 +25,8 @@ public class Poker extends Subsystem {
     private Poker() {
         logger = LogManager.getLogger(getClass());
 
-        m_holderPiston = new DoubleSolenoid(Solenoid.PCM, Solenoid.Holder.FORWARD, Solenoid.Holder.REVERSE);
-        m_extenderPiston = new DoubleSolenoid(Solenoid.PCM, Solenoid.Extender.FORWARD, Solenoid.Extender.REVERSE);
+        m_holderPiston = new SendableDoubleSolenoid(Solenoid.PCM, Solenoid.Holder.FORWARD, Solenoid.Holder.REVERSE);
+        m_extenderPiston = new SendableDoubleSolenoid(Solenoid.PCM, Solenoid.Extender.FORWARD, Solenoid.Extender.REVERSE);
 
         addChild(m_holderPiston);
         m_holderPiston.setName("holder");

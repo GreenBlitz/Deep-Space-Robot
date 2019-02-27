@@ -2,26 +2,26 @@ package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.robotname.RobotMap.Kicker.Solenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Kicker extends Subsystem {
+public class Kicker extends TimedSubsystem {
 
     private static Kicker instance;
 
-    private DoubleSolenoid m_piston;
+    private SendableDoubleSolenoid m_piston;
     private Logger logger;
 
     private Kicker() {
         logger = LogManager.getLogger(getClass());
 
-        m_piston = new DoubleSolenoid(Solenoid.PCM, Solenoid.FORWARD, Solenoid.REVERSE);
+        m_piston = new SendableDoubleSolenoid(Solenoid.PCM, Solenoid.FORWARD, Solenoid.REVERSE);
 
         addChild(m_piston);
+        m_piston.setName("kicker");
 
         logger.info("instantiated");
     }
@@ -29,7 +29,7 @@ public class Kicker extends Subsystem {
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
-        builder.addBooleanProperty("state", this::isOpen, null);
+        builder.addBooleanProperty("state", this::isOpen, this::kick);
     }
 
     @Override
@@ -52,6 +52,17 @@ public class Kicker extends Subsystem {
             logger.debug("state: {}", state ? "kicking" : "unkicking");
         }
         m_piston.set(value);
+    }
+
+    public void kick() {
+        kick(true);
+    }
+
+    /**
+     * The opposite of {@link Kicker#kick()}, duh
+     */
+    public void unkick() {
+        kick(false);
     }
 
     public Value getState() {

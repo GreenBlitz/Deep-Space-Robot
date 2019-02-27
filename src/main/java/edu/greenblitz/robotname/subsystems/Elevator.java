@@ -11,17 +11,16 @@ import edu.greenblitz.robotname.RobotMap.Elevator.Solenoid;
 import edu.greenblitz.robotname.commands.simple.elevator.BrakeElevator;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.TalonEncoder;
+import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import static edu.greenblitz.robotname.RobotMap.Elevator.Heights;
 
-public class Elevator extends Subsystem {
+public class Elevator extends TimedSubsystem {
 
     public interface Level {
         double getHeight();
@@ -102,7 +101,7 @@ public class Elevator extends Subsystem {
     private WPI_TalonSRX m_leader;
     private TalonSRX m_follower;
     private IEncoder m_encoder;
-    private DoubleSolenoid m_brake;
+    private SendableDoubleSolenoid m_brake;
     private DigitalInput m_infrared, m_limitSwitch;
     private Level m_level;
     private Logger logger;
@@ -114,12 +113,14 @@ public class Elevator extends Subsystem {
         m_follower = new TalonSRX(Motor.FOLLOWER);
         m_follower.follow(m_leader);
         m_encoder = new TalonEncoder(Sensor.TICKS_PER_METER, m_leader);
-        m_brake = new DoubleSolenoid(Solenoid.PCM, Solenoid.FORWARD, Solenoid.REVERSE);
+        m_brake = new SendableDoubleSolenoid(Solenoid.PCM, Solenoid.FORWARD, Solenoid.REVERSE);
 //        m_infrared = new DigitalInput(RobotMap.Elevator.Sensor.INFRARED);
 //        m_limitSwitch = new DigitalInput(RobotMap.Elevator.Sensor.LIMIT_SWITCH);
 
         addChild(m_leader);
+        m_leader.setName("motor");
         addChild(m_brake);
+        m_brake.setName("brake");
 //        addChild(m_infrared);
 //        addChild(m_limitSwitch);
 
@@ -231,7 +232,7 @@ public class Elevator extends Subsystem {
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
         builder.addDoubleProperty("height", this::getHeight, this::setSmartPosition);
-        builder.addDoubleProperty("power", () -> m_leader.get(), this::setRawPower);
+        builder.addDoubleProperty("power", m_leader::get, this::setRawPower);
         builder.addStringProperty("level", () -> getLevel().name(), null);
     }
 

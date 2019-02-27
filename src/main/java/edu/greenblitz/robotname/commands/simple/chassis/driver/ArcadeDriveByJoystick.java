@@ -1,10 +1,11 @@
 package edu.greenblitz.robotname.commands.simple.chassis.driver;
 
+import edu.greenblitz.utils.command.GBCommand;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.hid.SmartJoystick;
 
-public class ArcadeDriveByJoystick extends Command {
+public class ArcadeDriveByJoystick extends GBCommand {
 
   public static final double SPEED_MULT = 1;
   public static final double TURN_MULT = 1;

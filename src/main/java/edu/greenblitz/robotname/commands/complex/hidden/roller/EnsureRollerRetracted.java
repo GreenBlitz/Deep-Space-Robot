@@ -1,20 +1,12 @@
 package edu.greenblitz.robotname.commands.complex.hidden.roller;
 
-import edu.greenblitz.robotname.subsystems.Roller;
-import edu.greenblitz.utils.command.SubsystemCommand;
+import edu.greenblitz.robotname.commands.simple.kicker.Unkick;
+import edu.greenblitz.robotname.commands.simple.roller.RetractRoller;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class EnsureRollerRetracted extends SubsystemCommand<Roller> {
+public class EnsureRollerRetracted extends CommandGroup {
     public EnsureRollerRetracted() {
-        super(Roller.getInstance());
-    }
-
-    @Override
-    protected void initialize() {
-        system.setExtender(false);
-    }
-
-    @Override
-    protected boolean isFinished() {
-        return system.isRetracted();
+        addSequential(new Unkick());
+        addSequential(new RetractRoller());
     }
 }
