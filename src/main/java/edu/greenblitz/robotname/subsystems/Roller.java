@@ -1,10 +1,7 @@
 package edu.greenblitz.robotname.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
-import edu.greenblitz.robotname.RobotMap.Roller.Motor;
+import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.robotname.RobotMap.Roller.Solenoid;
-import edu.greenblitz.robotname.data.Report;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -45,7 +42,7 @@ public class Roller extends Subsystem {
     public void setExtender(boolean state) {
         var value = state ? Value.kForward : Value.kReverse;
         if (m_piston.get() != value) {
-            Report.pneumaticsUsed(getName());
+            Robot.getInstance().getReport().updatePneumaticsUsed(getName());
             logger.debug("state: {}", state ? "extended" : "retracted");
         }
         m_piston.set(value);

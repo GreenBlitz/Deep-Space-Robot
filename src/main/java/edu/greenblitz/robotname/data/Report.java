@@ -1,6 +1,8 @@
 package edu.greenblitz.robotname.data;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,69 +13,57 @@ import java.util.Map;
 public class Report {
 
     private static final String PNEUMATICS = "Pneumatics";
-    private static final String VOLTAGE    = "Starting Voltage";
-
-    private static Report instance;
-
-    public static synchronized void init() {
-        if (instance == null) instance = new Report();
-    }
-
-    public static Report getInstance() {
-        return instance;
-    }
-
-    public static void pneumaticsUsed(String name) {
-        getInstance().reportPneumaticsUsed(name);
-    }
-
-    public static int getTotalPneumaticsUsage() {
-        return instance.accumulate();
-    }
-
-    public static int getPneumaticsUsage(String name) {
-        return instance.getPneumaticsUsed(name);
-    }
-
-    public static double getVoltageAtInit() {
-        return instance.getStartingVoltage();
-    }
-
-    public static void voltageAtInit(double voltage) {
-        instance.setStartingVoltage(voltage);
-    }
-
-    public static void reset() {
-        instance.resetStartingVoltage();
-        instance.resetPneumatics();
-    }
-
-    public static void toShuffleboard() {
-        instance.initVoltageToShuffleboard();
-        instance.pneumaticsToShuffleboard();
-    }
-
-    public static String getTotalReport() {
-        var pneumatics = instance.getPneumaticsReport();
-        var voltage = instance.getVoltageReport();
-        var report = "Report:";
-        return report + '\n' + voltage + '\n' + pneumatics;
-    }
-
-    @Deprecated
-    public static void toDashboard() {
-        toShuffleboard();
-    }
-
+    private static final String VOLTAGE = "Starting Voltage";
+    private static final Logger logger = LogManager.getLogger(Report.class);
 
     private Map<String, Integer> m_pneumatics = new HashMap<>();
     private double m_startingVoltage = Double.NaN;
 
-    private Report() { }
+    public void reset() {
+        resetStartingVoltage();
+        resetPneumatics();
+    }
 
-    private void reportPneumaticsUsed(String name) {
-        if (m_pneumatics.containsKey(name)) incPneumatics(name);
-        else m_pneumatics.put(name, 0);
+    public void toShuffleboard() {
+        initVoltageToShuffleboard();
+        pneumaticsToShuffleboard();
+    }
+
+    public String getTotalReport() {
+        var pneumatics = getPneumaticsReport();
+        var voltage = getVoltageReport();
+        var report = "Report:";
+        return report + '\n' + voltage + '\n' + pneumatics;
+    }
+
+    public void setVoltageAtInit(double voltage) {
+        m_startingVoltage = voltage;
+    }
+
+    public double getVoltageAtInit() {
+        return m_startingVoltage;
+    }
+
+
+    public boolean isReportValid() {
+        return Double.isNaN(getStartingVoltage());
+    }
+
+    /**
+     * @deprecated SmartDashboard is deprecated. BIG F.
+     */
+    @Deprecated
+    public void toDashboard() {
+        toShuffleboard();
+    }
+
+    public void updatePneumaticsUsed(String name) {
+        if (m_pneumatics.containsKey(name)) {
+            incPneumatics(name);
+        } else {
+            m_pneumatics.put(name, 1);
+        }
+        logger.debug("solenoid used at {}", name);
     }
 
     private void resetPneumatics() {
@@ -85,11 +75,12 @@ public class Report {
     }
 
     private int accumulate() {
+        // the map is necessary is for sum()
         return m_pneumatics.values().stream().mapToInt(n -> n).sum();
     }
 
     private void incPneumatics(String name) {
-        m_pneumatics.put(name, instance.m_pneumatics.get(name) + 1);
+        m_pneumatics.put(name, m_pneumatics.get(name) + 1);
     }
 
     private int getPneumaticsUsed(String name) {
@@ -98,6 +89,7 @@ public class Report {
 
     private void setStartingVoltage(double voltage) {
         m_startingVoltage = voltage;
+        logger.debug("voltage reported: {}", voltage);
     }
 
     private double getStartingVoltage() {
@@ -108,7 +100,7 @@ public class Report {
         for (var entry : m_pneumatics.entrySet()) {
             SmartDashboard.putNumber(PNEUMATICS + "::" + entry.getKey(), entry.getValue());
         }
-        SmartDashboard.putNumber(PNEUMATICS + "::Total", getTotalPneumaticsUsage());
+        SmartDashboard.putNumber(PNEUMATICS + "::Total", accumulate());
     }
 
     private String getPneumaticsReport() {
@@ -116,7 +108,7 @@ public class Report {
         for (var key : m_pneumatics.keySet()) {
             sb.append('\t').append(key).append(": ").append(m_pneumatics.get(key)).append('\n');
         }
-        sb.append('\t').append("total pneumatics usage: ").append(getTotalPneumaticsUsage());
+        sb.append('\t').append("total pneumatics usage: ").append(accumulate());
         return sb.toString();
     }
 

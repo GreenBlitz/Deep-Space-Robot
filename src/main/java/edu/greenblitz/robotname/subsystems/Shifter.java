@@ -1,12 +1,10 @@
 package edu.greenblitz.robotname.subsystems;
 
+import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.robotname.RobotMap.Shifter.Solenoid;
-import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
-import edu.greenblitz.robotname.data.Report;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -91,7 +89,7 @@ public class Shifter extends Subsystem {
     public void setShift(Gear state) {
         m_currentShift = state;
         if (m_piston.get() != state.getValue()) {
-            Report.pneumaticsUsed(getName());
+            Robot.getInstance().getReport().updatePneumaticsUsed(getName());
             logger.debug("shifted to {}", state);
         }
         m_piston.set(state.getValue());

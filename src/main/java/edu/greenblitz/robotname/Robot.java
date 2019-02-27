@@ -3,7 +3,7 @@ package edu.greenblitz.robotname;
 import edu.greenblitz.robotname.data.GeneralState;
 import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
-import edu.greenblitz.robotname.subsystems.FrontPoker;
+import edu.greenblitz.robotname.subsystems.Poker;
 import edu.greenblitz.robotname.subsystems.Kicker;
 import edu.greenblitz.robotname.subsystems.Pneumatics;
 import edu.greenblitz.robotname.subsystems.Roller;
@@ -43,11 +43,12 @@ public class Robot extends TimedRobot {
     private PowerDistributionPanel m_pdp;
     private GeneralState m_state;
     private Logger logger;
+    private Report m_usageReport;
 
     @Override
     public void robotInit() {
         logger = LogManager.getLogger(getClass());
-        Report.init();
+        m_usageReport = new Report();
 
 //        Chassis.init();
 //        Shifter.init();
@@ -55,7 +56,7 @@ public class Robot extends TimedRobot {
 //        Elevator.init();
         Roller.init();
         Kicker.init();
-        FrontPoker.init();
+        Poker.init();
         Pneumatics.init();
 
 
@@ -74,7 +75,7 @@ public class Robot extends TimedRobot {
 //        SmartDashboard.putData(Elevator.getInstance());
         SmartDashboard.putData(Roller.getInstance());
         SmartDashboard.putData(Kicker.getInstance());
-        SmartDashboard.putData(FrontPoker.getInstance());
+        SmartDashboard.putData(Poker.getInstance());
         SmartDashboard.putData(Pneumatics.getInstance());
 
         VisionMaster.init();
@@ -84,10 +85,10 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit() {
         Scheduler.getInstance().removeAll();
-        Report.toShuffleboard();
+        m_usageReport.toShuffleboard();
 
         System.out.println("-----------------------------------------------------");
-        System.out.println(Report.getTotalReport());
+        System.out.println(m_usageReport.getTotalReport());
         System.out.println("-----------------------------------------------------");
     }
 
@@ -95,7 +96,7 @@ public class Robot extends TimedRobot {
         // Chassis.getInstance().reset();
         Scheduler.getInstance().removeAll();
         reset();
-        Report.voltageAtInit(m_pdp.getVoltage());
+        m_usageReport.setVoltageAtInit(m_pdp.getVoltage());
     }
 
     @Override
@@ -141,11 +142,15 @@ public class Robot extends TimedRobot {
 //        Chassis.getInstance().reset();
 //        Elevator.getInstance().reset();
 
-        Report.reset();
+        m_usageReport.reset();
 //        m_state.reset();
     }
 
     public GeneralState getState() {
         return m_state;
+    }
+
+    public Report getReport() {
+        return m_usageReport;
     }
 }

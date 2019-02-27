@@ -8,12 +8,12 @@
 package edu.greenblitz.robotname.commands.simple.poker;
 
 import edu.greenblitz.utils.command.SubsystemCommand;
-import edu.greenblitz.robotname.subsystems.FrontPoker;
+import edu.greenblitz.robotname.subsystems.Poker;
 
-public class TogglePokerHolder extends SubsystemCommand<FrontPoker> {
+public class TogglePokerHolder extends SubsystemCommand<Poker> {
 
     public TogglePokerHolder() {
-        super(FrontPoker.getInstance());
+        super(Poker.getInstance());
     }
 
     @Override

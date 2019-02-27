@@ -1,12 +1,12 @@
 package edu.greenblitz.robotname.commands.simple.poker;
 
-import edu.greenblitz.robotname.subsystems.FrontPoker;
+import edu.greenblitz.robotname.subsystems.Poker;
 import edu.greenblitz.utils.command.SubsystemCommand;
 
-public class ReleaseHatch extends SubsystemCommand<FrontPoker> {
+public class ReleaseHatch extends SubsystemCommand<Poker> {
 
     public ReleaseHatch() {
-        super(FrontPoker.getInstance());
+        super(Poker.getInstance());
     }
 
     @Override

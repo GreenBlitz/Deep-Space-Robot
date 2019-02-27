@@ -1,12 +1,11 @@
 package edu.greenblitz.robotname.subsystems;
 
-import edu.greenblitz.robotname.data.Report;
+import edu.greenblitz.robotname.Robot;
+import edu.greenblitz.robotname.RobotMap.Kicker.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.greenblitz.robotname.RobotMap.Kicker.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,7 +48,7 @@ public class Kicker extends Subsystem {
     public void kick(boolean state) {
         var value = state ? Value.kForward : Value.kReverse;
         if (m_piston.get() != value) {
-            Report.pneumaticsUsed(getName());
+            Robot.getInstance().getReport().updatePneumaticsUsed(getName());
             logger.debug("state: {}", state ? "kicking" : "unkicking");
         }
         m_piston.set(value);

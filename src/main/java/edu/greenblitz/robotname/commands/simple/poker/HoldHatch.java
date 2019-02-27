@@ -8,13 +8,12 @@
 package edu.greenblitz.robotname.commands.simple.poker;
 
 import edu.greenblitz.utils.command.SubsystemCommand;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.greenblitz.robotname.subsystems.FrontPoker;
+import edu.greenblitz.robotname.subsystems.Poker;
 
-public class HoldHatch extends SubsystemCommand<FrontPoker> {
+public class HoldHatch extends SubsystemCommand<Poker> {
 
     public HoldHatch() {
-        super(FrontPoker.getInstance());
+        super(Poker.getInstance());
     }
 
     @Override

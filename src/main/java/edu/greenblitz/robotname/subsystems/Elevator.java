@@ -4,12 +4,11 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.greenblitz.robotname.OI;
-import edu.greenblitz.robotname.RobotMap;
+import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.robotname.RobotMap.Elevator.Motor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Sensor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Solenoid;
 import edu.greenblitz.robotname.commands.simple.elevator.BrakeElevator;
-import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.TalonEncoder;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -162,7 +161,7 @@ public class Elevator extends Subsystem {
     public void brake(boolean state) {
         var value = state ? Value.kForward : Value.kReverse;
         if (m_brake.get() != value) {
-            Report.pneumaticsUsed(getName());
+            Robot.getInstance().getReport().updatePneumaticsUsed(getName());
             if (state) {
                 logger.debug("braking");
             } else {

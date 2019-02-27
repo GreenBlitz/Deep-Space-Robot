@@ -1,11 +1,11 @@
 package edu.greenblitz.robotname.commands.simple.poker;
 
-import edu.greenblitz.robotname.subsystems.FrontPoker;
+import edu.greenblitz.robotname.subsystems.Poker;
 import edu.greenblitz.utils.command.SubsystemCommand;
 
-public class ClosePoker extends SubsystemCommand<FrontPoker> {
+public class ClosePoker extends SubsystemCommand<Poker> {
     public ClosePoker() {
-        super(FrontPoker.getInstance());
+        super(Poker.getInstance());
     }
 
     @Override

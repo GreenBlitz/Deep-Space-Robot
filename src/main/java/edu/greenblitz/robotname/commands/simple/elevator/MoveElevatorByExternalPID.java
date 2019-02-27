@@ -39,7 +39,10 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
 
     @Override
     protected void execute() {
-        if (m_controller.isFinished())
+        var in = system.getHeight();
+        var out = m_controller.calculatePID(in);
+        system.setRawPower(out);
+        if (m_controller.isFinished(in))
             m_timesOnTarget++;
         else
             m_timesOnTarget = 0;

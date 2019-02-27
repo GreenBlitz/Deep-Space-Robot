@@ -48,11 +48,7 @@ public class DriveToVisionTarget extends SubsystemCommand<Chassis> {
     @Override
     protected void execute() {
         var state = VisionMaster.getInstance().getStandardizedData();
-<<<<<<< HEAD
-        var inputDrive = state.getDistance();
-=======
         var inputDrive = state.getPlaneryDistance();
->>>>>>> c04388d50f2f92c29d4d878b5b085a0fdc653680
         var inputTurn = VisionMaster.getInstance().getStandardizedData().getCenterAngle();
         var pidResult = m_controller.calculate(inputDrive, inputTurn);
 
