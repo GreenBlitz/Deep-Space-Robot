@@ -23,14 +23,12 @@ public abstract class TimedSubsystemCommand<S extends TimedSubsystem> extends Su
     /**
      * OVERRIDE ONLY, DON'T CALL
      */
-    protected void timedInitialize() {
-    }
+    protected abstract void timedInitialize();
 
     /**
      * OVERRIDE ONLY, DON'T CALL
      */
-    protected void rawExecute() {
-    }
+    protected abstract void rawExecute();
 
     @Override
     protected final void initialize() {
@@ -45,9 +43,13 @@ public abstract class TimedSubsystemCommand<S extends TimedSubsystem> extends Su
 
     @Override
     protected final void execute() {
-        if (isFirstRun)
-            timedInitialize();
-        rawExecute();
+        if (System.currentTimeMillis() >= startTime) {
+            if (isFirstRun) {
+                timedInitialize();
+                isFirstRun = false;
+            }
+            rawExecute();
+        }
     }
 
     @Override

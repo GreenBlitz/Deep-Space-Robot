@@ -5,10 +5,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public abstract class TimedSubsystem extends Subsystem {
 
-    private long endOfOperationsTime;
-    public TimedSubsystem(){
-        endOfOperationsTime = Long.MIN_VALUE;
-    }
+    private long endOfOperationsTime = System.currentTimeMillis();
 
     public long getEndOfOperationsTime() {
         return endOfOperationsTime;

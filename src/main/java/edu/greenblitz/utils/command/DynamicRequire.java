@@ -3,6 +3,7 @@ package edu.greenblitz.utils.command;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+@Deprecated
 public class DynamicRequire extends Command {
     private Subsystem m_subsystem;
 
