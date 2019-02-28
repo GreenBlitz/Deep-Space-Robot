@@ -25,14 +25,14 @@ public class Poker extends Subsystem {
     private Poker() {
         logger = LogManager.getLogger(getClass());
 
-        m_holderPiston = new SendableDoubleSolenoid(Solenoid.PCM, Solenoid.Holder.FORWARD, Solenoid.Holder.REVERSE);
-        m_extenderPiston = new SendableDoubleSolenoid(Solenoid.PCM, Solenoid.Extender.FORWARD, Solenoid.Extender.REVERSE);
+        m_holderPiston = new SendableDoubleSolenoid(Solenoid.Holder.PCM, Solenoid.Holder.FORWARD, Solenoid.Holder.REVERSE);
+        m_extenderPiston = new SendableDoubleSolenoid(Solenoid.Extender.PCM, Solenoid.Extender.FORWARD, Solenoid.Extender.REVERSE);
 
         addChild(m_holderPiston);
         m_holderPiston.setName("holder");
 
         addChild(m_extenderPiston);
-        m_holderPiston.setName("extender");
+        m_extenderPiston.setName("extender");
 
         logger.info("instantiated");
     }
@@ -119,12 +119,6 @@ public class Poker extends Subsystem {
 
     public boolean isFullyClosed() {
         return isHeld() && isRetracted();
-    }
-
-    @Override
-    public void initSendable(SendableBuilder builder) {
-        super.initSendable(builder);
-        builder.addBooleanProperty("extender state", this::isExtended, this::extend);
     }
 
     private String stringifyExtenderState(Value state) {

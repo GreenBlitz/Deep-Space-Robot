@@ -37,7 +37,8 @@ public class Shifter extends Subsystem {
         m_piston = new SendableDoubleSolenoid(PCM, Solenoid.FORWARD, Solenoid.REVERSE);
 
         addChild(m_piston);
-        setShift(Gear.POWER);
+        m_piston.setName("gear");
+
         logger.info("instantiated");
     }
 

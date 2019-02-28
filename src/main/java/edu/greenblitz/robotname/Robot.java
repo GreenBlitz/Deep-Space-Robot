@@ -4,11 +4,13 @@ import edu.greenblitz.robotname.data.GeneralState;
 import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.*;
+import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,14 +49,14 @@ public class Robot extends TimedRobot {
         logger = LogManager.getLogger(getClass());
         m_usageReport = new Report();
 
-        Chassis.init();
-//        Shifter.init();
+//        Chassis.init();
+        Shifter.init();
 //        Climber.init();
-//        Elevator.init();
+        Elevator.init();
 //        Roller.init();
-//        Kicker.init();
-//        Poker.init();
-//        Pneumatics.init();
+        Kicker.init();
+        Poker.init();
+        Pneumatics.init();
 
 
 //        m_state = new GeneralState();
@@ -64,16 +66,16 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putData(Scheduler.getInstance());
 
-        SmartDashboard.putData(Chassis.getInstance());
-//        SmartDashboard.putData(Shifter.getInstance());
+//        SmartDashboard.putData(Chassis.getInstance());
+        SmartDashboard.putData(Shifter.getInstance());
 //        SmartDashboard.putData(Climber.getInstance().getBig());
 //        SmartDashboard.putData(Climber.getInstance().getWheels());
 //        SmartDashboard.putData(Climber.getInstance().getExtender());
-//        SmartDashboard.putData(Elevator.getInstance());
+        SmartDashboard.putData(Elevator.getInstance());
 //        SmartDashboard.putData(Roller.getInstance());
-//        SmartDashboard.putData(Kicker.getInstance());
-//        SmartDashboard.putData(Poker.getInstance());
-//        SmartDashboard.putData(Pneumatics.getInstance());
+        SmartDashboard.putData(Kicker.getInstance());
+        SmartDashboard.putData(Poker.getInstance());
+        SmartDashboard.putData(Pneumatics.getInstance());
 
         VisionMaster.init();
         // Chassis.getInstance().startLoclizer();

@@ -43,8 +43,10 @@ public class Pneumatics extends Subsystem {
         setCompressor(false);
 
         addChild(m_pressureSensor);
+        m_compressor.setName("pressure");
 //        addChild(m_switch);
         addChild(m_compressor);
+        m_compressor.setName("compressor");
 
         logger.info("instantiated");
     }
@@ -87,8 +89,6 @@ public class Pneumatics extends Subsystem {
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
         builder.addDoubleProperty("pressure", this::getPressure, null);
-        builder.addBooleanProperty("status", this::isEnabled, null);
-        builder.addBooleanProperty("limit status", this::isGameMode, null);
     }
 
     @Override
