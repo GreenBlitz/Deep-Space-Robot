@@ -23,12 +23,12 @@ public abstract class TimedSubsystemCommand<S extends TimedSubsystem> extends Su
     /**
      * OVERRIDE ONLY, DON'T CALL
      */
-    protected abstract void timedInitialize();
+    protected void timedInitialize(){}
 
     /**
      * OVERRIDE ONLY, DON'T CALL
      */
-    protected abstract void rawExecute();
+    protected void rawExecute(){}
 
     @Override
     protected final void initialize() {
