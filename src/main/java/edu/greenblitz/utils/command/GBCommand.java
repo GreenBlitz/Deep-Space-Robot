@@ -6,22 +6,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 public abstract class GBCommand extends Command {
     protected static final Logger logger = LogManager.getLogger(GBCommand.class);
-    private static final Field requirements;
-
-    static {
-        try {
-            requirements = Command.class.getDeclaredField("m_requirements");
-            requirements.setAccessible(true);
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException("could not reflect on m_requirements");
-        }
-    }
-
 
     public GBCommand() {
     }
@@ -35,9 +24,15 @@ public abstract class GBCommand extends Command {
     public final Set<Subsystem> getRequirements() {
         try {
             var lazyCopy = new java.util.HashSet<>(Set.copyOf(getLazyRequirements()));
-            lazyCopy.addAll((Set<Subsystem>) requirements.get(this));
+            Class WPISet = Class.forName("edu.wpi.first.wpilibj.command.Set");
+            var requirements = WPISet.getDeclaredField("m_set");
+            requirements.setAccessible(true);
+            var requirementSet = Command.class.getDeclaredField("m_requirements");
+            requirementSet.setAccessible(true);
+            var wpiRequires = (Vector<Subsystem>) requirements.get(requirementSet.get(this));
+            lazyCopy.addAll(wpiRequires);
             return lazyCopy;
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException | ClassNotFoundException | NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
     }

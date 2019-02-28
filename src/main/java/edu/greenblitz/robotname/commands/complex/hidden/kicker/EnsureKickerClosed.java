@@ -5,7 +5,8 @@ import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class EnsureKickerClosed extends CommandChain {
-    public EnsureKickerClosed() {
-        super((new Unkick()));
+    @Override
+    protected void initChain() {
+        addSequential(new Unkick());
     }
 }

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * General robot data reporting class. Right now used only for counting solenoid usage and voltage at init.
+ * General robot data reporting class. Right now used only for counting solenoid usage and voltage at initChain.
  */
 public class Report {
 
@@ -113,7 +113,7 @@ public class Report {
     }
 
     private String getVoltageReport() {
-        return String.format("\tvoltage at report init: %f", getVoltageAtInit());
+        return String.format("\tvoltage at report initChain: %f", getVoltageAtInit());
     }
 
     private void initVoltageToShuffleboard() {

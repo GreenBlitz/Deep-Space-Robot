@@ -49,11 +49,11 @@ public class Robot extends TimedRobot {
         logger = LogManager.getLogger(getClass());
         m_usageReport = new Report();
 
-//        Chassis.init();
-//        Shifter.init();
-//        Climber.init();
+//        Chassis.initChain();
+//        Shifter.initChain();
+//        Climber.initChain();
         Elevator.init();
-//        Roller.init();
+        Roller.init();
         Kicker.init();
         Poker.init();
         Pneumatics.init();
@@ -72,7 +72,7 @@ public class Robot extends TimedRobot {
 //        SmartDashboard.putData(Climber.getInstance().getWheels());
 //        SmartDashboard.putData(Climber.getInstance().getExtender());
         SmartDashboard.putData(Elevator.getInstance());
-//        SmartDashboard.putData(Roller.getInstance());
+        SmartDashboard.putData(Roller.getInstance());
         SmartDashboard.putData(Kicker.getInstance());
         SmartDashboard.putData(Poker.getInstance());
         SmartDashboard.putData(Pneumatics.getInstance());

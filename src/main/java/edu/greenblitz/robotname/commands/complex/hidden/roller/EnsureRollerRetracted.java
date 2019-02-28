@@ -6,8 +6,9 @@ import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class EnsureRollerRetracted extends CommandChain {
-    public EnsureRollerRetracted() {
-        super(new Unkick());
+    @Override
+    protected void initChain() {
+        addSequential(new Unkick());
         addSequential(new RetractRoller());
     }
 }

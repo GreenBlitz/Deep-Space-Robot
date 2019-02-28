@@ -5,8 +5,9 @@ import edu.greenblitz.robotname.commands.simple.poker.ClosePoker;
 import edu.greenblitz.utils.command.chain.CommandChain;
 
 public class EnsurePokerRetracted extends CommandChain {
-    public EnsurePokerRetracted() {
-        super(new EnsureKickerClosed());
+    @Override
+    protected void initChain() {
+        addSequential(new EnsureKickerClosed());
         addSequential(new ClosePoker());
     }
 }

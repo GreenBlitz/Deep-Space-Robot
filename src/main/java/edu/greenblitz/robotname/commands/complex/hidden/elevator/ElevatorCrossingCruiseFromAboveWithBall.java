@@ -5,9 +5,14 @@ import edu.greenblitz.robotname.commands.simple.elevator.MoveElevator;
 import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class ElevatorCrossingCruiseFromAboveWithBall extends CommandChain {
+public class ElevatorCrossingCruiseFromAboveWithBall extends AbstractElevatorHeightCommand {
     public ElevatorCrossingCruiseFromAboveWithBall(double height) {
-        super(new EnsureRollerExtended());
+        super(height);
+    }
+
+    @Override
+    protected void initChain() {
+        addSequential(new EnsureRollerExtended());
         addSequential(new MoveElevator(height));
     }
 }

@@ -1,20 +1,30 @@
 package edu.greenblitz.utils.command.chain;
 
 import edu.greenblitz.utils.command.GBCommand;
+import edu.greenblitz.utils.command.dynamic.NullCommand;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import java.util.*;
 
-public class CommandChain extends GBCommand {
+public abstract class CommandChain extends GBCommand {
 
-    protected Queue<ParallelCommand> commands;
-    protected Set<Subsystem> requiresSoFar;
+    protected Queue<ParallelCommand> commands = new LinkedList<>();
+    protected Set<Subsystem> requiresSoFar = new HashSet<>();
 
-    public CommandChain(GBCommand initial){
-        commands = new LinkedList<>();
-        requiresSoFar = new HashSet<>();
-        commands.add(new ParallelCommand(initial));
+    public CommandChain() {
+    }
+
+    public CommandChain(String name) {
+        super(name);
+    }
+
+    public CommandChain(double timeout) {
+        super(timeout);
+    }
+
+    public CommandChain(String name, double timeout) {
+        super(name, timeout);
     }
 
     public void addSequential(GBCommand command){
@@ -25,8 +35,13 @@ public class CommandChain extends GBCommand {
         commands.peek().addParallel(command);
     }
 
+    protected abstract void initChain();
+
     @Override
-    protected void initialize(){
+    protected final void initialize(){
+        resetChain();
+        initChain();
+        requiresSoFar.addAll(commands.peek().getRequirements());
         Scheduler.getInstance().add(commands.peek());
     }
 
@@ -37,8 +52,9 @@ public class CommandChain extends GBCommand {
         if (!current.isFinished())
             return;
 
-        requiresSoFar.addAll(commands.remove().getRequirements());
+        commands.remove();
         if (!commands.isEmpty()) {
+            requiresSoFar.addAll(commands.peek().getRequirements());
             commands.peek().addRequirements(requiresSoFar);
             Scheduler.getInstance().add(commands.peek());
         }
@@ -52,5 +68,11 @@ public class CommandChain extends GBCommand {
     @Override
     public Set<Subsystem> getLazyRequirements() {
         return requiresSoFar;
+    }
+
+    private void resetChain() {
+        commands.clear();
+        requiresSoFar.clear();
+        addSequential(new NullCommand());
     }
 }
