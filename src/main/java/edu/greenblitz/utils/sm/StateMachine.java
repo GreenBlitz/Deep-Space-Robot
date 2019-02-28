@@ -78,7 +78,7 @@ public class StateMachine {
                     if (i == j)
                         ret.append(" ").append("self");
                     else
-                        ret.append(" ").append(elems.get(j));
+                        ret.append(" ").append(elems.get(i).differenceString(elems.get(j)));
             }
             ret.append("\n\n");
         }

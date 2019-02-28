@@ -60,6 +60,27 @@ public class State {
                 ", " + m_RollerState +
                 ", " + m_PokerState +
                 ", " + m_KickerState +
-                '}';
+                "}";
+    }
+
+    public String differenceString(State second){
+        StringBuilder builder = new StringBuilder(" {");
+        if (!m_ElevatorState.equals(second.m_ElevatorState))
+            builder.append(second.m_ElevatorState);
+        else
+            builder.append(" - ");
+        if (!m_RollerState.equals(second.m_RollerState))
+            builder.append(", ").append(second.m_RollerState);
+        else
+            builder.append(", - ");
+        if (!m_PokerState.equals(second.m_PokerState))
+            builder.append(", ").append(second.m_PokerState);
+        else
+            builder.append(", - ");
+        if (!m_KickerState.equals(second.m_KickerState))
+            builder.append(", ").append(second.m_KickerState);
+        else
+            builder.append(", - ");
+        return builder.append("}").toString();
     }
 }
