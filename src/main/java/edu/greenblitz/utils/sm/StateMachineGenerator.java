@@ -87,8 +87,9 @@ public class StateMachineGenerator {
                             new State(e, RollerState.ROLLER_OUT, p, KickerState.UNKICK));
                     base.allow(new State(e, RollerState.ROLLER_OUT, p, KickerState.BALL),
                             new State(e, RollerState.ROLLER_OUT, p, KickerState.KICK));
-                    base.allow(new State(e, RollerState.ROLLER_OUT, p, KickerState.UNKICK),
-                            new State(e, RollerState.ROLLER_OUT, p, KickerState.BALL));
                 }
+        for (PokerState p : PokerState.getList())
+        base.allow(new State(ElevatorState.GROUND, RollerState.ROLLER_OUT, p, KickerState.UNKICK),
+                new State(ElevatorState.GROUND, RollerState.ROLLER_OUT, p, KickerState.BALL));
     }
 }
