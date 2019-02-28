@@ -49,14 +49,14 @@ public class Robot extends TimedRobot {
         logger = LogManager.getLogger(getClass());
         m_usageReport = new Report();
 
-//        Chassis.initChain();
+        Chassis.init();
 //        Shifter.initChain();
 //        Climber.initChain();
-        Elevator.init();
-        Roller.init();
-        Kicker.init();
-        Poker.init();
-        Pneumatics.init();
+//        Elevator.init();
+//        Roller.init();
+//        Kicker.init();
+//        Poker.init();
+//        Pneumatics.init();
 
 
 //        m_state = new GeneralState();
@@ -66,16 +66,16 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putData(Scheduler.getInstance());
 
-//        SmartDashboard.putData(Chassis.getInstance());
+        SmartDashboard.putData(Chassis.getInstance());
 //        SmartDashboard.putData(Shifter.getInstance());
 //        SmartDashboard.putData(Climber.getInstance().getBig());
 //        SmartDashboard.putData(Climber.getInstance().getWheels());
 //        SmartDashboard.putData(Climber.getInstance().getExtender());
-        SmartDashboard.putData(Elevator.getInstance());
-        SmartDashboard.putData(Roller.getInstance());
-        SmartDashboard.putData(Kicker.getInstance());
-        SmartDashboard.putData(Poker.getInstance());
-        SmartDashboard.putData(Pneumatics.getInstance());
+//        SmartDashboard.putData(Elevator.getInstance());
+//        SmartDashboard.putData(Roller.getInstance());
+//        SmartDashboard.putData(Kicker.getInstance());
+//        SmartDashboard.putData(Poker.getInstance());
+//        SmartDashboard.putData(Pneumatics.getInstance());
 
         VisionMaster.init();
         // Chassis.getInstance().startLoclizer();

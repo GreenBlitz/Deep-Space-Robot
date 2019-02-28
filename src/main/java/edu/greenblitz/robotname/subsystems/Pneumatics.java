@@ -93,7 +93,7 @@ public class Pneumatics extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new HandleCompressor());
+        setDefaultCommand(null);
     }
 
     public double getDutyCyclePercent() {

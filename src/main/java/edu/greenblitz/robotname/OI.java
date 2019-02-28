@@ -2,6 +2,7 @@ package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.SafeKick;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
+import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.robotname.commands.simple.elevator.ToggleElevatorBrake;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
 import edu.greenblitz.utils.hid.CustomControlBoard;
@@ -28,8 +29,6 @@ public class OI {
     public static void init() {
         mainJoystick = new SmartJoystick(RobotMap.Joysticks.MAIN);
 
-        mainJoystick.A.whenPressed(new ToggleRoller());
-        mainJoystick.B.whenPressed(new SafeKick());
     }
 
 
