@@ -3,7 +3,7 @@ package edu.greenblitz.utils.command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * Holds execution in command groups until a certain commands finishes.
+ * Holds execution in command groups until a certain m_commands finishes.
  * <p>
  *     WARNING: DO NOT USE THIS ON A DEFAULT COMMAND
  * </p>

@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
  *
  * <p>
  * A {@code DynamicCommand} requires no subsystems, and will stay in the scheduler as long as the chosen command does.
- * IT calls the chosen commands {@link Command#start()} when it's own is called,
+ * IT calls the chosen m_commands {@link Command#start()} when it's own is called,
  * </p>
  * <p>
  * Use {@link DynamicCommand#logger} to log additional data about the chosen command
@@ -28,6 +28,7 @@ public abstract class DynamicCommand extends GBCommand {
     public synchronized void start() {
         super.start();
         chosen = pick();
+        logger.debug(chosen);
         chosen.start();
     }
 

@@ -11,7 +11,7 @@ import edu.greenblitz.robotname.subsystems.Roller;
 import edu.greenblitz.utils.command.TimedSubsystemCommand;
 
 public class ExtendRoller extends TimedSubsystemCommand<Roller> {
-    private static final long ROLLER_EXTENSION_TIMEOUT = 1000;
+    private static final long ROLLER_EXTENSION_TIMEOUT = 2000;
 
     public ExtendRoller() {
         super(ROLLER_EXTENSION_TIMEOUT, Roller.getInstance());

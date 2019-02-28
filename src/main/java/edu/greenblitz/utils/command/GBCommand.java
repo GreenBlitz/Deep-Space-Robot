@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
@@ -22,16 +23,21 @@ public abstract class GBCommand extends Command {
 
     @SuppressWarnings("unchecked")
     public final Set<Subsystem> getRequirements() {
+        var ret = new HashSet<>(getWPILibRequirements());
+        ret.addAll(getLazyRequirements());
+        return ret;
+    }
+
+    @SuppressWarnings("unchecked")
+    public final Set<Subsystem> getWPILibRequirements() {
         try {
-            var lazyCopy = new java.util.HashSet<>(Set.copyOf(getLazyRequirements()));
             Class WPISet = Class.forName("edu.wpi.first.wpilibj.command.Set");
             var requirements = WPISet.getDeclaredField("m_set");
             requirements.setAccessible(true);
             var requirementSet = Command.class.getDeclaredField("m_requirements");
             requirementSet.setAccessible(true);
             var wpiRequires = (Vector<Subsystem>) requirements.get(requirementSet.get(this));
-            lazyCopy.addAll(wpiRequires);
-            return lazyCopy;
+            return new HashSet<>(wpiRequires);
         } catch (IllegalAccessException | ClassNotFoundException | NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
@@ -88,4 +94,7 @@ public abstract class GBCommand extends Command {
         super.end();
         reportCommandEnd();
     }
+
+
+
 }

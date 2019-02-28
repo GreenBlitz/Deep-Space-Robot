@@ -1,18 +1,18 @@
 package edu.greenblitz.utils.command.chain;
 
 import edu.greenblitz.utils.command.GBCommand;
-import edu.greenblitz.utils.command.dynamic.NullCommand;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import org.apache.logging.log4j.Logger;
-import org.greenblitz.debug.logger.LoggerManager;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
 
 public abstract class CommandChain extends GBCommand {
 
-    protected Queue<ParallelCommand> commands = new LinkedList<>();
+    protected Queue<ParallelCommand> m_commands = new LinkedList<>();
     protected Set<Subsystem> requiresSoFar = new HashSet<>();
+    private ParallelCommand m_currentCommand;
 
     public CommandChain() {
     }
@@ -29,46 +29,36 @@ public abstract class CommandChain extends GBCommand {
         super(name, timeout);
     }
 
-    public void addSequential(GBCommand command){
-        logger.debug("Added command " + command + " as sequential");
-        commands.add(new ParallelCommand(command));
+    public void addSequential(GBCommand command) {
+        m_commands.add(new ParallelCommand(command.getName(), command));
     }
 
-    public void addParallel(GBCommand command) {
-        logger.debug("Added command " + command + " as parallel");
-        commands.peek().addParallel(command);
+    public void addParallel(GBCommand... commands) {
+        m_commands.add(new ParallelCommand(commands));
     }
 
     protected abstract void initChain();
 
     @Override
-    protected final void initialize(){
+    protected final void initialize() {
         resetChain();
         initChain();
-        requiresSoFar.addAll(commands.peek().getRequirements());
-        Scheduler.getInstance().add(commands.peek());
+        updateCurrentCommand();
     }
 
     @Override
     protected void execute() {
-        ParallelCommand current = commands.peek();
-
-        if (!current.isFinished())
+        if (!m_currentCommand.isFinished())
             return;
 
-        logger.debug("Command batch " + current + " has finished.");
-
-        commands.remove();
-        if (!commands.isEmpty()) {
-            requiresSoFar.addAll(commands.peek().getRequirements());
-            commands.peek().addRequirements(requiresSoFar);
-            Scheduler.getInstance().add(commands.peek());
+        if (!m_commands.isEmpty()) {
+            updateCurrentCommand();
         }
     }
 
     @Override
     protected boolean isFinished() {
-        return commands.isEmpty();
+        return m_commands.isEmpty();
     }
 
     @Override
@@ -77,8 +67,15 @@ public abstract class CommandChain extends GBCommand {
     }
 
     private void resetChain() {
-        commands.clear();
+        m_commands.clear();
         requiresSoFar.clear();
-        addSequential(new NullCommand());
+    }
+
+    private void updateCurrentCommand() {
+        m_currentCommand = m_commands.remove();
+        logger.debug("update current command: {}", m_currentCommand);
+        m_currentCommand.addRequirements(requiresSoFar);
+        requiresSoFar.addAll(m_currentCommand.getRequirements());
+        m_currentCommand.start();
     }
 }

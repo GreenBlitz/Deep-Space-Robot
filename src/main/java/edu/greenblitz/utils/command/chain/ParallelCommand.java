@@ -5,49 +5,72 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class ParallelCommand extends GBCommand {
-    private List<GBCommand> m_commands = new LinkedList<>();
+    private GBCommand[] m_commands;
 
-    public ParallelCommand(GBCommand command) {
-        addParallel(command);
+    public ParallelCommand(GBCommand... commands) {
+        this(0, commands);
     }
 
-    public void addParallel(GBCommand command) {
-        m_commands.add(command);
+    public ParallelCommand(String name, GBCommand... commands) {
+        this(name, 0, commands);
     }
 
-    public List<GBCommand> getParallelCommands() {
+    public ParallelCommand(double timeout, GBCommand... commands) {
+        this(Arrays.toString(commands), timeout, commands);
+    }
+
+    public ParallelCommand(String name, double timeout, GBCommand... commands) {
+        super(name, timeout);
+        m_commands = commands;
+        addParallel();
+    }
+
+    private void addParallel() {
+        Arrays.stream(m_commands).flatMap(cmd -> cmd.getRequirements().stream()).forEach(this::requires);
+    }
+
+    public GBCommand[] getCommands() {
         return m_commands;
     }
 
     public boolean contains(GBCommand command) {
-        return m_commands.contains(command);
+        return Arrays.asList(m_commands).contains(command);
     }
 
-    public void runCommands() {
-        m_commands.forEach(x -> Scheduler.getInstance().add(x));
+    private void runCommands() {
+        Arrays.stream(m_commands).forEach(GBCommand::start);
     }
 
-    public boolean doesRequire(Subsystem subsystem) {
-        return m_commands.stream().anyMatch(x -> x.doesRequire(subsystem));
+    @Override
+    public synchronized void start() {
+        runCommands();
     }
 
     @Override
     protected boolean isFinished() {
-        return m_commands.stream().noneMatch(Command::isRunning) ||
-                m_commands.stream().anyMatch(Command::isCanceled);
+        for (var cmd : m_commands) {
+            if (cmd.isCanceled()) return true;
+        }
+
+        for (var cmd : m_commands) {
+            if (!cmd.isCompleted()) return false;
+        }
+
+        return true;
     }
 
     @Override
     protected void end(){
-        m_commands.forEach(Command::cancel);
+        Arrays.stream(m_commands).forEach(Command::cancel);
     }
 
     @Override
     public Set<Subsystem> getLazyRequirements() {
-        return m_commands.stream().flatMap(lst -> lst.getRequirements().stream()).collect(Collectors.toSet());
+        return Arrays.stream(m_commands).flatMap(lst -> lst.getRequirements().stream()).collect(Collectors.toSet());
     }
 }
