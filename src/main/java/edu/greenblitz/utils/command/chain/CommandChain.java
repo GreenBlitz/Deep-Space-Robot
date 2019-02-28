@@ -8,65 +8,49 @@ import java.util.*;
 
 public class CommandChain extends GBCommand {
 
-    protected Queue<List<ChainableCommand>> commands;
+    protected Queue<ParallelCommand> commands;
     protected List<Subsystem> requiresSoFar;
 
-    public CommandChain(ChainableCommand initial){
+    public CommandChain(GBCommand initial){
         commands = new LinkedList<>();
         requiresSoFar = new ArrayList<>();
-        commands.add(Collections.singletonList(initial));
+        commands.add(new ParallelCommand(initial));
     }
 
-    public void addSequential(ChainableCommand command){
-        commands.add(Collections.singletonList(command));
+    public void addSequential(GBCommand command){
+        commands.add(new ParallelCommand(command));
     }
 
-    public void addParallel(ChainableCommand command) {
-        commands.peek().add(command);
+    public void addParallel(GBCommand command) {
+        commands.peek().addParallel(command);
     }
+
+    private ParallelCommand current;
 
     @Override
-    protected void initialize() {
-        super.initialize();
+    protected void initialize(){
+        Scheduler.getInstance().add(commands.peek());
     }
 
-    private List<ChainableCommand> current;
-    private boolean someoneRunning;
     @Override
     protected void execute() {
         current = commands.peek();
-        someoneRunning = false;
 
-        for (ChainableCommand cc : current){
-            if (cc.isCanceled()){
-                cleanUp();
-                return;
-            }
-            if (cc.isRunning())
-                someoneRunning = true;
-        }
+        if (!current.isFinished())
+            return;
 
-        if (!someoneRunning){
-            for (ChainableCommand c : current)
-                requiresSoFar.addAll(c.getRequirements());
-            for (ChainableCommand c : commands.remove()) {
-                c.addRequirements(requiresSoFar);
-                Scheduler.getInstance().add(c);
-            }
-        }
+        if (commands.size() > 0)
+            commands.remove().runCommands();
 
-    }
-
-
-    protected void cleanUp(){
-        List<ChainableCommand> current = commands.peek();
-        for (ChainableCommand cmd : current)
-            cmd.cancel();
-        commands.clear();
     }
 
     @Override
     protected boolean isFinished() {
         return commands.isEmpty();
+    }
+
+    @Override
+    public List<Subsystem> getRequirements() {
+        return requiresSoFar;
     }
 }

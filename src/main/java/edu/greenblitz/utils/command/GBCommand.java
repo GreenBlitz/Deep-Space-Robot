@@ -5,11 +5,21 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+
 public abstract class GBCommand extends Command {
     protected static final Logger logger = LogManager.getLogger(GBCommand.class);
 
     public GBCommand() {
     }
+
+
+    public void addRequirements(Iterable<Subsystem> systems){
+        for (Subsystem s : systems)
+            requires(s);
+    }
+
+    public abstract List<Subsystem> getRequirements();
 
     public GBCommand(String name) {
         super(name);
