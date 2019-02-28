@@ -1,102 +1,72 @@
 package edu.greenblitz.utils.command.chain;
 
 import edu.greenblitz.utils.command.GBCommand;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
-import java.util.Optional;
-import java.util.Vector;
+import java.util.*;
 
 public class CommandChain extends GBCommand {
 
-    public CommandChain() {
-        addCommand(new Command() {
-            protected boolean isFinished() {
-                return true;
-            }
-        });
+    protected Queue<List<ChainableCommand>> commands;
+    protected List<Subsystem> requiresSoFar;
+
+    public CommandChain(ChainableCommand initial){
+        commands = new LinkedList<>();
+        requiresSoFar = new ArrayList<>();
+        commands.add(Collections.singletonList(initial));
     }
 
-    private final Vector<ParallelCommand> m_commands = new Vector<>();
-    private int m_currentCommand = 0;
-    private boolean m_hasRan = false;
-
-    protected final void addCommand(Command toRun) {
-        m_commands.add(new ParallelCommand(toRun));
+    public void addSequential(ChainableCommand command){
+        commands.add(Collections.singletonList(command));
     }
 
-    /**
-     * Adds a command to run after the last entered group of parallel commands.
-     */
-    protected final void addSequential(Command toRun) {
-        addCommand(toRun);
+    public void addParallel(ChainableCommand command) {
+        commands.peek().add(command);
     }
 
-    protected final void addSequential(Command toRun, Command after) {
-        for (ParallelCommand parallelCommand : m_commands) {
-            if (parallelCommand.contains(after)) {
-                try {
-                    m_commands.get(m_commands.indexOf(parallelCommand) + 1).addParallel(toRun);
-                } catch (Exception e) {
-                    m_commands.add(new ParallelCommand(toRun));
-                }
+    @Override
+    protected void initialize() {
+        super.initialize();
+    }
+
+    private List<ChainableCommand> current;
+    private boolean someoneRunning;
+    @Override
+    protected void execute() {
+        current = commands.peek();
+        someoneRunning = false;
+
+        for (ChainableCommand cc : current){
+            if (cc.isCanceled()){
+                cleanUp();
                 return;
             }
+            if (cc.isRunning())
+                someoneRunning = true;
         }
-        throw new IllegalArgumentException("The Command " + after.getName() +
-                " is not a part of this command chain. please enter it beforehand.");
+
+        if (!someoneRunning){
+            for (ChainableCommand c : current)
+                requiresSoFar.addAll(c.getRequirements());
+            for (ChainableCommand c : commands.remove()) {
+                c.addRequirements(requiresSoFar);
+                Scheduler.getInstance().add(c);
+            }
+        }
+
     }
 
-    /**
-     * Adds a command to run with the last entered group of parallel commands.
-     */
-    protected final void addParallel(Command toRun) {
-        addParallel(toRun, m_commands.lastElement().getParallelCommands().get(0));
-    }
 
-    protected final void addParallel(Command toRun, Command with) {
-        //Filters only elements which contain with -> takes the first one of them
-        //(if there are any of them hence the name Optional <=> We don't know if it exists
-        Optional<ParallelCommand> found = m_commands.stream().filter(x -> x.contains(with)).findAny();
-        //If it exists
-        if (found.isPresent()) {
-            //get the actual value and do shit
-            found.get().addParallel(toRun);
-            return;
-        }
-        throw new IllegalArgumentException("The Command " + with.getName() +
-                " is not a part of this command chain. please enter it beforehand.");
+    protected void cleanUp(){
+        List<ChainableCommand> current = commands.peek();
+        for (ChainableCommand cmd : current)
+            cmd.cancel();
+        commands.clear();
     }
 
     @Override
-    protected final void initialize() {
-        System.out.println("Running command chain: " + getName());
-        if (!m_hasRan) {
-            m_hasRan = true;
-            onFirstRun();
-        }
-        m_currentCommand = 0;
-        m_commands.get(m_currentCommand).runCommands();
-    }
-
-    protected void onFirstRun() {
-    }
-
-    @Override
-    protected final void execute() {
-        ParallelCommand currentCommands = m_commands.get(m_currentCommand);
-        if (currentCommands.isCompleted()) {
-            m_currentCommand++;
-            if (!isFinished())
-                m_commands.get(m_currentCommand).runCommands();
-        }
-    }
-
-    public void end() {
-        System.out.println(getClass().getCanonicalName() + " Has Finished!");
-    }
-
-    @Override
-    protected final boolean isFinished() {
-        return m_currentCommand == m_commands.size();
+    protected boolean isFinished() {
+        return commands.isEmpty();
     }
 }
