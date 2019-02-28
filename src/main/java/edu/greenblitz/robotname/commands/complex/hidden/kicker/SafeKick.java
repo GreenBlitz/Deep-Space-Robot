@@ -1,5 +1,7 @@
 package edu.greenblitz.robotname.commands.complex.hidden.kicker;
 
+import edu.greenblitz.robotname.commands.simple.kicker.Kick;
+import edu.greenblitz.robotname.commands.simple.kicker.Unkick;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendRoller;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.robotname.subsystems.Poker;
@@ -22,8 +24,8 @@ public class SafeKick extends CommandChain {
                 return new ExtendRoller();
             }
         });
-        addSequential(new kick());
-        addSequential(new unkick());
+        addSequential(new Kick());
+        addSequential(new Unkick());
 
     }
 }

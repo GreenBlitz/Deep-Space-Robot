@@ -1,5 +1,6 @@
 package edu.greenblitz.utils.command.dynamic;
 
+import edu.greenblitz.utils.command.GBCommand;
 import edu.wpi.first.wpilibj.command.Command;
 
 import java.util.Map;
@@ -10,14 +11,14 @@ import java.util.Map;
  * @param <C> state
  */
 public abstract class MapChoiceCommand<C> extends DynamicCommand {
-    private Map<C, Command> m_commandMap;
+    private Map<C, GBCommand> m_commandMap;
 
-    protected MapChoiceCommand(Map<C, Command> commandMap) {
+    protected MapChoiceCommand(Map<C, GBCommand> commandMap) {
         m_commandMap = commandMap;
     }
 
     @Override
-    protected final Command pick() {
+    protected final GBCommand pick() {
         var opt = state();
         if (!m_commandMap.containsKey(opt)) {
             logger.warn("Invalid option: " + opt);

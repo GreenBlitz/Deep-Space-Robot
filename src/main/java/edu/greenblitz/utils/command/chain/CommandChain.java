@@ -9,11 +9,11 @@ import java.util.*;
 public class CommandChain extends GBCommand {
 
     protected Queue<ParallelCommand> commands;
-    protected List<Subsystem> requiresSoFar;
+    protected Set<Subsystem> requiresSoFar;
 
     public CommandChain(GBCommand initial){
         commands = new LinkedList<>();
-        requiresSoFar = new ArrayList<>();
+        requiresSoFar = new HashSet<>();
         commands.add(new ParallelCommand(initial));
     }
 
@@ -37,9 +37,11 @@ public class CommandChain extends GBCommand {
         if (!current.isFinished())
             return;
 
-        commands.remove();
-        if (!commands.isEmpty())
+        requiresSoFar.addAll(commands.remove().getRequirements());
+        if (!commands.isEmpty()) {
+            commands.peek().addRequirements(requiresSoFar);
             Scheduler.getInstance().add(commands.peek());
+        }
     }
 
     @Override
@@ -48,7 +50,7 @@ public class CommandChain extends GBCommand {
     }
 
     @Override
-    public List<Subsystem> getRequirements() {
+    public Set<Subsystem> getLazyRequirements() {
         return requiresSoFar;
     }
 }

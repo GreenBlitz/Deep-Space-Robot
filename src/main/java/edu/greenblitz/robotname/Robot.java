@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
         m_usageReport = new Report();
 
 //        Chassis.init();
-        Shifter.init();
+//        Shifter.init();
 //        Climber.init();
         Elevator.init();
 //        Roller.init();
@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData(Scheduler.getInstance());
 
 //        SmartDashboard.putData(Chassis.getInstance());
-        SmartDashboard.putData(Shifter.getInstance());
+//        SmartDashboard.putData(Shifter.getInstance());
 //        SmartDashboard.putData(Climber.getInstance().getBig());
 //        SmartDashboard.putData(Climber.getInstance().getWheels());
 //        SmartDashboard.putData(Climber.getInstance().getExtender());

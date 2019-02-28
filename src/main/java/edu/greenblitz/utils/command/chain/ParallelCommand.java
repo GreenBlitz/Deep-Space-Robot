@@ -5,10 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ParallelCommand extends GBCommand {
@@ -50,7 +47,7 @@ public class ParallelCommand extends GBCommand {
     }
 
     @Override
-    public List<Subsystem> getRequirements() {
-        return m_commands.stream().flatMap(lst -> lst.getRequirements().stream()).collect(Collectors.toList());
+    public Set<Subsystem> getLazyRequirements() {
+        return m_commands.stream().flatMap(lst -> lst.getRequirements().stream()).collect(Collectors.toSet());
     }
 }
