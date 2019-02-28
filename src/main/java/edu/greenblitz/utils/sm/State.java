@@ -1,8 +1,11 @@
 package edu.greenblitz.utils.sm;
 
+import java.util.Arrays;
+
 public class State {
     public static final int BASE = 16, /*Used for HASHCODE() and to make states readable by some mean. should satisfy BASE => S.LENGTH */
-            COUNT = ElevatorState.LENGTH * RollerState.LENGTH * PokerState.LENGTH * BallState.LENGTH * KickerState.LENGTH;
+            COUNT = ElevatorState.values().length * RollerState.values().length * PokerState.values().length * BallState.values().length
+                    * KickerState.values().length;
     private ElevatorState m_ElevatorState;
     private RollerState m_RollerState;
     private PokerState m_PokerState;
@@ -24,30 +27,26 @@ public class State {
     public int hashCode() {
         int ret = 0;
 
-        assert (0 < ElevatorState.lst.indexOf(m_ElevatorState) && ElevatorState.lst.indexOf(m_ElevatorState) < BASE);
-        ret += ElevatorState.lst.indexOf(m_ElevatorState);
+        assert (0 < ElevatorState.getList().indexOf(m_ElevatorState) && ElevatorState.getList().indexOf(m_ElevatorState) < BASE);
+        ret += ElevatorState.getList().indexOf(m_ElevatorState);
         ret *= BASE;
 
-        assert (0 < RollerState.lst.indexOf(m_RollerState) && RollerState.lst.indexOf(m_RollerState) < BASE);
-        ret += RollerState.lst.indexOf(m_RollerState);
+        assert (0 < RollerState.getList().indexOf(m_RollerState) && RollerState.getList().indexOf(m_RollerState) < BASE);
+        ret += RollerState.getList().indexOf(m_RollerState);
         ret *= BASE;
 
-        assert (0 < PokerState.lst.indexOf(m_PokerState) && PokerState.lst.indexOf(m_PokerState) < BASE);
-        ret += PokerState.lst.indexOf(m_PokerState);
+        assert (0 < PokerState.getList().indexOf(m_PokerState) && PokerState.getList().indexOf(m_PokerState) < BASE);
+        ret += PokerState.getList().indexOf(m_PokerState);
         ret *= BASE;
 
-        assert (0 < BallState.lst.indexOf(m_BallState) && BallState.lst.indexOf(m_BallState) < BASE);
-        ret += BallState.lst.indexOf(m_BallState);
+        assert (0 < BallState.getList().indexOf(m_BallState) && BallState.getList().indexOf(m_BallState) < BASE);
+        ret += BallState.getList().indexOf(m_BallState);
         ret *= BASE;
 
-        assert (0 < KickerState.lst.indexOf(m_KickerState) && KickerState.lst.indexOf(m_KickerState) < BASE);
-        ret += KickerState.lst.indexOf(m_KickerState);
+        assert (0 < KickerState.getList().indexOf(m_KickerState) && KickerState.getList().indexOf(m_KickerState) < BASE);
+        ret += KickerState.getList().indexOf(m_KickerState);
 
         return ret;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return this.hashCode() == obj.hashCode() && obj instanceof State;
-    }
 }
