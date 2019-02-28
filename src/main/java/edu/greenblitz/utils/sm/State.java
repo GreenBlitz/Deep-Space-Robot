@@ -4,19 +4,16 @@ import java.util.Arrays;
 
 public class State {
     public static final int BASE = 16, /*Used for HASHCODE() and to make states readable by some mean. should satisfy BASE => S.LENGTH */
-            COUNT = ElevatorState.values().length * RollerState.values().length * PokerState.values().length * BallState.values().length
-                    * KickerState.values().length;
+            COUNT = ElevatorState.values().length * RollerState.values().length * PokerState.values().length * KickerState.values().length;
     private ElevatorState m_ElevatorState;
     private RollerState m_RollerState;
     private PokerState m_PokerState;
-    private BallState m_BallState;
     private KickerState m_KickerState;
 
-    public State(ElevatorState ElevatorState, RollerState RollerState, PokerState PokerState, BallState BallState, KickerState KickerState) {
+    public State(ElevatorState ElevatorState, RollerState RollerState, PokerState PokerState, KickerState KickerState) {
         this.m_ElevatorState = ElevatorState;
         this.m_RollerState = RollerState;
         this.m_PokerState = PokerState;
-        this.m_BallState = BallState;
         this.m_KickerState = KickerState;
     }
 
@@ -39,14 +36,30 @@ public class State {
         ret += PokerState.getList().indexOf(m_PokerState);
         ret *= BASE;
 
-        assert (0 <= BallState.getList().indexOf(m_BallState) && BallState.getList().indexOf(m_BallState) < BASE);
-        ret += BallState.getList().indexOf(m_BallState);
-        ret *= BASE;
-
         assert (0 <= KickerState.getList().indexOf(m_KickerState) && KickerState.getList().indexOf(m_KickerState) < BASE);
         ret += KickerState.getList().indexOf(m_KickerState);
 
         return ret;
     }
 
+    @Override
+    public boolean equals(Object other){
+        if(! (other instanceof State))
+            return false;
+        State os = (State) other;
+        return m_ElevatorState == os.m_ElevatorState &&
+                m_RollerState == os.m_RollerState &&
+                m_PokerState == os.m_PokerState &&
+                m_KickerState == os.m_KickerState;
+    }
+
+    @Override
+    public String toString() {
+        return " {" +
+                m_ElevatorState +
+                ", " + m_RollerState +
+                ", " + m_PokerState +
+                ", " + m_KickerState +
+                '}';
+    }
 }

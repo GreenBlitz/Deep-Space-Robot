@@ -5,13 +5,9 @@ import java.util.List;
 
 public enum ElevatorState {
 
-    LEVEL0,
-    HATCH1,
-    CARGO1,
-    HATCH2,
-    CARGO2,
-    HATCH3,
-    CARGO3;
+    GROUND,
+    DOWN,
+    UP;
 
     public int getLevel(){
         return ordinal();

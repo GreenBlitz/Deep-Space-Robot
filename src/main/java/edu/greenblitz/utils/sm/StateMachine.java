@@ -1,20 +1,24 @@
 package edu.greenblitz.utils.sm;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class StateMachine {
 
     private Map<State, Map<State, Boolean>> mat = new HashMap<>();
 
     public StateMachine(State... states){
+        add(states);
+    }
+
+    public void add(State... states){
         for (State s : states){
             mat.put(s, new HashMap<>());
         }
     }
 
     public void allow(State source, State dest) {
+        if (!mat.containsKey(dest))
+            throw new IllegalArgumentException("destination not in machine.");
         mat.get(source).put(dest, true);
     }
 
@@ -39,11 +43,14 @@ public class StateMachine {
     }
 
     public void deny(State source, State dest) {
+        if (!mat.containsKey(dest))
+            throw new IllegalArgumentException("destination not in machine.");
         mat.get(source).put(dest, false);
     }
 
     public boolean isAllowed(State source, State dest) {
-        return mat.containsKey(source) && mat.get(source).getOrDefault(dest, false);
+        return mat.containsKey(source) && (mat.get(source).getOrDefault(dest, false)
+        || source.equals(dest));
     }
 
     public Set<State> getStatesTo(State dest) {
@@ -61,8 +68,25 @@ public class StateMachine {
 
     @Override
     public String toString() {
-        return "StateMachine{" +
-                "mat=" + mat +
-                '}';
+        StringBuilder ret = new StringBuilder("StateMachine {\n");
+        List<State> elems = Arrays.asList(mat.keySet().toArray(new State[] {}));
+
+        for (int i = 0; i < elems.size(); i++){
+            ret.append(elems.get(i)).append(" ->");
+            for (int j = 0; j < elems.size(); j++) {
+                if (isAllowed(elems.get(i), elems.get(j)))
+                    if (i == j)
+                        ret.append(" ").append("self");
+                    else
+                        ret.append(" ").append(elems.get(j));
+            }
+            ret.append("\n\n");
+        }
+//        ret.append("\nLegend: \n");
+//
+//        for (int i = 0; i < elems.size(); i++)
+//            ret.append(i).append(" - ").append(elems.get(i)).append("\n");
+
+        return ret.append("}").toString();
     }
 }

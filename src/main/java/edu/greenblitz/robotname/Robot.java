@@ -107,7 +107,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         if (DriverStation.getInstance().isFMSAttached()) {
-            logger.info("WERE IN FOR A REAL MATCH BOYS!");
+            logger.info("WERE ROLLER_IN FOR A REAL MATCH BOYS!");
             // This is for a real match
             Scheduler.getInstance().removeAll();
         } else {
