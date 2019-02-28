@@ -13,13 +13,14 @@ public abstract class GBCommand extends Command {
     public GBCommand() {
     }
 
-
     public void addRequirements(Iterable<Subsystem> systems){
         for (Subsystem s : systems)
             requires(s);
     }
 
-    public abstract List<Subsystem> getRequirements();
+    public List<Subsystem> getRequirements() {
+        return List.of();
+    }
 
     public GBCommand(String name) {
         super(name);

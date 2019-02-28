@@ -25,8 +25,6 @@ public class CommandChain extends GBCommand {
         commands.peek().addParallel(command);
     }
 
-    private ParallelCommand current;
-
     @Override
     protected void initialize(){
         Scheduler.getInstance().add(commands.peek());
@@ -34,14 +32,14 @@ public class CommandChain extends GBCommand {
 
     @Override
     protected void execute() {
-        current = commands.peek();
+        ParallelCommand current = commands.peek();
 
         if (!current.isFinished())
             return;
 
-        if (commands.size() > 0)
-            commands.remove().runCommands();
-
+        commands.remove();
+        if (!commands.isEmpty())
+            Scheduler.getInstance().add(commands.peek());
     }
 
     @Override

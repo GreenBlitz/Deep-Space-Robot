@@ -6,11 +6,13 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
 public class ParallelCommand extends GBCommand {
-    private Vector<GBCommand> m_commands = new Vector<>();
+    private List<GBCommand> m_commands = new LinkedList<>();
 
     public ParallelCommand(GBCommand command) {
         addParallel(command);
@@ -20,7 +22,7 @@ public class ParallelCommand extends GBCommand {
         m_commands.add(command);
     }
 
-    public Vector<GBCommand> getParallelCommands() {
+    public List<GBCommand> getParallelCommands() {
         return m_commands;
     }
 
@@ -49,10 +51,6 @@ public class ParallelCommand extends GBCommand {
 
     @Override
     public List<Subsystem> getRequirements() {
-        List<Subsystem> subsystems = new ArrayList<>();
-        for (GBCommand c : m_commands){
-            subsystems.addAll(c.getRequirements());
-        }
-        return subsystems;
+        return m_commands.stream().flatMap(lst -> lst.getRequirements().stream()).collect(Collectors.toList());
     }
 }
