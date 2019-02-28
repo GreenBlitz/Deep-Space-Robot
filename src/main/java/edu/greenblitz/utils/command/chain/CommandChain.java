@@ -4,6 +4,8 @@ import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.dynamic.NullCommand;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.apache.logging.log4j.Logger;
+import org.greenblitz.debug.logger.LoggerManager;
 
 import java.util.*;
 
@@ -28,10 +30,12 @@ public abstract class CommandChain extends GBCommand {
     }
 
     public void addSequential(GBCommand command){
+        logger.debug("Added command " + command + " as sequential");
         commands.add(new ParallelCommand(command));
     }
 
     public void addParallel(GBCommand command) {
+        logger.debug("Added command " + command + " as parallel");
         commands.peek().addParallel(command);
     }
 
@@ -51,6 +55,8 @@ public abstract class CommandChain extends GBCommand {
 
         if (!current.isFinished())
             return;
+
+        logger.debug("Command batch " + current + " has finished.");
 
         commands.remove();
         if (!commands.isEmpty()) {
