@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
 public abstract class DynamicCommand extends GBCommand {
     protected static Logger logger = LogManager.getLogger("chosen commands");
 
-    private Command chosen;
+    private GBCommand chosen;
 
     @Override
     public synchronized void start() {
@@ -42,5 +42,5 @@ public abstract class DynamicCommand extends GBCommand {
         return chosen.isCompleted();
     }
 
-    protected abstract Command pick();
+    protected abstract GBCommand pick();
 }
