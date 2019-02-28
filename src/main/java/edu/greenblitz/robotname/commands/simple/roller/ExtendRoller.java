@@ -8,23 +8,17 @@
 package edu.greenblitz.robotname.commands.simple.roller;
 
 import edu.greenblitz.robotname.subsystems.Roller;
-import edu.greenblitz.robotname.subsystems.TimedSubsystem;
 import edu.greenblitz.utils.command.TimedSubsystemCommand;
 
 public class ExtendRoller extends TimedSubsystemCommand<Roller> {
     private static final long ROLLER_EXTENSION_TIMEOUT = 1000;
 
     public ExtendRoller() {
-        super(Roller.getInstance(), ROLLER_EXTENSION_TIMEOUT);
+        super(ROLLER_EXTENSION_TIMEOUT, Roller.getInstance());
     }
 
     @Override
-    protected TimedSubsystem[] requirements() {
-        return new TimedSubsystem[]{};
-    }
-
-    @Override
-    protected void timedInitialize() {
+    protected void initialize() {
         system.extend();
     }
 }

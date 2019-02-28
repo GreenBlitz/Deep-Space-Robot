@@ -6,6 +6,5 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CollectHatch extends CommandGroup {
     public CollectHatch() {
         addSequential(new ExtendPoker());
-        //addSequential(new );
     }
 }

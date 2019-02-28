@@ -39,11 +39,11 @@ public class Pneumatics extends Subsystem {
 
         m_pressureSensor = new PressureSensor(Sensor.PRESSURE);
         m_compressor = new Compressor(PCM);
-        m_switch = new DigitalInput(Sensor.SWITCH);
+//        m_switch = new DigitalInput(Sensor.SWITCH);
         setCompressor(false);
 
         addChild(m_pressureSensor);
-        addChild(m_switch);
+//        addChild(m_switch);
         addChild(m_compressor);
 
         logger.info("instantiated");
@@ -70,7 +70,8 @@ public class Pneumatics extends Subsystem {
     }
 
     public boolean isGameMode() {
-        return m_switch.get();
+        return false;
+//        return m_switch.get();
     }
 
     public static void init() {

@@ -4,11 +4,12 @@ import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.robotname.RobotMap.Kicker.Solenoid;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Kicker extends TimedSubsystem {
+public class Kicker extends Subsystem {
 
     private static Kicker instance;
 

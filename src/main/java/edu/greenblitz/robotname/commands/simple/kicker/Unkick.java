@@ -8,21 +8,14 @@
 package edu.greenblitz.robotname.commands.simple.kicker;
 
 import edu.greenblitz.robotname.subsystems.Kicker;
-import edu.greenblitz.robotname.subsystems.TimedSubsystem;
 import edu.greenblitz.utils.command.TimedSubsystemCommand;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Unkick extends TimedSubsystemCommand<Kicker> {
 
     private static final long KICKER_CLOSE_TIMEOUT = 1000;
 
-    @Override
-    protected TimedSubsystem[] requirements() {
-        return new TimedSubsystem[]{};
-    }
-
     public Unkick(long ms) {
-        super(Kicker.getInstance(), ms);
+        super(ms, Kicker.getInstance());
     }
 
     public Unkick() {
@@ -30,7 +23,7 @@ public class Unkick extends TimedSubsystemCommand<Kicker> {
     }
 
     @Override
-    protected void timedInitialize() {
+    protected void initialize() {
         system.unkick();
     }
 }

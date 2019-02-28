@@ -24,6 +24,8 @@ public class LocalizerRunner extends PeriodicRunner {
 
     public LocalizerRunner(long period, double wheelBase, IEncoder leftEncoder, IEncoder rightEncoder) {
         super(period);
+        logger = LogManager.getLogger(getClass());
+
         m_localizer = Localizer.getInstance();
         m_localizer.configure(wheelBase, 0, 0);
         m_leftEncoder = leftEncoder;
@@ -31,7 +33,6 @@ public class LocalizerRunner extends PeriodicRunner {
         m_rightEncoder = rightEncoder;
         rightEncoder.reset();
         enableGyro();
-        logger = LogManager.getLogger(getClass());
     }
 
     public void enableGyro() {

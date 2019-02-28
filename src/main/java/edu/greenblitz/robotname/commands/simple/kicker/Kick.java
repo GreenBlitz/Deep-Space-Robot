@@ -8,11 +8,7 @@
 package edu.greenblitz.robotname.commands.simple.kicker;
 
 import edu.greenblitz.robotname.subsystems.Kicker;
-import edu.greenblitz.robotname.subsystems.Poker;
-import edu.greenblitz.robotname.subsystems.Roller;
-import edu.greenblitz.robotname.subsystems.TimedSubsystem;
 import edu.greenblitz.utils.command.TimedSubsystemCommand;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Kick extends TimedSubsystemCommand<Kicker> {
     private static final long KICKER_KICK_TIMEOUT = 1000;
@@ -21,17 +17,12 @@ public class Kick extends TimedSubsystemCommand<Kicker> {
         this(KICKER_KICK_TIMEOUT);
     }
 
-    @Override
-    protected TimedSubsystem[] requirements() {
-        return new TimedSubsystem[]{Poker.getInstance(), Roller.getInstance()};
-    }
-
     public Kick(long ms) {
-        super(Kicker.getInstance(), ms);
+        super(ms, Kicker.getInstance());
     }
 
     @Override
-    protected void timedInitialize() {
+    protected void initialize() {
         system.kick();
     }
 }

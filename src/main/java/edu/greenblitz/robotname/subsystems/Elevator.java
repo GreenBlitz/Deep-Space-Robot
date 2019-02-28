@@ -9,18 +9,20 @@ import edu.greenblitz.robotname.RobotMap.Elevator.Motor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Sensor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Solenoid;
 import edu.greenblitz.robotname.commands.simple.elevator.BrakeElevator;
+import edu.greenblitz.robotname.commands.simple.elevator.RawElevatorByJoystick;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.TalonEncoder;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import static edu.greenblitz.robotname.RobotMap.Elevator.Heights;
 
-public class Elevator extends TimedSubsystem {
+public class Elevator extends Subsystem {
 
     public interface Level {
         double getHeight();
@@ -102,34 +104,34 @@ public class Elevator extends TimedSubsystem {
     private TalonSRX m_follower;
     private IEncoder m_encoder;
     private SendableDoubleSolenoid m_brake;
-    private DigitalInput m_infrared, m_limitSwitch;
-    private Level m_level;
+    private Level m_level = Level.Cargo.GROUND;
+    private DigitalInput m_atGroundLimitSwitch;
     private Logger logger;
 
     private Elevator() {
         logger = LogManager.getLogger(getClass());
 
-        m_leader = new WPI_TalonSRX(Motor.MAIN);
+        m_leader = new WPI_TalonSRX(Motor.LEADER);
         m_follower = new TalonSRX(Motor.FOLLOWER);
         m_follower.follow(m_leader);
-        m_encoder = new TalonEncoder(Sensor.TICKS_PER_METER, m_leader);
+//        m_encoder = new TalonEncoder(Sensor.TICKS_PER_METER, m_leader);
         m_brake = new SendableDoubleSolenoid(Solenoid.PCM, Solenoid.FORWARD, Solenoid.REVERSE);
-//        m_infrared = new DigitalInput(RobotMap.Elevator.Sensor.INFRARED);
-//        m_limitSwitch = new DigitalInput(RobotMap.Elevator.Sensor.LIMIT_SWITCH);
+        m_atGroundLimitSwitch = new DigitalInput(Sensor.LIMIT_SWITCH);
 
         addChild(m_leader);
         m_leader.setName("motor");
         addChild(m_brake);
         m_brake.setName("brake");
-//        addChild(m_infrared);
-//        addChild(m_limitSwitch);
+
+        addChild(m_atGroundLimitSwitch);
 
         logger.info("instantiated");
     }
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new BrakeElevator());
+//        setDefaultCommand(new BrakeElevator());
+//        setDefaultCommand(new RawElevatorByJoystick());
     }
 
     public static void init() {
@@ -151,8 +153,7 @@ public class Elevator extends TimedSubsystem {
     }
 
     public boolean isFloorLevel() {
-        return m_level.getHeight() == Level.Cargo.GROUND.getHeight() ||
-                m_level.getHeight() == Level.Hatch.GROUND.getHeight();
+        return m_level.getHeight() == Level.Cargo.GROUND.getHeight() && m_atGroundLimitSwitch.get();
     }
 
     public double getHeight() {
@@ -208,16 +209,6 @@ public class Elevator extends TimedSubsystem {
         resetEncoder();
     }
 
-    public boolean isBallFullyIn() {
-        throw new UnsupportedOperationException("sensors aren't connected");
-//        return m_limitSwitch.get();
-    }
-
-    public boolean isBallIn() {
-        throw new UnsupportedOperationException("sensors aren't connected");
-//        return m_infrared.get();
-    }
-
     private void updateLevel() {
         Level[] current = OI.getOIState() == OI.State.CARGO ? Level.Cargo.values() : Level.Hatch.values();
         for (Level level : current) {
@@ -228,12 +219,18 @@ public class Elevator extends TimedSubsystem {
         }
     }
 
+    public boolean isBraking() {
+        return m_brake.get() == Value.kForward;
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
-        builder.addDoubleProperty("height", this::getHeight, this::setSmartPosition);
+//        builder.addDoubleProperty("height", this::getHeight, this::setSmartPosition);
         builder.addDoubleProperty("power", m_leader::get, this::setRawPower);
-        builder.addStringProperty("level", () -> getLevel().name(), null);
+        builder.addBooleanProperty("brake", this::isBraking, this::brake);
+//        builder.addStringProperty("level", () -> getLevel().name(), null);
+        builder.addBooleanProperty("ground limit switch", this::isFloorLevel, null);
     }
 
     public void update() {

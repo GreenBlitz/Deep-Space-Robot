@@ -4,14 +4,14 @@ import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.robotname.RobotMap.FrontPoker.Solenoid;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 
-// TODO: there is a weird bug - the extender is actually extended in kReverse, not kForward. Re-inspect upon final robot (the piston isn't fully connected)
-public class Poker extends TimedSubsystem {
+public class Poker extends Subsystem {
 
     private static Poker instance;
 

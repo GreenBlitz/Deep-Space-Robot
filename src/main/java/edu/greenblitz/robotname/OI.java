@@ -1,9 +1,8 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.robotname.commands.complex.exposed.SafeKick;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
-import edu.greenblitz.robotname.commands.simple.kicker.Kick;
-import edu.greenblitz.robotname.commands.simple.roller.ExtendRoller;
+import edu.greenblitz.robotname.commands.simple.elevator.ToggleElevatorBrake;
+import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
 import edu.greenblitz.utils.hid.CustomControlBoard;
 import edu.greenblitz.utils.hid.SmartJoystick;
 
@@ -27,10 +26,11 @@ public class OI {
 
     public static void init() {
         mainJoystick = new SmartJoystick(RobotMap.Joysticks.MAIN);
-
-        mainJoystick.A.whenPressed(new SafeKick());
-        mainJoystick.B.whenPressed(new ToggleRoller());
+//        mainJoystick.A.whenPressed(new ToggleRoller());
+//        mainJoystick.B.whenPressed(new TogglePokerExtender());
+//        mainJoystick.X.whenPressed(new ToggleElevatorBrake());
     }
+
 
     public static State getOIState() {
         return oiState;

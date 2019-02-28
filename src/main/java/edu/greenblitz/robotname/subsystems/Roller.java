@@ -5,12 +5,13 @@ import edu.greenblitz.robotname.RobotMap.Roller.Solenoid;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class Roller extends TimedSubsystem {
+public class Roller extends Subsystem {
     private static final double ROLL_IN = 0;
     private static final double ROLL_OUT = 0;
 
@@ -27,7 +28,7 @@ public class Roller extends TimedSubsystem {
 //        m_motor = new CANSparkMax(Motor.ROLLER, CANSparkMaxLowLevel.MotorType.kBrushless);
 
         addChild(m_piston);
-        m_piston.setName("ball center-er piston");
+        m_piston.setName("ball centerer piston");
 //        addChild(m_motor);
 
         logger.info("instantiated");

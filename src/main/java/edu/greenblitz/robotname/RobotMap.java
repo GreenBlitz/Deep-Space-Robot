@@ -51,20 +51,19 @@ public class RobotMap {
 
     public static class Elevator {
         public static class Motor {
-            public static final int MAIN = 0;
-            public static final int FOLLOWER = 0;
+            public static final int LEADER = 11;
+            public static final int FOLLOWER = 12;
         }
 
         public static class Sensor {
             public static final int TICKS_PER_METER = 0;
-            public static final int INFRARED = 0;
-            public static final int LIMIT_SWITCH = 0;
+            public static final int LIMIT_SWITCH = 9;
         }
 
         public static class Solenoid {
-            public static final int FORWARD = 0;
-            public static final int REVERSE = 0;
-            public static final int PCM = -1;
+            public static final int FORWARD = 4;
+            public static final int REVERSE = 5;
+            public static final int PCM = 22;
         }
 
         public static class Heights {
@@ -140,7 +139,6 @@ public class RobotMap {
 
         public static class Sensor {
             public static final int PRESSURE = 3;
-            public static final int SWITCH = 9;
         }
     }
 }

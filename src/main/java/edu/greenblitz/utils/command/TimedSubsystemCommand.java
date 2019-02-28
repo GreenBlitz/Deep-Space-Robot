@@ -1,59 +1,18 @@
 package edu.greenblitz.utils.command;
 
-import edu.greenblitz.robotname.subsystems.TimedSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
-public abstract class TimedSubsystemCommand<S extends TimedSubsystem> extends SubsystemCommand<S> {
-
-    private long startTime, duration, waitDuration;
-
-    private boolean isFirstRun;
-
-    protected TimedSubsystemCommand(S system, long duration){
-        this(system, duration, duration);
+public class TimedSubsystemCommand<S extends Subsystem> extends SubsystemCommand<S> {
+    public TimedSubsystemCommand(long ms, S system) {
+        super(ms, system);
     }
 
-    protected TimedSubsystemCommand(S system, long duration, long waitDuration) {
-        super(system);
-        this.duration = duration;
-        this.waitDuration = waitDuration;
-    }
-
-    protected abstract TimedSubsystem[] requirements();
-
-    /**
-     * OVERRIDE ONLY, DON'T CALL
-     */
-    protected abstract void timedInitialize();
-
-    /**
-     * OVERRIDE ONLY, DON'T CALL
-     */
-    protected abstract void rawExecute();
-
-    @Override
-    protected final void initialize() {
-        startTime = System.currentTimeMillis();
-        this.system.setEndOfOperationsTime(startTime + duration);
-        for (TimedSubsystem s : requirements())
-            startTime = Math.max(startTime, s.getEndOfOperationsTime());
-        for (TimedSubsystem s : requirements())
-            s.setEndOfOperationsTime(startTime + waitDuration);
-        isFirstRun = true;
-    }
-
-    @Override
-    protected final void execute() {
-        if (System.currentTimeMillis() >= startTime) {
-            if (isFirstRun) {
-                timedInitialize();
-                isFirstRun = false;
-            }
-            rawExecute();
-        }
+    public TimedSubsystemCommand(String name, long ms, S system) {
+        super(name, ms, system);
     }
 
     @Override
     protected boolean isFinished() {
-        return System.currentTimeMillis() > startTime + duration;
+        return isTimedOut();
     }
 }

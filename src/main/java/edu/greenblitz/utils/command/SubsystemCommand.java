@@ -9,4 +9,19 @@ public abstract class SubsystemCommand<S extends Subsystem> extends GBCommand {
         super(system);
         this.system = system;
     }
+
+    public SubsystemCommand(String name, S system) {
+        super(name, system);
+        this.system = system;
+    }
+
+    public SubsystemCommand(long ms, S system) {
+        super(ms / 1000.0, system);
+        this.system = system;
+    }
+
+    public SubsystemCommand(String name, long ms, S system) {
+        super(name, ms / 1000.0, system);
+        this.system = system;
+    }
 }
