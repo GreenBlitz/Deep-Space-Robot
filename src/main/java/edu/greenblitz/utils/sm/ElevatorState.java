@@ -29,7 +29,7 @@ public enum ElevatorState {
         return Arrays.asList(values());
     }
 
-    //TODO: change from height based and closet to to range based (lower height bound, higher height bound)
+    //TODO: change from height based and closet to to range based (move height bound, higher height bound)
     public static ElevatorState closestTo(double height) {
         return Arrays.stream(values()).min(Comparator.comparingDouble(o -> Math.abs(o.height - height))).orElse(GROUND);
     }
