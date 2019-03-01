@@ -1,7 +1,7 @@
 package edu.greenblitz.robotname.data.sm;
 
 public class State {
-    public static final int BASE = 16, /*Used for HASHCODE() and to make states readable by some mean. should satisfy BASE => S.LENGTH */
+    public static final int BASE = 16, /*Used for hashCode() and to make states readable by some mean. should satisfy BASE => S.LENGTH */
             COUNT = ElevatorState.values().length * RollerState.values().length * PokerState.values().length * KickerState.values().length;
     private ElevatorState m_elevatorState;
     private RollerState m_rollerState;
