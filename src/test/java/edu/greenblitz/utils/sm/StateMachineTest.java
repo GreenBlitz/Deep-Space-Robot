@@ -18,6 +18,10 @@ public class StateMachineTest {
         assertFalse(machine.isAllowed(end, start));
     }
 
-
+    @Test
+    public void generateStateMachine(){
+        StateMachine machine = StateMachineGenerator.createMachine(new State(ElevatorState.UP, RollerState.RETRACTED, PokerState.UNPOKING, KickerState.UNKICK));
+        System.out.println(machine);
+    }
 
 }
