@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.greenblitz.robotname.RobotMap.Climber.Motor;
 import edu.greenblitz.robotname.RobotMap.Climber.Sensor;
+import edu.greenblitz.utils.encoder.IEncoder;
+import edu.greenblitz.utils.encoder.SparkEncoder;
 import edu.greenblitz.utils.sendables.SendableSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -28,13 +30,18 @@ public class Climber {
     private Logger logger;
 
     public class Extender extends Subsystem {
+        private static final int TICKS_PER_METER = 1;
+
         private SendableSparkMax m_extender;
+        private IEncoder m_encoder;
 
         private Extender() {
             super("Climber::Extender");
 
             m_extender = new SendableSparkMax(Motor.EXTENDER, MotorType.kBrushless);
+            m_encoder = new SparkEncoder(TICKS_PER_METER, m_extender);
             addChild(m_extender);
+            m_extender.setName("Extender");
 
             logger.info("instantiated");
         }
@@ -47,6 +54,14 @@ public class Climber {
         public void extend(double power) {
             m_extender.set(power);
         }
+
+        public void resetEncoder() {
+            m_encoder.reset();
+        }
+
+        public double getHeight() {
+            return m_encoder.getNormalizedTicks();
+        }
     }
 
     public class Wheels extends Subsystem {
@@ -57,31 +72,29 @@ public class Climber {
             m_wheels = new WPI_TalonSRX(Motor.WHEELS);
 
             addChild(m_wheels);
+            m_wheels.setName("wheels");
 
             logger.info("instantiated");
         }
 
         @Override
         protected void initDefaultCommand() {
-            setDefaultCommand(null);
+
         }
 
         public void drive(double power) {
-            m_wheels.set(power);
+//            if (getExtender().getHeight() > 0 || power > 0)
+                m_wheels.set(power);
         }
     }
 
     public class Big extends Subsystem {
         private WPI_TalonSRX m_bigLeader;
-        private TalonSRX m_bigFollower;
         private DigitalInput m_limitSwitch;
 
         private Big() {
-            m_bigLeader = new WPI_TalonSRX(Motor.BIG_0);
-            m_bigFollower = new TalonSRX(Motor.BIG_1);
+            m_bigLeader = new WPI_TalonSRX(Motor.BIG);
             m_limitSwitch = new DigitalInput(Sensor.LIMIT_SWITCH);
-
-            m_bigFollower.follow(m_bigLeader);
 
             addChild(m_bigLeader);
             addChild(m_limitSwitch);
@@ -126,8 +139,10 @@ public class Climber {
         }
 
         private void set(double power) {
-            if (isAtLimit()) m_bigLeader.set(power);
-            else m_bigLeader.stopMotor();
+            double setpower;
+            if (!isAtLimit()) setpower = power;
+            else setpower = Math.min(Math.abs(power), 0.05)*Math.signum(power);
+            m_bigLeader.set(setpower);
         }
     }
 

@@ -36,13 +36,13 @@ public class AlignToVisionTarget extends ChassisBaseCommand {
 
     @Override
     protected boolean isFinished() {
-        if (m_controller.isFinished(get()))
+        if (m_controller.isFinished())
             if (m_onTarget == -1)
                 m_onTarget = System.currentTimeMillis();
             else
                 m_onTarget = -1;
 
-      return m_controller.isFinished(get()) && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
+      return m_controller.isFinished() && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
     }
 
     public void set(double output) {

@@ -7,8 +7,6 @@ import edu.wpi.first.networktables.NetworkTableType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Arrays;
-
 public class VisionMaster {
 
     public enum Algorithm {
@@ -71,6 +69,26 @@ public class VisionMaster {
         return new StandardVisionData(getCurrentVisionData());
     }
 
+    public StandardVisionData getStandardizedTargetsData() {
+        setCurrentAlgorithm(Algorithm.TARGETS);
+        return new StandardVisionData(getCurrentVisionData());
+    }
+
+    public StandardVisionData getStandardizedCargoData() {
+        setCurrentAlgorithm(Algorithm.CARGO);
+        return new StandardVisionData(getCurrentVisionData());
+    }
+
+    public StandardVisionData getStandardizedHatchData() {
+        setCurrentAlgorithm(Algorithm.HATCH);
+        return new StandardVisionData(getCurrentVisionData());
+    }
+
+    public StandardVisionData getStandardizedRampData() {
+        setCurrentAlgorithm(Algorithm.RAMP);
+        return new StandardVisionData(getCurrentVisionData());
+    }
+
     public double getDistance() {
         return getStandardizedData().getDistance();
     }
@@ -91,7 +109,4 @@ public class VisionMaster {
         m_values.getDoubleArray(dest);
     }
 
-    public void setVisionAlgorithm(Algorithm algo) {
-        m_visionTable.getEntry("algorithm").setString(algo.getRawName());
-    }
 }

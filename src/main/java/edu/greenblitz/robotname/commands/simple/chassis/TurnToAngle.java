@@ -28,7 +28,7 @@ public class TurnToAngle extends ChassisBaseCommand {
     }
 
     protected boolean isFinished() {
-        if (m_controller.isFinished(get()))
+        if (m_controller.isFinished())
             m_onTarget++;
         else
             m_onTarget = 0;

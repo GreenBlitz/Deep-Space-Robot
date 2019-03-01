@@ -13,8 +13,6 @@ import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollIn;
-import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollOut;
-import edu.greenblitz.robotname.commands.simple.roller.RetractAndRollIn;
 import edu.greenblitz.utils.hid.CustomControlBoard;
 import edu.greenblitz.utils.hid.SmartJoystick;
 

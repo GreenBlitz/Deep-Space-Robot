@@ -4,6 +4,7 @@ import edu.greenblitz.robotname.subsystems.Climber;
 import edu.greenblitz.utils.command.JoystickCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.greenblitz.utils.sm.State;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Optional;
 
@@ -24,6 +25,11 @@ public class ClimberExtendByJoytick extends JoystickCommand<Climber.Extender> {
 
     @Override
     protected void execute(){
-        system.extend(SmartJoystick.Axis.RIGHT_TRIGGER.getValue(joystick));
+        double rtValue = SmartJoystick.Axis.RIGHT_TRIGGER.getValue(joystick);
+        double ltValue = SmartJoystick.Axis.LEFT_TRIGGER.getValue(joystick);
+        if (rtValue < 0.01)
+            system.extend(-ltValue);
+        else
+            system.extend(rtValue);
     }
 }
