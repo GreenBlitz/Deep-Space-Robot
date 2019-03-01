@@ -12,4 +12,6 @@ public class ToggleRoller extends DynamicCommand {
     protected GBCommand pick() {
         return Roller.getInstance().isExtended() ? new RetractRoller() : new ExtendRoller();
     }
+
+
 }

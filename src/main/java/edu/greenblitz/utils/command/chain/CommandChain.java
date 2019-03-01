@@ -1,13 +1,11 @@
 package edu.greenblitz.utils.command.chain;
 
+import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 public abstract class CommandChain extends GBCommand {
 
@@ -19,8 +17,8 @@ public abstract class CommandChain extends GBCommand {
     }
 
     @Override
-    public State getDeltaState() {
-        return new State(null, null, null, null);
+    public Optional<State> getDeltaState() {
+        return Optional.empty();
     }
 
     public CommandChain(String name) {
@@ -58,7 +56,13 @@ public abstract class CommandChain extends GBCommand {
             return;
 
         if (!m_commands.isEmpty()) {
-            updateCurrentCommand();
+            if (!updateCurrentCommand()) {
+                var cmd = m_commands.peek();
+                logger.warn(
+                        "chain {} aborted due to invalid state change - command: {}, states: from {}, delta {}",
+                        getName(), cmd.getName(), Robot.getInstance().getState(), cmd.getDeltaState());
+                m_commands.clear();
+            }
         }
     }
 
@@ -77,11 +81,16 @@ public abstract class CommandChain extends GBCommand {
         requiresSoFar.clear();
     }
 
-    private void updateCurrentCommand() {
+    private boolean updateCurrentCommand() {
+        if (!m_commands.peek().canRun()) {
+            return false;
+        }
+
         m_currentCommand = m_commands.remove();
         logger.debug("update current command: {}", m_currentCommand);
         m_currentCommand.addRequirements(requiresSoFar);
         requiresSoFar.addAll(m_currentCommand.getRequirements());
         m_currentCommand.start();
+        return true;
     }
 }

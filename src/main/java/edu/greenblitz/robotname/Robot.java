@@ -46,8 +46,12 @@ public class Robot extends TimedRobot {
     private StateMachine status;
     private Report m_usageReport;
 
-    public StateMachine getStatus() {
+    public StateMachine getStateMachine() {
         return status;
+    }
+
+    public State getCurrentState() {
+        return status.getCurrentState();
     }
 
     @Override

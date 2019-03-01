@@ -1,76 +1,59 @@
 package edu.greenblitz.robotname.commands.simple.chassis;
 
 import edu.greenblitz.robotname.subsystems.Chassis;
-
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.greenblitz.utils.command.SubsystemCommand;
+import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.greenblitz.motion.pid.PIDController;
+import org.greenblitz.motion.pid.PIDObject;
+import org.greenblitz.motion.tolerance.AbsoluteTolerance;
+import org.greenblitz.motion.tolerance.ITolerance;
 
-public class TurnToAngle extends Command implements PIDSource, PIDOutput {
+import java.util.Optional;
 
-	private static double kP = 0.8, kI = 0, kD = 0;
-	private PIDController mController;
-	private int mOnTarget = 0;
-	private double targetAngle;
-	private static final double MINIMUM_OUTPUT = 0.35;
-	
-  public TurnToAngle(double angle) {
-    requires(Chassis.getInstance());
-    mController = new PIDController(kP, kI, kD, this, this);
-    targetAngle = angle;
-	}
+public class TurnToAngle extends ChassisBaseCommand {
 
-  protected void initialize() {
-    Chassis.getInstance().resetNavx();
-    mController.setAbsoluteTolerance(5/90.0);
-    mController.setSetpoint(targetAngle/90.0);
-    mController.setOutputRange(-0.8, 0.8);
-    mController.enable();
-  }
+    private static final PIDObject PID_CONFIG = new PIDObject(0.8, 0, 0);
+    private static final double MINIMUM_OUTPUT = 0.35;
+    private static final ITolerance PID_TOLERANCE = new AbsoluteTolerance(5 / 90.0);
 
-  protected boolean isFinished() {
-		if (mController.onTarget())
-			mOnTarget++;
-		else
-			mOnTarget = 0;
-		return mOnTarget >= 4;
-  }
+    private PIDController m_controller;
+    private int m_onTarget = 0;
+    private double targetAngle;
 
-  protected void end() {
-    mController.disable();
-    Chassis.getInstance().stop();
-  }
-    
-  @Override
-  protected void execute() {
-    SmartDashboard.putNumber("Target setPoint", mController.getSetpoint());
-    SmartDashboard.putNumber("Current setPoint", pidGet());
-    SmartDashboard.putBoolean("is on Target?", mController.onTarget());
-    SmartDashboard.putNumber("time on Target", mOnTarget);
-  }
+    public TurnToAngle(double angle) {
+        m_controller = new PIDController(PID_CONFIG, PID_TOLERANCE);
+        targetAngle = angle;
+    }
 
-	@Override
-	public void pidWrite(double output) {
-		if (Math.abs(output) < MINIMUM_OUTPUT) 
-			output = Math.signum(output) * MINIMUM_OUTPUT;
-		SmartDashboard.putNumber("PID Output", output);
-		Chassis.getInstance().arcadeDrive(0, output);
-	}
+    protected void initialize() {
+        Chassis.getInstance().resetNavx();
+        m_controller.configureOutputLimits(-0.8, 0.8);
+        m_controller.setGoal(targetAngle / 90.0);
+    }
 
-	@Override
-	public void setPIDSourceType(PIDSourceType pidSource) {
-	}
+    protected boolean isFinished() {
+        if (m_controller.isFinished(get()))
+            m_onTarget++;
+        else
+            m_onTarget = 0;
+        return m_onTarget >= 4;
+    }
 
-	@Override
-	public PIDSourceType getPIDSourceType() {
-		return PIDSourceType.kDisplacement;
-	}
+    @Override
+    protected void execute() {
+        set(m_controller.calculatePID(get()));
+    }
 
-	@Override
-	public double pidGet() {
-		return Chassis.getInstance().getAngle()/90.0;
-	}
+    private double angleToPID(double angle) {
+        return angle / 90;
+    }
+
+    private double get() {
+        return angleToPID(system.getAngle());
+    }
+
+    private void set(double turn) {
+        system.arcadeDrive(0, turn);
+    }
 }

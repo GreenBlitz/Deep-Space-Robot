@@ -1,15 +1,13 @@
 package edu.greenblitz.robotname.commands.simple.poker;
 
-import edu.greenblitz.robotname.subsystems.Poker;
-import edu.greenblitz.utils.command.TimedSubsystemCommand;
 import edu.greenblitz.utils.sm.PokerState;
 import edu.greenblitz.utils.sm.State;
 
-public class ClosePoker extends TimedSubsystemCommand<Poker> {
+public class ClosePoker extends PokerBaseCommand {
     private static final long POKER_CLOSE_TIMEOUT = 1000;
 
     public ClosePoker() {
-        super(POKER_CLOSE_TIMEOUT, Poker.getInstance());
+        super(POKER_CLOSE_TIMEOUT);
     }
 
     @Override
@@ -18,13 +16,7 @@ public class ClosePoker extends TimedSubsystemCommand<Poker> {
     }
 
     @Override
-    protected boolean isFinished() {
-        return system.isFullyClosed() && super.isFinished();
+    protected PokerState getNextState() {
+        return PokerState.UNPOKING;
     }
-
-    @Override
-    public State getDeltaState() {
-        return new State(null, null, PokerState.UNPOKING, null);
-    }
-
 }

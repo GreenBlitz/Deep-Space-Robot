@@ -8,20 +8,19 @@
 package edu.greenblitz.robotname.commands.simple.roller;
 
 import edu.greenblitz.robotname.subsystems.Roller;
-import edu.greenblitz.utils.command.TimedSubsystemCommand;
 import edu.greenblitz.utils.sm.RollerState;
 import edu.greenblitz.utils.sm.State;
 
-public class ExtendRoller extends TimedSubsystemCommand<Roller> {
+public class ExtendRoller extends RollerBaseCommand {
     private static final long ROLLER_EXTENSION_TIMEOUT = 2000;
 
     public ExtendRoller() {
-        super(ROLLER_EXTENSION_TIMEOUT, Roller.getInstance());
+        super(ROLLER_EXTENSION_TIMEOUT);
     }
 
     @Override
-    public State getDeltaState() {
-        return new State(null, RollerState.ROLLER_OUT, null, null);
+    protected RollerState getNextState() {
+        return RollerState.ROLLER_OUT;
     }
 
     @Override

@@ -1,52 +1,50 @@
 package edu.greenblitz.utils.sm;
 
-import java.util.Arrays;
-
 public class State {
     public static final int BASE = 16, /*Used for HASHCODE() and to make states readable by some mean. should satisfy BASE => S.LENGTH */
             COUNT = ElevatorState.values().length * RollerState.values().length * PokerState.values().length * KickerState.values().length;
-    private ElevatorState m_ElevatorState;
-    private RollerState m_RollerState;
-    private PokerState m_PokerState;
-    private KickerState m_KickerState;
+    private ElevatorState m_elevatorState;
+    private RollerState m_rollerState;
+    private PokerState m_pokerState;
+    private KickerState m_kickerState;
 
     public State(ElevatorState ElevatorState, RollerState RollerState, PokerState PokerState, KickerState KickerState) {
-        this.m_ElevatorState = ElevatorState;
-        this.m_RollerState = RollerState;
-        this.m_PokerState = PokerState;
-        this.m_KickerState = KickerState;
+        this.m_elevatorState = ElevatorState;
+        this.m_rollerState = RollerState;
+        this.m_pokerState = PokerState;
+        this.m_kickerState = KickerState;
     }
 
-    public ElevatorState getM_ElevatorState() {
-        return m_ElevatorState;
+    public ElevatorState getElevatorState() {
+        return m_elevatorState;
     }
 
-    public void setM_ElevatorState(ElevatorState m_ElevatorState) {
-        this.m_ElevatorState = m_ElevatorState;
+    public void setElevatorState(ElevatorState m_ElevatorState) {
+        this.m_elevatorState = m_ElevatorState;
     }
 
-    public RollerState getM_RollerState() {
-        return m_RollerState;
+    public RollerState getRollerState() {
+        return m_rollerState;
     }
 
-    public void setM_RollerState(RollerState m_RollerState) {
-        this.m_RollerState = m_RollerState;
+    public void setRollerState(RollerState m_RollerState) {
+        this.m_rollerState = m_RollerState;
     }
 
-    public PokerState getM_PokerState() {
-        return m_PokerState;
+    public PokerState getPokerState() {
+        return m_pokerState;
     }
 
-    public void setM_PokerState(PokerState m_PokerState) {
-        this.m_PokerState = m_PokerState;
+    public void setPokerState(PokerState m_PokerState) {
+        this.m_pokerState = m_PokerState;
     }
 
-    public KickerState getM_KickerState() {
-        return m_KickerState;
+    public KickerState getKickerState() {
+        return m_kickerState;
     }
 
-    public void setM_KickerState(KickerState m_KickerState) {
-        this.m_KickerState = m_KickerState;
+    public void setKickerState(KickerState m_KickerState) {
+        this.m_kickerState = m_KickerState;
     }
 
     /***
@@ -56,61 +54,65 @@ public class State {
     public int hashCode() {
         int ret = 0;
 
-        assert (0 <= ElevatorState.getList().indexOf(m_ElevatorState) && ElevatorState.getList().indexOf(m_ElevatorState) < BASE);
-        ret += ElevatorState.getList().indexOf(m_ElevatorState);
+        assert (0 <= ElevatorState.getList().indexOf(m_elevatorState) && ElevatorState.getList().indexOf(m_elevatorState) < BASE);
+        ret += ElevatorState.getList().indexOf(m_elevatorState);
         ret *= BASE;
 
-        assert (0 <= RollerState.getList().indexOf(m_RollerState) && RollerState.getList().indexOf(m_RollerState) < BASE);
-        ret += RollerState.getList().indexOf(m_RollerState);
+        assert (0 <= RollerState.getList().indexOf(m_rollerState) && RollerState.getList().indexOf(m_rollerState) < BASE);
+        ret += RollerState.getList().indexOf(m_rollerState);
         ret *= BASE;
 
-        assert (0 <= PokerState.getList().indexOf(m_PokerState) && PokerState.getList().indexOf(m_PokerState) < BASE);
-        ret += PokerState.getList().indexOf(m_PokerState);
+        assert (0 <= PokerState.getList().indexOf(m_pokerState) && PokerState.getList().indexOf(m_pokerState) < BASE);
+        ret += PokerState.getList().indexOf(m_pokerState);
         ret *= BASE;
 
-        assert (0 <= KickerState.getList().indexOf(m_KickerState) && KickerState.getList().indexOf(m_KickerState) < BASE);
-        ret += KickerState.getList().indexOf(m_KickerState);
+        assert (0 <= KickerState.getList().indexOf(m_kickerState) && KickerState.getList().indexOf(m_kickerState) < BASE);
+        ret += KickerState.getList().indexOf(m_kickerState);
 
         return ret;
     }
 
     @Override
-    public boolean equals(Object other){
-        if(! (other instanceof State))
+    public boolean equals(Object other) {
+        if (!(other instanceof State))
             return false;
         State os = (State) other;
-        return m_ElevatorState == os.m_ElevatorState &&
-                m_RollerState == os.m_RollerState &&
-                m_PokerState == os.m_PokerState &&
-                m_KickerState == os.m_KickerState;
+        return m_elevatorState == os.m_elevatorState &&
+                m_rollerState == os.m_rollerState &&
+                m_pokerState == os.m_pokerState &&
+                m_kickerState == os.m_kickerState;
     }
 
     @Override
     public String toString() {
         return " {" +
-                m_ElevatorState +
-                ", " + m_RollerState +
-                ", " + m_PokerState +
-                ", " + m_KickerState +
+                m_elevatorState +
+                ", " + m_rollerState +
+                ", " + m_pokerState +
+                ", " + m_kickerState +
                 "}";
     }
 
-    public String differenceString(State second){
+    public boolean hasChanges() {
+        return m_elevatorState != null || m_kickerState != null || m_pokerState != null || m_rollerState != null;
+    }
+
+    public String differenceString(State second) {
         StringBuilder builder = new StringBuilder(" {");
-        if (!m_ElevatorState.equals(second.m_ElevatorState))
-            builder.append(second.m_ElevatorState);
+        if (!m_elevatorState.equals(second.m_elevatorState))
+            builder.append(second.m_elevatorState);
         else
             builder.append(" - ");
-        if (!m_RollerState.equals(second.m_RollerState))
-            builder.append(", ").append(second.m_RollerState);
+        if (!m_rollerState.equals(second.m_rollerState))
+            builder.append(", ").append(second.m_rollerState);
         else
             builder.append(", - ");
-        if (!m_PokerState.equals(second.m_PokerState))
-            builder.append(", ").append(second.m_PokerState);
+        if (!m_pokerState.equals(second.m_pokerState))
+            builder.append(", ").append(second.m_pokerState);
         else
             builder.append(", - ");
-        if (!m_KickerState.equals(second.m_KickerState))
-            builder.append(", ").append(second.m_KickerState);
+        if (!m_kickerState.equals(second.m_kickerState))
+            builder.append(", ").append(second.m_kickerState);
         else
             builder.append(", - ");
         return builder.append("}").toString();

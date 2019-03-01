@@ -10,10 +10,14 @@ package edu.greenblitz.robotname.commands.simple.elevator;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.robotname.subsystems.Elevator.Level;
 import edu.greenblitz.utils.command.SubsystemCommand;
+import edu.greenblitz.utils.sm.ElevatorState;
+import edu.greenblitz.utils.sm.State;
 import org.greenblitz.motion.pid.PIDController;
 import org.greenblitz.motion.pid.PIDObject;
 import org.greenblitz.motion.tolerance.AbsoluteTolerance;
 import org.greenblitz.motion.tolerance.ITolerance;
+
+import java.util.Optional;
 
 public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
     private static final PIDObject PID_CONFIG = new PIDObject(0, 0, 0, 0);
@@ -56,5 +60,12 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
     protected void end() {
         super.end();
         system.stop();
+    }
+
+    @Override
+    public Optional<State> getDeltaState() {
+        return Optional.of(
+                new State(ElevatorState.closestTo(m_controller.getGoal()),
+                        null, null, null));
     }
 }

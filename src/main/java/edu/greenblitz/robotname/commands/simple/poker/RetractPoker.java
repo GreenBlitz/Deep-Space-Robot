@@ -5,11 +5,11 @@ import edu.greenblitz.utils.command.TimedSubsystemCommand;
 import edu.greenblitz.utils.sm.PokerState;
 import edu.greenblitz.utils.sm.State;
 
-public class RetractPoker extends TimedSubsystemCommand<Poker> {
+public class RetractPoker extends PokerBaseCommand {
     private static final long POKER_RETRACT_TIMEOUT = 1000;
 
     public RetractPoker() {
-        super(POKER_RETRACT_TIMEOUT, Poker.getInstance());
+        super(POKER_RETRACT_TIMEOUT);
     }
 
     @Override
@@ -18,12 +18,7 @@ public class RetractPoker extends TimedSubsystemCommand<Poker> {
     }
 
     @Override
-    public State getDeltaState() {
-        return new State(null, null, PokerState.UNPOKING, null);
-    }
-
-    @Override
-    protected boolean isFinished() {
-        return system.isRetracted();
+    protected PokerState getNextState() {
+        return PokerState.UNPOKING;
     }
 }

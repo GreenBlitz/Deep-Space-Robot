@@ -3,6 +3,8 @@ package edu.greenblitz.utils.command.dynamic;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.sm.State;
 
+import java.util.Optional;
+
 public class NullCommand extends GBCommand {
     @Override
     protected boolean isFinished() {
@@ -10,7 +12,7 @@ public class NullCommand extends GBCommand {
     }
 
     @Override
-    public State getDeltaState() {
-        return new State(null, null, null, null);
+    public Optional<State> getDeltaState() {
+        return Optional.empty();
     }
 }

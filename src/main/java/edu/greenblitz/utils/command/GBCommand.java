@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.lang.reflect.Field;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.Vector;
 
@@ -85,26 +85,35 @@ public abstract class GBCommand extends Command {
         logger.debug("command {} has ended!", getName());
     }
 
-    abstract public State getDeltaState();
+    abstract public Optional<State> getDeltaState();
 
     @Override
     public synchronized void start() {
-        reportCommandStart();
-        State currState = Robot.getInstance().getStatus().getCurrentState();
-        State newState = getDeltaState();
-        if (newState.getM_ElevatorState() == null)
-            newState.setM_ElevatorState(currState.getM_ElevatorState());
-        if (newState.getM_KickerState() == null)
-            newState.setM_KickerState(currState.getM_KickerState());
-        if (newState.getM_PokerState() == null)
-            newState.setM_PokerState(currState.getM_PokerState());
-        if (newState.getM_RollerState() == null)
-            newState.setM_RollerState(currState.getM_RollerState());
+        if (!canRun()) {
+            logger.warn("command {} aborted due to invalid state change: origin - {}, delta - {}",
+                    getName(), Robot.getInstance().getCurrentState(), getDeltaState());
+        } else {
+            reportCommandStart();
+            super.start();
+        }
+    }
 
-        if (!Robot.getInstance().getStatus().isAllowed(currState, newState))
-            return;
-        super.start();
+    public boolean canRun(){
+        State currState = Robot.getInstance().getStateMachine().getCurrentState();
+        var newStateOpt = getDeltaState();
+        if (newStateOpt.isEmpty()) return true;
 
+        var newState = newStateOpt.get();
+        if (newState.getElevatorState() == null)
+            newState.setElevatorState(currState.getElevatorState());
+        if (newState.getKickerState() == null)
+            newState.setKickerState(currState.getKickerState());
+        if (newState.getPokerState() == null)
+            newState.setPokerState(currState.getPokerState());
+        if (newState.getRollerState() == null)
+            newState.setRollerState(currState.getRollerState());
+
+        return Robot.getInstance().getStateMachine().isAllowed(currState, newState);
     }
 
     @Override
@@ -112,6 +121,4 @@ public abstract class GBCommand extends Command {
         super.end();
         reportCommandEnd();
     }
-
-
 }

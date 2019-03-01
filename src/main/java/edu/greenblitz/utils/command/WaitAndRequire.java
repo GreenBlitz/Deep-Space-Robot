@@ -3,6 +3,7 @@ package edu.greenblitz.utils.command;
 import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+import java.util.Optional;
 import java.util.Set;
 
 public class WaitAndRequire extends GBCommand {
@@ -14,8 +15,13 @@ public class WaitAndRequire extends GBCommand {
     }
 
     @Override
-    public State getDeltaState() {
-        return new State(null, null, null, null);
+    public void setName(String subsystem, String name) {
+
+    }
+
+    @Override
+    public Optional<State> getDeltaState() {
+        return Optional.empty();
     }
 
     @Override

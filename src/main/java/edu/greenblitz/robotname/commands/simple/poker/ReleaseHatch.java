@@ -5,6 +5,8 @@ import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.greenblitz.utils.sm.PokerState;
 import edu.greenblitz.utils.sm.State;
 
+import java.util.Optional;
+
 public class ReleaseHatch extends SubsystemCommand<Poker> {
 
     public ReleaseHatch() {
@@ -17,8 +19,8 @@ public class ReleaseHatch extends SubsystemCommand<Poker> {
     }
 
     @Override
-    public State getDeltaState() {
-        return new State(null, null, null, null);
+    public Optional<State> getDeltaState() {
+        return Optional.empty();
     }
 
     @Override

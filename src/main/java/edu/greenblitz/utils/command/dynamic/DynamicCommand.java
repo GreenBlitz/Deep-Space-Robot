@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Optional;
+
 /**
  * A command whose behaviour is set when it is started, by choosing and running another command.
  * and logs the name of the chosen command. Basically, it's a way more generalized version of {@link edu.wpi.first.wpilibj.command.ConditionalCommand}
@@ -30,14 +32,14 @@ public abstract class DynamicCommand extends GBCommand {
     public synchronized void start() {
         super.start();
         chosen = pick();
-        delta = chosen.getDeltaState();
+        delta = chosen.getDeltaState().orElse(new State(null, null, null, null));
         logger.debug(chosen);
         chosen.start();
     }
 
     @Override
-    public State getDeltaState() {
-        return delta;
+    public Optional<State> getDeltaState() {
+        return Optional.ofNullable(delta.hasChanges() ? delta : null);
     }
 
     @Override

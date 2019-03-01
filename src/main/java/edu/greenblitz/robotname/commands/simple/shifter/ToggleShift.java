@@ -1,9 +1,6 @@
 package edu.greenblitz.robotname.commands.simple.shifter;
 
-import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.greenblitz.robotname.subsystems.Shifter;
-import edu.greenblitz.utils.sm.PokerState;
-import edu.greenblitz.utils.sm.State;
 
 /**
  * This command switches the Gear from the state it is currently in.
@@ -11,20 +8,11 @@ import edu.greenblitz.utils.sm.State;
  * The command will stop as soon as the shift is switched.
  */
 
-public class ToggleShift extends SubsystemCommand<Shifter> {
-
-    public ToggleShift() {
-        super(Shifter.getInstance());
-    }
-
-    @Override
-    public State getDeltaState() {
-        return new State(null, null, PokerState.UNPOKING, null);
-    }
+public class ToggleShift extends ShifterBaseCommand {
 
     @Override
     protected void execute() {
-        system.toggleShift();
+        system.setShift(system.getCurrentShift() == Shifter.Gear.POWER ? Shifter.Gear.SPEED : Shifter.Gear.POWER);
     }
 
     @Override

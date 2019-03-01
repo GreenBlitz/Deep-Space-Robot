@@ -12,6 +12,8 @@ import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.greenblitz.utils.sm.RollerState;
 import edu.greenblitz.utils.sm.State;
 
+import java.util.Optional;
+
 public class RollOut extends SubsystemCommand<Roller> {
     public RollOut() {
         super(Roller.getInstance());
@@ -28,8 +30,8 @@ public class RollOut extends SubsystemCommand<Roller> {
     }
 
     @Override
-    public State getDeltaState() {
-        return new State(null, RollerState.ROLLER_OUT, null, null);
+    public Optional<State> getDeltaState() {
+        return Optional.empty();
     }
 
     @Override

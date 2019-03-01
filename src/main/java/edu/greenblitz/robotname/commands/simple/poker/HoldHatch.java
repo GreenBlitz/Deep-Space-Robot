@@ -12,6 +12,8 @@ import edu.greenblitz.robotname.subsystems.Poker;
 import edu.greenblitz.utils.sm.PokerState;
 import edu.greenblitz.utils.sm.State;
 
+import java.util.Optional;
+
 public class HoldHatch extends SubsystemCommand<Poker> {
 
     public HoldHatch() {
@@ -24,8 +26,8 @@ public class HoldHatch extends SubsystemCommand<Poker> {
     }
 
     @Override
-    public State getDeltaState() {
-        return new State(null, null, null, null);
+    public Optional<State> getDeltaState() {
+        return Optional.empty();
     }
 
     @Override

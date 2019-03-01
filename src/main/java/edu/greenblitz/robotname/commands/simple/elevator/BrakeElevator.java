@@ -12,6 +12,8 @@ import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.greenblitz.utils.sm.PokerState;
 import edu.greenblitz.utils.sm.State;
 
+import java.util.Optional;
+
 public class BrakeElevator extends SubsystemCommand<Elevator> {
 
     private static final double POWER = 0.05;
@@ -21,8 +23,8 @@ public class BrakeElevator extends SubsystemCommand<Elevator> {
     }
 
     @Override
-    public State getDeltaState() {
-        return new State(null, null, null, null);
+    public Optional<State> getDeltaState() {
+        return Optional.empty();
     }
 
     @Override

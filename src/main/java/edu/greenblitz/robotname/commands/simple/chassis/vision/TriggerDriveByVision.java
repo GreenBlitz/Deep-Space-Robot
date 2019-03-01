@@ -1,6 +1,7 @@
 package edu.greenblitz.robotname.commands.simple.chassis.vision;
 
 import edu.greenblitz.robotname.OI;
+import edu.greenblitz.robotname.commands.simple.chassis.ChassisBaseCommand;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.command.SubsystemCommand;
@@ -14,24 +15,18 @@ import org.greenblitz.motion.pid.PIDObject;
 import org.greenblitz.motion.tolerance.AbsoluteTolerance;
 import org.opencv.core.Mat;
 
-public class TriggerDriveByVision extends SubsystemCommand<Chassis>  {
+import java.util.Optional;
+
+public class TriggerDriveByVision extends ChassisBaseCommand {
 
     private PIDController m_pid;
-
 
     private static final double limitUpper = 0.3, limitAbs = 0.03;
     private static final double kP = 0.5*(2*limitUpper/Math.PI), Ki = 0, Kd = 0;
 
     public TriggerDriveByVision(){
-        super(Chassis.getInstance());
         m_pid = new PIDController(new PIDObject(kP, Ki, Kd, 0),
                 new AbsoluteTolerance(Math.toRadians(3.0)));
-    }
-
-
-    @Override
-    public State getDeltaState() {
-        return new State(null, null, null, null);
     }
 
     @Override

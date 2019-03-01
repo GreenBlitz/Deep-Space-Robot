@@ -4,9 +4,9 @@ import edu.greenblitz.robotname.subsystems.Pneumatics;
 import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.greenblitz.utils.sm.State;
 
-public class HandleCompressor extends SubsystemCommand<Pneumatics> {
+import java.util.Optional;
 
-    private long lastActivationTime, lastActivationDuration, lastSleepDuration;
+public class HandleCompressor extends SubsystemCommand<Pneumatics> {
 
     public HandleCompressor() {
         super(Pneumatics.getInstance());
@@ -15,12 +15,11 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
     @Override
     protected void initialize() {
         system.setCompressor(false);
-        resetTiming(System.currentTimeMillis());
     }
 
     @Override
-    public State getDeltaState() {
-        return new State(null, null, null, null);
+    public Optional<State> getDeltaState() {
+        return Optional.empty();
     }
 
     @Override
@@ -37,32 +36,8 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
 
     }
 
-    private void executeRestricted() {
-        var time = System.currentTimeMillis();
-        if (time > lastActivationTime + lastSleepDuration + lastActivationDuration) {
-            resetTiming(time);
-        }
-
-        if (time <= lastActivationTime + lastActivationDuration) {
-            system.setCompressor(true);
-        } else {
-            system.setCompressor(false);
-        }
-    }
-
     @Override
     protected boolean isFinished() {
         return false;
-    }
-
-    private void resetTiming(long t0) {
-        var full = system.getFullDutyCycle() * 1000;
-        var percent = system.getDutyCyclePercent();
-
-        var part = full * percent;
-
-        lastActivationTime = t0;
-        lastActivationDuration = (long) part;
-        lastSleepDuration = (long) (full - part);
     }
 }

@@ -1,8 +1,5 @@
 package edu.greenblitz.robotname.commands.simple.elevator;
 
-import edu.greenblitz.robotname.subsystems.Elevator;
-import edu.greenblitz.utils.command.SubsystemCommand;
-
 public class MoveElevatorByNativePID extends AbstractNativeElevatorMove {
     public MoveElevatorByNativePID(double destination, int loopIdx, long timeOnTarget) {
         super(destination, loopIdx, timeOnTarget);
@@ -10,6 +7,6 @@ public class MoveElevatorByNativePID extends AbstractNativeElevatorMove {
 
     @Override
     void startNativeMove() {
-        system.setPosition(m_destination);
+        system.setPosition(destination);
     }
 }

@@ -3,19 +3,53 @@ package edu.greenblitz.utils.command.chain;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ParallelCommand extends GBCommand {
     private GBCommand[] m_commands;
 
     @Override
-    public State getDeltaState() {
-        return new State(null, null, null, null);
+    public Optional<State> getDeltaState() {
+        State ret = new State(null, null, null, null);
+        var nullState = new State(null, null, null, null);
+
+        for (GBCommand c : m_commands)
+            updateState(ret, c.getDeltaState().orElse(nullState));
+
+        return Optional.ofNullable(ret.equals(nullState) ? null : ret);
+    }
+
+    private State updateState(State current, State toAdd) {
+        if (toAdd.getElevatorState() != null) {
+            if (current.getElevatorState() != null && current.getElevatorState() != toAdd.getElevatorState()) {
+                throw new RuntimeException("Two commands with conflicting states.");
+            }
+            current.setElevatorState(toAdd.getElevatorState());
+        }
+        if (toAdd.getKickerState() != null) {
+            if (current.getKickerState() != null && current.getKickerState() != toAdd.getKickerState()) {
+                throw new RuntimeException("Two commands with conflicting states.");
+            }
+            current.setKickerState(toAdd.getKickerState());
+        }
+        if (toAdd.getPokerState() != null) {
+            if (current.getPokerState() != null && current.getPokerState() != toAdd.getPokerState()) {
+                throw new RuntimeException("Two commands with conflicting states.");
+            }
+            current.setPokerState(toAdd.getPokerState());
+        }
+        if (toAdd.getRollerState() != null) {
+            if (current.getRollerState() != null && current.getRollerState() != toAdd.getRollerState()) {
+                throw new RuntimeException("Two commands with conflicting states.");
+            }
+            current.setRollerState(toAdd.getRollerState());
+        }
+        return current;
     }
 
     public ParallelCommand(GBCommand... commands) {
@@ -34,6 +68,7 @@ public class ParallelCommand extends GBCommand {
         super(name, timeout);
         m_commands = commands;
         addParallel();
+        getDeltaState();
     }
 
     private void addParallel() {
@@ -71,7 +106,7 @@ public class ParallelCommand extends GBCommand {
     }
 
     @Override
-    protected void end(){
+    protected void end() {
         Arrays.stream(m_commands).forEach(Command::cancel);
     }
 

@@ -1,78 +1,61 @@
 package edu.greenblitz.robotname.commands.simple.chassis.vision;
 
+import edu.greenblitz.robotname.commands.simple.chassis.ChassisBaseCommand;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
-import edu.greenblitz.robotname.subsystems.Chassis;
-import edu.greenblitz.utils.command.SubsystemCommand;
-import edu.greenblitz.utils.sm.State;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
+import org.greenblitz.motion.pid.PIDController;
+import org.greenblitz.motion.pid.PIDObject;
+import org.greenblitz.motion.tolerance.AbsoluteTolerance;
+import org.greenblitz.motion.tolerance.ITolerance;
 
-public class AlignToVisionTarget extends SubsystemCommand<Chassis> implements PIDSource, PIDOutput {
+public class AlignToVisionTarget extends ChassisBaseCommand {
 
     private static final double FULL_POWER = 0;
     private static final long TIME_ON_TARGET = 0;
+    private static final PIDObject PID_CONFIG = new PIDObject(0, 0, 0);
+    private static final ITolerance PID_TOLERANCE = new AbsoluteTolerance(0.1);
+
     private long m_onTarget = -1;
-    private static final double kP = 0, kI = 0, kD = 0;
 
     private PIDController m_controller;
 
-    @Override
-    public State getDeltaState() {
-        return new State(null, null, null, null);
-    }
-
-
     public AlignToVisionTarget(){
-        super(Chassis.getInstance());
-        m_controller = new PIDController(kP, kI, kD, this, this);
+        m_controller = new PIDController(PID_CONFIG, PID_TOLERANCE);
     }
 
     @Override
     public void initialize() {
         VisionMaster.getInstance().setCurrentAlgorithm(VisionMaster.Algorithm.TARGETS);
-        m_controller.setAbsoluteTolerance(0);
-        m_controller.setSetpoint(0);
-        m_controller.setOutputRange(-FULL_POWER, FULL_POWER);
-        m_controller.enable();
+        m_controller.setGoal(0);
+        m_controller.configureOutputLimits(-FULL_POWER, FULL_POWER);
     }
 
     @Override
     protected void execute() {
-      if (m_controller.onTarget())
-            if (m_onTarget == -1)
-                m_onTarget = System.currentTimeMillis();
-            else
-                m_onTarget = -1;
+        set(m_controller.calculatePID(get()));
     }
 
     @Override
     protected boolean isFinished() {
-      return m_controller.onTarget() && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
+        if (m_controller.isFinished(get()))
+            if (m_onTarget == -1)
+                m_onTarget = System.currentTimeMillis();
+            else
+                m_onTarget = -1;
+
+      return m_controller.isFinished(get()) && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
     }
 
-    @Override
-    public void pidWrite(double output) {
+    public void set(double output) {
         system.tankDrive(-output, output);
     }
 
     @Override
-    public void setPIDSourceType(PIDSourceType pidSource) {}
-
-    @Override
-    public PIDSourceType getPIDSourceType() {
-        return PIDSourceType.kDisplacement;
-    }
-
-    @Override
     public void end(){
-        m_controller.disable();
+        super.end();
         system.stop();
     }
 
-    @Override
-    public double pidGet() {
+    public double get() {
         return VisionMaster.getInstance().getStandardizedData().getCenterAngle();
     }
 }

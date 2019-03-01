@@ -7,22 +7,19 @@
 
 package edu.greenblitz.robotname.commands.simple.kicker;
 
-import edu.greenblitz.robotname.subsystems.Kicker;
-import edu.greenblitz.utils.command.TimedSubsystemCommand;
 import edu.greenblitz.utils.sm.KickerState;
-import edu.greenblitz.utils.sm.State;
 
-public class Unkick extends TimedSubsystemCommand<Kicker> {
+public class Unkick extends KickerBaseCommand {
 
     private static final long KICKER_CLOSE_TIMEOUT = 1000;
 
     public Unkick(long ms) {
-        super(ms, Kicker.getInstance());
+        super(ms);
     }
 
     @Override
-    public State getDeltaState() {
-        return new State(null, null, null, KickerState.UNKICK);
+    protected KickerState getNextState() {
+        return KickerState.UNKICK;
     }
 
     public Unkick() {

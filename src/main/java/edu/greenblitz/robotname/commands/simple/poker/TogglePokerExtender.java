@@ -6,11 +6,11 @@ import edu.greenblitz.utils.command.TimedSubsystemCommand;
 import edu.greenblitz.utils.sm.PokerState;
 import edu.greenblitz.utils.sm.State;
 
-public class TogglePokerExtender extends TimedSubsystemCommand<Poker> {
+public class TogglePokerExtender extends PokerBaseCommand {
     private static final long POKER_TOGGLE_TIMEOUT = 1000;
 
     public TogglePokerExtender() {
-        super(POKER_TOGGLE_TIMEOUT, Poker.getInstance());
+        super(POKER_TOGGLE_TIMEOUT);
     }
 
     @Override
@@ -19,15 +19,10 @@ public class TogglePokerExtender extends TimedSubsystemCommand<Poker> {
     }
 
     @Override
-    public State getDeltaState() {
-        return new State(null, null,
-                Robot.getInstance().getStatus().getCurrentState().getM_PokerState() == PokerState.UNPOKING
-                        ? PokerState.POKING : PokerState.UNPOKING,
-                null);
-    }
-
-    @Override
-    protected boolean isFinished() {
-        return true;
+    protected PokerState getNextState() {
+        if (Robot.getInstance().getStateMachine().getCurrentState().getPokerState() == PokerState.UNPOKING)
+                return PokerState.POKING;
+        else
+            return PokerState.UNPOKING;
     }
 }
