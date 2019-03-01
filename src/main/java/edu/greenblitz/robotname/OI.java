@@ -7,6 +7,7 @@ import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.poker.EnsurePokerExtended;
 import edu.greenblitz.robotname.commands.complex.hidden.poker.EnsurePokerRetracted;
+import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeExtendAndRollIn;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeRetractAndRollIn;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
@@ -44,15 +45,15 @@ public class OI {
         mainJoystick.B.whenPressed(new TogglePokerExtender());
         mainJoystick.X.whenPressed(new ToggleRoller());
 
-        sideJoystick.SMALL_RED.whenActive(new PrepareToExchangeGameObject(State.CARGO, ExchangeHeight.ELEVATOR_RESET));
-        sideJoystick.BOTTOM_SMALL_GREEN.whenActive(new PrepareToExchangeGameObject(getOIState(), ExchangeHeight.CARGO_SHIP));
-        sideJoystick.SMALL_YELLOW.whenActive(new PrepareToExchangeGameObject(getOIState(), ExchangeHeight.ROCKET_1));
-        sideJoystick.SMALL_BLUE.whenActive(new PrepareToExchangeGameObject(getOIState(), ExchangeHeight.ROCKET_2));
-        sideJoystick.TOP_SMALL_GREEN.whenActive(new PrepareToExchangeGameObject(getOIState(), ExchangeHeight.ROCKET_3));
+        sideJoystick.SMALL_RED.whenPressed(new PrepareToExchangeGameObject(State.CARGO, ExchangeHeight.ELEVATOR_RESET));
+        sideJoystick.BOTTOM_SMALL_GREEN.whenPressed(new PrepareToExchangeGameObject(getOIState(), ExchangeHeight.CARGO_SHIP));
+        sideJoystick.SMALL_YELLOW.whenPressed(new PrepareToExchangeGameObject(getOIState(), ExchangeHeight.ROCKET_1));
+        sideJoystick.SMALL_BLUE.whenPressed(new PrepareToExchangeGameObject(getOIState(), ExchangeHeight.ROCKET_2));
+        sideJoystick.TOP_SMALL_GREEN.whenPressed(new PrepareToExchangeGameObject(getOIState(), ExchangeHeight.ROCKET_3));
 
         //TODO: decide on good buttons
-        sideJoystick.LEFT_WHITE.whileActive(new ClimbByJoystick());
-        sideJoystick.RIGHT_WHITE.whenPressed(new ExtendAndRollIn());
+        sideJoystick.LEFT_WHITE.whenActive(new ClimbByJoystick());
+        sideJoystick.RIGHT_WHITE.whenPressed(new SafeExtendAndRollIn());
         sideJoystick.RIGHT_WHITE.whenReleased(new SafeRetractAndRollIn());
         sideJoystick.RIGHT_BLACK.whenPressed(new EnsurePokerExtended());
         sideJoystick.RIGHT_BLACK.whenReleased(new EnsurePokerRetracted());
