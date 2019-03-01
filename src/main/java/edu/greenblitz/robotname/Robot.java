@@ -1,20 +1,16 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.robotname.data.GeneralState;
 import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.*;
-import edu.greenblitz.robotname.data.sm.*;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.TimedRobot;
+import edu.greenblitz.utils.sm.*;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.function.Supplier;
 
 public class Robot extends TimedRobot {
@@ -40,62 +36,51 @@ public class Robot extends TimedRobot {
     }
 
     private PowerDistributionPanel m_pdp;
-    private GeneralState m_state;
     private Logger logger;
-    private StateMachine status;
+    private StateMachine m_status;
     private Report m_usageReport;
 
     public StateMachine getStateMachine() {
-        return status;
+        return m_status;
     }
 
     public State getCurrentState() {
-        return status.getCurrentState();
+        return m_status.getCurrentState();
     }
 
     @Override
     public void robotInit() {
         logger = LogManager.getLogger(getClass());
         m_usageReport = new Report();
-        status = StateMachineGenerator.createMachine(
+        m_status = StateMachineGenerator.createMachine(
                 new State(ElevatorState.UP, RollerState.RETRACTED, PokerState.UNPOKING, KickerState.UNKICK)
         );
 
-        Chassis.init();
-//        Shifter.init();
-//        Climber.init();
-//        Elevator.init();
-//        Roller.init();
-//        Kicker.init();
-//        Poker.init();
-//        Pneumatics.init();
-
-
-//        m_state = new GeneralState();
-        m_pdp = new PowerDistributionPanel();
-
-        OI.init();
+        OI.initJoysticks();
 
         SmartDashboard.putData(Scheduler.getInstance());
+//        allowChassis();
+//        allowElevator();
+        allowKicker();
+        allowPoker();
+//        allowPneumatics();
+        allowRoller();
+//        allowShifter();
 
-        SmartDashboard.putData(Chassis.getInstance());
-//        SmartDashboard.putData(Shifter.getInstance());
-//        SmartDashboard.putData(Climber.getInstance().getBig());
-//        SmartDashboard.putData(Climber.getInstance().getWheels());
-//        SmartDashboard.putData(Climber.getInstance().getExtender());
-//        SmartDashboard.putData(Elevator.getInstance());
-//        SmartDashboard.putData(Roller.getInstance());
-//        SmartDashboard.putData(Kicker.getInstance());
-//        SmartDashboard.putData(Poker.getInstance());
-//        SmartDashboard.putData(Pneumatics.getInstance());
+        OI.initBindings();
+
+        m_pdp = new PowerDistributionPanel();
 
         VisionMaster.init();
-        // Chassis.getInstance().startLoclizer();
     }
 
     @Override
     public void disabledInit() {
         Scheduler.getInstance().removeAll();
+        if (m_usageReport.isReportValid()) report();
+    }
+
+    private void report() {
         m_usageReport.toShuffleboard();
 
         System.out.println("-----------------------------------------------------");
@@ -154,14 +139,47 @@ public class Robot extends TimedRobot {
 //        Elevator.getInstance().reset();
 
         m_usageReport.reset();
-//        m_state.reset();
-    }
-
-    public GeneralState getState() {
-        return m_state;
+        m_status.setCurrentState(
+                new State(ElevatorState.UP, RollerState.RETRACTED, PokerState.UNPOKING, KickerState.UNKICK)
+        );
     }
 
     public Report getReport() {
         return m_usageReport;
+    }
+
+    private void allowChassis() {
+        Chassis.init();
+        SmartDashboard.putData(Chassis.getInstance());
+    }
+
+    private void allowShifter() {
+        Shifter.init();
+        SmartDashboard.putData(Shifter.getInstance());
+    }
+
+    private void allowElevator() {
+        Elevator.init();
+        SmartDashboard.putData(Elevator.getInstance());
+    }
+
+    private void allowRoller() {
+        Roller.init();
+        SmartDashboard.putData(Roller.getInstance());
+    }
+
+    private void allowKicker() {
+        Kicker.init();
+        SmartDashboard.putData(Kicker.getInstance());
+    }
+
+    private void allowPoker() {
+        Poker.init();
+        SmartDashboard.putData(Poker.getInstance());
+    }
+
+    private void allowPneumatics() {
+        Pneumatics.init();
+        SmartDashboard.putData(Pneumatics.getInstance());
     }
 }

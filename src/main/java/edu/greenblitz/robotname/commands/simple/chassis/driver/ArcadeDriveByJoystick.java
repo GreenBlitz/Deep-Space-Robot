@@ -18,7 +18,7 @@ public class ArcadeDriveByJoystick extends ChassisBaseCommand {
 
     @Override
     protected void initialize() {
-        Chassis.getInstance().setRampingRate(RAMPING_RATE_JOYSTIK);
+        Chassis.getInstance().setRampRate(RAMPING_RATE_JOYSTIK);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ArcadeDriveByJoystick extends ChassisBaseCommand {
     @Override
     protected void end() {
         super.end();
-        Chassis.getInstance().setRampingRate(0);
+        Chassis.getInstance().setRampRate(0);
         Chassis.getInstance().stop();
     }
 }

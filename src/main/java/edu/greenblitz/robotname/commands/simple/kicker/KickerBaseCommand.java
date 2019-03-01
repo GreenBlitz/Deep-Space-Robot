@@ -2,8 +2,8 @@ package edu.greenblitz.robotname.commands.simple.kicker;
 
 import edu.greenblitz.robotname.subsystems.Kicker;
 import edu.greenblitz.utils.command.TimedSubsystemCommand;
-import edu.greenblitz.robotname.data.sm.KickerState;
-import edu.greenblitz.robotname.data.sm.State;
+import edu.greenblitz.utils.sm.KickerState;
+import edu.greenblitz.utils.sm.State;
 
 import java.util.Optional;
 

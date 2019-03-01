@@ -13,12 +13,16 @@ import edu.greenblitz.utils.sendables.SendableSparkMax;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.SparkEncoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenblitz.motion.base.Position;
 
 public class Chassis extends Subsystem {
+    private static final double DEADZONE = 0.08;
+    private static final double GAMMA = 1;
+    private static final double MULTIPLIER = 1;
+
     private static Chassis instance;
 
     private Logger logger;
@@ -64,16 +68,13 @@ public class Chassis extends Subsystem {
     }
 
     @Override
-    public void initSendable(SendableBuilder builder) {
-        super.initSendable(builder);
-    }
-
-    @Override
     public void initDefaultCommand() {
         setDefaultCommand(new ArcadeDriveByJoystick(OI.getMainJoystick()));
     }
 
     public void arcadeDrive(double move, double rotate) {
+        SmartDashboard.putNumber("move", move);
+        SmartDashboard.putNumber("rotate", rotate);
         setLeftRightMotorOutput(move + rotate, move - rotate);
     }
 
@@ -146,18 +147,30 @@ public class Chassis extends Subsystem {
     public Logger getLogger() {
         return logger;
     }
-    
+
     private void setLeftRightMotorOutput(double l, double r) {
+        l = gamma(deadzone(l));
+        r = gamma(deadzone(r));
+        SmartDashboard.putNumber("raw left", l);
+        SmartDashboard.putNumber("raw right", r);
         m_leftLeader.set(l);
         m_rightLeader.set(r);
     }
 
-    public void setRampingRate(double timeToTopSpeed){
+    public void setRampRate(double timeToTopSpeed){
         m_leftLeader.setOpenLoopRampRate(timeToTopSpeed);
         m_rightLeader.setOpenLoopRampRate(timeToTopSpeed);
     }
 
     public void startLoclizer(){
         m_localizer.start();
+    }
+
+    private double deadzone(double power) {
+        return Math.abs(power) < DEADZONE ? 0 : power;
+    }
+
+    private double gamma(double power) {
+        return Math.pow(Math.abs(power), GAMMA) * MULTIPLIER * Math.signum(GAMMA);
     }
 }

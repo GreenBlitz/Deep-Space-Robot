@@ -12,6 +12,6 @@ public class ElevatorCrossingCruiseFromAbove extends BinaryChoiceCommand {
 
     @Override
     protected Boolean state() {
-        return Robot.getInstance().getState().hasBall();
+        return Robot.getInstance().getCurrentState().hasBall();
     }
 }

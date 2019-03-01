@@ -2,8 +2,8 @@ package edu.greenblitz.robotname.commands.simple.poker;
 
 import edu.greenblitz.robotname.subsystems.Poker;
 import edu.greenblitz.utils.command.TimedSubsystemCommand;
-import edu.greenblitz.robotname.data.sm.PokerState;
-import edu.greenblitz.robotname.data.sm.State;
+import edu.greenblitz.utils.sm.PokerState;
+import edu.greenblitz.utils.sm.State;
 
 import java.util.Optional;
 

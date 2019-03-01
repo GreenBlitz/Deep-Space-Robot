@@ -13,8 +13,8 @@ import org.apache.logging.log4j.Logger;
 
 
 public class Roller extends Subsystem {
-    private static final double ROLL_IN = 0.2;
-    private static final double ROLL_OUT = -0.2;
+    private static final double ROLL_IN = -0.2;
+    private static final double ROLL_OUT = 0.2;
 
     private static Roller instance;
 

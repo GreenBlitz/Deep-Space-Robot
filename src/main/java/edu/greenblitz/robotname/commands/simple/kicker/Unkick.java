@@ -7,7 +7,7 @@
 
 package edu.greenblitz.robotname.commands.simple.kicker;
 
-import edu.greenblitz.robotname.data.sm.KickerState;
+import edu.greenblitz.utils.sm.KickerState;
 
 public class Unkick extends KickerBaseCommand {
 

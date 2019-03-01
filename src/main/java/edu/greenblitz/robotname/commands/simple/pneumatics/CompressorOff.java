@@ -2,7 +2,7 @@ package edu.greenblitz.robotname.commands.simple.pneumatics;
 
 import edu.greenblitz.robotname.subsystems.Pneumatics;
 import edu.greenblitz.utils.command.SubsystemCommand;
-import edu.greenblitz.robotname.data.sm.State;
+import edu.greenblitz.utils.sm.State;
 
 import java.util.Optional;
 

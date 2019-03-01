@@ -2,7 +2,7 @@ package edu.greenblitz.utils.command.chain;
 
 import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.utils.command.GBCommand;
-import edu.greenblitz.robotname.data.sm.State;
+import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import java.util.*;
@@ -60,7 +60,7 @@ public abstract class CommandChain extends GBCommand {
                 var cmd = m_commands.peek();
                 logger.warn(
                         "chain {} aborted due to invalid state change - command: {}, states: from {}, delta {}",
-                        getName(), cmd.getName(), Robot.getInstance().getState(), cmd.getDeltaState());
+                        getName(), cmd.getName(), Robot.getInstance().getCurrentState(), cmd.getDeltaState());
                 m_commands.clear();
             }
         }

@@ -1,7 +1,7 @@
 package edu.greenblitz.utils.command.dynamic;
 
 import edu.greenblitz.utils.command.GBCommand;
-import edu.greenblitz.robotname.data.sm.State;
+import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,13 +26,13 @@ public abstract class DynamicCommand extends GBCommand {
     protected static Logger logger = LogManager.getLogger("chosen commands");
 
     private GBCommand chosen;
-    private State delta;
+    private State delta = new State();
 
     @Override
     public synchronized void start() {
         super.start();
         chosen = pick();
-        delta = chosen.getDeltaState().orElse(new State(null, null, null, null));
+        delta = chosen.getDeltaState().orElse(new State());
         logger.debug(chosen);
         chosen.start();
     }

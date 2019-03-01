@@ -7,7 +7,7 @@
 
 package edu.greenblitz.robotname.commands.simple.roller;
 
-import edu.greenblitz.robotname.data.sm.RollerState;
+import edu.greenblitz.utils.sm.RollerState;
 
 public class RetractRoller extends RollerBaseCommand {
     private static final long ROLLER_RETRACTION_TIMEOUT = 1000;

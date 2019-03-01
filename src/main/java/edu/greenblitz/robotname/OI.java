@@ -2,11 +2,14 @@ package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.SafeKick;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
-import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
-import edu.greenblitz.robotname.commands.simple.elevator.ToggleElevatorBrake;
-import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
+import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollOut;
+import edu.greenblitz.robotname.commands.simple.roller.RollIn;
+import edu.greenblitz.robotname.commands.simple.roller.RollOut;
+import edu.greenblitz.robotname.commands.simple.shifter.ToggleShift;
 import edu.greenblitz.utils.hid.CustomControlBoard;
 import edu.greenblitz.utils.hid.SmartJoystick;
+
+import javax.management.MBeanAttributeInfo;
 
 public class OI {
     public enum State {
@@ -26,11 +29,14 @@ public class OI {
         return sideJoystick;
     }
 
-    public static void init() {
-        mainJoystick = new SmartJoystick(RobotMap.Joysticks.MAIN);
-
+    public static void initJoysticks() {
+        if (mainJoystick == null) mainJoystick = new SmartJoystick(RobotMap.Joysticks.MAIN);
+        if (sideJoystick == null) sideJoystick = new CustomControlBoard(RobotMap.Joysticks.SIDE);
     }
 
+    public static void initBindings() {
+        mainJoystick.A.whenPressed(new SafeKick());
+    }
 
     public static State getOIState() {
         return oiState;

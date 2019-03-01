@@ -1,4 +1,4 @@
-package edu.greenblitz.robotname.data.sm;
+package edu.greenblitz.utils.sm;
 
 public class State {
     public static final int BASE = 16, /*Used for hashCode() and to make states readable by some mean. should satisfy BASE => S.LENGTH */
@@ -13,6 +13,10 @@ public class State {
         this.m_rollerState = RollerState;
         this.m_pokerState = PokerState;
         this.m_kickerState = KickerState;
+    }
+
+    public State() {
+        this(null, null, null, null);
     }
 
     public ElevatorState getElevatorState() {
@@ -95,6 +99,10 @@ public class State {
 
     public boolean hasChanges() {
         return m_elevatorState != null || m_kickerState != null || m_pokerState != null || m_rollerState != null;
+    }
+
+    public boolean hasBall() {
+        return m_kickerState == KickerState.BALL;
     }
 
     public String differenceString(State second) {

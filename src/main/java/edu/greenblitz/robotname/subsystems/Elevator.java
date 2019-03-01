@@ -225,10 +225,8 @@ public class Elevator extends Subsystem {
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
-//        builder.addDoubleProperty("height", this::getHeight, this::setSmartPosition);
         builder.addDoubleProperty("power", m_leader::get, this::setRawPower);
         builder.addBooleanProperty("brake", this::isBraking, this::brake);
-//        builder.addStringProperty("level", () -> getLevel().name(), null);
         builder.addBooleanProperty("ground limit switch", this::isFloorLevel, null);
     }
 

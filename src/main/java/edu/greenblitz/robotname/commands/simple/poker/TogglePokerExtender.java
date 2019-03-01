@@ -1,7 +1,7 @@
 package edu.greenblitz.robotname.commands.simple.poker;
 
 import edu.greenblitz.robotname.Robot;
-import edu.greenblitz.robotname.data.sm.PokerState;
+import edu.greenblitz.utils.sm.PokerState;
 
 public class TogglePokerExtender extends PokerBaseCommand {
     private static final long POKER_TOGGLE_TIMEOUT = 1000;

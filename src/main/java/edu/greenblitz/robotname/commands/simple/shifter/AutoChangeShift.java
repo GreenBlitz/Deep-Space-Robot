@@ -2,7 +2,7 @@ package edu.greenblitz.robotname.commands.simple.shifter;
 
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.robotname.subsystems.Shifter;
-import edu.greenblitz.robotname.data.sm.State;
+import edu.greenblitz.utils.sm.State;
 import org.greenblitz.motion.app.Localizer;
 
 import java.util.Optional;

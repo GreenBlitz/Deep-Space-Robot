@@ -44,9 +44,8 @@ public class Report {
         return m_startingVoltage;
     }
 
-
     public boolean isReportValid() {
-        return Double.isNaN(getStartingVoltage());
+        return !Double.isNaN(getStartingVoltage());
     }
 
     /**

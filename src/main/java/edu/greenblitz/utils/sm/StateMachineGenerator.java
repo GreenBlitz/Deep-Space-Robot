@@ -1,4 +1,4 @@
-package edu.greenblitz.robotname.data.sm;
+package edu.greenblitz.utils.sm;
 
 public class StateMachineGenerator {
 

@@ -14,17 +14,11 @@ import org.apache.logging.log4j.Logger;
 import static edu.greenblitz.robotname.RobotMap.Pneumatics.PCM;
 
 public class Pneumatics extends Subsystem {
-    private static final double DEFAULT_DUTY_CYCLE_PERCENT = 0.1;
     private static final double DEFAULT_MIN_PRESSURE_RELEASED = 40;
     private static final double DEFAULT_MAX_PRESSURE_RELEASED = 80;
-    private static final double DEFAULT_CRITICAL_PRESSURE_HELD = 100;
-    private static final double DEFAULT_FULL_DUTY_CYCLE = 60;
 
-    private static final String SMD_DUTY_CYCLE_PERCENT = "Pneumatics::duty cycle %";
     private static final String SMD_MAX_PRESSURE_RELEASED = "Pneumatics::max pressure";
     private static final String SMD_MIN_PRESSURE_RELEASED = "Pneumatics::min pressure";
-    private static final String SMD_CRITICAL_PRESSURE_HELD = "Pneumatics::critical pressure";
-    private static final String SMD_FULL_DUTY_CYCLE = "Pneumatics::full duty cycle";
 
     private static Pneumatics instance;
 
@@ -96,23 +90,11 @@ public class Pneumatics extends Subsystem {
         setDefaultCommand(null);
     }
 
-    public double getDutyCyclePercent() {
-        return SmartDashboard.getNumber(SMD_DUTY_CYCLE_PERCENT, DEFAULT_DUTY_CYCLE_PERCENT);
-    }
-
     public double getMinPressureReleased() {
         return SmartDashboard.getNumber(SMD_MIN_PRESSURE_RELEASED, DEFAULT_MIN_PRESSURE_RELEASED);
     }
 
     public double getMaxPressureReleased() {
         return SmartDashboard.getNumber(SMD_MAX_PRESSURE_RELEASED, DEFAULT_MAX_PRESSURE_RELEASED);
-    }
-
-    public double getCriticalPressureHeld() {
-        return SmartDashboard.getNumber(SMD_CRITICAL_PRESSURE_HELD, DEFAULT_CRITICAL_PRESSURE_HELD);
-    }
-
-    public double getFullDutyCycle() {
-        return SmartDashboard.getNumber(SMD_FULL_DUTY_CYCLE, DEFAULT_FULL_DUTY_CYCLE);
     }
 }

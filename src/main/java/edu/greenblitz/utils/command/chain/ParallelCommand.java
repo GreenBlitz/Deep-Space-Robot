@@ -1,7 +1,7 @@
 package edu.greenblitz.utils.command.chain;
 
 import edu.greenblitz.utils.command.GBCommand;
-import edu.greenblitz.robotname.data.sm.State;
+import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 

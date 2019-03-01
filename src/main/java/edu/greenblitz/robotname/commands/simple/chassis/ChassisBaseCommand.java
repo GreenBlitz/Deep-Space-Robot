@@ -2,7 +2,7 @@ package edu.greenblitz.robotname.commands.simple.chassis;
 
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.command.SubsystemCommand;
-import edu.greenblitz.robotname.data.sm.State;
+import edu.greenblitz.utils.sm.State;
 
 import java.util.Optional;
 

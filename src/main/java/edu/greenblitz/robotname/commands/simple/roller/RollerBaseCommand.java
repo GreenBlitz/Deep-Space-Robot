@@ -2,8 +2,8 @@ package edu.greenblitz.robotname.commands.simple.roller;
 
 import edu.greenblitz.robotname.subsystems.Roller;
 import edu.greenblitz.utils.command.TimedSubsystemCommand;
-import edu.greenblitz.robotname.data.sm.RollerState;
-import edu.greenblitz.robotname.data.sm.State;
+import edu.greenblitz.utils.sm.RollerState;
+import edu.greenblitz.utils.sm.State;
 
 import java.util.Optional;
 

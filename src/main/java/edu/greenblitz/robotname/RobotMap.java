@@ -56,13 +56,13 @@ public class RobotMap {
         }
 
         public static class Sensor {
-            public static final int TICKS_PER_METER = 0;
+            public static final int TICKS_PER_METER = 1;
             public static final int LIMIT_SWITCH = 9;
         }
 
         public static class Solenoid {
-            public static final int FORWARD = 6;
-            public static final int REVERSE = 7;
+            public static final int FORWARD = 7;
+            public static final int REVERSE = 6;
             public static final int PCM = 21;
         }
 
@@ -95,8 +95,8 @@ public class RobotMap {
         }
 
         public static class Solenoid {
-            public static final int FORWARD = 5;
-            public static final int REVERSE = 4;
+            public static final int FORWARD = 4;
+            public static final int REVERSE = 5;
             public static final int PCM = 22;
         }
     }

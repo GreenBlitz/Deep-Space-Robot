@@ -1,12 +1,13 @@
 package edu.greenblitz.utils.command;
 
 import edu.greenblitz.robotname.Robot;
-import edu.greenblitz.robotname.data.sm.State;
+import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -15,38 +16,53 @@ import java.util.Vector;
 public abstract class GBCommand extends Command {
     protected static final Logger logger = LogManager.getLogger(GBCommand.class);
 
-    public GBCommand() {
+    private static final Field requirements;
+    private static final Field requirementsSet;
+
+    static {
+        try {
+            Class WPISet = Class.forName("edu.wpi.first.wpilibj.command.Set");
+            requirements = WPISet.getDeclaredField("m_set");
+            requirements.setAccessible(true);
+            requirementsSet = Command.class.getDeclaredField("m_requirements");
+            requirementsSet.setAccessible(true);
+        } catch (ClassNotFoundException | NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
-    public void addRequirements(Iterable<Subsystem> systems){
+    public void addRequirements(Iterable<Subsystem> systems) {
         for (Subsystem s : systems)
             requires(s);
     }
 
-    @SuppressWarnings("unchecked")
     public final Set<Subsystem> getRequirements() {
         var ret = new HashSet<>(getWPILibRequirements());
         ret.addAll(getLazyRequirements());
         return ret;
     }
 
+    /**
+     * Reflection is love, reflection is life
+     *
+     * @return the wpilib managed requirements of this command
+     */
     @SuppressWarnings("unchecked")
     public final Set<Subsystem> getWPILibRequirements() {
         try {
-            Class WPISet = Class.forName("edu.wpi.first.wpilibj.command.Set");
-            var requirements = WPISet.getDeclaredField("m_set");
-            requirements.setAccessible(true);
-            var requirementSet = Command.class.getDeclaredField("m_requirements");
-            requirementSet.setAccessible(true);
-            var wpiRequires = (Vector<Subsystem>) requirements.get(requirementSet.get(this));
+            var wpiRequires = (Vector<Subsystem>) requirements.get(requirementsSet.get(this));
             return new HashSet<>(wpiRequires);
-        } catch (IllegalAccessException | ClassNotFoundException | NoSuchFieldException e) {
+        } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
 
     public Set<Subsystem> getLazyRequirements() {
         return Set.of();
+    }
+
+    public GBCommand() {
     }
 
     public GBCommand(String name) {
@@ -92,13 +108,13 @@ public abstract class GBCommand extends Command {
         if (!canRun()) {
             logger.warn("command {} aborted due to invalid state change: origin - {}, delta - {}",
                     getName(), Robot.getInstance().getCurrentState(), getDeltaState());
-        } else {
+        } //else {
             reportCommandStart();
             super.start();
-        }
+//        }
     }
 
-    public boolean canRun(){
+    public boolean canRun() {
         State currState = Robot.getInstance().getStateMachine().getCurrentState();
         var newStateOpt = getDeltaState();
         if (newStateOpt.isEmpty()) return true;
