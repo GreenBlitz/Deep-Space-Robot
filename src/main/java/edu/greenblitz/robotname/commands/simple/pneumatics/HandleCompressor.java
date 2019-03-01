@@ -2,6 +2,7 @@ package edu.greenblitz.robotname.commands.simple.pneumatics;
 
 import edu.greenblitz.robotname.subsystems.Pneumatics;
 import edu.greenblitz.utils.command.SubsystemCommand;
+import edu.greenblitz.utils.sm.State;
 
 public class HandleCompressor extends SubsystemCommand<Pneumatics> {
 
@@ -15,6 +16,11 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
     protected void initialize() {
         system.setCompressor(false);
         resetTiming(System.currentTimeMillis());
+    }
+
+    @Override
+    public State getDeltaState() {
+        return new State(null, null, null, null);
     }
 
     @Override

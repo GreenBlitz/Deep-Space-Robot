@@ -9,6 +9,8 @@ package edu.greenblitz.robotname.commands.simple.kicker;
 
 import edu.greenblitz.robotname.subsystems.Kicker;
 import edu.greenblitz.utils.command.TimedSubsystemCommand;
+import edu.greenblitz.utils.sm.KickerState;
+import edu.greenblitz.utils.sm.State;
 
 public class Unkick extends TimedSubsystemCommand<Kicker> {
 
@@ -16,6 +18,11 @@ public class Unkick extends TimedSubsystemCommand<Kicker> {
 
     public Unkick(long ms) {
         super(ms, Kicker.getInstance());
+    }
+
+    @Override
+    public State getDeltaState() {
+        return new State(null, null, null, KickerState.UNKICK);
     }
 
     public Unkick() {

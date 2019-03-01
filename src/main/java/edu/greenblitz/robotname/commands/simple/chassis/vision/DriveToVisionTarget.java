@@ -10,6 +10,7 @@ package edu.greenblitz.robotname.commands.simple.chassis.vision;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.command.SubsystemCommand;
+import edu.greenblitz.utils.sm.State;
 import org.greenblitz.motion.pid.MultivariablePIDController;
 import org.greenblitz.motion.pid.PIDObject;
 import org.greenblitz.motion.tolerance.AbsoluteTolerance;
@@ -30,6 +31,12 @@ public class DriveToVisionTarget extends SubsystemCommand<Chassis> {
 
     private static final long TIME_ON_TARGET = 200;
     private long m_onTarget = -1;
+
+
+    @Override
+    public State getDeltaState() {
+        return new State(null, null, null, null);
+    }
 
     public DriveToVisionTarget() {
         super(Chassis.getInstance());

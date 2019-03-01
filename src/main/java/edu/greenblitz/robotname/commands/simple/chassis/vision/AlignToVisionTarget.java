@@ -3,6 +3,7 @@ package edu.greenblitz.robotname.commands.simple.chassis.vision;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.command.SubsystemCommand;
+import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -16,6 +17,12 @@ public class AlignToVisionTarget extends SubsystemCommand<Chassis> implements PI
     private static final double kP = 0, kI = 0, kD = 0;
 
     private PIDController m_controller;
+
+    @Override
+    public State getDeltaState() {
+        return new State(null, null, null, null);
+    }
+
 
     public AlignToVisionTarget(){
         super(Chassis.getInstance());

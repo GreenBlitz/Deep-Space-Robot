@@ -3,6 +3,7 @@ package edu.greenblitz.robotname.commands.simple.chassis.motion;
 import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.command.SubsystemCommand;
+import edu.greenblitz.utils.sm.State;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -47,6 +48,11 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
                 m_controller.getPath().get(0), m_controller.getPath().getLast(),
                 Localizer.getInstance().getLocation());
 
+    }
+
+    @Override
+    public State getDeltaState() {
+        return new State(null, null, null, null);
     }
 
     @Override

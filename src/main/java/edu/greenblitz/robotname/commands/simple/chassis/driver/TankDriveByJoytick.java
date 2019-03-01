@@ -1,6 +1,7 @@
 package edu.greenblitz.robotname.commands.simple.chassis.driver;
 
 import edu.greenblitz.utils.command.GBCommand;
+import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.hid.SmartJoystick;
@@ -18,6 +19,12 @@ public class TankDriveByJoytick extends GBCommand {
   protected void execute() {
     Chassis.getInstance().tankDrive(SmartJoystick.Axis.LEFT_Y.getValue(m_joystick),
                                     SmartJoystick.Axis.RIGHT_Y.getValue(m_joystick));
+  }
+
+
+  @Override
+  public State getDeltaState() {
+    return new State(null, null, null, null);
   }
 
   @Override

@@ -8,6 +8,7 @@
 package edu.greenblitz.robotname.commands.simple.chassis;
 
 import edu.greenblitz.utils.command.GBCommand;
+import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.greenblitz.robotname.subsystems.Chassis;
 
@@ -25,6 +26,13 @@ public class StopChassis extends GBCommand {
   @Override
   protected boolean isFinished() {
     return true;
+  }
+
+
+
+  @Override
+  public State getDeltaState() {
+    return new State(null, null, null, null);
   }
 
 }

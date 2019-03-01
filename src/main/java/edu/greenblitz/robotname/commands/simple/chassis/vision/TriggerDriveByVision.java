@@ -5,6 +5,7 @@ import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
+import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -25,6 +26,12 @@ public class TriggerDriveByVision extends SubsystemCommand<Chassis>  {
         super(Chassis.getInstance());
         m_pid = new PIDController(new PIDObject(kP, Ki, Kd, 0),
                 new AbsoluteTolerance(Math.toRadians(3.0)));
+    }
+
+
+    @Override
+    public State getDeltaState() {
+        return new State(null, null, null, null);
     }
 
     @Override

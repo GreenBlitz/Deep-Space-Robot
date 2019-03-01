@@ -2,6 +2,7 @@ package edu.greenblitz.robotname.commands.simple.climber;
 
 import edu.greenblitz.robotname.subsystems.Climber;
 import edu.greenblitz.utils.command.SubsystemCommand;
+import edu.greenblitz.utils.sm.State;
 
 public class ClimberBigControl extends SubsystemCommand<Climber.Big> {
     private double power;
@@ -9,6 +10,12 @@ public class ClimberBigControl extends SubsystemCommand<Climber.Big> {
     public ClimberBigControl(double power) {
         super(Climber.getInstance().getBig());
         this.power = power;
+    }
+
+
+    @Override
+    public State getDeltaState() {
+        return new State(null, null, null, null);
     }
 
     @Override
