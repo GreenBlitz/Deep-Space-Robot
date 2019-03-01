@@ -1,6 +1,7 @@
 package edu.greenblitz.utils.command.chain;
 
 import edu.greenblitz.utils.command.GBCommand;
+import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import java.util.HashSet;
@@ -15,6 +16,11 @@ public abstract class CommandChain extends GBCommand {
     private ParallelCommand m_currentCommand;
 
     public CommandChain() {
+    }
+
+    @Override
+    public State getDeltaState() {
+        return new State(null, null, null, null);
     }
 
     public CommandChain(String name) {

@@ -16,6 +16,8 @@ public class MoveElevatorByMagic extends AbstractNativeElevatorMove {
         super(destination, loopIdx, timeOnTarget);
     }
 
+
+
     @Override
     void startNativeMove() {
         system.setSmartPosition(m_destination);

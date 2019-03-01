@@ -9,6 +9,8 @@ package edu.greenblitz.robotname.commands.simple.elevator;
 
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.SubsystemCommand;
+import edu.greenblitz.utils.sm.PokerState;
+import edu.greenblitz.utils.sm.State;
 
 public class BrakeElevator extends SubsystemCommand<Elevator> {
 
@@ -16,6 +18,11 @@ public class BrakeElevator extends SubsystemCommand<Elevator> {
 
     public BrakeElevator() {
         super(Elevator.getInstance());
+    }
+
+    @Override
+    public State getDeltaState() {
+        return new State(null, null, null, null);
     }
 
     @Override

@@ -3,6 +3,8 @@ package edu.greenblitz.robotname.commands.simple.shifter;
 import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.robotname.subsystems.Shifter;
+import edu.greenblitz.utils.sm.PokerState;
+import edu.greenblitz.utils.sm.State;
 import org.greenblitz.motion.app.Localizer;
 
 public class AutoChangeShift extends SubsystemCommand<Shifter> {
@@ -19,6 +21,11 @@ public class AutoChangeShift extends SubsystemCommand<Shifter> {
     @Override
     protected void initialize() {
         t0 = System.currentTimeMillis();
+    }
+
+    @Override
+    public State getDeltaState() {
+        return new State(null, null, PokerState.UNPOKING, null);
     }
 
     @Override
