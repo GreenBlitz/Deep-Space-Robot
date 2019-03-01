@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous;
 
+import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.hidden.poker.CompletePoker;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
@@ -18,23 +19,24 @@ public class Auto2HatchRocketSame extends CommandChain {
     @Override
     protected void initChain() {
         //TODO: Calibrate APPC parameters.
+        var state = OI.State.HATCH;
         addSequential(new APPCCommand(Paths.get("Vis Rocket1"), 0.5, 0.2, false, 0.3, 0.5, 1));
-        addParallel(new DriveToVisionTarget(), new SafeMoveElevator(Elevator.Level.Hatch.ROCKET_HIGH));
+        addParallel(new DriveToVisionTarget(), new SafeMoveElevator(Elevator.Level.ROCKET_HIGH.heightByState(state)));
         addSequential(new CompletePoker());
         addSequential(new SetLocalizerLocationByVisionTarget(VisionTargetLocations.Rocket.Left.LEFT));
         addParallel(
-                new SafeMoveElevator(Elevator.Level.Hatch.CRUISE),
+                new SafeMoveElevator(Elevator.Level.GROUND.heightByState(state)),
                 new MultiPathAPPCCommand("MotionDrive(Pure Rocket2, Vis Rocket3)",
                                                 new APPCCommand(Paths.get("Pure Rocket2"), 0.5, 0.2, false, 0.3, 0.5, 1),
                                                 new APPCCommand(Paths.get("Vis Rocket3"), 0.5, 0.2, false, 0.3, 0.5, 1)));
-        addParallel(new DriveToVisionTarget(), new SafeMoveElevator(Elevator.Level.Hatch.COLLECT), new ExtendPoker());
+        addParallel(new DriveToVisionTarget(), new SafeMoveElevator(Elevator.Level.GROUND.heightByState(state)), new ExtendPoker());
         addSequential(new SetLocalizerLocationByVisionTarget(VisionTargetLocations.Feeder.LEFT));
         addParallel(new RetractPoker(),
-                new SafeMoveElevator(Elevator.Level.Hatch.CRUISE),
+                new SafeMoveElevator(Elevator.Level.GROUND.heightByState(state)),
                 new MultiPathAPPCCommand("MotionDrive(Pure Rocket Same-Side4, Vis Rocket Same-Side5)",
                                                 new APPCCommand(Paths.get("Pure Rocket Same-Side4"), 0.5, 0.2, false, 0.3, 0.5, 1),
                                                 new APPCCommand(Paths.get("Vis Rocket Same-Side5"), 0.5, 0.2, false, 0.3, 0.5, 1)));
-        addParallel(new DriveToVisionTarget(), new SafeMoveElevator(Elevator.Level.Hatch.ROCKET_MID));
+        addParallel(new DriveToVisionTarget(), new SafeMoveElevator(Elevator.Level.ROCKET_MID.heightByState(state)));
         addSequential(new CompletePoker());
         addSequential(new SetLocalizerLocationByVisionTarget(VisionTargetLocations.Rocket.Left.LEFT));
     }

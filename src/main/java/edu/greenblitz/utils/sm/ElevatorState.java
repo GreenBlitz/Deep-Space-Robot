@@ -1,15 +1,15 @@
 package edu.greenblitz.utils.sm;
 
+import edu.greenblitz.robotname.OI;
+import edu.greenblitz.robotname.subsystems.Elevator;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-//TODO: Change to only 2 states: one for when the roller is "in danger" (DOWN) and one for when it is not (UP).
-//TODO: closestTo should match ElevatorLevel and not raw height.
 public enum ElevatorState {
-    GROUND(0),
-    DOWN(0),
-    UP(0);
+    GROUND(Elevator.Level.GROUND.heightByState(OI.State.CARGO)),
+    UP(Elevator.Level.CARGO_SHIP.heightByState(OI.State.CARGO));
 
     public final double height;
 
@@ -29,8 +29,11 @@ public enum ElevatorState {
         return Arrays.asList(values());
     }
 
-    //TODO: change from height based and closet to to range based (lower height bound, higher height bound)
-    public static ElevatorState closestTo(double height) {
-        return Arrays.stream(values()).min(Comparator.comparingDouble(o -> Math.abs(o.height - height))).orElse(GROUND);
+    public static ElevatorState closestTo(Elevator.Level level) {
+        return level == Elevator.Level.GROUND ? GROUND : UP;
+    }
+
+    public static ElevatorState closestTo(double destination) {
+        return destination <= UP.height ? GROUND : UP;
     }
 }
