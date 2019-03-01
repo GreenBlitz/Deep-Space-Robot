@@ -23,8 +23,8 @@ public class TriggerDriveByVision extends ChassisBaseCommand {
 
     @Override
     protected void initialize(){
-        m_pid.configure(VisionMaster.getInstance().getStandardizedData().getCenterAngle(),0,
-                -limitUpper, limitUpper, limitAbs);
+//        m_pid.configure(VisionMaster.getInstance().getStandardizedData().getCenterAngle(),0,
+//                -limitUpper, limitUpper, limitAbs);
     }
 
     @Override

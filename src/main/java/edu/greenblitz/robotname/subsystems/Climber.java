@@ -89,15 +89,11 @@ public class Climber {
 
     public class Big extends Subsystem {
         private WPI_TalonSRX m_bigLeader;
-        private TalonSRX m_bigFollower;
         private DigitalInput m_limitSwitch;
 
         private Big() {
-            m_bigLeader = new WPI_TalonSRX(Motor.BIG_0);
-            m_bigFollower = new TalonSRX(Motor.BIG_1);
+            m_bigLeader = new WPI_TalonSRX(Motor.BIG);
             m_limitSwitch = new DigitalInput(Sensor.LIMIT_SWITCH);
-
-            m_bigFollower.follow(m_bigLeader);
 
             addChild(m_bigLeader);
             addChild(m_limitSwitch);

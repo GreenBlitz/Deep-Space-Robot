@@ -33,8 +33,8 @@ public class DriveToVisionTarget extends ChassisBaseCommand {
 
     public DriveToVisionTarget() {
         m_controller = new MultivariablePIDController(2);
-        m_controller.setPIDObject(DRIVE_IDX, DRIVE, DRIVE_TOL);
-        m_controller.setPIDObject(TURN_IDX, TURN, TURN_TOL);
+        m_controller.configure(DRIVE_IDX, DRIVE, DRIVE_TOL);
+        m_controller.configure(TURN_IDX, TURN, TURN_TOL);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class DriveToVisionTarget extends ChassisBaseCommand {
 
         Chassis.getInstance().arcadeDrive(pidResult[DRIVE_IDX], pidResult[TURN_IDX]);
 
-        if (m_controller.isFinished(new double[]{inputDrive, inputTurn}))
+        if (m_controller.isFinished())
             if (m_onTarget == -1)
                 m_onTarget = System.currentTimeMillis();
             else
@@ -64,8 +64,7 @@ public class DriveToVisionTarget extends ChassisBaseCommand {
         var state = VisionMaster.getInstance().getStandardizedData();
         var inputDrive = state.getPlaneryDistance();
         var inputTurn = VisionMaster.getInstance().getStandardizedData().getCenterAngle();
-        var arr = new double[]{inputDrive, inputTurn};
-        return m_controller.isFinished(arr) && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
+        return m_controller.isFinished() && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
     }
 
     @Override
