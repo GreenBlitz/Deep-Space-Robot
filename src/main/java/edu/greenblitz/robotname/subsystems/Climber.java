@@ -108,11 +108,24 @@ public class Climber {
         }
 
         public void higher(double power) {
-            lower(-power);
+            if(isAtLimit())
+                set(0);
+            else
+                set(-Math.abs(0.2*power));
         }
 
-        public void lower(double power) {
-            set(-power);
+        public void lower(double power){
+            if(isAtLimit())
+                set(Math.abs(0.05*power));
+            else
+                set(Math.abs(0.2*power));
+        }
+
+        public void move(double power) {
+            if (power >= 0)
+                lower(power);
+            else
+                higher(power);
         }
 
         public boolean isAtLimit() {

@@ -1,20 +1,20 @@
 package edu.greenblitz.robotname;
 
+import edu.greenblitz.robotname.commands.complex.hidden.KickerEnsureBallOut;
+import edu.greenblitz.robotname.commands.complex.hidden.PrepareToExchangeGameObject;
+import edu.greenblitz.robotname.commands.complex.hidden.PrepareToExchangeGameObject.ExchangeHeight;
+import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
-import edu.greenblitz.robotname.commands.complex.hidden.kicker.SafeKick;
+import edu.greenblitz.robotname.commands.complex.hidden.poker.EnsurePokerExtended;
+import edu.greenblitz.robotname.commands.complex.hidden.poker.EnsurePokerRetracted;
+import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeRetractAndRollIn;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
-import edu.greenblitz.robotname.commands.simple.climber.ClimberBigControlByJoystick;
-import edu.greenblitz.robotname.commands.simple.climber.ClimberDriveByJoystick;
-import edu.greenblitz.robotname.commands.simple.climber.ClimberExtendByJoytick;
+import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
+import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
-import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollOut;
-import edu.greenblitz.robotname.commands.simple.roller.RollIn;
-import edu.greenblitz.robotname.commands.simple.roller.RollOut;
-import edu.greenblitz.robotname.commands.simple.shifter.ToggleShift;
+import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollIn;
 import edu.greenblitz.utils.hid.CustomControlBoard;
 import edu.greenblitz.utils.hid.SmartJoystick;
-
-import javax.management.MBeanAttributeInfo;
 
 public class OI {
     public enum State {
@@ -40,11 +40,25 @@ public class OI {
     }
 
     public static void initBindings() {
-        mainJoystick.A.whenPressed(new ClimberBigControlByJoystick(0.05, 1, mainJoystick));
-        mainJoystick.B.whenPressed(new ClimberExtendByJoytick(mainJoystick));
-        mainJoystick.X.whenPressed(new ClimberDriveByJoystick(mainJoystick));
-//        mainJoystick.B.whenPressed(new TogglePokerExtender());
-//        mainJoystick.X.whenPressed(new ToggleRoller());
+        mainJoystick.A.whenPressed(new KickBall());
+        mainJoystick.B.whenPressed(new TogglePokerExtender());
+        mainJoystick.X.whenPressed(new ToggleRoller());
+
+        sideJoystick.SMALL_RED.whenActive(new PrepareToExchangeGameObject(State.CARGO, ExchangeHeight.ELEVATOR_RESET));
+        sideJoystick.BOTTOM_SMALL_GREEN.whenActive(new PrepareToExchangeGameObject(getOIState(), ExchangeHeight.CARGO_SHIP));
+        sideJoystick.SMALL_YELLOW.whenActive(new PrepareToExchangeGameObject(getOIState(), ExchangeHeight.ROCKET_1));
+        sideJoystick.SMALL_BLUE.whenActive(new PrepareToExchangeGameObject(getOIState(), ExchangeHeight.ROCKET_2));
+        sideJoystick.TOP_SMALL_GREEN.whenActive(new PrepareToExchangeGameObject(getOIState(), ExchangeHeight.ROCKET_3));
+
+        //TODO: decide on good buttons
+        sideJoystick.LEFT_WHITE.whileActive(new ClimbByJoystick());
+        sideJoystick.RIGHT_WHITE.whenPressed(new ExtendAndRollIn());
+        sideJoystick.RIGHT_WHITE.whenReleased(new SafeRetractAndRollIn());
+        sideJoystick.RIGHT_BLACK.whenPressed(new EnsurePokerExtended());
+        sideJoystick.RIGHT_BLACK.whenReleased(new EnsurePokerRetracted());
+        sideJoystick.LEFT_BLACK.whenPressed(new HoldHatch());
+        sideJoystick.LEFT_BLACK.whenReleased(new ReleaseHatch());
+        sideJoystick.BIG_YELLOW.whenPressed(new KickerEnsureBallOut());
     }
 
     public static State getOIState() {

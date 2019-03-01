@@ -14,6 +14,11 @@ import edu.greenblitz.utils.sm.State;
 import java.util.Optional;
 
 public class RollIn extends SubsystemCommand<Roller> {
+
+    public RollIn(long ms) {
+        super(ms, Roller.getInstance());
+    }
+
     public RollIn() {
         super(Roller.getInstance());
     }
@@ -24,7 +29,7 @@ public class RollIn extends SubsystemCommand<Roller> {
     }
 
     protected boolean isFinished() {
-        return false;
+        return isTimedOut();
     }
 
     @Override

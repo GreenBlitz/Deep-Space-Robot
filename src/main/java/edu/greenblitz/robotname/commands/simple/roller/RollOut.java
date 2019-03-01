@@ -14,6 +14,11 @@ import edu.greenblitz.utils.sm.State;
 import java.util.Optional;
 
 public class RollOut extends SubsystemCommand<Roller> {
+
+    public RollOut(long ms) {
+        super(ms, Roller.getInstance());
+    }
+
     public RollOut() {
         super(Roller.getInstance());
     }
@@ -25,7 +30,7 @@ public class RollOut extends SubsystemCommand<Roller> {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return isTimedOut();
     }
 
     @Override

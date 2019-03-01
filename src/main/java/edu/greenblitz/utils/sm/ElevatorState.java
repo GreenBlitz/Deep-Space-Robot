@@ -29,7 +29,7 @@ public enum ElevatorState {
         return Arrays.asList(values());
     }
 
-    public static ElevatorState closestTo(Elevator.Level level) {
+   public static ElevatorState closestTo(Elevator.Level level) {
         return level == Elevator.Level.GROUND ? GROUND : UP;
     }
 
