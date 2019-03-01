@@ -40,12 +40,11 @@ public class RobotMap {
         public static class Motor {
             public static final int EXTENDER = 0;
             public static final int WHEELS = 0;
-            public static final int BIG_0 = 0;
-            public static final int BIG_1 = 0;
+            public static final int BIG = 14;
         }
 
         public static class Sensor {
-            public static final int LIMIT_SWITCH = 0;
+            public static final int LIMIT_SWITCH = 8;
         }
     }
 
