@@ -10,20 +10,14 @@ public class StateMachineTest {
     public void isAllowed() {
         State start = new State(ElevatorState.UP, RollerState.ROLLER_IN, PokerState.POKING, KickerState.UNKICK);
         State end = new State(ElevatorState.UP, RollerState.ROLLER_IN, PokerState.POKING, KickerState.KICK);
-        StateMachine machine = new StateMachine(start, end);
+        StateMachine machine = new StateMachine(start);
+        machine.add(end);
         assertFalse(machine.isAllowed(start, end));
         machine.allow(start, end);
         assertTrue(machine.isAllowed(start, end));
         assertFalse(machine.isAllowed(end, start));
     }
 
-
-    @Test
-    void factoryTest(){
-        StateMachine machine = StateMachineGenerator.createMachine();
-
-        System.out.println(machine);
-    }
 
 
 }

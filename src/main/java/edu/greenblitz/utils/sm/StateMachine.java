@@ -6,19 +6,20 @@ public class StateMachine {
 
     private Map<State, Map<State, Boolean>> mat = new HashMap<>();
 
-    private State current;
+    private State robotState;
 
     public State getCurrentState() {
-        return current;
+        return robotState;
     }
 
-    public void setCurrentState(State neww) {
-        if (current == null || isAllowed(current, neww))
-            this.current = neww;
+    public void setCurrentState(State newState) {
+        if (robotState == null || isAllowed(robotState, newState))
+            this.robotState = newState;
     }
 
-    public StateMachine(State... states){
-        add(states);
+    public StateMachine(State initialState){
+        add(initialState);
+        this.robotState = initialState;
     }
 
     public void add(State... states){

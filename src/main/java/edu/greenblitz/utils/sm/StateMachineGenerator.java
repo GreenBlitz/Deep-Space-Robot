@@ -5,17 +5,17 @@ import java.util.List;
 
 public class StateMachineGenerator {
 
-    public static StateMachine createMachine() {
-        StateMachine machine = getEmptyStateMachine();
-        allowElevatorTransitions(machine);
-        addRollerTransitions(machine);
-        addPokerTransitions(machine);
-        addKickerTransitions(machine);
-        return machine;
+    public static StateMachine createMachine(State initialState) {
+        StateMachine timeMachine = getEmptyStateMachine(initialState);
+        allowElevatorTransitions(timeMachine);
+        addRollerTransitions(timeMachine);
+        addPokerTransitions(timeMachine);
+        addKickerTransitions(timeMachine);
+        return timeMachine;
     }
 
-    private static StateMachine getEmptyStateMachine() {
-        StateMachine ret = new StateMachine();
+    private static StateMachine getEmptyStateMachine(State initialState) {
+        StateMachine ret = new StateMachine(initialState);
         for (ElevatorState e : ElevatorState.getList())
             for (RollerState r : RollerState.getList())
                 for (PokerState p : PokerState.getList())
