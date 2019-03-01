@@ -38,8 +38,8 @@ public class RobotMap {
 
     public static class Climber {
         public static class Motor {
-            public static final int EXTENDER = 0;
-            public static final int WHEELS = 0;
+            public static final int EXTENDER = 7;
+            public static final int WHEELS = 15;
             public static final int BIG = 14;
         }
 

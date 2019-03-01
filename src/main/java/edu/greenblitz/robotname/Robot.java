@@ -60,11 +60,12 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putData(Scheduler.getInstance());
 //        allowChassis();
-        allowElevator();
-        allowKicker();
+//        allowElevator();
+//        allowKicker();
         allowPoker();
-//        allowPneumatics();
-        allowRoller();
+        allowPneumatics();
+//        allowRoller();
+        allowClimber();
 //        allowShifter();
 
         OI.initBindings();
@@ -178,7 +179,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData(Poker.getInstance());
     }
 
-    private void allowClinber(){
+    private void allowClimber(){
         Climber.init();
         SmartDashboard.putData(Climber.getInstance().getBig());
         SmartDashboard.putData(Climber.getInstance().getExtender());

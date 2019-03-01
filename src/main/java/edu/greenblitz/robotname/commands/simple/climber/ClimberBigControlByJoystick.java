@@ -28,7 +28,7 @@ public class ClimberBigControlByJoystick extends JoystickCommand<Climber.Big> {
     @Override
     protected void execute() {
         if (system.isAtLimit())
-            system.lower(Math.min(0, SmartJoystick.Axis.RIGHT_Y.getValue(joystick) * unsafePower));
+            system.lower(Math.max(0, SmartJoystick.Axis.RIGHT_Y.getValue(joystick) * unsafePower));
         else
             system.lower(SmartJoystick.Axis.RIGHT_Y.getValue(joystick) * safePower);
     }

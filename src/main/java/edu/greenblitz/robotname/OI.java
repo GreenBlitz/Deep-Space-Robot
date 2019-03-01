@@ -3,6 +3,9 @@ package edu.greenblitz.robotname;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.SafeKick;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
+import edu.greenblitz.robotname.commands.simple.climber.ClimberBigControlByJoystick;
+import edu.greenblitz.robotname.commands.simple.climber.ClimberDriveByJoystick;
+import edu.greenblitz.robotname.commands.simple.climber.ClimberExtendByJoytick;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollOut;
 import edu.greenblitz.robotname.commands.simple.roller.RollIn;
@@ -37,9 +40,11 @@ public class OI {
     }
 
     public static void initBindings() {
-        mainJoystick.A.whenPressed(new KickBall());
-        mainJoystick.B.whenPressed(new TogglePokerExtender());
-        mainJoystick.X.whenPressed(new ToggleRoller());
+        mainJoystick.A.whenPressed(new ClimberBigControlByJoystick(0.05, 1, mainJoystick));
+        mainJoystick.B.whenPressed(new ClimberExtendByJoytick(mainJoystick));
+        mainJoystick.X.whenPressed(new ClimberDriveByJoystick(mainJoystick));
+//        mainJoystick.B.whenPressed(new TogglePokerExtender());
+//        mainJoystick.X.whenPressed(new ToggleRoller());
     }
 
     public static State getOIState() {

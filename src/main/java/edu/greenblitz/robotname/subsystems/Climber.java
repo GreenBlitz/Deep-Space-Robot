@@ -41,6 +41,7 @@ public class Climber {
             m_extender = new SendableSparkMax(Motor.EXTENDER, MotorType.kBrushless);
             m_encoder = new SparkEncoder(TICKS_PER_METER, m_extender);
             addChild(m_extender);
+            m_extender.setName("Extender");
 
             logger.info("instantiated");
         }
@@ -82,7 +83,7 @@ public class Climber {
         }
 
         public void drive(double power) {
-            if (getExtender().getHeight() > 0 || power > 0)
+//            if (getExtender().getHeight() > 0 || power > 0)
                 m_wheels.set(power);
         }
     }
@@ -107,11 +108,11 @@ public class Climber {
         }
 
         public void higher(double power) {
-            set(-power);
+            lower(-power);
         }
 
         public void lower(double power) {
-            set(power);
+            set(-power);
         }
 
         public boolean isAtLimit() {
@@ -125,8 +126,10 @@ public class Climber {
         }
 
         private void set(double power) {
-            if (isAtLimit()) m_bigLeader.set(power);
-            else m_bigLeader.stopMotor();
+            double setpower;
+            if (!isAtLimit()) setpower = power;
+            else setpower = Math.min(Math.abs(power), 0.05)*Math.signum(power);
+            m_bigLeader.set(setpower);
         }
     }
 
