@@ -7,9 +7,7 @@
 
 package edu.greenblitz.robotname.commands.simple.roller;
 
-import edu.greenblitz.robotname.subsystems.Roller;
-import edu.greenblitz.utils.sm.RollerState;
-import edu.greenblitz.utils.sm.State;
+import edu.greenblitz.robotname.data.sm.RollerState;
 
 public class ExtendRoller extends RollerBaseCommand {
     private static final long ROLLER_EXTENSION_TIMEOUT = 2000;

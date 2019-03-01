@@ -4,18 +4,10 @@ import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.commands.simple.chassis.ChassisBaseCommand;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
-import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.greenblitz.utils.sm.State;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import org.greenblitz.motion.pid.PIDController;
 import org.greenblitz.motion.pid.PIDObject;
 import org.greenblitz.motion.tolerance.AbsoluteTolerance;
-import org.opencv.core.Mat;
-
-import java.util.Optional;
 
 public class TriggerDriveByVision extends ChassisBaseCommand {
 

@@ -10,14 +10,10 @@ package edu.greenblitz.robotname.commands.simple.chassis.vision;
 import edu.greenblitz.robotname.commands.simple.chassis.ChassisBaseCommand;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
-import edu.greenblitz.utils.command.SubsystemCommand;
-import edu.greenblitz.utils.sm.State;
 import org.greenblitz.motion.pid.MultivariablePIDController;
 import org.greenblitz.motion.pid.PIDObject;
 import org.greenblitz.motion.tolerance.AbsoluteTolerance;
 import org.greenblitz.motion.tolerance.ITolerance;
-
-import java.util.Optional;
 
 public class DriveToVisionTarget extends ChassisBaseCommand {
 

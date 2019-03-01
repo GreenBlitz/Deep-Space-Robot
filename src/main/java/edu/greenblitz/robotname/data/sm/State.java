@@ -1,4 +1,4 @@
-package edu.greenblitz.utils.sm;
+package edu.greenblitz.robotname.data.sm;
 
 public class State {
     public static final int BASE = 16, /*Used for HASHCODE() and to make states readable by some mean. should satisfy BASE => S.LENGTH */

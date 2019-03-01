@@ -1,9 +1,5 @@
-package edu.greenblitz.utils.sm;
+package edu.greenblitz.robotname.data.sm;
 
-import edu.greenblitz.utils.Tuple;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;

@@ -1,7 +1,6 @@
 package edu.greenblitz.robotname.commands.simple.poker;
 
-import edu.greenblitz.utils.sm.PokerState;
-import edu.greenblitz.utils.sm.State;
+import edu.greenblitz.robotname.data.sm.PokerState;
 
 public class ClosePoker extends PokerBaseCommand {
     private static final long POKER_CLOSE_TIMEOUT = 1000;

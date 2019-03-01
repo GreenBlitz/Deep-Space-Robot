@@ -1,4 +1,4 @@
-package edu.greenblitz.utils.sm;
+package edu.greenblitz.robotname.data.sm;
 
 import org.junit.jupiter.api.Test;
 

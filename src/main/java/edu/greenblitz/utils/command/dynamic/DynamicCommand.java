@@ -1,7 +1,7 @@
 package edu.greenblitz.utils.command.dynamic;
 
 import edu.greenblitz.utils.command.GBCommand;
-import edu.greenblitz.utils.sm.State;
+import edu.greenblitz.robotname.data.sm.State;
 import edu.wpi.first.wpilibj.command.Command;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

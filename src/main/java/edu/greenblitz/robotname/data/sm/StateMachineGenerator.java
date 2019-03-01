@@ -1,7 +1,4 @@
-package edu.greenblitz.utils.sm;
-
-import java.util.Arrays;
-import java.util.List;
+package edu.greenblitz.robotname.data.sm;
 
 public class StateMachineGenerator {
 

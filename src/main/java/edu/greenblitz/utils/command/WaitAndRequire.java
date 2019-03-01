@@ -1,6 +1,6 @@
 package edu.greenblitz.utils.command;
 
-import edu.greenblitz.utils.sm.State;
+import edu.greenblitz.robotname.data.sm.State;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import java.util.Optional;

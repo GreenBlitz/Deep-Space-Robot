@@ -1,7 +1,7 @@
 package edu.greenblitz.utils.command;
 
 import edu.greenblitz.robotname.Robot;
-import edu.greenblitz.utils.sm.State;
+import edu.greenblitz.robotname.data.sm.State;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.apache.logging.log4j.LogManager;

@@ -11,7 +11,7 @@ import edu.greenblitz.utils.command.JoystickCommand;
 import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.subsystems.Climber;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.greenblitz.utils.sm.State;
+import edu.greenblitz.robotname.data.sm.State;
 
 import java.util.Optional;
 
