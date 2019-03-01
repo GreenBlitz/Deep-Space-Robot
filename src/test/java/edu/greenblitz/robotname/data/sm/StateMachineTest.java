@@ -8,8 +8,8 @@ public class StateMachineTest {
 
     @Test
     public void isAllowed() {
-        State start = new State(ElevatorState.UP, RollerState.ROLLER_IN, PokerState.POKING, KickerState.UNKICK);
-        State end = new State(ElevatorState.UP, RollerState.ROLLER_IN, PokerState.POKING, KickerState.KICK);
+        State start = new State(ElevatorState.UP, RollerState.RETRACTED, PokerState.POKING, KickerState.UNKICK);
+        State end = new State(ElevatorState.UP, RollerState.RETRACTED, PokerState.POKING, KickerState.KICK);
         StateMachine machine = new StateMachine(start);
         machine.add(end);
         assertFalse(machine.isAllowed(start, end));

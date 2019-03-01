@@ -8,7 +8,9 @@ import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.robotname.RobotMap.Elevator.Motor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Sensor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Solenoid;
+import edu.greenblitz.robotname.commands.simple.elevator.BrakeElevator;
 import edu.greenblitz.utils.encoder.IEncoder;
+import edu.greenblitz.utils.encoder.TalonEncoder;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -111,7 +113,7 @@ public class Elevator extends Subsystem {
         m_leader = new WPI_TalonSRX(Motor.LEADER);
         m_follower = new TalonSRX(Motor.FOLLOWER);
         m_follower.follow(m_leader);
-//        m_encoder = new TalonEncoder(Sensor.TICKS_PER_METER, m_leader);
+        m_encoder = new TalonEncoder(Sensor.TICKS_PER_METER, m_leader);
         m_brake = new SendableDoubleSolenoid(Solenoid.PCM, Solenoid.FORWARD, Solenoid.REVERSE);
         m_atGroundLimitSwitch = new DigitalInput(Sensor.LIMIT_SWITCH);
 
@@ -121,14 +123,14 @@ public class Elevator extends Subsystem {
         m_brake.setName("brake");
 
         addChild(m_atGroundLimitSwitch);
+        m_atGroundLimitSwitch.setName("at ground");
 
         logger.info("instantiated");
     }
 
     @Override
     public void initDefaultCommand() {
-//        setDefaultCommand(new BrakeElevator());
-//        setDefaultCommand(new RawElevatorByJoystick());
+        setDefaultCommand(new BrakeElevator());
     }
 
     public static void init() {
@@ -142,7 +144,7 @@ public class Elevator extends Subsystem {
 
     private void setLevel(Level level) {
         m_level = level;
-        logger.debug("current level: " + level);
+        logger.debug("current level: {}", level);
     }
 
     public Level getLevel() {

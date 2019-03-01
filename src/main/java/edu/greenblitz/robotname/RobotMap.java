@@ -91,7 +91,7 @@ public class RobotMap {
 
     public static class Roller {
         public static class Motor {
-            public static final int ROLLER = 0;
+            public static final int ROLLER = 13;
         }
 
         public static class Solenoid {
@@ -111,8 +111,8 @@ public class RobotMap {
 
     public static class Shifter {
         public static class Solenoid {
-            public static final int FORWARD = 4;
-            public static final int REVERSE = 5;
+            public static final int FORWARD = 5;
+            public static final int REVERSE = 4;
         }
 
         public static final int PCM = 21;

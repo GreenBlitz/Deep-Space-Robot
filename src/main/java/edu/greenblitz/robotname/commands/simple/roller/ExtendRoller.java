@@ -18,7 +18,7 @@ public class ExtendRoller extends RollerBaseCommand {
 
     @Override
     protected RollerState getNextState() {
-        return RollerState.ROLLER_OUT;
+        return RollerState.EXTENDED;
     }
 
     @Override

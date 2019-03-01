@@ -14,7 +14,9 @@ public class SendableDoubleSolenoid extends DoubleSolenoid {
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        super.initSendable(builder);
+        builder.setSmartDashboardType("Double Solenoid");
+        builder.setActuator(true);
+        builder.setSafeState(() -> set(Value.kOff));
         builder.addBooleanProperty("state", this::getState, this::setState);
     }
 

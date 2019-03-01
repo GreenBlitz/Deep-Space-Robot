@@ -34,21 +34,12 @@ public class StateMachine {
         mat.get(source).put(dest, true);
     }
 
-    /**
-     *
-     * @param dest
-     * @param src
-     */
     public void allowGroupTo(State dest, State... src){
         for (State s : src)
             allow(s, dest);
     }
 
-    /**
-     *
-     * @param src
-     * @param dest
-     */
+
     public void allowGroupFrom(State src, State... dest){
         for (State s : dest)
             allow(src, s);
@@ -94,10 +85,6 @@ public class StateMachine {
             }
             ret.append("\n\n");
         }
-//        ret.append("\nLegend: \n");
-//
-//        for (int i = 0; i < elems.size(); i++)
-//            ret.append(i).append(" - ").append(elems.get(i)).append("\n");
 
         return ret.append("}").toString();
     }
