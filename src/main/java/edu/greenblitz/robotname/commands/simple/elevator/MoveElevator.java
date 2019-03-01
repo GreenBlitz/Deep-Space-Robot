@@ -10,6 +10,6 @@ public class MoveElevator extends MoveElevatorByMagic {
     }
 
     public MoveElevator(Elevator.Level level) {
-        this(level.getHeight());
+        this(level.heightByCurrentState());
     }
 }

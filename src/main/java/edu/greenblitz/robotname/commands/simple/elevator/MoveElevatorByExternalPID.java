@@ -22,17 +22,14 @@ import java.util.Optional;
 public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
     private static final PIDObject PID_CONFIG = new PIDObject(0, 0, 0, 0);
     private static final ITolerance TOLERANCE = new AbsoluteTolerance(0);
-    private static int m_timesOnTarget = 0;
+
+    private int m_timesOnTarget = 0;
     private PIDController m_controller;
 
     public MoveElevatorByExternalPID(double height) {
         super(Elevator.getInstance());
         m_controller = new PIDController(PID_CONFIG, TOLERANCE);
         m_controller.setGoal(height);
-    }
-
-    public MoveElevatorByExternalPID(Level level) {
-        this(level.getHeight());
     }
 
     @Override
@@ -43,10 +40,9 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
 
     @Override
     protected void execute() {
-        var in = system.getHeight();
-        var out = m_controller.calculatePID(in);
-        system.setRawPower(out);
-        if (m_controller.isFinished())
+        var in = get();
+        set(m_controller.calculatePID(in));
+        if (m_controller.isFinished(in))
             m_timesOnTarget++;
         else
             m_timesOnTarget = 0;
@@ -68,5 +64,13 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
         return Optional.of(
                 new State(ElevatorState.closestTo(m_controller.getGoal()),
                         null, null, null));
+    }
+
+    private double get() {
+        return system.getHeight();
+    }
+
+    private void set(double power) {
+        system.setRawPower(power);
     }
 }

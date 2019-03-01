@@ -19,71 +19,39 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static edu.greenblitz.robotname.RobotMap.Elevator.Heights;
+import java.util.Optional;
 
 public class Elevator extends Subsystem {
 
-    public interface Level {
-        double getHeight();
+    public enum Level {
+        GROUND(0, 0),
+        CARGO_SHIP(0, 0),
+        ROCKET_1(0, 0),
+        ROCKET_MID(0, 0),
+        ROCKET_HIGH(0, 0);
 
-        String name();
+        public final double cargo;
+        public final double hatch;
 
-        OI.State state();
-
-        default boolean greaterThan(Level other) {
-            return getHeight() >= other.getHeight();
+        Level(double cargo, double hatch) {
+            this.cargo = cargo;
+            this.hatch = hatch;
         }
 
-        enum Cargo implements Level {
-            GROUND(Heights.Cargo.GROUND),
-            COLLECT(Heights.Cargo.COLLECT),
-            CRUISE(Heights.Cargo.CRUISE),
-            SHIP(Heights.Cargo.SHIP),
-            ROCKET_LOW(Heights.Cargo.ROCKET_LOW),
-            ROCKET_MID(Heights.Cargo.ROCKET_MID),
-            ROCKET_HIGH(Heights.Cargo.ROCKET_HIGH);
-
-            private double m_height;
-
-            Cargo(double height) {
-                m_height = height;
-            }
-
-            @Override
-            public double getHeight() {
-                return m_height;
-            }
-
-            @Override
-            public OI.State state() {
-                return OI.State.CARGO;
-            }
+        public double getCargo() {
+            return cargo;
         }
 
-        enum Hatch implements Level {
-            GROUND(Heights.Hatch.GROUND),
-            CRUISE(Heights.Hatch.CRUISE),
-            SHIP(Heights.Hatch.SHIP),
-            COLLECT(Heights.Hatch.COLLECT),
-            ROCKET_LOW(Heights.Hatch.ROCKET_LOW),
-            ROCKET_MID(Heights.Hatch.ROCKET_MID),
-            ROCKET_HIGH(Heights.Hatch.ROCKET_HIGH);
+        public double getHatch() {
+            return hatch;
+        }
 
-            private double m_height;
+        public double heightByState(OI.State state) {
+            return state == OI.State.CARGO ? cargo : hatch;
+        }
 
-            Hatch(double height) {
-                m_height = height;
-            }
-
-            @Override
-            public double getHeight() {
-                return m_height;
-            }
-
-            @Override
-            public OI.State state() {
-                return OI.State.HATCH;
-            }
+        public double heightByCurrentState() {
+            return heightByState(OI.getOIState());
         }
     }
 
@@ -103,7 +71,7 @@ public class Elevator extends Subsystem {
     private TalonSRX m_follower;
     private IEncoder m_encoder;
     private SendableDoubleSolenoid m_brake;
-    private Level m_level = Level.Cargo.GROUND;
+    private Level m_level = Level.GROUND;
     private DigitalInput m_atGroundLimitSwitch;
     private Logger logger;
 
@@ -152,7 +120,8 @@ public class Elevator extends Subsystem {
     }
 
     public boolean isFloorLevel() {
-        return m_level.getHeight() == Level.Cargo.GROUND.getHeight() && m_atGroundLimitSwitch.get();
+        var state = OI.getOIState();
+        return m_level.heightByState(state) == Level.GROUND.heightByState(state) && m_atGroundLimitSwitch.get();
     }
 
     public double getHeight() {
@@ -208,14 +177,14 @@ public class Elevator extends Subsystem {
         resetEncoder();
     }
 
-    private void updateLevel() {
-        Level[] current = OI.getOIState() == OI.State.CARGO ? Level.Cargo.values() : Level.Hatch.values();
-        for (Level level : current) {
-            if (Math.abs(getHeight() - level.getHeight()) <= LEVEL_HEIGHT_TOLERANCE) {
-                setLevel(level);
-                return;
+    private Optional<Level> updateLevel() {
+        var state = OI.getOIState();
+        for (var lvl : Level.values()) {
+            if (Math.abs(lvl.heightByState(state) - getHeight()) <= LEVEL_HEIGHT_TOLERANCE) {
+                return Optional.of(lvl);
             }
         }
+        return Optional.empty();
     }
 
     public boolean isBraking() {
@@ -231,6 +200,6 @@ public class Elevator extends Subsystem {
     }
 
     public void update() {
-        updateLevel();
+        updateLevel().ifPresent(this::setLevel);
     }
 }
