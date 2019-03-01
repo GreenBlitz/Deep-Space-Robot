@@ -1,5 +1,7 @@
 package edu.greenblitz.utils.command;
 
+import edu.greenblitz.robotname.Robot;
+import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.apache.logging.log4j.LogManager;
@@ -83,10 +85,26 @@ public abstract class GBCommand extends Command {
         logger.debug("command {} has ended!", getName());
     }
 
+    abstract public State getDeltaState();
+
     @Override
     public synchronized void start() {
-        super.start();
         reportCommandStart();
+        State currState = Robot.getInstance().getStatus().getCurrentState();
+        State newState = getDeltaState();
+        if (newState.getM_ElevatorState() == null)
+            newState.setM_ElevatorState(currState.getM_ElevatorState());
+        if (newState.getM_KickerState() == null)
+            newState.setM_KickerState(currState.getM_KickerState());
+        if (newState.getM_PokerState() == null)
+            newState.setM_PokerState(currState.getM_PokerState());
+        if (newState.getM_RollerState() == null)
+            newState.setM_RollerState(currState.getM_RollerState());
+
+        if (!Robot.getInstance().getStatus().isAllowed(currState, newState))
+            return;
+        super.start();
+
     }
 
     @Override
@@ -94,7 +112,6 @@ public abstract class GBCommand extends Command {
         super.end();
         reportCommandEnd();
     }
-
 
 
 }

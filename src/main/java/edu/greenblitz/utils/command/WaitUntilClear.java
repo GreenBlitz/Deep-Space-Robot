@@ -1,5 +1,6 @@
 package edu.greenblitz.utils.command;
 
+import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -13,6 +14,11 @@ public class WaitUntilClear extends GBCommand {
 
     public WaitUntilClear(Subsystem subsystem) {
         m_subsystem = subsystem;
+    }
+
+    @Override
+    public State getDeltaState() {
+        return new State(null, null, null, null);
     }
 
     @Override

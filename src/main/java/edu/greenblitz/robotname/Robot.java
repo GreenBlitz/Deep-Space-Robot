@@ -5,6 +5,7 @@ import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.*;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
+import edu.greenblitz.utils.sm.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -42,12 +43,20 @@ public class Robot extends TimedRobot {
     private PowerDistributionPanel m_pdp;
     private GeneralState m_state;
     private Logger logger;
+    private StateMachine status;
     private Report m_usageReport;
+
+    public StateMachine getStatus() {
+        return status;
+    }
 
     @Override
     public void robotInit() {
         logger = LogManager.getLogger(getClass());
         m_usageReport = new Report();
+        status = StateMachineGenerator.createMachine(
+                new State(ElevatorState.UP, RollerState.ROLLER_IN, PokerState.UNPOKING, KickerState.UNKICK)
+        );
 
         Chassis.init();
 //        Shifter.initChain();

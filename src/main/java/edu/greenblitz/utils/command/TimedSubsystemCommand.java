@@ -2,7 +2,7 @@ package edu.greenblitz.utils.command;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class TimedSubsystemCommand<S extends Subsystem> extends SubsystemCommand<S> {
+public abstract class TimedSubsystemCommand<S extends Subsystem> extends SubsystemCommand<S> {
     public TimedSubsystemCommand(long ms, S system) {
         super(ms, system);
     }

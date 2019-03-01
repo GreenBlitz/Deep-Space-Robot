@@ -1,6 +1,7 @@
 package edu.greenblitz.utils.command.chain;
 
 import edu.greenblitz.utils.command.GBCommand;
+import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -11,6 +12,11 @@ import java.util.stream.Collectors;
 
 public class ParallelCommand extends GBCommand {
     private GBCommand[] m_commands;
+
+    @Override
+    public State getDeltaState() {
+        return new State(null, null, null, null);
+    }
 
     public ParallelCommand(GBCommand... commands) {
         this(0, commands);

@@ -17,6 +17,38 @@ public class State {
         this.m_KickerState = KickerState;
     }
 
+    public ElevatorState getM_ElevatorState() {
+        return m_ElevatorState;
+    }
+
+    public void setM_ElevatorState(ElevatorState m_ElevatorState) {
+        this.m_ElevatorState = m_ElevatorState;
+    }
+
+    public RollerState getM_RollerState() {
+        return m_RollerState;
+    }
+
+    public void setM_RollerState(RollerState m_RollerState) {
+        this.m_RollerState = m_RollerState;
+    }
+
+    public PokerState getM_PokerState() {
+        return m_PokerState;
+    }
+
+    public void setM_PokerState(PokerState m_PokerState) {
+        this.m_PokerState = m_PokerState;
+    }
+
+    public KickerState getM_KickerState() {
+        return m_KickerState;
+    }
+
+    public void setM_KickerState(KickerState m_KickerState) {
+        this.m_KickerState = m_KickerState;
+    }
+
     /***
      * returns the representation in base BASE; @return = ERPBK in base BASE (each letter is a digit in base BASE).
      * */
