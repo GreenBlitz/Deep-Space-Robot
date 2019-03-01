@@ -6,6 +6,17 @@ public class StateMachine {
 
     private Map<State, Map<State, Boolean>> mat = new HashMap<>();
 
+    private State current;
+
+    public State getCurrentState() {
+        return current;
+    }
+
+    public void setCurrentState(State neww) {
+        if (current == null || isAllowed(current, neww))
+            this.current = neww;
+    }
+
     public StateMachine(State... states){
         add(states);
     }
