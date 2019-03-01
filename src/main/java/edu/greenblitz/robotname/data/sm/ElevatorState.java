@@ -19,15 +19,15 @@ public enum ElevatorState {
         return height;
     }
 
-    public int getLevel(){
+    public int getLevel() {
         return ordinal();
     }
 
-    public static List<ElevatorState> getList(){
+    public static List<ElevatorState> getList() {
         return Arrays.asList(values());
     }
 
     public static ElevatorState closestTo(double height) {
-        return Arrays.stream(values()).min(Comparator.comparingDouble(ElevatorState::getHeight)).get();
+        return Arrays.stream(values()).min(Comparator.comparingDouble(o -> Math.abs(o.height - height))).orElse(GROUND);
     }
 }

@@ -18,7 +18,7 @@ public class RetractRoller extends RollerBaseCommand {
 
     @Override
     protected RollerState getNextState() {
-        return RollerState.ROLLER_IN;
+        return RollerState.RETRACTED;
     }
 
     @Override

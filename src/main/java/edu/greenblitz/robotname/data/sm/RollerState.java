@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum RollerState {
-    ROLLER_IN, ROLLER_OUT;
+    RETRACTED, EXTENDED;
 
     public static List<RollerState> getList(){
         return Arrays.asList(values());

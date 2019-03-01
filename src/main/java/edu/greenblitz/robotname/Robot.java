@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -57,12 +58,12 @@ public class Robot extends TimedRobot {
         logger = LogManager.getLogger(getClass());
         m_usageReport = new Report();
         status = StateMachineGenerator.createMachine(
-                new State(ElevatorState.UP, RollerState.ROLLER_IN, PokerState.UNPOKING, KickerState.UNKICK)
+                new State(ElevatorState.UP, RollerState.RETRACTED, PokerState.UNPOKING, KickerState.UNKICK)
         );
 
         Chassis.init();
-//        Shifter.initChain();
-//        Climber.initChain();
+//        Shifter.init();
+//        Climber.init();
 //        Elevator.init();
 //        Roller.init();
 //        Kicker.init();

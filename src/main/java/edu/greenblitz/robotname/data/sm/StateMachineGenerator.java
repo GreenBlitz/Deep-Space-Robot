@@ -26,67 +26,67 @@ public class StateMachineGenerator {
             for (KickerState k : KickerState.getList())
                 for (ElevatorState es : ElevatorState.getList())
                     for (ElevatorState ee : ElevatorState.getList())
-                        base.allow(new State(es, RollerState.ROLLER_OUT, p, k),
-                                new State(ee, RollerState.ROLLER_OUT, p, k));
+                        base.allow(new State(es, RollerState.EXTENDED, p, k),
+                                new State(ee, RollerState.EXTENDED, p, k));
     }
 
     private static void addRollerTransitions(StateMachine base) {
         for (ElevatorState e : ElevatorState.getList())
             for (PokerState p : PokerState.getList())
                 for (KickerState k : new KickerState[]{KickerState.UNKICK, KickerState.BALL}) {
-                    base.allow(new State(e, RollerState.ROLLER_IN, p, k),
-                            new State(e, RollerState.ROLLER_OUT, p, k));
-                    base.allow(new State(e, RollerState.ROLLER_OUT, p, k),
-                            new State(e, RollerState.ROLLER_IN, p, k));
+                    base.allow(new State(e, RollerState.RETRACTED, p, k),
+                            new State(e, RollerState.EXTENDED, p, k));
+                    base.allow(new State(e, RollerState.EXTENDED, p, k),
+                            new State(e, RollerState.RETRACTED, p, k));
                 }
 
             for (PokerState p : PokerState.getList()) {
-                base.allow(new State(ElevatorState.UP, RollerState.ROLLER_IN, p, KickerState.KICK),
-                        new State(ElevatorState.UP, RollerState.ROLLER_OUT, p, KickerState.KICK));
-                base.allow(new State(ElevatorState.UP, RollerState.ROLLER_OUT, p, KickerState.KICK),
-                        new State(ElevatorState.UP, RollerState.ROLLER_IN, p, KickerState.KICK));
+                base.allow(new State(ElevatorState.UP, RollerState.RETRACTED, p, KickerState.KICK),
+                        new State(ElevatorState.UP, RollerState.EXTENDED, p, KickerState.KICK));
+                base.allow(new State(ElevatorState.UP, RollerState.EXTENDED, p, KickerState.KICK),
+                        new State(ElevatorState.UP, RollerState.RETRACTED, p, KickerState.KICK));
             }
     }
 
     private static void addPokerTransitions(StateMachine base) {
         for (ElevatorState e : ElevatorState.getList())
             for (KickerState k : new KickerState[]{KickerState.UNKICK, KickerState.BALL}) {
-                base.allow(new State(e, RollerState.ROLLER_IN, PokerState.UNPOKING, k),
-                        new State(e, RollerState.ROLLER_IN, PokerState.POKING, k));
-                base.allow(new State(e, RollerState.ROLLER_IN, PokerState.POKING, k),
-                        new State(e, RollerState.ROLLER_IN, PokerState.UNPOKING, k));
+                base.allow(new State(e, RollerState.RETRACTED, PokerState.UNPOKING, k),
+                        new State(e, RollerState.RETRACTED, PokerState.POKING, k));
+                base.allow(new State(e, RollerState.RETRACTED, PokerState.POKING, k),
+                        new State(e, RollerState.RETRACTED, PokerState.UNPOKING, k));
             }
         for (ElevatorState e : ElevatorState.getList())
             if (e != ElevatorState.UP)
                 for (KickerState k : new KickerState[]{KickerState.UNKICK, KickerState.BALL}) {
-                    base.allow(new State(e, RollerState.ROLLER_OUT, PokerState.UNPOKING, k),
-                            new State(e, RollerState.ROLLER_OUT, PokerState.POKING, k));
-                    base.allow(new State(e, RollerState.ROLLER_OUT, PokerState.POKING, k),
-                            new State(e, RollerState.ROLLER_OUT, PokerState.UNPOKING, k));
+                    base.allow(new State(e, RollerState.EXTENDED, PokerState.UNPOKING, k),
+                            new State(e, RollerState.EXTENDED, PokerState.POKING, k));
+                    base.allow(new State(e, RollerState.EXTENDED, PokerState.POKING, k),
+                            new State(e, RollerState.EXTENDED, PokerState.UNPOKING, k));
                 }
     }
 
     private static void addKickerTransitions(StateMachine base) {
             for (PokerState p : PokerState.getList()) {
-                base.allow(new State(ElevatorState.UP, RollerState.ROLLER_IN, p, KickerState.UNKICK),
-                        new State(ElevatorState.UP, RollerState.ROLLER_IN, p, KickerState.KICK));
-                base.allow(new State(ElevatorState.UP, RollerState.ROLLER_IN, p, KickerState.KICK),
-                        new State(ElevatorState.UP, RollerState.ROLLER_IN, p, KickerState.UNKICK));
-                base.allow(new State(ElevatorState.UP, RollerState.ROLLER_IN, p, KickerState.BALL),
-                        new State(ElevatorState.UP, RollerState.ROLLER_IN, p, KickerState.KICK));
+                base.allow(new State(ElevatorState.UP, RollerState.RETRACTED, p, KickerState.UNKICK),
+                        new State(ElevatorState.UP, RollerState.RETRACTED, p, KickerState.KICK));
+                base.allow(new State(ElevatorState.UP, RollerState.RETRACTED, p, KickerState.KICK),
+                        new State(ElevatorState.UP, RollerState.RETRACTED, p, KickerState.UNKICK));
+                base.allow(new State(ElevatorState.UP, RollerState.RETRACTED, p, KickerState.BALL),
+                        new State(ElevatorState.UP, RollerState.RETRACTED, p, KickerState.KICK));
             }
         for (ElevatorState e : ElevatorState.getList())
             if (e != ElevatorState.UP)
                 for (PokerState p : PokerState.getList()) {
-                    base.allow(new State(e, RollerState.ROLLER_OUT, p, KickerState.UNKICK),
-                            new State(e, RollerState.ROLLER_OUT, p, KickerState.KICK));
-                    base.allow(new State(e, RollerState.ROLLER_OUT, p, KickerState.KICK),
-                            new State(e, RollerState.ROLLER_OUT, p, KickerState.UNKICK));
-                    base.allow(new State(e, RollerState.ROLLER_OUT, p, KickerState.BALL),
-                            new State(e, RollerState.ROLLER_OUT, p, KickerState.KICK));
+                    base.allow(new State(e, RollerState.EXTENDED, p, KickerState.UNKICK),
+                            new State(e, RollerState.EXTENDED, p, KickerState.KICK));
+                    base.allow(new State(e, RollerState.EXTENDED, p, KickerState.KICK),
+                            new State(e, RollerState.EXTENDED, p, KickerState.UNKICK));
+                    base.allow(new State(e, RollerState.EXTENDED, p, KickerState.BALL),
+                            new State(e, RollerState.EXTENDED, p, KickerState.KICK));
                 }
         for (PokerState p : PokerState.getList())
-        base.allow(new State(ElevatorState.GROUND, RollerState.ROLLER_OUT, p, KickerState.UNKICK),
-                new State(ElevatorState.GROUND, RollerState.ROLLER_OUT, p, KickerState.BALL));
+        base.allow(new State(ElevatorState.GROUND, RollerState.EXTENDED, p, KickerState.UNKICK),
+                new State(ElevatorState.GROUND, RollerState.EXTENDED, p, KickerState.BALL));
     }
 }
