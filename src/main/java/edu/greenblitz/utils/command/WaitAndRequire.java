@@ -15,11 +15,6 @@ public class WaitAndRequire extends GBCommand {
     }
 
     @Override
-    public void setName(String subsystem, String name) {
-
-    }
-
-    @Override
     public Optional<State> getDeltaState() {
         return Optional.empty();
     }

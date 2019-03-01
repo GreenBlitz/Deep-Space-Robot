@@ -37,5 +37,4 @@ public class ClimberDriveByJoystick extends JoystickCommand<Climber.Wheels> {
     protected boolean isFinished() {
         return false;
     }
-
 }

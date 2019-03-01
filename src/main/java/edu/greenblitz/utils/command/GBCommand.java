@@ -101,7 +101,9 @@ public abstract class GBCommand extends Command {
         logger.debug("command {} has ended!", getName());
     }
 
-    abstract public Optional<State> getDeltaState();
+    public Optional<State> getDeltaState() {
+        return Optional.empty();
+    }
 
     @Override
     public synchronized void start() {

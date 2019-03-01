@@ -1,7 +1,9 @@
 package edu.greenblitz.robotname;
 
+import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.SafeKick;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
+import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollOut;
 import edu.greenblitz.robotname.commands.simple.roller.RollIn;
 import edu.greenblitz.robotname.commands.simple.roller.RollOut;
@@ -35,7 +37,9 @@ public class OI {
     }
 
     public static void initBindings() {
-        mainJoystick.A.whenPressed(new SafeKick());
+        mainJoystick.A.whenPressed(new KickBall());
+        mainJoystick.B.whenPressed(new TogglePokerExtender());
+        mainJoystick.X.whenPressed(new ToggleRoller());
     }
 
     public static State getOIState() {
@@ -51,6 +55,6 @@ public class OI {
     }
 
     public static void update() {
-
+        oiState = sideJoystick.STATE_SWITCH.get() ? State.CARGO : State.HATCH;
     }
 }

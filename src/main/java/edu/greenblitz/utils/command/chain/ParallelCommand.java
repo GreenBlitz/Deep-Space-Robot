@@ -19,7 +19,8 @@ public class ParallelCommand extends GBCommand {
         var nullState = new State(null, null, null, null);
 
         for (GBCommand c : m_commands)
-            updateState(ret, c.getDeltaState().orElse(nullState));
+            updateState(ret, c.
+                    getDeltaState().orElse(nullState));
 
         return Optional.ofNullable(ret.equals(nullState) ? null : ret);
     }

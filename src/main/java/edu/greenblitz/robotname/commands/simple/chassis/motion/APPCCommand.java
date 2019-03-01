@@ -25,6 +25,12 @@ public class APPCCommand extends ChassisBaseCommand {
         this.startPos = startPos;
     }
 
+    public APPCCommand(Path<Position> path, double lookAhead,
+                       double tolerance, boolean isBackwards,
+                       double minSpeed, double maxSpeedDist, double maxSpeed) {
+        this(path, null, lookAhead, tolerance, isBackwards, minSpeed, maxSpeedDist, maxSpeed);
+    }
+
     @Override
     protected void initialize() {
         if (this.startPos != null)

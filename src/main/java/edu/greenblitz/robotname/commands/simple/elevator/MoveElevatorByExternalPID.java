@@ -37,6 +37,7 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
 
     @Override
     protected void initialize() {
+        system.brake(false);
         m_timesOnTarget = 0;
     }
 
