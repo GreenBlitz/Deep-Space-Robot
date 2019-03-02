@@ -25,10 +25,10 @@ public class Elevator extends Subsystem {
 
     public enum Level {
         GROUND(0, 0),
-        CARGO_SHIP(0, 0),
-        ROCKET_LOW(0, 0),
-        ROCKET_MID(0, 0),
-        ROCKET_HIGH(0, 0);
+        CARGO_SHIP(0.9, 0),
+        ROCKET_LOW(0.5, 0),
+        ROCKET_MID(1.2, 0.7),
+        ROCKET_HIGH(1.9, 1.4);
 
         public final double cargo;
         public final double hatch;
@@ -82,6 +82,7 @@ public class Elevator extends Subsystem {
         m_follower = new TalonSRX(Motor.FOLLOWER);
         m_follower.follow(m_leader);
         m_encoder = new TalonEncoder(Sensor.TICKS_PER_METER, m_leader);
+        m_encoder.invert(true);
         m_brake = new SendableDoubleSolenoid(Solenoid.PCM, Solenoid.FORWARD, Solenoid.REVERSE);
         m_atGroundLimitSwitch = new DigitalInput(Sensor.LIMIT_SWITCH);
 
@@ -120,11 +121,18 @@ public class Elevator extends Subsystem {
     }
 
     public boolean isFloorLevel() {
-        var state = OI.getOIState();
-        return m_level.heightByState(state) == Level.GROUND.heightByState(state) && m_atGroundLimitSwitch.get();
+        return m_atGroundLimitSwitch.get();
+    }
+
+    public int getRawTicks(){
+        if (isFloorLevel())
+            m_encoder.reset();
+        return m_encoder.getRawTicks();
     }
 
     public double getHeight() {
+        if (isFloorLevel())
+            m_encoder.reset();
         return m_encoder.getNormalizedTicks();
     }
 
@@ -160,11 +168,11 @@ public class Elevator extends Subsystem {
     }
 
     public void setPosition(double level) {
-        m_leader.set(ControlMode.Position, TICKS_PER_METER * level);
+        m_leader.set(ControlMode.Position, Sensor.TICKS_PER_METER * level);
     }
 
     public void setSmartPosition(double level) {
-        m_leader.set(ControlMode.MotionMagic, TICKS_PER_METER * level);
+        m_leader.set(ControlMode.MotionMagic, Sensor.TICKS_PER_METER * level);
     }
 
     public void resetEncoder() {
@@ -196,6 +204,7 @@ public class Elevator extends Subsystem {
         super.initSendable(builder);
         builder.addDoubleProperty("power", m_leader::get, this::setRawPower);
         builder.addBooleanProperty("brake", this::isBraking, this::brake);
+        builder.addDoubleProperty("Encoder", this::getHeight, null);
         builder.addBooleanProperty("ground limit switch", this::isFloorLevel, null);
     }
 

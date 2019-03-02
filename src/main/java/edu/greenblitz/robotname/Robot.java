@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
         OI.initJoysticks();
 
         SmartDashboard.putData(Scheduler.getInstance());
-//        allowChassis();
+        allowChassis();
         allowElevator();
         allowKicker();
         allowPoker();

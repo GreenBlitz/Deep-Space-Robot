@@ -9,9 +9,9 @@ public class KickBall extends CommandChain {
     @Override
     protected void initChain() {
         if (Elevator.getInstance().isFloorLevel())
-            addParallel(new SafeExtendAndRollOut());
+            addSequential(new SafeExtendAndRollOut());
         else
-            addParallel(new EnsureRollerRetracted());
+            addSequential(new EnsureRollerRetracted());
         addSequential(new KickAndRetract());
         addSequential(new EnsureRollerRetracted());
     }
