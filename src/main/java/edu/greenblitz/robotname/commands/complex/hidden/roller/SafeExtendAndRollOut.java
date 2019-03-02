@@ -6,6 +6,7 @@ import edu.greenblitz.utils.command.chain.CommandChain;
 public class SafeExtendAndRollOut extends CommandChain {
     @Override
     protected void initChain() {
-        addParallel(new EnsureRollerExtended(), new RollOut());
+        addSequential(new EnsureRollerExtended());
+        addSequential(new RollOut(2000));
     }
 }

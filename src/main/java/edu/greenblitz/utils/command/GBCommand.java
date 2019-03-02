@@ -101,19 +101,36 @@ public abstract class GBCommand extends Command {
         logger.debug("command {} has ended!", getName());
     }
 
-    public Optional<State> getDeltaState() {
-        return Optional.empty();
-    }
+    public abstract Optional<State> getDeltaState();
 
     @Override
     public synchronized void start() {
-        if (!canRun()) {
+
+        State currState = Robot.getInstance().getStateMachine().getCurrentState();
+        var newStateOpt = getDeltaState();
+        State newState;
+        if (!newStateOpt.isEmpty()) {
+            newState = newStateOpt.get();
+            if (newState.getElevatorState() == null)
+                newState.setElevatorState(currState.getElevatorState());
+            if (newState.getKickerState() == null)
+                newState.setKickerState(currState.getKickerState());
+            if (newState.getPokerState() == null)
+                newState.setPokerState(currState.getPokerState());
+            if (newState.getRollerState() == null)
+                newState.setRollerState(currState.getRollerState());
+        } else {
+            newState = currState;
+        }
+
+        if (!Robot.getInstance().getStateMachine().isAllowed(currState, newState)) {
             logger.warn("command {} aborted due to invalid state change: origin - {}, delta - {}",
                     getName(), Robot.getInstance().getCurrentState(), getDeltaState());
-        } //else {
+        } else {
             reportCommandStart();
+            Robot.getInstance().getStateMachine().setCurrentState(newState);
             super.start();
-//        }
+        }
     }
 
     public boolean canRun() {

@@ -1,6 +1,9 @@
 package edu.greenblitz.utils.sm;
 
-public class State {
+import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+
+public class State implements Sendable {
     public static final int BASE = 16, /*Used for hashCode() and to make states readable by some mean. should satisfy BASE => S.LENGTH */
             COUNT = ElevatorState.values().length * RollerState.values().length * PokerState.values().length * KickerState.values().length;
     private ElevatorState m_elevatorState;
@@ -124,5 +127,30 @@ public class State {
         else
             builder.append(", - ");
         return builder.append("}").toString();
+    }
+
+    @Override
+    public String getName() {
+        return "State";
+    }
+
+    @Override
+    public void setName(String name) { }
+
+    @Override
+    public String getSubsystem() {
+        return "N/A";
+    }
+
+    @Override
+    public void setSubsystem(String subsystem) { }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.addStringProperty("Elevator State", () -> this.getElevatorState().toString(), null);
+        builder.addStringProperty("Kicker State", () -> this.getKickerState().toString(), null);
+        builder.addStringProperty("Roller State", () -> this.getRollerState().toString(), null);
+        builder.addStringProperty("Poker State", () -> this.getPokerState().toString(), null);
+
     }
 }

@@ -53,23 +53,22 @@ public class Robot extends TimedRobot {
         logger = LogManager.getLogger(getClass());
         m_usageReport = new Report();
         m_status = StateMachineGenerator.createMachine(
-                new State(ElevatorState.UP, RollerState.RETRACTED, PokerState.UNPOKING, KickerState.UNKICK)
+                new State(ElevatorState.GROUND, RollerState.RETRACTED, PokerState.UNPOKING, KickerState.UNKICK)
         );
 
         OI.initJoysticks();
 
         SmartDashboard.putData(Scheduler.getInstance());
 //        allowChassis();
-//        allowElevator();
-//        allowKicker();
+        allowElevator();
+        allowKicker();
         allowPoker();
         allowPneumatics();
-//        allowRoller();
-        allowClimber();
+        allowRoller();
+//        allowClimber();
 //        allowShifter();
 
         OI.initBindings();
-
         m_pdp = new PowerDistributionPanel();
 
         VisionMaster.init();
@@ -141,7 +140,7 @@ public class Robot extends TimedRobot {
 
         m_usageReport.reset();
         m_status.setCurrentState(
-                new State(ElevatorState.UP, RollerState.RETRACTED, PokerState.UNPOKING, KickerState.UNKICK)
+                new State(ElevatorState.GROUND, RollerState.RETRACTED, PokerState.UNPOKING, KickerState.UNKICK)
         );
     }
 

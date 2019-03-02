@@ -1,5 +1,9 @@
 package edu.greenblitz.utils.sm;
 
+import edu.wpi.first.wpilibj.Sendable;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import java.util.*;
 
 public class StateMachine {
@@ -13,8 +17,10 @@ public class StateMachine {
     }
 
     public void setCurrentState(State newState) {
-        if (robotState == null || isAllowed(robotState, newState))
+        if (robotState == null || isAllowed(robotState, newState)) {
+            SmartDashboard.putData("Robot State", newState);
             this.robotState = newState;
+        }
     }
 
     public StateMachine(State initialState){
@@ -88,4 +94,5 @@ public class StateMachine {
 
         return ret.append("}").toString();
     }
+
 }

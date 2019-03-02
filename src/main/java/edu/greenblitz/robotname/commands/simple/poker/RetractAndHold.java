@@ -16,7 +16,7 @@ public class RetractAndHold extends PokerBaseCommand {
 
     @Override
     protected PokerState getNextState() {
-        return PokerState.POKING;
+        return PokerState.UNPOKING;
     }
 
     @Override

@@ -6,6 +6,7 @@ import edu.greenblitz.utils.command.chain.CommandChain;
 public class SafeRetractAndRollIn extends CommandChain {
     @Override
     protected void initChain() {
-        addParallel(new EnsureRollerRetracted(), new RollIn());
+        addSequential(new EnsureRollerRetracted());
+        addSequential(new RollIn());
     }
 }
