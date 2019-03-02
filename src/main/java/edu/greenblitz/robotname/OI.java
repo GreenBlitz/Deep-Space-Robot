@@ -1,9 +1,8 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.robotname.commands.complex.hidden.KickerEnsureBallOut;
-import edu.greenblitz.robotname.commands.complex.hidden.PrepareToExchangeGameObject;
-import edu.greenblitz.robotname.commands.complex.hidden.PrepareToExchangeGameObject.ExchangeHeight;
+import edu.greenblitz.robotname.commands.complex.exposed.cargo.KickerEnsureBallOut;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
+import edu.greenblitz.robotname.commands.complex.hidden.elevator.PrepareToExchangeGameObject;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.poker.EnsurePokerExtended;
 import edu.greenblitz.robotname.commands.complex.hidden.poker.EnsurePokerRetracted;
@@ -13,7 +12,7 @@ import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
-import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollIn;
+import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.hid.CustomControlBoard;
 import edu.greenblitz.utils.hid.SmartJoystick;
 
@@ -45,11 +44,11 @@ public class OI {
         mainJoystick.B.whenPressed(new TogglePokerExtender());
         mainJoystick.X.whenPressed(new ToggleRoller());
 
-        sideJoystick.SMALL_RED.whenPressed(new PrepareToExchangeGameObject(State.CARGO, ExchangeHeight.ELEVATOR_RESET));
-        sideJoystick.BOTTOM_SMALL_GREEN.whenPressed(new PrepareToExchangeGameObject(getOIState(), ExchangeHeight.CARGO_SHIP));
-        sideJoystick.SMALL_YELLOW.whenPressed(new PrepareToExchangeGameObject(getOIState(), ExchangeHeight.ROCKET_1));
-        sideJoystick.SMALL_BLUE.whenPressed(new PrepareToExchangeGameObject(getOIState(), ExchangeHeight.ROCKET_2));
-        sideJoystick.TOP_SMALL_GREEN.whenPressed(new PrepareToExchangeGameObject(getOIState(), ExchangeHeight.ROCKET_3));
+        sideJoystick.SMALL_RED.whenPressed(new PrepareToExchangeGameObject(State.CARGO, Elevator.Level.GROUND));
+        sideJoystick.BOTTOM_SMALL_GREEN.whenPressed(new PrepareToExchangeGameObject(getOIState(), Elevator.Level.CARGO_SHIP));
+        sideJoystick.SMALL_YELLOW.whenPressed(new PrepareToExchangeGameObject(getOIState(), Elevator.Level.ROCKET_LOW));
+        sideJoystick.SMALL_BLUE.whenPressed(new PrepareToExchangeGameObject(getOIState(), Elevator.Level.ROCKET_MID));
+        sideJoystick.TOP_SMALL_GREEN.whenPressed(new PrepareToExchangeGameObject(getOIState(), Elevator.Level.ROCKET_HIGH));
 
         //TODO: decide on good buttons
         sideJoystick.LEFT_WHITE.whenActive(new ClimbByJoystick());

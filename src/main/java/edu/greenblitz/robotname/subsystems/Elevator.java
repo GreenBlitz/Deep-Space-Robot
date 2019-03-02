@@ -26,7 +26,7 @@ public class Elevator extends Subsystem {
     public enum Level {
         GROUND(0, 0),
         CARGO_SHIP(0, 0),
-        ROCKET_1(0, 0),
+        ROCKET_LOW(0, 0),
         ROCKET_MID(0, 0),
         ROCKET_HIGH(0, 0);
 

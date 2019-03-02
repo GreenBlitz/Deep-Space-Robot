@@ -73,7 +73,10 @@ public abstract class CommandChain extends GBCommand {
 
     @Override
     public Set<Subsystem> getLazyRequirements() {
-        return requiresSoFar;
+        Set<Subsystem> ret = new HashSet<>();
+        for (ParallelCommand c : m_commands)
+            ret.addAll(c.getLazyRequirements());
+        return ret;
     }
 
     private void resetChain() {

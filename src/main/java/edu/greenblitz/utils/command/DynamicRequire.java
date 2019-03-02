@@ -2,10 +2,11 @@ package edu.greenblitz.utils.command;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public class RequireCommand extends GBCommand {
+public class DynamicRequire extends GBCommand {
 
-    public RequireCommand(Subsystem subsystem) {
-        requires(subsystem);
+    public DynamicRequire(Subsystem... subsystem) {
+        for (Subsystem s : subsystem)
+            requires(s);
     }
 
     @Override

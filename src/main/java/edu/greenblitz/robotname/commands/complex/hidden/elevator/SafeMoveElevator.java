@@ -12,8 +12,9 @@ public class SafeMoveElevator extends AbstractElevatorHeightCommand {
 
     @Override
     protected void initChain() {
-        if(ElevatorState.closestTo(Elevator.getInstance().getLevel()) == ElevatorState.GROUND)
-                addSequential(new EnsureRollerExtended());
+        if (ElevatorState.closestTo(Elevator.getInstance().getLevel()) == ElevatorState.GROUND ||
+                ElevatorState.closestTo(height) == ElevatorState.GROUND)
+            addSequential(new EnsureRollerExtended());
         addSequential(new MoveElevator(height));
     }
 }

@@ -2,7 +2,7 @@ package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous;
 
 import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
-import edu.greenblitz.robotname.commands.complex.hidden.poker.CompletePoker;
+import edu.greenblitz.robotname.commands.complex.hidden.poker.FullPokerCycle;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.MultiPathAPPCCommand;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToVisionTarget;
@@ -22,7 +22,7 @@ public class Auto2HatchCargoship extends CommandChain {
         var state = OI.State.HATCH;
         addSequential(new APPCCommand(Paths.get("Vis Cargoship1"), 0.5, 0.2, false, 0.3, 0.5, 1));
         addParallel(new DriveToVisionTarget(), new SafeMoveElevator(Elevator.Level.CARGO_SHIP.heightByState(state)));
-        addSequential(new CompletePoker());
+        addSequential(new FullPokerCycle());
         addSequential(new SetLocalizerLocationByVisionTarget(VisionTargetLocations.Cargoship.Left.SECTION1));
         addParallel(
                 new SafeMoveElevator(Elevator.Level.GROUND.heightByState(state)),
@@ -37,7 +37,7 @@ public class Auto2HatchCargoship extends CommandChain {
                                                 new APPCCommand(Paths.get("Pure Cargoship4"), 0.5, 0.2, false, 0.3, 0.5, 1),
                                                 new APPCCommand(Paths.get("Vis Cargoship5"), 0.5, 0.2, false, 0.3, 0.5, 1)));
         addParallel(new DriveToVisionTarget(), new SafeMoveElevator(Elevator.Level.CARGO_SHIP.heightByState(state)));
-        addSequential(new CompletePoker());
+        addSequential(new FullPokerCycle());
         addSequential(new SetLocalizerLocationByVisionTarget(VisionTargetLocations.Cargoship.Left.SECTION2));
     }
 }
