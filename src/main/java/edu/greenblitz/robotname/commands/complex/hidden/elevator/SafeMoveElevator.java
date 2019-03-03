@@ -47,16 +47,16 @@ public class SafeMoveElevator extends CommandChain {
             addSequential(new ExtendRoller());
 
             if (Elevator.getInstance().getHeight() > height) { // Going down
-                addSequential(new MoveElevator(height, .1, .02));
+                addSequential(new MoveElevator(height, 1, .0));
             } else { // Going up
-                addSequential(new MoveElevator(height, .02, .1));
+                addSequential(new MoveElevator(height, .0, 1));
             }
             addSequential(new RetractRoller());
         } else {
             if (Elevator.getInstance().getHeight() > height) { // Going down
-                addSequential(new MoveElevator(height, .1, .02));
+                addSequential(new MoveElevator(height, 1, .0));
             } else { // Going up
-                addSequential(new MoveElevator(height, .02, .1));
+                addSequential(new MoveElevator(height, .0, 1));
             }
         }
     }

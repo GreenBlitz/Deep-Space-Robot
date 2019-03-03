@@ -14,6 +14,7 @@ import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.TalonEncoder;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
+import edu.greenblitz.utils.sm.ElevatorState;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
@@ -121,7 +122,7 @@ public class Elevator extends GBSubsystem {
     }
 
     public boolean isFloorLevel() {
-        return m_atGroundLimitSwitch.get();
+        return ElevatorState.closestTo(getHeight()) == ElevatorState.GROUND;
     }
 
     public double getVelocity() {
@@ -129,7 +130,7 @@ public class Elevator extends GBSubsystem {
     }
 
     public double getHeight() {
-        if (isFloorLevel())
+        if (m_atGroundLimitSwitch.get()) // if needs to re
             m_encoder.reset();
         return m_encoder.getNormalizedTicks();
     }
@@ -223,7 +224,7 @@ public class Elevator extends GBSubsystem {
         SmartDashboard.putNumber("height", getHeight());
         if (m_wasAtGround && !isAtGroundLevel()) {
             m_wasAtGround = false;
-            resetEncoder();
+//            resetEncoder();
         }
     }
 }

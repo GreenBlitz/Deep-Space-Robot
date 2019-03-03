@@ -4,11 +4,12 @@ import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
-import edu.greenblitz.robotname.commands.complex.hidden.roller.*;
-import edu.greenblitz.robotname.commands.simple.elevator.BrakeElevator;
-import edu.greenblitz.robotname.commands.simple.poker.*;
+import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeExtendAndRollIn;
+import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeRetractAndStop;
+import edu.greenblitz.robotname.commands.simple.poker.ExtendAndRelease;
+import edu.greenblitz.robotname.commands.simple.poker.RetractAndHold;
+import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendRoller;
-import edu.greenblitz.robotname.commands.simple.shifter.ToggleShift;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.hid.SmartJoystick;
 
@@ -41,12 +42,11 @@ public class OI {
 
         mainJoystick.L1.whenPressed(new SafeExtendAndRollIn());
         mainJoystick.L1.whenReleased(new SafeRetractAndStop());
+        mainJoystick.X.whenPressed(new KickBall());
+        mainJoystick.A.whenPressed(new TogglePokerExtender());
         mainJoystick.B.whenPressed(new ExtendAndRelease());
         mainJoystick.B.whenReleased(new RetractAndHold());
 
-        mainJoystick.A.whenPressed(new ToggleShift());
-
-        mainJoystick.X.whenPressed(new BrakeElevator());
         mainJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
         mainJoystick.R1.whenPressed(new ExtendRoller());
 
