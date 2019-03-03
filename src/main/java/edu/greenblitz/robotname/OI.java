@@ -1,38 +1,21 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.robotname.commands.complex.exposed.cargo.KickerEnsureBallOut;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
-import edu.greenblitz.robotname.commands.complex.hidden.elevator.PrepareToExchangeGameObject;
-import edu.greenblitz.robotname.commands.complex.hidden.kicker.EnsureKickerClosed;
-import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickAndRetract;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
-import edu.greenblitz.robotname.commands.complex.hidden.poker.EnsurePokerExtended;
-import edu.greenblitz.robotname.commands.complex.hidden.poker.EnsurePokerRetracted;
-import edu.greenblitz.robotname.commands.complex.hidden.poker.FullPokerCycle;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.*;
-import edu.greenblitz.robotname.commands.simple.elevator.ElevatorByJoystick;
-import edu.greenblitz.robotname.commands.simple.elevator.ToggleElevatorBrake;
-import edu.greenblitz.robotname.commands.simple.kicker.Kick;
-import edu.greenblitz.robotname.commands.simple.kicker.ToggleKicker;
 import edu.greenblitz.robotname.commands.simple.poker.*;
-import edu.greenblitz.robotname.commands.simple.roller.ExtendRoller;
-import edu.greenblitz.robotname.commands.simple.roller.RetractRoller;
-import edu.greenblitz.robotname.commands.simple.roller.RollIn;
-import edu.greenblitz.robotname.commands.simple.roller.StopRolling;
-import edu.greenblitz.robotname.subsystems.Elevator;
-import edu.greenblitz.utils.hid.CustomControlBoard;
 import edu.greenblitz.utils.hid.SmartJoystick;
 
 public class OI {
-    public enum State {
+    public enum GameObject {
         CARGO,
         HATCH
     }
 
     private static SmartJoystick mainJoystick;
     private static SmartJoystick sideJoystick;
-    private static State oiState;
+    private static GameObject oiGameObject;
 
     public static SmartJoystick getMainJoystick() {
         return mainJoystick;
@@ -85,16 +68,16 @@ public class OI {
 //        sideJoystick.BIG_YELLOW.whenPressed(new KickerEnsureBallOut());
     }
 
-    public static State getOIState() {
-        return oiState;
+    public static GameObject getOIState() {
+        return oiGameObject;
     }
 
     public static boolean isStateCargo() {
-        return getOIState() == State.CARGO;
+        return getOIState() == GameObject.CARGO;
     }
 
     public static boolean isStateHatch() {
-        return getOIState() == State.HATCH;
+        return getOIState() == GameObject.HATCH;
     }
 
     public static void update() {

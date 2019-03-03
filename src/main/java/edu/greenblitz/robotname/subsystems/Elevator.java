@@ -1,6 +1,7 @@
 package edu.greenblitz.robotname.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.greenblitz.robotname.OI;
@@ -9,24 +10,25 @@ import edu.greenblitz.robotname.RobotMap.Elevator.Motor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Sensor;
 import edu.greenblitz.robotname.RobotMap.Elevator.Solenoid;
 import edu.greenblitz.robotname.commands.simple.elevator.BrakeElevator;
+import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.TalonEncoder;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
-public class Elevator extends Subsystem {
+public class Elevator extends GBSubsystem {
 
     public enum Level {
         GROUND(0, 0),
-        CARGO_SHIP(0.9, 0),
         ROCKET_LOW(0.5, 0),
+        CARGO_SHIP(0.9, 0),
         ROCKET_MID(1.2, 0.7),
         ROCKET_HIGH(1.9, 1.4);
 
@@ -38,16 +40,8 @@ public class Elevator extends Subsystem {
             this.hatch = hatch;
         }
 
-        public double getCargo() {
-            return cargo;
-        }
-
-        public double getHatch() {
-            return hatch;
-        }
-
-        public double heightByState(OI.State state) {
-            return state == OI.State.CARGO ? cargo : hatch;
+        public double heightByState(OI.GameObject state) {
+            return state == OI.GameObject.CARGO ? cargo : hatch;
         }
 
         public double heightByCurrentState() {
@@ -55,17 +49,19 @@ public class Elevator extends Subsystem {
         }
     }
 
+    private static final double MAX_VEL = 1.4547785108388314,
+            MAX_ACC = 14.03314483191957,
+            GRAVITY_FF = 0.1;
+
     private static Elevator instance;
 
-    private static final double LEVEL_HEIGHT_TOLERANCE = 0.05;
+    public static final double LEVEL_HEIGHT_TOLERANCE = 0.05;
 
     public static final int MAGIC_LOOP_IDX = 0;
     public static final int POSITION_LOOP_IDX = 1;
 
     public static final int MAIN_PID_IDX = 0;
     public static final int AUXILIARY_PID_IDX = 1;
-
-    private static final double TICKS_PER_METER = 0;
 
     private WPI_TalonSRX m_leader;
     private TalonSRX m_follower;
@@ -74,6 +70,7 @@ public class Elevator extends Subsystem {
     private Level m_level = Level.GROUND;
     private DigitalInput m_atGroundLimitSwitch;
     private Logger logger;
+    private boolean m_wasAtGround = true;
 
     private Elevator() {
         logger = LogManager.getLogger(getClass());
@@ -81,8 +78,10 @@ public class Elevator extends Subsystem {
         m_leader = new WPI_TalonSRX(Motor.LEADER);
         m_follower = new TalonSRX(Motor.FOLLOWER);
         m_follower.follow(m_leader);
+
+        m_leader.setSensorPhase(true);
         m_encoder = new TalonEncoder(Sensor.TICKS_PER_METER, m_leader);
-        m_encoder.invert(true);
+
         m_brake = new SendableDoubleSolenoid(Solenoid.PCM, Solenoid.FORWARD, Solenoid.REVERSE);
         m_atGroundLimitSwitch = new DigitalInput(Sensor.LIMIT_SWITCH);
 
@@ -90,7 +89,6 @@ public class Elevator extends Subsystem {
         m_leader.setName("motor");
         addChild(m_brake);
         m_brake.setName("brake");
-
         addChild(m_atGroundLimitSwitch);
         m_atGroundLimitSwitch.setName("at ground");
 
@@ -112,8 +110,10 @@ public class Elevator extends Subsystem {
     }
 
     private void setLevel(Level level) {
-        m_level = level;
-        logger.debug("current level: {}", level);
+        if (level != m_level) {
+            m_level = level;
+            logger.debug("current level: {}", level);
+        }
     }
 
     public Level getLevel() {
@@ -124,10 +124,8 @@ public class Elevator extends Subsystem {
         return m_atGroundLimitSwitch.get();
     }
 
-    public int getRawTicks(){
-        if (isFloorLevel())
-            m_encoder.reset();
-        return m_encoder.getRawTicks();
+    public double getVelocity() {
+        return m_encoder.getNormalizedVelocity();
     }
 
     public double getHeight() {
@@ -168,21 +166,29 @@ public class Elevator extends Subsystem {
     }
 
     public void setPosition(double level) {
-        m_leader.set(ControlMode.Position, Sensor.TICKS_PER_METER * level);
+        m_leader.set(
+                ControlMode.Position, Sensor.TICKS_PER_METER * level,
+                DemandType.ArbitraryFeedForward, GRAVITY_FF);
     }
 
     public void setSmartPosition(double level) {
-        m_leader.set(ControlMode.MotionMagic, Sensor.TICKS_PER_METER * level);
+        m_leader.set(
+                ControlMode.MotionMagic, Sensor.TICKS_PER_METER * level,
+                DemandType.ArbitraryFeedForward, GRAVITY_FF);
     }
 
     public void resetEncoder() {
         m_encoder.reset();
 
-        logger.debug("encoders reset");
+        logger.info("encoders reset");
     }
 
     public void reset() {
         resetEncoder();
+    }
+
+    public void setCompensatedPower(double power, double ff) {
+        m_leader.set(ControlMode.PercentOutput, power, DemandType.ArbitraryFeedForward, ff);
     }
 
     private Optional<Level> updateLevel() {
@@ -199,6 +205,10 @@ public class Elevator extends Subsystem {
         return m_brake.get() == Value.kForward;
     }
 
+    public boolean isAtGroundLevel() {
+        return m_atGroundLimitSwitch.get();
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
@@ -210,5 +220,10 @@ public class Elevator extends Subsystem {
 
     public void update() {
         updateLevel().ifPresent(this::setLevel);
+        SmartDashboard.putNumber("height", getHeight());
+        if (m_wasAtGround && !isAtGroundLevel()) {
+            m_wasAtGround = false;
+            resetEncoder();
+        }
     }
 }
