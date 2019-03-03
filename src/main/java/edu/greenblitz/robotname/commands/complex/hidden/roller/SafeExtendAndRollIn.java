@@ -15,7 +15,7 @@ public class SafeExtendAndRollIn extends CommandChain {
     }
 
     @Override
-    public void end(){
+    protected void atEnd(){
         new RetractAndRollIn().start();
     }
 }

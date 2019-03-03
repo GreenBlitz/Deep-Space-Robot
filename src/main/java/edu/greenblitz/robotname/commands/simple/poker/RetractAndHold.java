@@ -20,7 +20,7 @@ public class RetractAndHold extends PokerBaseCommand {
     }
 
     @Override
-    protected void end() {
+    protected void atEnd() {
         system.extend(false);
     }
 }

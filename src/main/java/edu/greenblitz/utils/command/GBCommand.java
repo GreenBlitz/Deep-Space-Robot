@@ -104,12 +104,11 @@ public abstract class GBCommand extends Command {
     public abstract Optional<State> getDeltaState();
 
     @Override
-    public synchronized void start() {
-
+    public final synchronized void start() {
         State currState = Robot.getInstance().getStateMachine().getCurrentState();
         var newStateOpt = getDeltaState();
         State newState;
-        if (!newStateOpt.isEmpty()) {
+        if (newStateOpt.isPresent()) {
             newState = newStateOpt.get();
             if (newState.getElevatorState() == null)
                 newState.setElevatorState(currState.getElevatorState());
@@ -127,9 +126,10 @@ public abstract class GBCommand extends Command {
             logger.warn("command {} aborted due to invalid state change: origin - {}, delta - {}",
                     getName(), Robot.getInstance().getCurrentState(), getDeltaState());
         } else {
-            reportCommandStart();
             Robot.getInstance().getStateMachine().setCurrentState(newState);
             super.start();
+            atStart();
+            reportCommandStart();
         }
     }
 
@@ -152,8 +152,12 @@ public abstract class GBCommand extends Command {
     }
 
     @Override
-    protected void end() {
+    protected final void end() {
+        atEnd();
         super.end();
         reportCommandEnd();
     }
+
+    protected void atEnd() {}
+    protected void atStart() {}
 }

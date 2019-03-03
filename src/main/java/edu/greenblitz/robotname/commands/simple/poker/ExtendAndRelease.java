@@ -20,7 +20,7 @@ public class ExtendAndRelease extends PokerBaseCommand {
     }
 
     @Override
-    protected void end() {
+    protected void atEnd() {
         system.hold(false);
     }
 }

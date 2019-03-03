@@ -62,7 +62,7 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
     }
 
     @Override
-    protected void end() {
+    protected void atEnd() {
         system.brake(true);
         system.stop();
     }

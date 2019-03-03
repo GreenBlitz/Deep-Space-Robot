@@ -89,7 +89,7 @@ public class ParallelCommand extends GBCommand {
     }
 
     @Override
-    public synchronized void start() {
+    protected void atStart() {
         runCommands();
     }
 
@@ -110,7 +110,7 @@ public class ParallelCommand extends GBCommand {
     }
 
     @Override
-    protected void end() {
+    protected void atEnd() {
         Arrays.stream(m_commands).forEach(Command::cancel);
     }
 
