@@ -6,11 +6,6 @@ import edu.greenblitz.utils.sm.ElevatorState;
 import edu.greenblitz.utils.sm.State;
 import org.greenblitz.motion.pid.PIDController;
 import org.greenblitz.motion.pid.PIDObject;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.greenblitz.motion.pid.PIDController;
-import org.greenblitz.motion.pid.PIDObject;
-import org.greenblitz.motion.tolerance.AbsoluteTolerance;
-import org.greenblitz.motion.tolerance.ITolerance;
 
 import java.util.Optional;
 
@@ -81,7 +76,7 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
     @Override
     public Optional<State> getDeltaState() {
         return Optional.of(
-                new State(ElevatorState.closestTo(m_height),
+                new State(ElevatorState.getStateByHeight(m_height),
                         null, null, null));
     }
 

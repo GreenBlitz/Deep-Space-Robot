@@ -5,6 +5,7 @@ import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeExtendAndRollIn;
+import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeRetractAndRollIn;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeRetractAndStop;
 import edu.greenblitz.robotname.commands.simple.poker.ExtendAndRelease;
 import edu.greenblitz.robotname.commands.simple.poker.RetractAndHold;
@@ -40,20 +41,18 @@ public class OI {
 
         oiGameObject = GameObject.CARGO;
 
-        mainJoystick.L1.whenPressed(new SafeExtendAndRollIn());
-        mainJoystick.L1.whenReleased(new SafeRetractAndStop());
+        mainJoystick.L1.whileHeld(new SafeExtendAndRollIn());
         mainJoystick.X.whenPressed(new KickBall());
-//        mainJoystick.A.whenPressed(new TogglePokerExtender());
-//        mainJoystick.B.whenPressed(new ExtendAndRelease());
-//        mainJoystick.B.whenReleased(new RetractAndHold());
+        mainJoystick.A.whenPressed(new TogglePokerExtender());
+        mainJoystick.B.whenPressed(new ExtendAndRelease());
+        mainJoystick.B.whenReleased(new RetractAndHold());
 
-        mainJoystick.A.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
-        mainJoystick.B.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
+
         mainJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
         mainJoystick.R1.whenPressed(new ExtendRoller());
 
-        mainJoystick.START.whenPressed(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
-        mainJoystick.BACK.whenPressed(new StopClimbing());
+        mainJoystick.START.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
+        mainJoystick.BACK.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
 
 //        mainJoystick.X.whenPressed(new SafeRetractAndRollIn());
 //        mainJoystick.Y.whenPressed(new ToggleKicker());

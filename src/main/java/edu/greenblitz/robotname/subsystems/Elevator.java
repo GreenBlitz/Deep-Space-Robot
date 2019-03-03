@@ -122,7 +122,7 @@ public class Elevator extends GBSubsystem {
     }
 
     public boolean isFloorLevel() {
-        return ElevatorState.closestTo(getHeight()) == ElevatorState.GROUND;
+        return ElevatorState.getStateByHeight(getHeight()) == ElevatorState.GROUND;
     }
 
     public double getVelocity() {

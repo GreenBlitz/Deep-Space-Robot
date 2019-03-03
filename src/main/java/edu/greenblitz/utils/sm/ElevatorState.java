@@ -28,11 +28,11 @@ public enum ElevatorState {
         return Arrays.asList(values());
     }
 
-   public static ElevatorState closestTo(Elevator.Level level) {
+   public static ElevatorState getStateByHeight(Elevator.Level level) {
         return level == Elevator.Level.GROUND ? GROUND : UP;
     }
 
-    public static ElevatorState closestTo(double destination) {
-        return destination <= UP.height ? GROUND : UP;
+    public static ElevatorState getStateByHeight(double destination) {
+        return destination <= 0.1 ? GROUND : UP;
     }
 }

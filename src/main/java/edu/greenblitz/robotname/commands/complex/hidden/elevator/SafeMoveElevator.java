@@ -13,7 +13,6 @@ import edu.greenblitz.robotname.subsystems.Roller;
 import edu.greenblitz.utils.command.DynamicRequire;
 import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.sm.ElevatorState;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class SafeMoveElevator extends CommandChain {
 
@@ -35,8 +34,8 @@ public class SafeMoveElevator extends CommandChain {
         System.out.println("Moving to " + height + " from " + Elevator.getInstance().getHeight());
         addSequential(new DynamicRequire(Elevator.getInstance(), Roller.getInstance(), Poker.getInstance(), Kicker.getInstance()));
 
-        if ((ElevatorState.closestTo(Elevator.getInstance().getLevel()) == ElevatorState.GROUND ||
-                ElevatorState.closestTo(height) == ElevatorState.GROUND) && Roller.getInstance().isRetracted()) {
+        if ((ElevatorState.getStateByHeight(Elevator.getInstance().getLevel()) == ElevatorState.GROUND ||
+                ElevatorState.getStateByHeight(height) == ElevatorState.GROUND) && Roller.getInstance().isRetracted()) {
             addSequential(new BrakeElevator());
 
             if (Poker.getInstance().isExtended()) {

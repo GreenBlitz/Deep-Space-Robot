@@ -7,6 +7,6 @@ public class SafeRetractAndRollIn extends CommandChain {
     @Override
     protected void initChain() {
         addSequential(new EnsureRollerRetracted());
-        addSequential(new RollIn());
+        addSequential(new RollIn(1000));
     }
 }

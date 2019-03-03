@@ -30,7 +30,7 @@ public abstract class AbstractNativeElevatorMove extends TimedSubsystemCommand<E
 
     @Override
     public Optional<State> getDeltaState() {
-        return Optional.of(new State(ElevatorState.closestTo(m_destination), null, null, null));
+        return Optional.of(new State(ElevatorState.getStateByHeight(m_destination), null, null, null));
     }
 
     @Override
