@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname.commands.complex.hidden.elevator;
 
+import edu.greenblitz.robotname.commands.simple.elevator.BrakeElevator;
 import edu.greenblitz.robotname.commands.simple.elevator.MoveElevator;
 import edu.greenblitz.robotname.commands.simple.kicker.Unkick;
 import edu.greenblitz.robotname.commands.simple.poker.RetractPoker;
@@ -9,6 +10,7 @@ import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.robotname.subsystems.Kicker;
 import edu.greenblitz.robotname.subsystems.Poker;
 import edu.greenblitz.robotname.subsystems.Roller;
+import edu.greenblitz.utils.command.DynamicRequire;
 import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.sm.ElevatorState;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -18,7 +20,12 @@ public class SafeMoveElevator extends CommandChain {
     double height;
 
     public SafeMoveElevator(double height) {
+        System.out.println("dab");
         this.height = height;
+    }
+
+    public SafeMoveElevator(Elevator.Level level) {
+        this(level.heightByCurrentState());
     }
 
     @Override
@@ -26,9 +33,11 @@ public class SafeMoveElevator extends CommandChain {
         setInterruptible(false);
 
         System.out.println("Moving to " + height + " from " + Elevator.getInstance().getHeight());
+        addSequential(new DynamicRequire(Elevator.getInstance(), Roller.getInstance(), Poker.getInstance(), Kicker.getInstance()));
 
         if ((ElevatorState.closestTo(Elevator.getInstance().getLevel()) == ElevatorState.GROUND ||
                 ElevatorState.closestTo(height) == ElevatorState.GROUND) && Roller.getInstance().isRetracted()) {
+            addSequential(new BrakeElevator());
 
             if (Poker.getInstance().isExtended()) {
                 if (Kicker.getInstance().isOpen())
@@ -52,7 +61,4 @@ public class SafeMoveElevator extends CommandChain {
         }
     }
 
-    public SafeMoveElevator(Elevator.Level level) {
-        this(level.heightByCurrentState());
-    }
 }

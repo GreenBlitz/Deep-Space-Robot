@@ -24,4 +24,9 @@ public class StateMachineTest {
         System.out.println(machine);
     }
 
+    @Test
+    public void testCharacter(){
+        System.out.println();
+    }
+
 }

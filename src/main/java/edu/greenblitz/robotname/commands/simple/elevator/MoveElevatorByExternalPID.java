@@ -38,12 +38,13 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
 
     @Override
     protected void initialize() {
-        m_controller = new PIDController(PID_CONFIG, (goal, error) -> {
+        m_controller = new PIDController(PID_CONFIG, (goal, current) -> {
+            double error = goal - current;
             if (error <= 0 && Math.abs(error) < toleBelow) return true;
             if (error >= 0 && error < toleAbove) return true;
             return false;
         });
-        m_controller.configure(get(), m_height, MIN_POWER, MAX_POWER, 0);
+        m_controller.configure(system.getHeight(), m_height, MIN_POWER, MAX_POWER, 0);
         m_controller.setGoal(m_height);
         m_controller.configureOutputLimits(MIN_POWER, MAX_POWER);
         system.brake(false);
@@ -51,7 +52,7 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
 
     @Override
     protected void execute() {
-        var in = get();
+        var in = system.getHeight();
         double out = m_controller.calculatePID(in);
         var ff = 0.0;
         if (out > 0) ff = 0.2;
@@ -61,7 +62,7 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
 
     @Override
     protected boolean isFinished() {
-        return m_controller.isFinished(get());
+        return m_controller.isFinished(system.getHeight());
     }
 
     @Override
@@ -75,10 +76,6 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
         return Optional.of(
                 new State(ElevatorState.closestTo(m_height),
                         null, null, null));
-    }
-
-    private double get() {
-        return system.getHeight();
     }
 
     private void set(double power, double ff) {

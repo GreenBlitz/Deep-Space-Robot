@@ -19,6 +19,7 @@ public class BrakeElevator extends SubsystemCommand<Elevator> {
 
     public BrakeElevator() {
         super(Elevator.getInstance());
+        System.out.println("dab2");
     }
 
     @Override
