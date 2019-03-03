@@ -66,7 +66,7 @@ public class Robot extends TimedRobot {
         allowPneumatics();
         allowRoller();
         allowClimber();
-//        allowShifter();
+        allowShifter();
 
         OI.initBindings();
         m_pdp = new PowerDistributionPanel();
