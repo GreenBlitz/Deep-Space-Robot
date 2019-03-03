@@ -2,15 +2,9 @@ package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
-import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
-import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
-import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeExtendAndRollIn;
-import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeRetractAndStop;
 import edu.greenblitz.robotname.commands.simple.poker.ExtendAndRelease;
 import edu.greenblitz.robotname.commands.simple.poker.RetractAndHold;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
-import edu.greenblitz.robotname.commands.simple.roller.ExtendRoller;
-import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.hid.SmartJoystick;
 
 public class OI {
@@ -37,23 +31,13 @@ public class OI {
     }
 
     public static void initBindings() {
-        oiGameObject = GameObject.CARGO;
+        oiGameObject = GameObject.HATCH;
+        mainJoystick.START.whenPressed(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
+        mainJoystick.BACK.whenPressed(new StopClimbing());
 
-        mainJoystick.L1.whenPressed(new SafeExtendAndRollIn());
-        mainJoystick.L1.whenReleased(new SafeRetractAndStop());
-        mainJoystick.X.whenPressed(new KickBall());
         mainJoystick.A.whenPressed(new TogglePokerExtender());
         mainJoystick.B.whenPressed(new ExtendAndRelease());
         mainJoystick.B.whenReleased(new RetractAndHold());
-
-        mainJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
-        mainJoystick.R1.whenPressed(new ExtendRoller());
-
-//        mainJoystick.START.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
-//        mainJoystick.BACK.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
-
-        mainJoystick.START.whenPressed(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
-        mainJoystick.BACK.whenPressed(new StopClimbing());
     }
 
     public static GameObject getOIState() {
