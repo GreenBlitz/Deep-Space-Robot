@@ -6,7 +6,7 @@ public class MoveElevator extends MoveElevatorByExternalPID {
     public MoveElevator(double height, double lowerTol, double higherTol) {
         super(height, lowerTol, higherTol);
         setInterruptible(false);
-        logger.debug("moving to " + height + " from " + Elevator.getInstance().getHeight());
+        setName("Move elevator to " + height);
     }
 
     public MoveElevator(Elevator.Level level) {
