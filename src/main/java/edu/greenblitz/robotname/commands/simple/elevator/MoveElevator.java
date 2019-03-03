@@ -5,6 +5,7 @@ import edu.greenblitz.robotname.subsystems.Elevator;
 public class MoveElevator extends MoveElevatorByExternalPID {
     public MoveElevator(double height, double lowerTol, double higherTol) {
         super(height, lowerTol, higherTol);
+        setInterruptible(false);
     }
 
     public MoveElevator(Elevator.Level level) {

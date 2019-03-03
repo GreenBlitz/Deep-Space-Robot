@@ -126,8 +126,8 @@ public class RobotMap {
             }
 
             public static class Extender {
-                public static final int FORWARD = 0;
-                public static final int REVERSE = 1;
+                public static final int FORWARD = 1;
+                public static final int REVERSE = 0;
                 public static final int PCM = 21;
             }
         }

@@ -9,16 +9,23 @@ import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.robotname.subsystems.Kicker;
 import edu.greenblitz.robotname.subsystems.Poker;
 import edu.greenblitz.robotname.subsystems.Roller;
+import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.sm.ElevatorState;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class SafeMoveElevator extends CommandGroup {
+public class SafeMoveElevator extends CommandChain {
+
+    double height;
 
     public SafeMoveElevator(double height) {
-        requires(Elevator.getInstance());
-        requires(Roller.getInstance());
-        requires(Poker.getInstance());
-        requires(Kicker.getInstance());
+        this.height = height;
+    }
+
+    @Override
+    protected void initChain() {
+        setInterruptible(false);
+
+        System.out.println("Moving to " + height + " from " + Elevator.getInstance().getHeight());
 
         if ((ElevatorState.closestTo(Elevator.getInstance().getLevel()) == ElevatorState.GROUND ||
                 ElevatorState.closestTo(height) == ElevatorState.GROUND) && Roller.getInstance().isRetracted()) {

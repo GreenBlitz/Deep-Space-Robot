@@ -2,9 +2,12 @@ package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
+import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.*;
 import edu.greenblitz.robotname.commands.simple.poker.*;
+import edu.greenblitz.robotname.commands.simple.roller.ExtendRoller;
+import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.hid.SmartJoystick;
 
 public class OI {
@@ -32,12 +35,17 @@ public class OI {
 
     public static void initBindings() {
 
+        oiGameObject = GameObject.CARGO;
+
         mainJoystick.L1.whenPressed(new SafeExtendAndRollIn());
         mainJoystick.L1.whenReleased(new SafeRetractAndStop());
         mainJoystick.X.whenPressed(new KickBall());
         mainJoystick.A.whenPressed(new TogglePokerExtender());
         mainJoystick.B.whenPressed(new ExtendAndRelease());
         mainJoystick.B.whenReleased(new RetractAndHold());
+
+        mainJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
+        mainJoystick.R1.whenPressed(new ExtendRoller());
 
         mainJoystick.START.whenPressed(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
         mainJoystick.BACK.whenPressed(new StopClimbing());
