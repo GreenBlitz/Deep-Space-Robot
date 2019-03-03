@@ -38,8 +38,7 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
         m_controller = new PIDController(PID_CONFIG, (goal, current) -> {
             double error = goal - current;
             if (error <= 0 && Math.abs(error) < toleBelow) return true;
-            if (error >= 0 && error < toleAbove) return true;
-            return false;
+            return error >= 0 && error < toleAbove;
         });
         m_controller.configure(system.getHeight(), m_height, MAX_POWER_DOWN, MAX_POWER_UP, MIN_POWER);
         m_controller.setGoal(m_height);
