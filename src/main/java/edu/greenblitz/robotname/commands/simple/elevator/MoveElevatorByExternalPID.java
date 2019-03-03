@@ -17,12 +17,10 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
 
     private static final PIDObject PID_CONFIG = new PIDObject(MAX_POWER_UP / SLOW_DOWN_DISTANCE, 0, 0, 0);
 
-
     private double m_height;
     private PIDController m_controller;
     private double toleBelow;
     private double toleAbove;
-
 
     public MoveElevatorByExternalPID(double height) {
         this(height, Elevator.LEVEL_HEIGHT_TOLERANCE, Elevator.LEVEL_HEIGHT_TOLERANCE);
@@ -39,7 +37,6 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
     protected void initialize() {
         m_controller = new PIDController(PID_CONFIG, (goal, current) -> {
             double error = goal - current;
-            System.out.println("error="+error);
             if (error <= 0 && Math.abs(error) < toleBelow) return true;
             if (error >= 0 && error < toleAbove) return true;
             return false;
@@ -53,9 +50,7 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
     @Override
     protected void execute() {
         var in = system.getHeight() - m_height;
-        System.out.println("in="+in);
         double out = m_controller.calculatePID(in);
-        System.out.println("out="+out);
         var ff = 0.0;
         if (out > 0) ff = 0.2;
         if (out < 0) ff = -0.1;
