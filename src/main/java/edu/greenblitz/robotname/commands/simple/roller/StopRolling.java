@@ -38,8 +38,7 @@ public class StopRolling extends SubsystemCommand<Roller> {
     }
 
     @Override
-    protected void end() {
-        super.end();
+    protected void atEnd() {
         system.stop();
     }
 }

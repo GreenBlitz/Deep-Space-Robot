@@ -39,8 +39,7 @@ public class RollOut extends SubsystemCommand<Roller> {
     }
 
     @Override
-    protected void end() {
-        super.end();
+    protected void atEnd() {
         system.stop();
     }
 

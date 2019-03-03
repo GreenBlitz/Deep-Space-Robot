@@ -29,8 +29,7 @@ public abstract class DynamicCommand extends GBCommand {
     private State delta = new State();
 
     @Override
-    public synchronized void start() {
-        super.start();
+    protected void atStart() {
         chosen = pick();
         delta = chosen.getDeltaState().orElse(new State());
         logger.debug(chosen);
@@ -43,8 +42,7 @@ public abstract class DynamicCommand extends GBCommand {
     }
 
     @Override
-    protected void end() {
-        super.end();
+    protected void atEnd() {
         chosen = null;
     }
 

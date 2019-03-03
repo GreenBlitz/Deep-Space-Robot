@@ -24,8 +24,7 @@ public class TankDriveByJoytick extends ChassisBaseCommand {
     }
 
     @Override
-    protected void end() {
-        super.end();
+    protected void atEnd() {
         Chassis.getInstance().stop();
     }
 }

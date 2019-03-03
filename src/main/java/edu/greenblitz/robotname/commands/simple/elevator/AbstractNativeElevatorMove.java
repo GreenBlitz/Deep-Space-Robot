@@ -34,7 +34,7 @@ public abstract class AbstractNativeElevatorMove extends TimedSubsystemCommand<E
     }
 
     @Override
-    protected final void end() {
+    protected final void atEnd() {
         system.stop();
     }
 }

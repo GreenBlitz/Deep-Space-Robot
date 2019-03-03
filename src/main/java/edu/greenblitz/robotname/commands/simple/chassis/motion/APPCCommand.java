@@ -55,8 +55,7 @@ public class APPCCommand extends ChassisBaseCommand {
     }
 
     @Override
-    protected void end() {
-        super.end();
+    protected void atEnd() {
         var expected = m_controller.getPath().getLast();
         var actual = system.getLocation();
         var diff = new Position(expected.getX() - actual.getX(), expected.getY() - actual.getY(), expected.getAngle() - actual.getAngle());
