@@ -15,11 +15,8 @@ import java.util.Optional;
 
 public class BrakeElevator extends SubsystemCommand<Elevator> {
 
-    private static final double POWER = 0.05;
-
     public BrakeElevator() {
         super(Elevator.getInstance());
-        System.out.println("dab2");
     }
 
     @Override
@@ -30,11 +27,7 @@ public class BrakeElevator extends SubsystemCommand<Elevator> {
     @Override
     protected void initialize() {
         system.brake(true);
-    }
-
-    @Override
-    protected void execute() {
-        system.setRawPower(POWER);
+        system.setRawPower(0);
     }
 
     @Override

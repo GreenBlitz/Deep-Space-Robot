@@ -20,7 +20,7 @@ public class RetractAndRollIn extends RollerBaseCommand {
 
     @Override
     protected void initialize() {
-        system.extend();
+        system.retract();
         system.rollIn();
     }
 }
