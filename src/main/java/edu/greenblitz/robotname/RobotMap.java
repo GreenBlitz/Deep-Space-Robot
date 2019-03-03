@@ -64,28 +64,6 @@ public class RobotMap {
             public static final int REVERSE = 6;
             public static final int PCM = 21;
         }
-
-        public static class Heights {
-            public static class Cargo {
-                public static final double GROUND = 0;
-                public static final double CRUISE = 0;
-                public static final double SHIP = 0;
-                public static final double ROCKET_LOW = 0;
-                public static final double ROCKET_MID = 0;
-                public static final double ROCKET_HIGH = 0;
-                public static final double COLLECT = 0;
-            }
-
-            public static class Hatch {
-                public static final double GROUND = 0;
-                public static final double CRUISE = 0;
-                public static final double SHIP = 0;
-                public static final double ROCKET_LOW = 0;
-                public static final double ROCKET_MID = 0;
-                public static final double ROCKET_HIGH = 0;
-                public static final double COLLECT = 0;
-            }
-        }
     }
 
     public static class Roller {

@@ -4,13 +4,15 @@ import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.*;
 import edu.greenblitz.utils.sm.*;
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.function.Supplier;
 
 public class Robot extends TimedRobot {
@@ -60,11 +62,11 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putData(Scheduler.getInstance());
         allowChassis();
-        allowElevator();
-        allowKicker();
+//        allowElevator();
+//        allowKicker();
         allowPoker();
         allowPneumatics();
-        allowRoller();
+//        allowRoller();
         allowClimber();
         allowShifter();
 
@@ -89,7 +91,7 @@ public class Robot extends TimedRobot {
     }
 
     private void matchInit() {
-        // Chassis.getInstance().reset();
+         Chassis.getInstance().reset();
         Scheduler.getInstance().removeAll();
         reset();
         m_usageReport.setVoltageAtInit(m_pdp.getVoltage());
@@ -135,7 +137,7 @@ public class Robot extends TimedRobot {
     }
 
     private void reset() {
-//        Chassis.getInstance().reset();
+        Chassis.getInstance().reset();
 //        Elevator.getInstance().reset();
 
         m_usageReport.reset();
