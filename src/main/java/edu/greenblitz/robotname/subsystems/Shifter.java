@@ -58,6 +58,10 @@ public class Shifter extends Subsystem {
         return instance;
     }
 
+    public void reset() {
+        setShift(Gear.SPEED);
+    }
+
     /**
      * This is an enum that works based on the state of piston.
      * POWER - Piston is in a forward state.

@@ -69,26 +69,6 @@ public class VisionMaster {
         return new StandardVisionData(getCurrentVisionData());
     }
 
-    public StandardVisionData getStandardizedTargetsData() {
-        setCurrentAlgorithm(Algorithm.TARGETS);
-        return new StandardVisionData(getCurrentVisionData());
-    }
-
-    public StandardVisionData getStandardizedCargoData() {
-        setCurrentAlgorithm(Algorithm.CARGO);
-        return new StandardVisionData(getCurrentVisionData());
-    }
-
-    public StandardVisionData getStandardizedHatchData() {
-        setCurrentAlgorithm(Algorithm.HATCH);
-        return new StandardVisionData(getCurrentVisionData());
-    }
-
-    public StandardVisionData getStandardizedRampData() {
-        setCurrentAlgorithm(Algorithm.RAMP);
-        return new StandardVisionData(getCurrentVisionData());
-    }
-
     public double getDistance() {
         return getStandardizedData().getDistance();
     }

@@ -81,4 +81,8 @@ public class Kicker extends Subsystem {
     public Logger getLogger() {
         return logger;
     }
+
+    public void reset() {
+        unkick();
+    }
 }

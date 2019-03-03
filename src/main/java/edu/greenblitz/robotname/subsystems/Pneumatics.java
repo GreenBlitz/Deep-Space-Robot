@@ -24,7 +24,7 @@ public class Pneumatics extends Subsystem {
 
     private PressureSensor m_pressureSensor;
     private Compressor m_compressor;
-    private DigitalInput m_switch;
+//    private DigitalInput m_switch;
     private boolean m_activated;
     private Logger logger;
 
@@ -34,7 +34,6 @@ public class Pneumatics extends Subsystem {
         m_pressureSensor = new PressureSensor(Sensor.PRESSURE);
         m_compressor = new Compressor(PCM);
 //        m_switch = new DigitalInput(Sensor.SWITCH);
-        setCompressor(false);
 
         addChild(m_pressureSensor);
         m_compressor.setName("pressure");
@@ -66,7 +65,7 @@ public class Pneumatics extends Subsystem {
     }
 
     public boolean isGameMode() {
-        return false;
+        return true;
 //        return m_switch.get();
     }
 
@@ -96,5 +95,9 @@ public class Pneumatics extends Subsystem {
 
     public double getMaxPressureReleased() {
         return SmartDashboard.getNumber(SMD_MAX_PRESSURE_RELEASED, DEFAULT_MAX_PRESSURE_RELEASED);
+    }
+
+    public void reset() {
+        setCompressor(false);
     }
 }

@@ -91,7 +91,7 @@ public class Robot extends TimedRobot {
     }
 
     private void matchInit() {
-         Chassis.getInstance().reset();
+        Chassis.getInstance().reset();
         Scheduler.getInstance().removeAll();
         reset();
         m_usageReport.setVoltageAtInit(m_pdp.getVoltage());
@@ -139,6 +139,11 @@ public class Robot extends TimedRobot {
     private void reset() {
         Chassis.getInstance().reset();
 //        Elevator.getInstance().reset();
+        Poker.getInstance().reset();
+        Roller.getInstance().reset();
+        Kicker.getInstance().reset();
+        Shifter.getInstance().reset();
+        Pneumatics.getInstance().reset();
 
         m_usageReport.reset();
         m_status.setCurrentState(
@@ -180,7 +185,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData(Poker.getInstance());
     }
 
-    private void allowClimber(){
+    private void allowClimber() {
         Climber.init();
         SmartDashboard.putData(Climber.getInstance().getBig());
         SmartDashboard.putData(Climber.getInstance().getExtender());

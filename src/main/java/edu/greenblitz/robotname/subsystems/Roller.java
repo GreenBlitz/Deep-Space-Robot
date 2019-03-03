@@ -90,4 +90,9 @@ public class Roller extends Subsystem {
     public static Roller getInstance() {
         return instance;
     }
+
+    public void reset() {
+        retract();
+        stop();
+    }
 }
