@@ -2,6 +2,7 @@ package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.commands.complex.exposed.cargo.KickerEnsureBallOut;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
+import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.PrepareToExchangeGameObject;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.EnsureKickerClosed;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickAndRetract;
@@ -30,20 +31,20 @@ public class OI {
     }
 
     private static SmartJoystick mainJoystick;
-    private static CustomControlBoard sideJoystick;
+    private static SmartJoystick sideJoystick;
     private static State oiState;
 
     public static SmartJoystick getMainJoystick() {
         return mainJoystick;
     }
 
-    public static CustomControlBoard getSideJoystick() {
+    public static SmartJoystick getSideJoystick() {
         return sideJoystick;
     }
 
     public static void initJoysticks() {
         if (mainJoystick == null) mainJoystick = new SmartJoystick(RobotMap.Joysticks.MAIN);
-//        if (sideJoystick == null) sideJoystick = new CustomControlBoard(RobotMap.Joysticks.SIDE);
+        if (sideJoystick == null) sideJoystick = new SmartJoystick(RobotMap.Joysticks.SIDE);
     }
 
     public static void initBindings() {
@@ -54,6 +55,9 @@ public class OI {
         mainJoystick.A.whenPressed(new TogglePokerExtender());
         mainJoystick.B.whenPressed(new ExtendAndRelease());
         mainJoystick.B.whenReleased(new RetractAndHold());
+
+        mainJoystick.START.whenPressed(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
+        mainJoystick.BACK.whenPressed(new StopClimbing());
 
 //        mainJoystick.X.whenPressed(new SafeRetractAndRollIn());
 //        mainJoystick.Y.whenPressed(new ToggleKicker());

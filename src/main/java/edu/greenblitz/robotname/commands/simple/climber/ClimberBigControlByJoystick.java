@@ -12,12 +12,11 @@ public class ClimberBigControlByJoystick extends JoystickCommand<Climber.Big> {
      * unsafe power = power near control board
      * safe power = power away from control board
      */
-    private double unsafePower, safePower;
+    private double safePower;
 
-    public ClimberBigControlByJoystick(double unsafePower, double safePower, SmartJoystick miseryStick) {
+    public ClimberBigControlByJoystick(double safePower, SmartJoystick miseryStick) {
         super(Climber.getInstance().getBig(), miseryStick);
         this.safePower = safePower;
-        this.unsafePower = Math.max(Math.min(0.05, unsafePower), 0);
     }
 
     @Override
@@ -27,10 +26,7 @@ public class ClimberBigControlByJoystick extends JoystickCommand<Climber.Big> {
 
     @Override
     protected void execute() {
-        if (system.isAtLimit())
-            system.move(Math.min(0, SmartJoystick.Axis.RIGHT_Y.getValue(joystick) * unsafePower));
-        else
-            system.move(SmartJoystick.Axis.RIGHT_Y.getValue(joystick) * safePower);
+            system.lower(SmartJoystick.Axis.RIGHT_Y.getValue(joystick) * safePower);
     }
 
     @Override

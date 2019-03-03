@@ -1,18 +1,16 @@
 package edu.greenblitz.robotname.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.greenblitz.robotname.RobotMap.Climber.Motor;
 import edu.greenblitz.robotname.RobotMap.Climber.Sensor;
+import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.SparkEncoder;
 import edu.greenblitz.utils.sendables.SendableSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 
 import static com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -27,9 +25,10 @@ public class Climber {
     public static Climber getInstance() {
         return instance;
     }
+
     private Logger logger;
 
-    public class Extender extends Subsystem {
+    public class Extender extends GBSubsystem {
         private static final int TICKS_PER_METER = 1;
 
         private SendableSparkMax m_extender;
@@ -64,7 +63,7 @@ public class Climber {
         }
     }
 
-    public class Wheels extends Subsystem {
+    public class Wheels extends GBSubsystem {
         private WPI_TalonSRX m_wheels;
 
         private Wheels() {
@@ -84,11 +83,11 @@ public class Climber {
 
         public void drive(double power) {
 //            if (getExtender().getHeight() > 0 || power > 0)
-                m_wheels.set(power);
+            m_wheels.set(power);
         }
     }
 
-    public class Big extends Subsystem {
+    public class Big extends GBSubsystem {
         private WPI_TalonSRX m_bigLeader;
         private DigitalInput m_limitSwitch;
 
@@ -108,21 +107,18 @@ public class Climber {
         }
 
         public void higher(double power) {
-            if(isAtLimit())
+            if (isAtLimit())
                 set(0);
             else
-                set(-Math.abs(0.2*power));
+                set(power);
         }
 
-        public void lower(double power){
-            if(isAtLimit())
-                set(Math.abs(0.05*power));
-            else
-                set(Math.abs(0.2*power));
+        public void lower(double power) {
+            set(-power);
         }
 
         public void move(double power) {
-            if (power >= 0)
+            if (power <= 0)
                 lower(power);
             else
                 higher(power);
@@ -140,8 +136,10 @@ public class Climber {
 
         private void set(double power) {
             double setpower;
-            if (!isAtLimit()) setpower = power;
-            else setpower = Math.min(Math.abs(power), 0.05)*Math.signum(power);
+            if (!isAtLimit())
+                setpower = power;
+            else
+                setpower = power < 0 ? -Math.min(Math.abs(power), 0.2) : 0;
             m_bigLeader.set(setpower);
         }
     }

@@ -65,7 +65,7 @@ public class Robot extends TimedRobot {
         allowPoker();
         allowPneumatics();
         allowRoller();
-//        allowClimber();
+        allowClimber();
 //        allowShifter();
 
         OI.initBindings();
