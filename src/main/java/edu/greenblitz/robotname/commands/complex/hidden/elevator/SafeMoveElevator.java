@@ -12,7 +12,6 @@ import edu.greenblitz.robotname.subsystems.Roller;
 import edu.greenblitz.utils.command.DynamicRequire;
 import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.sm.ElevatorState;
-import edu.wpi.first.wpilibj.GenericHID;
 
 public class SafeMoveElevator extends CommandChain {
 
@@ -43,6 +42,7 @@ public class SafeMoveElevator extends CommandChain {
                 }
                 addSequential(new RetractPoker());
             }
+
             addSequential(new ExtendRoller());
 
             addSequential(new MoveElevator(height, LOWER_TOLERANCE, HIGHER_TOLERANCE));

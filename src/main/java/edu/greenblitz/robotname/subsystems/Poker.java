@@ -88,6 +88,10 @@ public class Poker extends Subsystem {
         extend(false);
     }
 
+    public void hold() { hold(true); }
+
+    public void release() { hold(false); }
+
     public void fullClose() {
         hold(false);
         extend(false);
@@ -132,5 +136,10 @@ public class Poker extends Subsystem {
 
     public Logger getLogger() {
         return logger;
+    }
+
+    public void reset() {
+        retract();
+        release();
     }
 }
