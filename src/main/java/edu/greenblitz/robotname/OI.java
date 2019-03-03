@@ -43,10 +43,12 @@ public class OI {
         mainJoystick.L1.whenPressed(new SafeExtendAndRollIn());
         mainJoystick.L1.whenReleased(new SafeRetractAndStop());
         mainJoystick.X.whenPressed(new KickBall());
-        mainJoystick.A.whenPressed(new TogglePokerExtender());
-        mainJoystick.B.whenPressed(new ExtendAndRelease());
-        mainJoystick.B.whenReleased(new RetractAndHold());
+//        mainJoystick.A.whenPressed(new TogglePokerExtender());
+//        mainJoystick.B.whenPressed(new ExtendAndRelease());
+//        mainJoystick.B.whenReleased(new RetractAndHold());
 
+        mainJoystick.A.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
+        mainJoystick.B.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
         mainJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
         mainJoystick.R1.whenPressed(new ExtendRoller());
 
