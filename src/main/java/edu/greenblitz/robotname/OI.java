@@ -14,9 +14,7 @@ import edu.greenblitz.robotname.commands.simple.elevator.ElevatorByJoystick;
 import edu.greenblitz.robotname.commands.simple.elevator.ToggleElevatorBrake;
 import edu.greenblitz.robotname.commands.simple.kicker.Kick;
 import edu.greenblitz.robotname.commands.simple.kicker.ToggleKicker;
-import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
-import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
-import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
+import edu.greenblitz.robotname.commands.simple.poker.*;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendRoller;
 import edu.greenblitz.robotname.commands.simple.roller.RetractRoller;
 import edu.greenblitz.robotname.commands.simple.roller.RollIn;
@@ -49,10 +47,14 @@ public class OI {
     }
 
     public static void initBindings() {
-        mainJoystick.A.whenPressed(new ToggleRoller());
-        mainJoystick.B.whenPressed(new KickBall());
-        mainJoystick.X.whenPressed(new SafeExtendAndRollIn());
-        mainJoystick.Y.whenPressed(new StopRolling());
+
+        mainJoystick.L1.whenPressed(new SafeExtendAndRollIn());
+        mainJoystick.L1.whenReleased(new SafeRetractAndStop());
+        mainJoystick.X.whenPressed(new KickBall());
+        mainJoystick.A.whenPressed(new TogglePokerExtender());
+        mainJoystick.B.whenPressed(new ExtendAndRelease());
+        mainJoystick.B.whenReleased(new RetractAndHold());
+
 //        mainJoystick.X.whenPressed(new SafeRetractAndRollIn());
 //        mainJoystick.Y.whenPressed(new ToggleKicker());
 //        mainJoystick.B.whenPressed(new TogglePokerExtender());

@@ -7,6 +7,6 @@ public class SafeExtendAndRollOut extends CommandChain {
     @Override
     protected void initChain() {
         addSequential(new EnsureRollerExtended());
-        addSequential(new RollOut(2000));
+        addSequential(new RollOut(1000));
     }
 }
