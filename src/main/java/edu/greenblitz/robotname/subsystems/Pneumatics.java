@@ -65,7 +65,7 @@ public class Pneumatics extends Subsystem {
     }
 
     public boolean isGameMode() {
-        return true;
+        return false;
 //        return m_switch.get();
     }
 

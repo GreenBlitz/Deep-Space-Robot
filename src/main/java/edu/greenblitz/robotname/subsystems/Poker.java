@@ -140,6 +140,6 @@ public class Poker extends Subsystem {
 
     public void reset() {
         retract();
-        release();
+        hold();
     }
 }

@@ -33,7 +33,6 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
         } else {
             system.setCompressor(true);
         }
-
     }
 
     @Override
