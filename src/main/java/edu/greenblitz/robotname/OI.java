@@ -38,6 +38,12 @@ public class OI {
         mainJoystick.A.whenPressed(new TogglePokerExtender());
         mainJoystick.B.whenPressed(new ExtendAndRelease());
         mainJoystick.B.whenReleased(new RetractAndHold());
+
+        // testing
+//        initUntestedBindings();
+    }
+
+    private static void initUntestedBindings() {
     }
 
     public static GameObject getOIState() {
