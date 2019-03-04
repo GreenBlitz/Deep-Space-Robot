@@ -2,24 +2,27 @@ package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
-import edu.greenblitz.robotname.commands.complex.hidden.elevator.MoveElevator;
+import edu.greenblitz.robotname.commands.complex.hidden.climber.StopSideClimberControl;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.MoveElevatorByLevel;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
-import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickAndRetract;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
-import edu.greenblitz.robotname.commands.complex.hidden.roller.*;
+import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeExtendAndRollIn;
+import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeRetractAndStop;
+import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToVisionTarget;
 import edu.greenblitz.robotname.commands.simple.kicker.Kick;
 import edu.greenblitz.robotname.commands.simple.kicker.Unkick;
-import edu.greenblitz.robotname.commands.simple.poker.*;
+import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
+import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
+import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollIn;
-import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollOut;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStop;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.ResetCommands;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.greenblitz.utils.sm.State;
+import edu.wpi.first.wpilibj.buttons.POVButton;
 
 import java.util.Optional;
 
@@ -99,11 +102,7 @@ public class OI {
 
     private static void initUntestedBindings() {
         mainJoystick.L1.whenPressed(new SafeExtendAndRollIn());
-        mainJoystick.L1.whenReleased(new SafeRetrac
-
-                \
-
-                tAndStop());
+        mainJoystick.L1.whenReleased(new SafeRetractAndStop());
 
         mainJoystick.L3.whenPressed(new ResetCommands());
         mainJoystick.R1.whenPressed(new DriveToVisionTarget());
@@ -136,6 +135,9 @@ public class OI {
         sideJoystick.B.whenPressed(new MoveElevatorByLevel(Elevator.Level.ROCKET_MID));
         sideJoystick.Y.whenPressed(new MoveElevatorByLevel(Elevator.Level.ROCKET_HIGH));
         sideJoystick.X.whenPressed(new MoveElevatorByLevel(Elevator.Level.CARGO_SHIP));
+
+        var pov = new POVButton(sideJoystick.getRawJoystick(), 0);
+        pov.whenPressed(new StopSideClimberControl());
 
         sideJoystick.START.whenPressed(new ToCargoMode());
         sideJoystick.BACK.whenPressed(new ToHatchMode());

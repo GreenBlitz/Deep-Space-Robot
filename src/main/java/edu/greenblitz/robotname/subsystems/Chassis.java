@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -13,7 +14,6 @@ import edu.greenblitz.utils.sendables.SendableSparkMax;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.SparkEncoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenblitz.motion.base.Position;
@@ -27,7 +27,7 @@ public class Chassis extends Subsystem {
 
     private Logger logger;
 
-    private CANSparkMax m_leftFront, m_leftRear, m_rightFront, m_rightRear;
+    private CANSparkMax m_leftFollower1, m_leftFollower2, m_rightFollower1, m_rightFollower2;
     private SendableSparkMax m_leftLeader, m_rightLeader;
     private IEncoder m_leftEncoder, m_rightEncoder;
     private AHRS m_navX;
@@ -36,20 +36,20 @@ public class Chassis extends Subsystem {
     private Chassis() {
         logger = LogManager.getLogger(getClass());
 
-        m_leftFront = new CANSparkMax(Motor.Left.FOLLOWER1, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_leftFollower1 = new CANSparkMax(Motor.Left.FOLLOWER1, CANSparkMaxLowLevel.MotorType.kBrushless);
         m_leftLeader = new SendableSparkMax(Motor.Left.LEADER, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_leftRear = new CANSparkMax(Motor.Left.FOLLOWER2, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_rightFront = new CANSparkMax(Motor.Right.FOLLOWER1, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_leftFollower2 = new CANSparkMax(Motor.Left.FOLLOWER2, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_rightFollower1 = new CANSparkMax(Motor.Right.FOLLOWER1, CANSparkMaxLowLevel.MotorType.kBrushless);
         m_rightLeader = new SendableSparkMax(Motor.Right.LEADER, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m_rightRear = new CANSparkMax(Motor.Right.FOLLOWER2, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m_rightFollower2 = new CANSparkMax(Motor.Right.FOLLOWER2, CANSparkMaxLowLevel.MotorType.kBrushless);
 
         m_leftLeader.setInverted(true);
 
-        m_leftFront.follow(m_leftLeader);
-        m_leftRear.follow(m_leftLeader);
+        m_leftFollower1.follow(m_leftLeader);
+        m_leftFollower2.follow(m_leftLeader);
 
-        m_rightFront.follow(m_rightLeader);
-        m_rightRear.follow(m_rightLeader);
+        m_rightFollower1.follow(m_rightLeader);
+        m_rightFollower2.follow(m_rightLeader);
 
         m_leftEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER_SPEED, m_leftLeader);
         m_rightEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER_SPEED, m_rightLeader);
