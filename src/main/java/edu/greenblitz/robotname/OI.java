@@ -133,6 +133,7 @@ public class OI {
         sideJoystick.B.whenPressed(new MoveElevatorByLevel(Elevator.Level.ROCKET_MID));
         sideJoystick.Y.whenPressed(new MoveElevatorByLevel(Elevator.Level.ROCKET_HIGH));
         sideJoystick.X.whenPressed(new MoveElevatorByLevel(Elevator.Level.CARGO_SHIP));
+        sideJoystick.L1.whenReleased(new ToggleRoller());
 
         var pov = new POVButton(sideJoystick.getRawJoystick(), 0);
         pov.whenPressed(new ClimbByJoystickRestricted(mainJoystick, mainJoystick, sideJoystick));
