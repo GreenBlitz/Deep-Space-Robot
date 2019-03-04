@@ -11,6 +11,8 @@ import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeRetractAndSto
 import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeToggleRoller;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToVisionTarget;
+import edu.greenblitz.robotname.commands.simple.kicker.Kick;
+import edu.greenblitz.robotname.commands.simple.kicker.Unkick;
 import edu.greenblitz.robotname.commands.simple.poker.*;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollOut;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStop;
@@ -120,7 +122,8 @@ public class OI {
         mainJoystick.L1.whenReleased(new RetractAndStop());
         mainJoystick.L3.whenPressed(new ResetCommands());
         mainJoystick.R1.whenPressed(new DriveToVisionTarget());
-//        mainJoystick.X.whenPressed(new KickAndRetract());
+        mainJoystick.X.whenPressed(new Kick());
+        mainJoystick.X.whenReleased(new Unkick());
         mainJoystick.Y.whenPressed(new ToggleRoller());
 
         sideJoystick.L3.whenPressed(new ResetCommands());

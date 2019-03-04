@@ -88,6 +88,9 @@ public class Climber {
     }
 
     public class Big extends GBSubsystem {
+        public static final double ON_LIMIT_POWER = 0.2;
+        public static final double MAX_POWER = 1;
+
         private WPI_TalonSRX m_bigLeader;
         private DigitalInput m_limitSwitch;
 
@@ -107,21 +110,11 @@ public class Climber {
         }
 
         public void higher(double power) {
-            if (isAtLimit())
-                set(0);
-            else
-                set(power);
+            set(clamp(power, 0, MAX_POWER));
         }
 
         public void lower(double power) {
-            set(-power);
-        }
-
-        public void move(double power) {
-            if (power <= 0)
-                lower(power);
-            else
-                higher(power);
+            set(-clamp(power, 0, MAX_POWER));
         }
 
         public boolean isAtLimit() {
@@ -135,12 +128,15 @@ public class Climber {
         }
 
         private void set(double power) {
-            double setpower;
-            if (!isAtLimit())
-                setpower = power;
-            else
-                setpower = power < 0 ? -Math.min(Math.abs(power), 0.2) : 0;
-            m_bigLeader.set(setpower);
+            if (isAtLimit()) {
+                m_big.set(clamp(power, -ON_LIMIT_POWER, ON_LIMIT_POWER));
+            } else {
+                m_big.set(clamp(power, -MAX_POWER, MAX_POWER));
+            }
+        }
+
+        private double clamp(double power, double min, double max) {
+            return Math.max(Math.min(power, max), min);
         }
     }
 
