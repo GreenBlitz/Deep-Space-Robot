@@ -85,6 +85,10 @@ public class Climber {
 //            if (getExtender().getHeight() > 0 || power > 0)
             m_wheels.set(power);
         }
+
+        public void stop() {
+            m_wheels.stopMotor();
+        }
     }
 
     public class Big extends GBSubsystem {
