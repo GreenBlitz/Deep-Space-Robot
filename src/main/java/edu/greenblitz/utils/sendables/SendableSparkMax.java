@@ -1,9 +1,7 @@
 package edu.greenblitz.utils.sendables;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.Sendable;
-import edu.wpi.first.wpilibj.SendableBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 public class SendableSparkMax extends CANSparkMax implements Sendable {
