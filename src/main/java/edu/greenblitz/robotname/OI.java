@@ -99,7 +99,12 @@ public class OI {
 
     private static void initUntestedBindings() {
         mainJoystick.L1.whenPressed(new SafeExtendAndRollIn());
-        mainJoystick.L1.whenReleased(new SafeRetractAndStop());
+        mainJoystick.L1.whenReleased(new SafeRetrac
+
+                \
+
+                tAndStop());
+
         mainJoystick.L3.whenPressed(new ResetCommands());
         mainJoystick.R1.whenPressed(new DriveToVisionTarget());
         mainJoystick.X.whenPressed(new KickBall());
