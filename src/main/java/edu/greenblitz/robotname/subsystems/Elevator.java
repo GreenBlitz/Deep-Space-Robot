@@ -84,6 +84,8 @@ public class Elevator extends GBSubsystem {
         m_follower = new TalonSRX(Motor.FOLLOWER);
         m_follower.follow(m_leader);
 
+        m_leader.setInverted(true);
+
         m_leader.setSensorPhase(true);
         m_encoder = new TalonEncoder(Sensor.TICKS_PER_METER, m_leader);
 
@@ -226,6 +228,7 @@ public class Elevator extends GBSubsystem {
 
     public void update() {
         updateLevel().ifPresent(this::setLevel);
+        SmartDashboard.putNumber("height", getHeight());
 //        SmartDashboard.putNumber("height", getHeight());
 //        if (m_wasAtGround && !isAtGroundLevel()) {
 //            m_wasAtGround = false;

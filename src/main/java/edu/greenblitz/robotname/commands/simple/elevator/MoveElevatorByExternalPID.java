@@ -4,6 +4,7 @@ import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.greenblitz.utils.sm.ElevatorState;
 import edu.greenblitz.utils.sm.State;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.greenblitz.motion.pid.PIDController;
 import org.greenblitz.motion.pid.PIDObject;
 
@@ -52,6 +53,8 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
     protected void execute() {
         var in = system.getHeight() - m_height;
         double out = m_controller.calculatePID(in);
+        SmartDashboard.putNumber("pid in", in);
+        SmartDashboard.putNumber("pid out", out + pickFF(out));
         set(out, pickFF(out));
     }
 

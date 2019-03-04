@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 import org.greenblitz.motion.base.Position;
 
 public class Chassis extends Subsystem {
-    private static final double DEADZONE = 0.08;
+    private static final double DEADZONE = 0.01;
     private static final double GAMMA = 1;
     private static final double MULTIPLIER = 1;
 
@@ -73,8 +73,6 @@ public class Chassis extends Subsystem {
     }
 
     public void arcadeDrive(double move, double rotate) {
-        SmartDashboard.putNumber("move", move);
-        SmartDashboard.putNumber("rotate", rotate);
         setLeftRightMotorOutput(move + rotate, move - rotate);
     }
 
@@ -151,8 +149,6 @@ public class Chassis extends Subsystem {
     private void setLeftRightMotorOutput(double l, double r) {
         l = deadzone(l);
         r = deadzone(r);
-        SmartDashboard.putNumber("raw left", l);
-        SmartDashboard.putNumber("raw right", r);
         m_leftLeader.set(l);
         m_rightLeader.set(r);
     }

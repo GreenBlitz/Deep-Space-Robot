@@ -118,7 +118,8 @@ public class Climber {
         }
 
         public boolean isAtLimit() {
-            return m_limitSwitch.get();
+//            return m_limitSwitch.get();
+            return false;
         }
 
         @Override
@@ -127,12 +128,12 @@ public class Climber {
             builder.addBooleanProperty("limit switch", this::isAtLimit, null);
         }
 
-        private void set(double power) {
-            if (isAtLimit()) {
-                m_big.set(clamp(power, -ON_LIMIT_POWER, ON_LIMIT_POWER));
-            } else {
-                m_big.set(clamp(power, -MAX_POWER, MAX_POWER));
-            }
+        public void set(double power) {
+//            if (isAtLimit()) {
+//                m_bigLeader.set(clamp(power, -ON_LIMIT_POWER, ON_LIMIT_POWER));
+//            } else {
+            m_bigLeader.set(clamp(power, -MAX_POWER, MAX_POWER));
+//            }
         }
 
         private double clamp(double power, double min, double max) {

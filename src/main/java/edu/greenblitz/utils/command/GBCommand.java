@@ -125,12 +125,13 @@ public abstract class GBCommand extends Command {
         if (!Robot.getInstance().getStateMachine().isAllowed(currState, newState)) {
             logger.warn("command {} aborted due to invalid state change: origin - {}, delta - {}",
                     getName(), Robot.getInstance().getCurrentState(), getDeltaState());
-        } else {
+//        } else {
+        }
             Robot.getInstance().getStateMachine().setCurrentState(newState);
             super.start();
             atStart();
             reportCommandStart();
-        }
+//        }
     }
 
     public boolean canRun() {

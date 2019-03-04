@@ -3,17 +3,16 @@ package edu.greenblitz.robotname;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.MoveElevator;
+import edu.greenblitz.robotname.commands.complex.hidden.elevator.MoveElevatorByLevel;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickAndRetract;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
-import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeExtendAndRollOut;
-import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeRetractAndStop;
-import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeToggleRoller;
-import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
+import edu.greenblitz.robotname.commands.complex.hidden.roller.*;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToVisionTarget;
 import edu.greenblitz.robotname.commands.simple.kicker.Kick;
 import edu.greenblitz.robotname.commands.simple.kicker.Unkick;
 import edu.greenblitz.robotname.commands.simple.poker.*;
+import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollIn;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollOut;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStop;
 import edu.greenblitz.robotname.subsystems.Elevator;
@@ -99,7 +98,7 @@ public class OI {
     }
 
     private static void initUntestedBindings() {
-        mainJoystick.L1.whenPressed(new SafeExtendAndRollOut());
+        mainJoystick.L1.whenPressed(new SafeExtendAndRollIn());
         mainJoystick.L1.whenReleased(new SafeRetractAndStop());
         mainJoystick.L3.whenPressed(new ResetCommands());
         mainJoystick.R1.whenPressed(new DriveToVisionTarget());
@@ -118,7 +117,7 @@ public class OI {
 
     @Deprecated
     private static void initUnsafeBindings() {
-        mainJoystick.L1.whenPressed(new ExtendAndRollOut());
+        mainJoystick.L1.whenPressed(new ExtendAndRollIn());
         mainJoystick.L1.whenReleased(new RetractAndStop());
         mainJoystick.L3.whenPressed(new ResetCommands());
         mainJoystick.R1.whenPressed(new DriveToVisionTarget());
@@ -127,11 +126,11 @@ public class OI {
         mainJoystick.Y.whenPressed(new ToggleRoller());
 
         sideJoystick.L3.whenPressed(new ResetCommands());
-        sideJoystick.R1.whenPressed(new MoveElevator(Elevator.Level.GROUND));
-        sideJoystick.A.whenPressed(new MoveElevator(Elevator.Level.ROCKET_LOW));
-        sideJoystick.B.whenPressed(new MoveElevator(Elevator.Level.ROCKET_MID));
-        sideJoystick.Y.whenPressed(new MoveElevator(Elevator.Level.ROCKET_HIGH));
-        sideJoystick.X.whenPressed(new MoveElevator(Elevator.Level.CARGO_SHIP));
+        sideJoystick.R1.whenPressed(new MoveElevatorByLevel(Elevator.Level.GROUND));
+        sideJoystick.A.whenPressed(new MoveElevatorByLevel(Elevator.Level.ROCKET_LOW));
+        sideJoystick.B.whenPressed(new MoveElevatorByLevel(Elevator.Level.ROCKET_MID));
+        sideJoystick.Y.whenPressed(new MoveElevatorByLevel(Elevator.Level.ROCKET_HIGH));
+        sideJoystick.X.whenPressed(new MoveElevatorByLevel(Elevator.Level.CARGO_SHIP));
 
         sideJoystick.START.whenPressed(new ToCargoMode());
         sideJoystick.BACK.whenPressed(new ToHatchMode());

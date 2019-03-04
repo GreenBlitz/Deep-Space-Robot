@@ -131,7 +131,7 @@ public class Robot extends TimedRobot {
     }
 
     private void update() {
-//        Elevator.getInstance().update();
+        Elevator.getInstance().update();
 //        m_state.update();
         OI.update();
     }
@@ -150,6 +150,7 @@ public class Robot extends TimedRobot {
                 new State(ElevatorState.GROUND, RollerState.RETRACTED, PokerState.UNPOKING, KickerState.UNKICK)
         );
     }
+
 
     public Report getReport() {
         return m_usageReport;

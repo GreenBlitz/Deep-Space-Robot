@@ -24,6 +24,6 @@ public class ClimberExtendByJoystick extends JoystickCommand<Climber.Extender> {
 
     @Override
     protected void execute(){
-        system.extend(SmartJoystick.Axis.RIGHT_TRIGGER.getValue(joystick) - SmartJoystick.Axis.LEFT_TRIGGER.getValue(joystick));
+        system.extend(-SmartJoystick.Axis.LEFT_Y.getValue(joystick));
     }
 }
