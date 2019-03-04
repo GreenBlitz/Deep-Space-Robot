@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname.commands.complex.hidden.elevator;
 
+import edu.greenblitz.robotname.commands.simple.elevator.MoveElevatorByExternalPID;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.dynamic.DynamicCommand;
@@ -14,6 +15,14 @@ public class MoveElevator extends DynamicCommand {
         setName("Move elevator to " + height);
     }
 
+    public MoveElevator(double height) {
+        this(height, Elevator.LOWER_TOLERANCE, Elevator.HIGHER_TOLERANCE);
+    }
+
+    public MoveElevator(Elevator.Level level) {
+        this(level.heightByCurrentState());
+    }
+
     public MoveElevator(Elevator.Level level, double lower, double higher){
         this(level.heightByCurrentState(), lower, higher);
     }
@@ -22,10 +31,10 @@ public class MoveElevator extends DynamicCommand {
     protected GBCommand pick() {
         if (Elevator.getInstance().getHeight() > m_height) {
             // Going down
-            return new MoveElevator(m_height, m_lowerTol, m_higherTol);
+            return new MoveElevatorByExternalPID(m_height, m_lowerTol, m_higherTol);
         } else {
             // Going up
-            return new MoveElevator(m_height, m_higherTol, m_lowerTol);
+            return new MoveElevatorByExternalPID(m_height, m_higherTol, m_lowerTol);
         }
     }
 }

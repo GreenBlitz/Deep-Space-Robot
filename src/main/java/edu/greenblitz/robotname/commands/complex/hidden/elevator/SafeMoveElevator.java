@@ -13,11 +13,10 @@ import edu.greenblitz.utils.command.DynamicRequire;
 import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.sm.ElevatorState;
 
+import static edu.greenblitz.robotname.subsystems.Elevator.HIGHER_TOLERANCE;
+import static edu.greenblitz.robotname.subsystems.Elevator.LOWER_TOLERANCE;
+
 public class SafeMoveElevator extends CommandChain {
-
-    private static final double LOWER_TOLERANCE = 0.01;
-    private static final double HIGHER_TOLERANCE = 1;
-
     private double height;
 
     public SafeMoveElevator(double height) {
@@ -45,11 +44,11 @@ public class SafeMoveElevator extends CommandChain {
 
             addSequential(new ExtendRoller());
 
-            addSequential(new MoveElevator(height, LOWER_TOLERANCE, HIGHER_TOLERANCE));
+            addSequential(new MoveElevator(height));
 
             addSequential(new RetractRoller());
         } else {
-            addSequential(new MoveElevator(height, LOWER_TOLERANCE, HIGHER_TOLERANCE));
+            addSequential(new MoveElevator(height));
         }
     }
 
