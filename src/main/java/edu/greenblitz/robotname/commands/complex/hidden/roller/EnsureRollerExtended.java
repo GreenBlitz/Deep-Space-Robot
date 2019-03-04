@@ -21,7 +21,6 @@ public class EnsureRollerExtended extends CommandChain {
         addParallel(new WaitAndRequire(Roller.getInstance()), new WaitAndRequire(Elevator.getInstance()));
 
         if (Roller.getInstance().isExtended()) {
-            addSequential(new NullCommand());
             return;
         }
 
