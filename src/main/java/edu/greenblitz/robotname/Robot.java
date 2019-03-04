@@ -62,11 +62,11 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putData(Scheduler.getInstance());
         allowChassis();
-//        allowElevator();
-//        allowKicker();
+        allowElevator();
+        allowKicker();
         allowPoker();
         allowPneumatics();
-//        allowRoller();
+        allowRoller();
         allowClimber();
         allowShifter();
 

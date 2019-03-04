@@ -30,7 +30,7 @@ public class ClimberDriveByJoystick extends JoystickCommand<Climber.Wheels> {
 
     @Override
     protected void execute() {
-        system.drive(SmartJoystick.Axis.LEFT_Y.getValue(joystick));
+        system.drive(SmartJoystick.Axis.RIGHT_TRIGGER.getValue(joystick) - SmartJoystick.Axis.LEFT_TRIGGER.getValue(joystick));
     }
 
     @Override

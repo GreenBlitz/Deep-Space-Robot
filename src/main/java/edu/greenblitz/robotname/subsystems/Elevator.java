@@ -69,7 +69,7 @@ public class Elevator extends GBSubsystem {
     private IEncoder m_encoder;
     private SendableDoubleSolenoid m_brake;
     private Level m_level = Level.GROUND;
-    private DigitalInput m_atGroundLimitSwitch;
+//    private DigitalInput m_atGroundLimitSwitch;
     private Logger logger;
     private boolean m_wasAtGround = true;
 
@@ -84,14 +84,14 @@ public class Elevator extends GBSubsystem {
         m_encoder = new TalonEncoder(Sensor.TICKS_PER_METER, m_leader);
 
         m_brake = new SendableDoubleSolenoid(Solenoid.PCM, Solenoid.FORWARD, Solenoid.REVERSE);
-        m_atGroundLimitSwitch = new DigitalInput(Sensor.LIMIT_SWITCH);
+//        m_atGroundLimitSwitch = new DigitalInput(Sensor.LIMIT_SWITCH);
 
         addChild(m_leader);
         m_leader.setName("motor");
         addChild(m_brake);
         m_brake.setName("brake");
-        addChild(m_atGroundLimitSwitch);
-        m_atGroundLimitSwitch.setName("at ground");
+//        addChild(m_atGroundLimitSwitch);
+//        m_atGroundLimitSwitch.setName("at ground");
 
         logger.info("instantiated");
     }
@@ -130,8 +130,8 @@ public class Elevator extends GBSubsystem {
     }
 
     public double getHeight() {
-        if (m_atGroundLimitSwitch.get()) // if needs to re
-            m_encoder.reset();
+//        if (m_atGroundLimitSwitch.get()) // if needs to re
+//            m_encoder.reset();
         return m_encoder.getNormalizedTicks();
     }
 
@@ -206,9 +206,9 @@ public class Elevator extends GBSubsystem {
         return m_brake.get() == Value.kForward;
     }
 
-    public boolean isAtGroundLevel() {
-        return m_atGroundLimitSwitch.get();
-    }
+//    public boolean isAtGroundLevel() {
+//        return m_atGroundLimitSwitch.get();
+//    }
 
     @Override
     public void initSendable(SendableBuilder builder) {
@@ -217,14 +217,15 @@ public class Elevator extends GBSubsystem {
         builder.addBooleanProperty("brake", this::isBraking, this::brake);
         builder.addDoubleProperty("Encoder", this::getHeight, null);
         builder.addBooleanProperty("ground limit switch", this::isFloorLevel, null);
+        builder.addDoubleProperty("height", this::getHeight, null);
     }
 
     public void update() {
         updateLevel().ifPresent(this::setLevel);
-        SmartDashboard.putNumber("height", getHeight());
-        if (m_wasAtGround && !isAtGroundLevel()) {
-            m_wasAtGround = false;
+//        SmartDashboard.putNumber("height", getHeight());
+//        if (m_wasAtGround && !isAtGroundLevel()) {
+//            m_wasAtGround = false;
 //            resetEncoder();
-        }
+//        }
     }
 }

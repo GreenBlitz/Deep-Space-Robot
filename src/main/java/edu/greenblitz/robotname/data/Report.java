@@ -62,7 +62,6 @@ public class Report {
         } else {
             m_pneumatics.put(name, 1);
         }
-        logger.debug("solenoid used at {}", name);
     }
 
     private void resetPneumatics() {
