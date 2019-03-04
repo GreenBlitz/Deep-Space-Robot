@@ -26,19 +26,24 @@ import java.util.Optional;
 
 public class Elevator extends GBSubsystem {
 
+
+    private static final double CARGO_OFFSET = 0.165;
+    private static final double HATCH_OFFSET = 0.48;
+
+
     public enum Level {
-        GROUND(0, 0),
-        ROCKET_LOW(0.5, 0),
-        CARGO_SHIP(0.9, 0),
-        ROCKET_MID(1.2, 0.7),
-        ROCKET_HIGH(1.9, 1.4);
+        GROUND(CARGO_OFFSET, HATCH_OFFSET),
+        ROCKET_LOW(0.7, HATCH_OFFSET),
+        CARGO_SHIP(1, HATCH_OFFSET),
+        ROCKET_MID(1.41, 1.19),
+        ROCKET_HIGH(2.12, 1.9);
 
         public final double cargo;
         public final double hatch;
 
         Level(double cargo, double hatch) {
-            this.cargo = cargo;
-            this.hatch = hatch;
+            this.cargo = cargo - CARGO_OFFSET;
+            this.hatch = hatch - HATCH_OFFSET;
         }
 
         public double heightByState(OI.GameObject state) {
@@ -84,9 +89,8 @@ public class Elevator extends GBSubsystem {
         m_follower = new TalonSRX(Motor.FOLLOWER);
         m_follower.follow(m_leader);
 
-        m_leader.setInverted(true);
-
         m_leader.setSensorPhase(true);
+
         m_encoder = new TalonEncoder(Sensor.TICKS_PER_METER, m_leader);
 
         m_brake = new SendableDoubleSolenoid(Solenoid.PCM, Solenoid.FORWARD, Solenoid.REVERSE);
