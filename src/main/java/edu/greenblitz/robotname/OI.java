@@ -8,10 +8,10 @@ import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickAndRetract;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeExtendAndRollOut;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeRetractAndStop;
+import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeToggleRoller;
+import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToVisionTarget;
-import edu.greenblitz.robotname.commands.simple.poker.ExtendAndRelease;
-import edu.greenblitz.robotname.commands.simple.poker.RetractAndHold;
-import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
+import edu.greenblitz.robotname.commands.simple.poker.*;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollOut;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStop;
 import edu.greenblitz.robotname.subsystems.Elevator;
@@ -86,8 +86,8 @@ public class OI {
 
         // UNSAFE COMMANDS!!!
         mainJoystick.A.whenPressed(new TogglePokerExtender());
-        mainJoystick.B.whenPressed(new ExtendAndRelease());
-        mainJoystick.B.whenReleased(new RetractAndHold());
+        mainJoystick.B.whenPressed(new ReleaseHatch());
+        mainJoystick.B.whenReleased(new HoldHatch());
 
         initUnsafeBindings();
 
@@ -120,8 +120,8 @@ public class OI {
         mainJoystick.L1.whenReleased(new RetractAndStop());
         mainJoystick.L3.whenPressed(new ResetCommands());
         mainJoystick.R1.whenPressed(new DriveToVisionTarget());
-        mainJoystick.X.whenPressed(new KickAndRetract());
-
+//        mainJoystick.X.whenPressed(new KickAndRetract());
+        mainJoystick.Y.whenPressed(new ToggleRoller());
 
         sideJoystick.L3.whenPressed(new ResetCommands());
         sideJoystick.R1.whenPressed(new MoveElevator(Elevator.Level.GROUND));
