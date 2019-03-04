@@ -1,8 +1,6 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
-import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
-import edu.greenblitz.robotname.commands.complex.hidden.climber.StopSideClimberControl;
+import edu.greenblitz.robotname.commands.complex.hidden.climber.*;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.MoveElevatorByLevel;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
@@ -137,7 +135,8 @@ public class OI {
         sideJoystick.X.whenPressed(new MoveElevatorByLevel(Elevator.Level.CARGO_SHIP));
 
         var pov = new POVButton(sideJoystick.getRawJoystick(), 0);
-        pov.whenPressed(new StopSideClimberControl());
+        pov.whenPressed(new ClimbByJoystickRestricted(mainJoystick, mainJoystick, sideJoystick));
+        pov.whenReleased(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
 
         sideJoystick.START.whenPressed(new ToCargoMode());
         sideJoystick.BACK.whenPressed(new ToHatchMode());
