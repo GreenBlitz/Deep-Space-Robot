@@ -23,6 +23,10 @@ public class Chassis extends Subsystem {
     private static final double GAMMA = 1;
     private static final double MULTIPLIER = 1;
 
+    private static double deadzone(double power, double deadzone) {
+        return Math.abs(power) < deadzone ? 0 : ((power - deadzone) / (1 - deadzone));
+    }
+
     private static Chassis instance;
 
     private Logger logger;
@@ -163,7 +167,7 @@ public class Chassis extends Subsystem {
     }
 
     private double deadzone(double power) {
-        return Math.abs(power) < DEADZONE ? 0 : power;
+        return deadzone(power, DEADZONE);
     }
 
     private double gamma(double power) {
