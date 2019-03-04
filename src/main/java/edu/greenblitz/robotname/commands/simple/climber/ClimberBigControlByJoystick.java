@@ -26,7 +26,7 @@ public class ClimberBigControlByJoystick extends JoystickCommand<Climber.Big> {
 
     @Override
     protected void execute() {
-            system.lower(SmartJoystick.Axis.RIGHT_Y.getValue(joystick) * safePower);
+            system.set(-SmartJoystick.Axis.RIGHT_Y.getValue(joystick) * safePower);
     }
 
     @Override
