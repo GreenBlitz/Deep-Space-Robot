@@ -78,6 +78,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
+        reset();
         Scheduler.getInstance().removeAll();
         if (m_usageReport.isReportValid()) report();
     }

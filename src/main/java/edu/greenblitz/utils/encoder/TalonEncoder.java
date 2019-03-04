@@ -1,6 +1,5 @@
 package edu.greenblitz.utils.encoder;
 
-import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class TalonEncoder extends AbstractEncoder {
