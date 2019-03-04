@@ -4,6 +4,7 @@ import edu.greenblitz.robotname.commands.simple.chassis.SlowArcadeDriveByJoystic
 import edu.greenblitz.robotname.commands.simple.climber.ClimberBigControlByJoystick;
 import edu.greenblitz.robotname.commands.simple.climber.ClimberDriveByJoystick;
 import edu.greenblitz.robotname.commands.simple.climber.ClimberExtendByJoystick;
+import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.robotname.subsystems.Climber;
 import edu.greenblitz.utils.command.chain.CommandChain;
@@ -16,7 +17,7 @@ public class ClimbByJoystick extends CommandChain {
 
     private SmartJoystick m_bigJoystick, m_extenderJoystick, m_driveJoystick;
     private static final double SAFE_POWER = 1.0;
-    private static final double DRIVE_MULT = 0.2;
+    private static final double DRIVE_MULT = 0.15;
 
     public ClimbByJoystick(SmartJoystick bigJoystick, SmartJoystick extenderJoystick, SmartJoystick driveJoystick) {
         m_bigJoystick = bigJoystick;
@@ -29,7 +30,8 @@ public class ClimbByJoystick extends CommandChain {
         addParallel(new ClimberBigControlByJoystick(SAFE_POWER, m_bigJoystick),
                     new ClimberExtendByJoystick(m_extenderJoystick),
                     new ClimberDriveByJoystick(m_driveJoystick),
-                    new SlowArcadeDriveByJoystick(m_driveJoystick, DRIVE_MULT));
+                    new SlowArcadeDriveByJoystick(m_driveJoystick, DRIVE_MULT),
+                    new ToPower());
     }
 
     @Override
