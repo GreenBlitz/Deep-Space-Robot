@@ -2,7 +2,9 @@ package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
+import edu.greenblitz.robotname.commands.complex.hidden.elevator.MoveElevator;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
+import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickAndRetract;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeExtendAndRollOut;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeRetractAndStop;
@@ -10,6 +12,8 @@ import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToVisionTarg
 import edu.greenblitz.robotname.commands.simple.poker.ExtendAndRelease;
 import edu.greenblitz.robotname.commands.simple.poker.RetractAndHold;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
+import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollOut;
+import edu.greenblitz.robotname.commands.simple.roller.RetractAndStop;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.ResetCommands;
@@ -85,9 +89,11 @@ public class OI {
         mainJoystick.B.whenPressed(new ExtendAndRelease());
         mainJoystick.B.whenReleased(new RetractAndHold());
 
+        initUnsafeBindings();
 
         // testing
 //        initUntestedBindings();
+
     }
 
     private static void initUntestedBindings() {
@@ -103,6 +109,26 @@ public class OI {
         sideJoystick.B.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
         sideJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
         sideJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
+
+        sideJoystick.START.whenPressed(new ToCargoMode());
+        sideJoystick.BACK.whenPressed(new ToHatchMode());
+    }
+
+    @Deprecated
+    private static void initUnsafeBindings() {
+        mainJoystick.L1.whenPressed(new ExtendAndRollOut());
+        mainJoystick.L1.whenReleased(new RetractAndStop());
+        mainJoystick.L3.whenPressed(new ResetCommands());
+        mainJoystick.R1.whenPressed(new DriveToVisionTarget());
+        mainJoystick.X.whenPressed(new KickAndRetract());
+
+
+        sideJoystick.L3.whenPressed(new ResetCommands());
+        sideJoystick.R1.whenPressed(new MoveElevator(Elevator.Level.GROUND));
+        sideJoystick.A.whenPressed(new MoveElevator(Elevator.Level.ROCKET_LOW));
+        sideJoystick.B.whenPressed(new MoveElevator(Elevator.Level.ROCKET_MID));
+        sideJoystick.Y.whenPressed(new MoveElevator(Elevator.Level.ROCKET_HIGH));
+        sideJoystick.X.whenPressed(new MoveElevator(Elevator.Level.CARGO_SHIP));
 
         sideJoystick.START.whenPressed(new ToCargoMode());
         sideJoystick.BACK.whenPressed(new ToHatchMode());

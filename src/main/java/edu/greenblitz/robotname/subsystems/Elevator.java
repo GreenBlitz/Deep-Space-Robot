@@ -58,6 +58,10 @@ public class Elevator extends GBSubsystem {
 
     public static final double LEVEL_HEIGHT_TOLERANCE = 0.05;
 
+    public static final double LOWER_TOLERANCE = 0.01;
+    public static final double HIGHER_TOLERANCE = 1;
+
+
     public static final int MAGIC_LOOP_IDX = 0;
     public static final int POSITION_LOOP_IDX = 1;
 
