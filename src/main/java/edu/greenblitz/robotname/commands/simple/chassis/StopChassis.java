@@ -18,7 +18,7 @@ public class StopChassis extends ChassisBaseCommand {
 
     @Override
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
 }
