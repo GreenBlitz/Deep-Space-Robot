@@ -55,7 +55,7 @@ public class RobotMap {
         }
 
         public static class Sensor {
-            public static final double TICKS_PER_METER = 530500 * 0.88;
+            public static final double TICKS_PER_METER = 424400 * (1.48 / 1.07) / 1.11;
             public static final int LIMIT_SWITCH = 9;
         }
 
