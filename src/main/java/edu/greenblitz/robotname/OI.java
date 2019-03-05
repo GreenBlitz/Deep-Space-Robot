@@ -1,15 +1,17 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.robotname.commands.complex.hidden.climber.*;
+import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
+import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickRestricted;
+import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.MoveElevatorByLevel;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
+import edu.greenblitz.robotname.commands.complex.hidden.poker.ButtonReleaseAndHold;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeExtendAndRollIn;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeRetractAndStop;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToVisionTarget;
-import edu.greenblitz.robotname.commands.simple.kicker.Kick;
-import edu.greenblitz.robotname.commands.simple.kicker.Unkick;
+import edu.greenblitz.robotname.commands.complex.hidden.kicker.ButtonKickAndRetract;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
@@ -88,8 +90,7 @@ public class OI {
 
         // UNSAFE COMMANDS!!!
         mainJoystick.A.whenPressed(new TogglePokerExtender());
-        mainJoystick.B.whenPressed(new ReleaseHatch());
-        mainJoystick.B.whenReleased(new HoldHatch());
+        mainJoystick.B.whenPressed(new ButtonReleaseAndHold());
 
         initUnsafeBindings();
 
@@ -123,8 +124,7 @@ public class OI {
         mainJoystick.L1.whenReleased(new RetractAndStop());
         mainJoystick.L3.whenPressed(new ResetCommands());
         mainJoystick.R1.whenPressed(new DriveToVisionTarget());
-        mainJoystick.X.whenPressed(new Kick());
-        mainJoystick.X.whenReleased(new Unkick());
+        mainJoystick.X.whenPressed(new ButtonKickAndRetract());
         mainJoystick.Y.whenPressed(new ToggleRoller());
 
         sideJoystick.L3.whenPressed(new ResetCommands());
@@ -137,7 +137,6 @@ public class OI {
 
         var pov = new POVButton(sideJoystick.getRawJoystick(), 0);
         pov.whenPressed(new ClimbByJoystickRestricted(mainJoystick, mainJoystick, sideJoystick));
-        pov.whenReleased(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
 
         sideJoystick.START.whenPressed(new ToCargoMode());
         sideJoystick.BACK.whenPressed(new ToHatchMode());
