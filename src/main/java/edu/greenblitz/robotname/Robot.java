@@ -73,6 +73,7 @@ public class Robot extends TimedRobot {
         OI.initBindings();
         m_pdp = new PowerDistributionPanel();
 
+        Stream.init();
         VisionMaster.init();
     }
 
