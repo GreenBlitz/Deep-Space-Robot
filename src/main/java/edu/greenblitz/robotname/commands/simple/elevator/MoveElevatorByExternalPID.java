@@ -11,14 +11,14 @@ import org.greenblitz.motion.pid.PIDObject;
 import java.util.Optional;
 
 public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
-    public static final double SLOW_DOWN_DISTANCE = 0.3;
+    public static final double SLOW_DOWN_DISTANCE = 1;
     public static final double MAX_POWER_UP = 0.6;
     public static final double MAX_POWER_DOWN = -0.4;
     public static final double MIN_POWER = 0;
     public static final double UP_FF = 0.2;
     public static final double DOWN_FF = -0.2;
 
-    private static final PIDObject PID_CONFIG = new PIDObject(MAX_POWER_UP / SLOW_DOWN_DISTANCE, 0, 0, 0);
+    private static final PIDObject PID_CONFIG = new PIDObject(SLOW_DOWN_DISTANCE / MAX_POWER_UP, 0, 0, 0);
 
     private double m_height;
     private PIDController m_controller;

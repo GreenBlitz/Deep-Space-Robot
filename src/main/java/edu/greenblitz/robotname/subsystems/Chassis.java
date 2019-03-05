@@ -1,6 +1,5 @@
 package edu.greenblitz.robotname.subsystems;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -10,16 +9,17 @@ import edu.greenblitz.robotname.RobotMap.Chassis.Motor;
 import edu.greenblitz.robotname.RobotMap.Chassis.Sensor;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.robotname.data.LocalizerRunner;
-import edu.greenblitz.utils.sendables.SendableSparkMax;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.SparkEncoder;
+import edu.greenblitz.utils.sendables.SendableSparkMax;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenblitz.motion.base.Position;
 
 public class Chassis extends Subsystem {
-    private static final double DEADZONE = 0.01;
+    private static final double DEADZONE = 0.03;
     private static final double GAMMA = 1;
     private static final double MULTIPLIER = 1;
 
