@@ -14,6 +14,7 @@ import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToVisionTarg
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.ButtonKickAndRetract;
 import edu.greenblitz.robotname.commands.simple.kicker.Kick;
 import edu.greenblitz.robotname.commands.simple.kicker.Unkick;
+import edu.greenblitz.robotname.commands.simple.poker.ExtendPoker;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
@@ -96,11 +97,16 @@ public class OI {
         mainJoystick.B.whenPressed(new ReleaseHatch());
         mainJoystick.B.whenReleased(new HoldHatch());
 
-        initUnsafeBindings();
+//        initUnsafeBindings();
 
         // testing
-//        initUntestedBindings();
+        initUntestedBindings();
 
+    }
+
+    private static void initUntestedBindings() {
+        mainJoystick.X.whenPressed(new KickBall());
+        mainJoystick.Y.whenPressed(new ToggleRoller());
     }
 
     private static void initUnsafeBindings() {

@@ -105,51 +105,51 @@ public abstract class GBCommand extends Command {
 
     @Override
     public final synchronized void start() {
-        State currState = Robot.getInstance().getStateMachine().getCurrentState();
-        var newStateOpt = getDeltaState();
-        State newState;
-        if (newStateOpt.isPresent()) {
-            newState = newStateOpt.get();
-            if (newState.getElevatorState() == null)
-                newState.setElevatorState(currState.getElevatorState());
-            if (newState.getKickerState() == null)
-                newState.setKickerState(currState.getKickerState());
-            if (newState.getPokerState() == null)
-                newState.setPokerState(currState.getPokerState());
-            if (newState.getRollerState() == null)
-                newState.setRollerState(currState.getRollerState());
-        } else {
-            newState = currState;
-        }
-
-        if (!Robot.getInstance().getStateMachine().isAllowed(currState, newState)) {
-            logger.warn("command {} aborted due to invalid state change: origin - {}, delta - {}",
-                    getName(), Robot.getInstance().getCurrentState(), getDeltaState());
+//        State currState = Robot.getInstance().getStateMachine().getCurrentState();
+//        var newStateOpt = getDeltaState();
+//        State newState;
+//        if (newStateOpt.isPresent()) {
+//            newState = newStateOpt.get();
+//            if (newState.getElevatorState() == null)
+//                newState.setElevatorState(currState.getElevatorState());
+//            if (newState.getKickerState() == null)
+//                newState.setKickerState(currState.getKickerState());
+//            if (newState.getPokerState() == null)
+//                newState.setPokerState(currState.getPokerState());
+//            if (newState.getRollerState() == null)
+//                newState.setRollerState(currState.getRollerState());
 //        } else {
-        }
-            Robot.getInstance().getStateMachine().setCurrentState(newState);
-            super.start();
-            atStart();
-            reportCommandStart();
+//            newState = currState;
 //        }
+//
+//        if (!Robot.getInstance().getStateMachine().isAllowed(currState, newState)) {
+//            logger.warn("command {} aborted due to invalid state change: origin - {}, delta - {}",
+//                    getName(), Robot.getInstance().getCurrentState(), getDeltaState());
+////        } else {
+//        }
+//            Robot.getInstance().getStateMachine().setCurrentState(newState);
+        super.start();
+        atStart();
+        reportCommandStart();
     }
 
     public boolean canRun() {
-        State currState = Robot.getInstance().getStateMachine().getCurrentState();
-        var newStateOpt = getDeltaState();
-        if (newStateOpt.isEmpty()) return true;
-
-        var newState = newStateOpt.get();
-        if (newState.getElevatorState() == null)
-            newState.setElevatorState(currState.getElevatorState());
-        if (newState.getKickerState() == null)
-            newState.setKickerState(currState.getKickerState());
-        if (newState.getPokerState() == null)
-            newState.setPokerState(currState.getPokerState());
-        if (newState.getRollerState() == null)
-            newState.setRollerState(currState.getRollerState());
-
-        return Robot.getInstance().getStateMachine().isAllowed(currState, newState);
+//        State currState = Robot.getInstance().getStateMachine().getCurrentState();
+//        var newStateOpt = getDeltaState();
+//        if (newStateOpt.isEmpty()) return true;
+//
+//        var newState = newStateOpt.get();
+//        if (newState.getElevatorState() == null)
+//            newState.setElevatorState(currState.getElevatorState());
+//        if (newState.getKickerState() == null)
+//            newState.setKickerState(currState.getKickerState());
+//        if (newState.getPokerState() == null)
+//            newState.setPokerState(currState.getPokerState());
+//        if (newState.getRollerState() == null)
+//            newState.setRollerState(currState.getRollerState());
+//
+//        return Robot.getInstance().getStateMachine().isAllowed(currState, newState);
+        return true;
     }
 
     @Override
@@ -159,6 +159,9 @@ public abstract class GBCommand extends Command {
         reportCommandEnd();
     }
 
-    protected void atEnd() {}
-    protected void atStart() {}
+    protected void atEnd() {
+    }
+
+    protected void atStart() {
+    }
 }

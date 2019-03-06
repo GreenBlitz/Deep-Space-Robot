@@ -4,11 +4,10 @@ import edu.greenblitz.utils.sm.PokerState;
 
 public class ExtendPoker extends PokerBaseCommand {
     public ExtendPoker() {
-
     }
 
     @Override
-    protected void atInitialize() {
+    protected void initialize() {
         system.extend(true);
     }
 
