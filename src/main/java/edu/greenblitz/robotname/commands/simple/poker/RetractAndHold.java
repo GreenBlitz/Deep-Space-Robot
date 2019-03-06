@@ -8,7 +8,7 @@ public class RetractAndHold extends PokerBaseCommand {
     }
 
     @Override
-    protected void atInitialize() {
+    protected void initialize() {
         system.hold(true);
     }
 

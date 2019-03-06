@@ -10,7 +10,7 @@ public class TogglePokerExtender extends PokerBaseCommand {
     }
 
     @Override
-    protected void atInitialize() {
+    protected void initialize() {
         system.extend(!system.isExtended());
     }
 

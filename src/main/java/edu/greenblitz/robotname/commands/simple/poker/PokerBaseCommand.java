@@ -1,6 +1,5 @@
 package edu.greenblitz.robotname.commands.simple.poker;
 
-import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.robotname.subsystems.Poker;
 import edu.greenblitz.utils.command.TimedSubsystemCommand;
 import edu.greenblitz.utils.sm.PokerState;
@@ -26,20 +25,22 @@ public abstract class PokerBaseCommand extends TimedSubsystemCommand<Poker> {
     }
 
     @Override
-    protected final void initialize() {
-        m_isDifferent = getNextState() == Robot.getInstance().getCurrentState().getPokerState();
-        atInitialize();
-    }
-
-    protected void atInitialize() {}
-
-    @Override
     protected boolean isFinished() {
         return super.isFinished() || m_isDifferent;
     }
 
+    /**
+     * @deprecated state machine updates were commented out due to unclear bugs, so every part of the sm shouldn't be used
+     * @return the command's desired poker state
+     */
+    @Deprecated
     protected abstract PokerState getNextState();
 
+    /**
+     * @deprecated state machine updates were commented out due to unclear bugs, so every part of the sm shouldn't be used
+     * @return the commands state change
+     */
+    @Deprecated
     @Override
     public Optional<State> getDeltaState() {
         return Optional.of(new State(null, null, getNextState(), null));

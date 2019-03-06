@@ -42,10 +42,20 @@ public class Robot extends TimedRobot {
     private StateMachine m_status;
     private Report m_usageReport;
 
+    /**
+     * @deprecated state machine updates were commented out due to unclear bugs, so every part of the sm shouldn't be used
+     * @return current robot's state machine
+     */
+    @Deprecated
     public StateMachine getStateMachine() {
         return m_status;
     }
 
+    /**
+     * @deprecated state machine updates were commented out due to unclear bugs, so every part of the sm shouldn't be used
+     * @return current robot state
+     */
+    @Deprecated
     public State getCurrentState() {
         return m_status.getCurrentState();
     }
