@@ -1,6 +1,5 @@
 package edu.greenblitz.utils.command;
 
-import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -12,6 +11,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class GBCommand extends Command {
     protected static final Logger logger = LogManager.getLogger(GBCommand.class);
@@ -29,7 +29,6 @@ public abstract class GBCommand extends Command {
         } catch (ClassNotFoundException | NoSuchFieldException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public void addRequirements(Iterable<Subsystem> systems) {
@@ -101,6 +100,10 @@ public abstract class GBCommand extends Command {
         logger.debug("command {} has ended!", getName());
     }
 
+    protected void reportCommandInterrupt() {
+        logger.debug("command {} was interrupted", getName());
+    }
+
     public abstract Optional<State> getDeltaState();
 
     @Override
@@ -128,9 +131,9 @@ public abstract class GBCommand extends Command {
 ////        } else {
 //        }
 //            Robot.getInstance().getStateMachine().setCurrentState(newState);
+        reportCommandStart();
         super.start();
         atStart();
-        reportCommandStart();
     }
 
     public boolean canRun() {
@@ -157,6 +160,16 @@ public abstract class GBCommand extends Command {
         atEnd();
         super.end();
         reportCommandEnd();
+    }
+
+    @Override
+    protected void interrupted() {
+        atInterrupt();
+        reportCommandInterrupt();
+    }
+
+    protected void atInterrupt() {
+        atEnd();
     }
 
     protected void atEnd() {
