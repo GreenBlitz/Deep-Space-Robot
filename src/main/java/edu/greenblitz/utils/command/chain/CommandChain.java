@@ -4,6 +4,7 @@ import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.dynamic.NullCommand;
 import edu.greenblitz.utils.sm.State;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import java.util.*;
@@ -48,6 +49,7 @@ public abstract class CommandChain extends GBCommand {
     protected final void initialize() {
         resetChain();
         initChain();
+        addSequential(new NullCommand()); // To ensure that the commands ends AFTER each child did
         if (!updateCurrentCommand()){
             var cmd = m_commands.peek();
             logger.warn(
@@ -76,7 +78,7 @@ public abstract class CommandChain extends GBCommand {
 
     @Override
     protected boolean isFinished() {
-        return m_commands.isEmpty();
+        return m_commands.isEmpty() && (m_currentCommand.isCanceled() || m_currentCommand.isCompleted()) && !m_currentCommand.isRunning();
     }
 
     @Override

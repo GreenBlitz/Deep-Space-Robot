@@ -4,22 +4,17 @@ import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickRestricted;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.MoveElevatorByLevel;
-import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
+import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickAndRetract;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
-import edu.greenblitz.robotname.commands.complex.hidden.poker.ButtonReleaseAndHold;
-import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeExtendAndRollIn;
-import edu.greenblitz.robotname.commands.complex.hidden.roller.SafeRetractAndStop;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToVisionTarget;
-import edu.greenblitz.robotname.commands.complex.hidden.kicker.ButtonKickAndRetract;
 import edu.greenblitz.robotname.commands.simple.kicker.Kick;
 import edu.greenblitz.robotname.commands.simple.kicker.Unkick;
-import edu.greenblitz.robotname.commands.simple.poker.ExtendPoker;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollIn;
-import edu.greenblitz.robotname.commands.simple.roller.RetractAndStop;
+import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
 import edu.greenblitz.robotname.commands.simple.shifter.ToggleShift;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.GBCommand;
@@ -98,10 +93,9 @@ public class OI {
         mainJoystick.B.whenReleased(new HoldHatch());
 
 //        initUnsafeBindings();
-
-        // testing
         initUntestedBindings();
 
+//         testing
     }
 
     private static void initUntestedBindings() {
@@ -111,7 +105,7 @@ public class OI {
 
     private static void initUnsafeBindings() {
         mainJoystick.L1.whenPressed(new ExtendAndRollIn());
-        mainJoystick.L1.whenReleased(new RetractAndStop());
+        mainJoystick.L1.whenReleased(new RetractAndStopRoller());
         mainJoystick.L3.whenPressed(new ToggleShift());
         mainJoystick.R1.whenPressed(new DriveToVisionTarget());
         mainJoystick.X.whenPressed(new Kick());

@@ -2,12 +2,12 @@ package edu.greenblitz.robotname.commands.simple.roller;
 
 import edu.greenblitz.utils.sm.RollerState;
 
-public class RetractAndStop extends RollerBaseCommand {
-    public RetractAndStop(long ms) {
+public class RetractAndStopRoller extends RollerBaseCommand {
+    public RetractAndStopRoller(long ms) {
         super(ms);
     }
 
-    public RetractAndStop() {
+    public RetractAndStopRoller() {
 
     }
 

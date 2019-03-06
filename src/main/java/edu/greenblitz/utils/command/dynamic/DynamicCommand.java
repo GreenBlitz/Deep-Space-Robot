@@ -55,7 +55,7 @@ public abstract class DynamicCommand extends GBCommand {
 
     @Override
     protected boolean isFinished() {
-        return chosen.isCompleted();
+        return chosen.isCanceled() || chosen.isCompleted();
     }
 
     protected abstract GBCommand pick();

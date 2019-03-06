@@ -10,7 +10,7 @@ import java.util.Optional;
 public class DynamicRequire extends GBCommand {
 
     public DynamicRequire(Subsystem... subsystems) {
-        super(DynamicCommand.class.getSimpleName() + ": " + Arrays.toString(subsystems));
+        super(DynamicRequire.class.getSimpleName() + ": " + Arrays.toString(subsystems));
         for (Subsystem s : subsystems)
             requires(s);
     }
