@@ -107,6 +107,14 @@ public class Elevator extends GBSubsystem {
             instance = new Elevator();
     }
 
+    public static double getCriticalHeight(){
+        return Level.ROCKET_LOW.cargo;
+    }
+
+    public static boolean isBelowCritical(double h){
+        return h <= getCriticalHeight();
+    }
+
     public static Elevator getInstance() {
         return instance;
     }
