@@ -27,6 +27,10 @@ public class Chassis extends Subsystem {
         return Math.abs(power) < deadzone ? 0 : ((power - deadzone) / (1 - deadzone));
     }
 
+    private static double deadzone(double power) {
+        return deadzone(power, DEADZONE);
+    }
+
     private static Chassis instance;
 
     private Logger logger;
@@ -57,7 +61,7 @@ public class Chassis extends Subsystem {
 
         m_leftEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER_SPEED, m_leftLeader);
         m_rightEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER_SPEED, m_rightLeader);
-        //m_navX = new AHRS(Sensor.NAVX);
+        m_navX = new AHRS(Sensor.NAVX);
 
         m_localizer = new LocalizerRunner(RobotMap.Chassis.Data.WHEEL_BASE_RADIUS, m_leftEncoder, m_rightEncoder);
         m_localizer.disableGyro();
@@ -66,7 +70,8 @@ public class Chassis extends Subsystem {
         m_leftLeader.setName("left");
         addChild(m_rightLeader);
         m_rightLeader.setName("right");
-        //addChild(m_navX);
+        addChild(m_navX);
+        m_navX.setName("gyro");
 
         logger.info("instantiated");
     }
@@ -113,8 +118,7 @@ public class Chassis extends Subsystem {
     }
 
     public double getAngle() {
-        //return m_navX.getYaw();
-        return 0;
+        return m_navX.getYaw();
     }
 
     public static void init() {
@@ -132,8 +136,8 @@ public class Chassis extends Subsystem {
     }
 
     public void resetNavx() {
-        //m_navX.reset();
-        //logger.debug("gyro reset");
+        m_navX.reset();
+        logger.debug("gyro reset");
     }
 
     public void resetEncoders() {
@@ -166,11 +170,7 @@ public class Chassis extends Subsystem {
         m_localizer.start();
     }
 
-    private double deadzone(double power) {
-        return deadzone(power, DEADZONE);
-    }
-
     private double gamma(double power) {
-        return Math.pow(Math.abs(power), GAMMA) * MULTIPLIER * Math.signum(GAMMA);
+        return Math.pow(Math.abs(power), GAMMA) * MULTIPLIER * Math.signum(power);
     }
 }

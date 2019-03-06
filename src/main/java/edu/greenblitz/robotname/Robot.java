@@ -133,13 +133,12 @@ public class Robot extends TimedRobot {
 
     private void update() {
         Elevator.getInstance().update();
-//        m_state.update();
         OI.update();
     }
 
     private void reset() {
         Chassis.getInstance().reset();
-//        Elevator.getInstance().reset();
+        Elevator.getInstance().reset();
         Poker.getInstance().reset();
         Roller.getInstance().reset();
         Kicker.getInstance().reset();
