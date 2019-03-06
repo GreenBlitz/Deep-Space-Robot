@@ -3,11 +3,11 @@ package edu.greenblitz.robotname.commands.simple.kicker;
 import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.utils.sm.KickerState;
 
-public class ToggleKicker extends KickerBaseCommand {
-    private static final long KICKER_TOGGLE_TIMEOUT = 1000;
+import static edu.greenblitz.robotname.subsystems.Kicker.KICKER_STATE_TIMEOUT;
 
+public class ToggleKicker extends KickerBaseCommand {
     public ToggleKicker() {
-        super(KICKER_TOGGLE_TIMEOUT);
+        super(KICKER_STATE_TIMEOUT);
     }
 
     @Override

@@ -9,9 +9,9 @@ package edu.greenblitz.robotname.commands.simple.kicker;
 
 import edu.greenblitz.utils.sm.KickerState;
 
-public class Unkick extends KickerBaseCommand {
+import static edu.greenblitz.robotname.subsystems.Kicker.KICKER_STATE_TIMEOUT;
 
-    private static final long KICKER_CLOSE_TIMEOUT = 1000;
+public class Unkick extends KickerBaseCommand {
 
     public Unkick(long ms) {
         super(ms);
@@ -23,7 +23,7 @@ public class Unkick extends KickerBaseCommand {
     }
 
     public Unkick() {
-        this(KICKER_CLOSE_TIMEOUT);
+        this(KICKER_STATE_TIMEOUT);
     }
 
     @Override

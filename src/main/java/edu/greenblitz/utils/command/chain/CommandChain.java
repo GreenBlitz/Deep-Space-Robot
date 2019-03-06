@@ -11,7 +11,7 @@ import java.util.*;
 public abstract class CommandChain extends GBCommand {
 
     protected Queue<ParallelCommand> m_commands = new LinkedList<>();
-    protected Set<Subsystem> requiresSoFar = new HashSet<>();
+    protected Set<Subsystem> m_requiresSoFar = new HashSet<>();
     private ParallelCommand m_currentCommand;
 
     public CommandChain() {
@@ -89,7 +89,7 @@ public abstract class CommandChain extends GBCommand {
 
     private void resetChain() {
         m_commands.clear();
-        requiresSoFar.clear();
+        m_requiresSoFar.clear();
     }
 
     private boolean updateCurrentCommand() {
@@ -99,8 +99,8 @@ public abstract class CommandChain extends GBCommand {
 
         m_currentCommand = m_commands.remove();
         logger.debug("update current command: {}", m_currentCommand);
-        m_currentCommand.addRequirements(requiresSoFar);
-        requiresSoFar.addAll(m_currentCommand.getRequirements());
+        m_currentCommand.addRequirements(m_requiresSoFar);
+        m_requiresSoFar.addAll(m_currentCommand.getRequirements());
         m_currentCommand.start();
         return true;
     }

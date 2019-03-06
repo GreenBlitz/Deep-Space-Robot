@@ -28,7 +28,7 @@ public class RobotMap {
                 public static final double TICKS_PER_METER_POWER = 2295;
                 public static final double TICKS_PER_METER_SPEED = 633.5;
             }
-            public static final Port NAVX = Port.kMXP;
+            public static final Port NAVX = Port.kUSB;
         }
 
         public static class Data {

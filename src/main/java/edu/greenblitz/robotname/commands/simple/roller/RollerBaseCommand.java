@@ -7,7 +7,11 @@ import edu.greenblitz.utils.sm.State;
 
 import java.util.Optional;
 
+import static edu.greenblitz.robotname.subsystems.Roller.ROLLER_STATE_TIMEOUT;
+
 public abstract class RollerBaseCommand extends TimedSubsystemCommand<Roller> {
+
+    public RollerBaseCommand() { this(ROLLER_STATE_TIMEOUT); }
 
     public RollerBaseCommand(long ms) {
         super(ms, Roller.getInstance());

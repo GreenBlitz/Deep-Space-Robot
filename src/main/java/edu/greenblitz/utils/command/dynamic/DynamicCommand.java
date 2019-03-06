@@ -28,6 +28,13 @@ public abstract class DynamicCommand extends GBCommand {
     private GBCommand chosen;
     private State delta = new State();
 
+    public DynamicCommand() {
+    }
+
+    public DynamicCommand(String name) {
+        super(name);
+    }
+
     @Override
     protected void atStart() {
         chosen = pick();

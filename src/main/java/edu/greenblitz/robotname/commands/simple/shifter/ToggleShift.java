@@ -5,7 +5,7 @@ import edu.greenblitz.robotname.subsystems.Shifter;
 /**
  * This command switches the Gear from the state it is currently in.
  * This command uses the Shifter subsystem.
- * The command will stop as soon as the shift is switched.
+ * The command will stopRolling as soon as the shift is switched.
  */
 
 public class ToggleShift extends ShifterBaseCommand {

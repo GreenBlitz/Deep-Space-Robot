@@ -10,7 +10,7 @@ public class CompressorOn extends SubsystemCommand<Pneumatics> {
 
     /**
      * Stops the compressor for a set amount of time. Set to 0 to block forever.
-     * @param ms compressor stop time
+     * @param ms compressor stopRolling time
      */
     public CompressorOn(long ms) {
         super(Pneumatics.getInstance());

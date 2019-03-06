@@ -13,6 +13,8 @@ import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 
 public class Poker extends Subsystem {
 
+    public static final long POKER_EXTEND_TIMEOUT = 1000;
+
     private static Poker instance;
 
     private SendableDoubleSolenoid m_holderPiston, m_extenderPiston;

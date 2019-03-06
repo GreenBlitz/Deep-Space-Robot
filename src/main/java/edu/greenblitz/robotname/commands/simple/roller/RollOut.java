@@ -37,10 +37,4 @@ public class RollOut extends SubsystemCommand<Roller> {
     public Optional<State> getDeltaState() {
         return Optional.empty();
     }
-
-    @Override
-    protected void atEnd() {
-        system.stop();
-    }
-
 }
