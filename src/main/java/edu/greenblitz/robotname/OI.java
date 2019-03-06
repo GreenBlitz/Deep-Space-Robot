@@ -4,6 +4,7 @@ import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickRestricted;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.MoveElevatorByLevel;
+import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickAndRetract;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
@@ -92,15 +93,22 @@ public class OI {
         mainJoystick.B.whenPressed(new ReleaseHatch());
         mainJoystick.B.whenReleased(new HoldHatch());
 
-//        initUnsafeBindings();
-        initUntestedBindings();
+        initUnsafeBindings();
+//        initUntestedBindings();
 
-//         testing
     }
 
     private static void initUntestedBindings() {
         mainJoystick.X.whenPressed(new KickBall());
         mainJoystick.Y.whenPressed(new ToggleRoller());
+        sideJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
+        sideJoystick.A.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
+        sideJoystick.B.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
+        sideJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
+        sideJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
+
+        sideJoystick.START.whenPressed(new ToCargoMode());
+        sideJoystick.BACK.whenPressed(new ToHatchMode());
     }
 
     private static void initUnsafeBindings() {
@@ -108,16 +116,15 @@ public class OI {
         mainJoystick.L1.whenReleased(new RetractAndStopRoller());
         mainJoystick.L3.whenPressed(new ToggleShift());
         mainJoystick.R1.whenPressed(new DriveToVisionTarget());
-        mainJoystick.X.whenPressed(new Kick());
-        mainJoystick.X.whenReleased(new Unkick());
+        mainJoystick.X.whenPressed(new KickBall());
         mainJoystick.Y.whenPressed(new ToggleRoller());
 
         sideJoystick.L3.whenPressed(new ResetCommands());
-        sideJoystick.R1.whenPressed(new MoveElevatorByLevel(Elevator.Level.GROUND));
-        sideJoystick.A.whenPressed(new MoveElevatorByLevel(Elevator.Level.ROCKET_LOW));
-        sideJoystick.B.whenPressed(new MoveElevatorByLevel(Elevator.Level.ROCKET_MID));
-        sideJoystick.Y.whenPressed(new MoveElevatorByLevel(Elevator.Level.ROCKET_HIGH));
-        sideJoystick.X.whenPressed(new MoveElevatorByLevel(Elevator.Level.CARGO_SHIP));
+        sideJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
+        sideJoystick.A.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
+        sideJoystick.B.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
+        sideJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
+        sideJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
         sideJoystick.L1.whenReleased(new ToggleRoller());
 
         var pov = new POVButton(sideJoystick.getRawJoystick(), 0);

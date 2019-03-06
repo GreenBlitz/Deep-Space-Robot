@@ -1,9 +1,11 @@
 package edu.greenblitz.robotname.commands.complex.hidden.kicker;
 
+import edu.greenblitz.robotname.commands.simple.kicker.Kick;
 import edu.greenblitz.robotname.commands.simple.poker.RetractPoker;
 import edu.greenblitz.robotname.commands.simple.roller.*;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.robotname.subsystems.Poker;
+import edu.greenblitz.robotname.subsystems.Roller;
 import edu.greenblitz.utils.command.DynamicRequire;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.chain.CommandChain;
@@ -31,7 +33,14 @@ public class KickBall extends CommandChain {
                     else return new RetractPoker();
                 }
             });
-            addSequential(new ExtendAndRollOut(500));
+            addSequential(new DynamicCommand("extend roller if needed") {
+                @Override
+                protected GBCommand pick() {
+                    if (Roller.getInstance().isRetracted()) return new ExtendAndRollOut(300);
+                    else return new RollOut(1);
+                }
+            });
+
             addSequential(new KickAndRetract(300));
             addSequential(new RetractAndStopRoller(800));
         }
