@@ -133,6 +133,7 @@ public class Robot extends TimedRobot {
 
     private void update() {
         Elevator.getInstance().update();
+        Chassis.getInstance().update();
         OI.update();
     }
 

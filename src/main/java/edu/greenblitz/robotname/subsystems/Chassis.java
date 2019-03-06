@@ -169,6 +169,13 @@ public class Chassis extends Subsystem {
         m_rightLeader.setOpenLoopRampRate(timeToTopSpeed);
     }
 
+    public void update() {
+        SmartDashboard.putNumber("angle", m_navX.getAngle());
+        SmartDashboard.putNumber("yaw", m_navX.getYaw());
+        SmartDashboard.putNumber("pitch", m_navX.getPitch());
+        SmartDashboard.putNumber("roll", m_navX.getRoll());
+    }
+
     public void startLoclizer(){
         m_localizer.start();
     }

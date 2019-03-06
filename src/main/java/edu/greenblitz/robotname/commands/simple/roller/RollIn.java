@@ -39,6 +39,6 @@ public class RollIn extends SubsystemCommand<Roller> {
 
     @Override
     protected void atEnd() {
-        system.stop();
+        system.stopRolling();
     }
 }

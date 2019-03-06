@@ -7,12 +7,12 @@ import edu.greenblitz.robotname.RobotMap.Roller.Solenoid;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
 public class Roller extends Subsystem {
+    public static final long ROLLER_STATE_TIMEOUT = 1000;
     private static final double ROLL_IN = -0.7;
     private static final double ROLL_OUT = 0.7;
 
@@ -73,7 +73,7 @@ public class Roller extends Subsystem {
         setRawPower(ROLL_IN);
     }
 
-    public void stop() {
+    public void stopRolling() {
         setRawPower(0);
     }
 
@@ -93,6 +93,6 @@ public class Roller extends Subsystem {
 
     public void reset() {
         retract();
-        stop();
+        stopRolling();
     }
 }

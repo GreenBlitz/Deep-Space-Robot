@@ -9,11 +9,11 @@ package edu.greenblitz.robotname.commands.simple.kicker;
 
 import edu.greenblitz.utils.sm.KickerState;
 
-public class Kick extends KickerBaseCommand {
-    private static final long KICKER_KICK_TIMEOUT = 2000;
+import static edu.greenblitz.robotname.subsystems.Kicker.KICKER_STATE_TIMEOUT;
 
+public class Kick extends KickerBaseCommand {
     public Kick() {
-        this(KICKER_KICK_TIMEOUT);
+        this(KICKER_STATE_TIMEOUT);
     }
 
     public Kick(long ms) {

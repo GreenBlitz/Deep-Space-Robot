@@ -3,14 +3,12 @@ package edu.greenblitz.robotname.commands.simple.poker;
 import edu.greenblitz.utils.sm.PokerState;
 
 public class ExtendAndRelease extends PokerBaseCommand {
-    private static final long POKER_EXTEND_TIMEOUT = 1000;
-
     public ExtendAndRelease() {
-        super(POKER_EXTEND_TIMEOUT);
+
     }
 
     @Override
-    protected void initialize() {
+    protected void atInitialize() {
         system.extend(true);
     }
 

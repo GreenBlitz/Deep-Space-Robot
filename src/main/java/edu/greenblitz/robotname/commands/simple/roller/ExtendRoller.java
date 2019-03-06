@@ -10,10 +10,11 @@ package edu.greenblitz.robotname.commands.simple.roller;
 import edu.greenblitz.utils.sm.RollerState;
 
 public class ExtendRoller extends RollerBaseCommand {
-    private static final long ROLLER_EXTENSION_TIMEOUT = 2000;
-
     public ExtendRoller() {
-        super(ROLLER_EXTENSION_TIMEOUT);
+    }
+
+    public ExtendRoller(long ms) {
+        super(ms);
     }
 
     @Override

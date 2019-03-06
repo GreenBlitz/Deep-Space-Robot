@@ -24,8 +24,8 @@ public class StopRolling extends SubsystemCommand<Roller> {
     }
 
     @Override
-    protected void execute() {
-        system.stop();
+    protected void initialize() {
+        system.stopRolling();
     }
 
     protected boolean isFinished() {
@@ -35,10 +35,5 @@ public class StopRolling extends SubsystemCommand<Roller> {
     @Override
     public Optional<State> getDeltaState() {
         return Optional.empty();
-    }
-
-    @Override
-    protected void atEnd() {
-        system.stop();
     }
 }

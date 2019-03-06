@@ -3,14 +3,12 @@ package edu.greenblitz.robotname.commands.simple.roller;
 import edu.greenblitz.utils.sm.RollerState;
 
 public class RetractAndStop extends RollerBaseCommand {
-    private static final long ROLLER_RETRACTION_TIMEOUT = 2000;
-
     public RetractAndStop(long ms) {
         super(ms);
     }
 
     public RetractAndStop() {
-        this(ROLLER_RETRACTION_TIMEOUT);
+
     }
 
     @Override
@@ -21,6 +19,6 @@ public class RetractAndStop extends RollerBaseCommand {
     @Override
     protected void initialize() {
         system.retract();
-        system.stop();
+        system.stopRolling();
     }
 }
