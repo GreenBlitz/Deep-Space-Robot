@@ -24,7 +24,8 @@ public class Chassis extends Subsystem {
     private static final double MULTIPLIER = 1;
 
     private static double deadzone(double power, double deadzone) {
-        return Math.abs(power) < deadzone ? 0 : ((power - deadzone) / (1 - deadzone));
+        if (Math.abs(power) < deadzone) return 0;
+        return (Math.abs(power) - deadzone) / (1 - deadzone) * Math.signum(power);
     }
 
     private static double deadzone(double power) {
@@ -53,6 +54,8 @@ public class Chassis extends Subsystem {
 
         m_leftLeader.setInverted(true);
 
+        m_leftFollower1.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
         m_leftFollower1.follow(m_leftLeader);
         m_leftFollower2.follow(m_leftLeader);
 
@@ -64,7 +67,7 @@ public class Chassis extends Subsystem {
         m_navX = new AHRS(Sensor.NAVX);
 
         m_localizer = new LocalizerRunner(RobotMap.Chassis.Data.WHEEL_BASE_RADIUS, m_leftEncoder, m_rightEncoder);
-        m_localizer.disableGyro();
+        m_localizer.enableGyro();
 
         addChild(m_leftLeader);
         m_leftLeader.setName("left");
