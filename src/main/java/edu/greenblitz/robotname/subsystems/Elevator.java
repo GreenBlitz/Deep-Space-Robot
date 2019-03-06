@@ -25,11 +25,8 @@ import org.apache.logging.log4j.Logger;
 import java.util.Optional;
 
 public class Elevator extends GBSubsystem {
-
-
     private static final double CARGO_OFFSET = 0.165;
     private static final double HATCH_OFFSET = 0.48;
-
 
     public enum Level {
         GROUND(CARGO_OFFSET, HATCH_OFFSET),
@@ -66,7 +63,6 @@ public class Elevator extends GBSubsystem {
     public static final double LOWER_TOLERANCE = 0.01;
     public static final double HIGHER_TOLERANCE = 1;
 
-
     public static final int MAGIC_LOOP_IDX = 0;
     public static final int POSITION_LOOP_IDX = 1;
 
@@ -78,9 +74,7 @@ public class Elevator extends GBSubsystem {
     private IEncoder m_encoder;
     private SendableDoubleSolenoid m_brake;
     private Level m_level = Level.GROUND;
-//    private DigitalInput m_atGroundLimitSwitch;
     private Logger logger;
-    private boolean m_wasAtGround = true;
 
     private Elevator() {
         logger = LogManager.getLogger(getClass());
@@ -94,14 +88,11 @@ public class Elevator extends GBSubsystem {
         m_encoder = new TalonEncoder(Sensor.TICKS_PER_METER, m_leader);
 
         m_brake = new SendableDoubleSolenoid(Solenoid.PCM, Solenoid.FORWARD, Solenoid.REVERSE);
-//        m_atGroundLimitSwitch = new DigitalInput(Sensor.LIMIT_SWITCH);
 
         addChild(m_leader);
         m_leader.setName("motor");
         addChild(m_brake);
         m_brake.setName("brake");
-//        addChild(m_atGroundLimitSwitch);
-//        m_atGroundLimitSwitch.setName("at ground");
 
         logger.info("instantiated");
     }
@@ -140,8 +131,6 @@ public class Elevator extends GBSubsystem {
     }
 
     public double getHeight() {
-//        if (m_atGroundLimitSwitch.get()) // if needs to re
-//            m_encoder.reset();
         return m_encoder.getNormalizedTicks();
     }
 
@@ -216,10 +205,6 @@ public class Elevator extends GBSubsystem {
         return m_brake.get() == Value.kForward;
     }
 
-//    public boolean isAtGroundLevel() {
-//        return m_atGroundLimitSwitch.get();
-//    }
-
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
@@ -233,10 +218,5 @@ public class Elevator extends GBSubsystem {
     public void update() {
         updateLevel().ifPresent(this::setLevel);
         SmartDashboard.putNumber("height", getHeight());
-//        SmartDashboard.putNumber("height", getHeight());
-//        if (m_wasAtGround && !isAtGroundLevel()) {
-//            m_wasAtGround = false;
-//            resetEncoder();
-//        }
     }
 }

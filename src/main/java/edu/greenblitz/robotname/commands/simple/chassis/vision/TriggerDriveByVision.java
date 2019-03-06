@@ -13,18 +13,21 @@ public class TriggerDriveByVision extends ChassisBaseCommand {
 
     private PIDController m_pid;
 
-    private static final double limitUpper = 0.3, limitAbs = 0.03;
-    private static final double kP = 0.5*(2*limitUpper/Math.PI), Ki = 0, Kd = 0;
+    private static final double FULL_POWER = 0.3;
+    private static final double SLOWDOWN_ANGLE = 5;
+    private static final double TOLERANCE = 2;
+    private static final double DEADBAND = 0;
+    private static final double kP = FULL_POWER / SLOWDOWN_ANGLE, Ki = 0, Kd = 0, kF = 0;
 
-    public TriggerDriveByVision(){
-        m_pid = new PIDController(new PIDObject(kP, Ki, Kd, 0),
-                new AbsoluteTolerance(Math.toRadians(3.0)));
+    public TriggerDriveByVision() {
+        m_pid = new PIDController(new PIDObject(kP, Ki, Kd, kF),
+                new AbsoluteTolerance(Math.toRadians(TOLERANCE)));
     }
 
     @Override
-    protected void initialize(){
-//        m_pid.configure(VisionMaster.getInstance().getStandardizedData().getCenterAngle(),0,
-//                -limitUpper, limitUpper, limitAbs);
+    protected void initialize() {
+        m_pid.configure(VisionMaster.getInstance().getStandardizedData().getCenterAngle(), 0,
+                -FULL_POWER, FULL_POWER, DEADBAND);
     }
 
     @Override
@@ -33,11 +36,17 @@ public class TriggerDriveByVision extends ChassisBaseCommand {
     }
 
     @Override
-    protected void execute(){
-        System.out.println("angle = " + Math.toDegrees(VisionMaster.getInstance().getStandardizedData().getCenterAngle()));
-        double output = -m_pid.calculatePID(VisionMaster.getInstance().getStandardizedData().getCenterAngle());
-        Chassis.getInstance().arcadeDrive(OI.getMainJoystick().getAxisValue(SmartJoystick.Axis.RIGHT_TRIGGER),
-                                        output);
+    protected void execute() {
+        set(m_pid.calculatePID(get()));
     }
 
+    private double get() {
+        return VisionMaster.getInstance().getStandardizedData().getCenterAngle();
+    }
+
+    private void set(double output) {
+        Chassis.getInstance().arcadeDrive(
+                OI.getMainJoystick().getAxisValue(SmartJoystick.Axis.RIGHT_TRIGGER) - OI.getMainJoystick().getAxisValue(SmartJoystick.Axis.LEFT_TRIGGER),
+                output);
+    }
 }
