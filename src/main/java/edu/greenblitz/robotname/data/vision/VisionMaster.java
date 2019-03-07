@@ -4,6 +4,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -87,6 +88,12 @@ public class VisionMaster {
 
     public void getCurrentVisionData(double[] dest) {
         m_values.getDoubleArray(dest);
+    }
+
+    public void update() {
+        SmartDashboard.putNumber("Vision::Angle", getAngle());
+        SmartDashboard.putNumber("Vision::RelativeAngle", getRelativeAngle());
+        SmartDashboard.putNumber("Vision::Distance", getPlaneryDistance());
     }
 
 }

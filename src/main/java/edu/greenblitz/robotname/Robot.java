@@ -144,6 +144,7 @@ public class Robot extends TimedRobot {
     private void update() {
         Elevator.getInstance().update();
         Chassis.getInstance().update();
+        VisionMaster.getInstance().update();
         OI.update();
     }
 

@@ -8,6 +8,8 @@ import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevato
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickAndRetract;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
+import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
+import edu.greenblitz.robotname.commands.simple.chassis.vision.AlignToVisionTarget;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToVisionTarget;
 import edu.greenblitz.robotname.commands.simple.kicker.Kick;
 import edu.greenblitz.robotname.commands.simple.kicker.Unkick;
@@ -34,7 +36,7 @@ public class OI {
 
     private static SmartJoystick mainJoystick;
     private static SmartJoystick sideJoystick;
-    private static GameObject oiGameObject;
+    private static GameObject oiGameObject = GameObject.HATCH;
 
     public static SmartJoystick getMainJoystick() {
         return mainJoystick;
@@ -80,42 +82,29 @@ public class OI {
 
     public static void initJoysticks() {
         if (mainJoystick == null) mainJoystick = new SmartJoystick(RobotMap.Joysticks.MAIN);
-        if (sideJoystick == null) sideJoystick = new SmartJoystick(RobotMap.Joysticks.SIDE);
+//        if (sideJoystick == null) sideJoystick = new SmartJoystick(RobotMap.Joysticks.SIDE);
     }
 
     public static void initBindings() {
-        oiGameObject = GameObject.HATCH;
-        mainJoystick.START.whenPressed(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
-        mainJoystick.BACK.whenPressed(new StopClimbing());
-
-        // UNSAFE COMMANDS!!!
-        mainJoystick.A.whenPressed(new TogglePokerExtender());
-        mainJoystick.B.whenPressed(new ReleaseHatch());
-        mainJoystick.B.whenReleased(new HoldHatch());
-
-        initUnsafeBindings();
-//        initUntestedBindings();
-
+//        initUnsafeBindings(); // For real game shit
+        initUntestedBindings(); // For testing code
     }
 
     private static void initUntestedBindings() {
-        mainJoystick.X.whenPressed(new KickBall());
-        mainJoystick.Y.whenPressed(new ToggleRoller());
-        sideJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
-        sideJoystick.A.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
-        sideJoystick.B.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
-        sideJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
-        sideJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
-
-        sideJoystick.START.whenPressed(new ToCargoMode());
-        sideJoystick.BACK.whenPressed(new ToHatchMode());
+        mainJoystick.A.whenPressed(new AlignToVisionTarget());
+        mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
     }
 
     private static void initUnsafeBindings() {
+        mainJoystick.START.whenPressed(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
+        mainJoystick.BACK.whenPressed(new StopClimbing());
+        mainJoystick.A.whenPressed(new TogglePokerExtender());
+        mainJoystick.B.whenPressed(new ReleaseHatch());
+        mainJoystick.B.whenReleased(new HoldHatch());
         mainJoystick.L1.whenPressed(new ExtendAndRollIn());
         mainJoystick.L1.whenReleased(new RetractAndStopRoller());
         mainJoystick.L3.whenPressed(new ToggleShift());
-        mainJoystick.R1.whenPressed(new DriveToVisionTarget());
+        mainJoystick.R1.whenPressed(new AlignToVisionTarget());
         mainJoystick.X.whenPressed(new KickBall());
         mainJoystick.Y.whenPressed(new ToggleRoller());
 

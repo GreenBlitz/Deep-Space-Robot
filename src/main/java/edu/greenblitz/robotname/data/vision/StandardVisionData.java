@@ -41,11 +41,11 @@ public class StandardVisionData {
     }
 
     public double getRelativeAngle() {
-        return angle;
+        return Math.toDegrees(angle);
     }
 
     public double getCenterAngle() {
-        return Math.atan2(x, z);
+        return Math.toDegrees(Math.atan2(x, z));
     }
 
     public StandardVisionData(double[] rawData) {
