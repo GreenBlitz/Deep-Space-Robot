@@ -27,6 +27,24 @@ public class VisionMaster {
         }
     }
 
+    public enum Error {
+        NOT_ARRAY("vision value not double array"),
+        UNEXPECTED_LENGTH("vision returned other than 4 values"),
+        OK("");
+
+        private final String msg;
+
+        Error(String msg) {
+            this.msg = msg;
+        }
+
+
+        @Override
+        public String toString() {
+            return msg;
+        }
+    }
+
     private static VisionMaster instance;
 
     public static VisionMaster getInstance() {
@@ -41,6 +59,7 @@ public class VisionMaster {
     private NetworkTableEntry m_algorithm;
     private NetworkTableEntry m_values;
     private Logger logger;
+    private Error m_lastError = Error.OK;
 
     public VisionMaster() {
         logger = LogManager.getLogger(getClass());
@@ -55,14 +74,22 @@ public class VisionMaster {
 
     public double[] getCurrentVisionData() {
         if (m_values.getType() != NetworkTableType.kDoubleArray){
-            logger.warn("vision value not double array");
+            if (m_lastError != Error.NOT_ARRAY) {
+                logger.warn(Error.NOT_ARRAY);
+                m_lastError = Error.NOT_ARRAY;
+            }
             return new double[]{0, 0, 0, 0};
         }
         var ret = m_values.getValue().getDoubleArray();
-        if (ret.length > 4) {
-            logger.warn("vision returned more than 4 values");
+        if (ret.length != 4) {
+            if (m_lastError != Error.UNEXPECTED_LENGTH) {
+                logger.warn(Error.UNEXPECTED_LENGTH);
+                m_lastError = Error.UNEXPECTED_LENGTH;
+            }
             return new double[]{0, 0, 0, 0};
         }
+
+        m_lastError = Error.OK;
         return ret;
     }
 

@@ -160,6 +160,8 @@ public class Chassis extends Subsystem {
     private void setLeftRightMotorOutput(double l, double r) {
         l = deadzone(l);
         r = deadzone(r);
+        SmartDashboard.putNumber("raw left", l);
+        SmartDashboard.putNumber("raw right", r);
         m_leftLeader.set(l);
         m_rightLeader.set(r);
     }
@@ -170,10 +172,6 @@ public class Chassis extends Subsystem {
     }
 
     public void update() {
-        SmartDashboard.putNumber("angle", m_navX.getAngle());
-        SmartDashboard.putNumber("yaw", m_navX.getYaw());
-        SmartDashboard.putNumber("pitch", m_navX.getPitch());
-        SmartDashboard.putNumber("roll", m_navX.getRoll());
     }
 
     public void startLoclizer(){
