@@ -93,7 +93,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 public class DriveToVisionTarget extends ChassisBaseCommand implements PIDSource, PIDOutput {
 
     private static final double Kp = 0.05, Ki = 0, Kd = 0;
-    private static final double turnKp = 0.1/25;
+    private static final double turnKp = 0.08/25;
 
     private static final long TIME_ON_TARGET = 200;
 
