@@ -92,8 +92,8 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 
 public class DriveToVisionTarget extends ChassisBaseCommand implements PIDSource, PIDOutput {
 
-    private static final double Kp = 0.05, Ki = 0, Kd = 0;
-    private static final double turnKp = 0.08/25;
+    private static final double Kp = 0.135, Ki = 0, Kd = 0;
+    private static final double turnKp = 0.06/25;
 
     private static final long TIME_ON_TARGET = 200;
 
@@ -106,7 +106,7 @@ public class DriveToVisionTarget extends ChassisBaseCommand implements PIDSource
 
         m_controller.setAbsoluteTolerance(0.1);
         m_controller.setSetpoint(0);
-        m_controller.setOutputRange(-0.2, 0.2);
+        m_controller.setOutputRange(-0.4, 0.4);
     }
 
     @Override
@@ -117,10 +117,12 @@ public class DriveToVisionTarget extends ChassisBaseCommand implements PIDSource
 
     @Override
     public void pidWrite(double output) {
-        if (pidGet() > 0.5 && pidGet() < 2)
+        if (VisionMaster.getInstance().getStandardizedData().isValid())
             Chassis.getInstance().arcadeDrive(-output, VisionMaster.getInstance().getAngle()*turnKp);
+        else if (VisionMaster.getInstance().getStandardizedData().isTooClose())
+            Chassis.getInstance().arcadeDrive(0.15, 0);
         else
-            Chassis.getInstance().arcadeDrive(0.1, 0);
+            Chassis.getInstance().arcadeDrive(0.5, 0);
     }
 
     @Override

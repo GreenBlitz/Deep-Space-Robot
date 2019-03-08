@@ -3,27 +3,35 @@ package edu.greenblitz.robotname.commands.simple.chassis.vision;
 import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.commands.simple.chassis.ChassisBaseCommand;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
+import org.greenblitz.motion.base.Point;
 import org.greenblitz.motion.base.Vector2D;
 
 public class ArcDriveToTarget extends ChassisBaseCommand {
 
-    private double targetX, targetY;
+    private double curvature;
+    private Point endLocation;
+
+    private static final double EPSILON = 1E-2;
 
     @Override
     protected void initialize(){
         double[] difference = VisionMaster.getInstance().getCurrentVisionData();
-        targetX = difference[0];
-        targetY = difference[2];
+        double targetX = difference[0];
+        double targetY = difference[2];
+        curvature = getCurvature(targetX, targetY);
+        endLocation = system.getLocation().translate(new Point(targetX, targetY).rotate(-system.getAngle()));
     }
 
     @Override
     protected void execute(){
-
+        Vector2D driveValues = arcDrive(curvature, 0.1);
+        logger.debug(driveValues);
+//        system.tankDrive(driveValues.getX(), driveValues.getY());
     }
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return Point.fuzzyEquals(system.getLocation(), endLocation, EPSILON);
     }
 
 

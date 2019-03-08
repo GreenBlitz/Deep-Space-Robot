@@ -78,7 +78,7 @@ public class VisionMaster {
                 logger.warn(Error.NOT_ARRAY);
                 m_lastError = Error.NOT_ARRAY;
             }
-            return new double[]{0, 0, 0, 0};
+            return new double[]{Double.NaN, Double.NaN, Double.NaN, Double.NaN};
         }
         var ret = m_values.getValue().getDoubleArray();
         if (ret.length != 4) {
@@ -86,11 +86,15 @@ public class VisionMaster {
                 logger.warn(Error.UNEXPECTED_LENGTH);
                 m_lastError = Error.UNEXPECTED_LENGTH;
             }
-            return new double[]{0, 0, 0, 0};
+            return new double[]{Double.NaN, Double.NaN, Double.NaN, Double.NaN};
         }
 
         m_lastError = Error.OK;
         return ret;
+    }
+
+    public Error getLastError() {
+        return m_lastError;
     }
 
     public StandardVisionData getStandardizedData() {
@@ -121,6 +125,8 @@ public class VisionMaster {
         SmartDashboard.putNumber("Vision::Angle", getAngle());
         SmartDashboard.putNumber("Vision::RelativeAngle", getRelativeAngle());
         SmartDashboard.putNumber("Vision::Distance", getPlaneryDistance());
+        SmartDashboard.putBoolean("Vision::IsTooClose", getStandardizedData().isTooClose());
+        SmartDashboard.putBoolean("Vision::IsValid", getStandardizedData().isValid());
     }
 
 }
