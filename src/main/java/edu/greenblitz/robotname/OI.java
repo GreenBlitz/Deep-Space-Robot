@@ -1,21 +1,29 @@
 package edu.greenblitz.robotname;
 
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.VisionCollectHatchPanel;
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.VisionPlaceHatchPanel;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickRestricted;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.MoveElevatorByLevel;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
+import edu.greenblitz.robotname.commands.complex.hidden.elevator.VerboseMoveElevator;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickAndRetract;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.AlignToVisionTarget;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToVisionTarget;
+import edu.greenblitz.robotname.commands.simple.elevator.BrakeElevator;
+import edu.greenblitz.robotname.commands.simple.elevator.ImmediateBrakeElevator;
+import edu.greenblitz.robotname.commands.simple.elevator.ReleaseElevatorBrake;
+import edu.greenblitz.robotname.commands.simple.elevator.ToggleElevatorBrake;
 import edu.greenblitz.robotname.commands.simple.kicker.Kick;
 import edu.greenblitz.robotname.commands.simple.kicker.Unkick;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
+import edu.greenblitz.robotname.commands.simple.poker.TogglePokerHolder;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollIn;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
 import edu.greenblitz.robotname.commands.simple.shifter.ToggleShift;
@@ -91,8 +99,14 @@ public class OI {
     }
 
     private static void initUntestedBindings() {
-        mainJoystick.A.whenPressed(new AlignToVisionTarget());
-        mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
+        mainJoystick.A.whenPressed(new TogglePokerExtender());
+        mainJoystick.B.whenPressed(new TogglePokerHolder());
+        mainJoystick.R1.whenPressed(new DriveToVisionTarget());
+        mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+        mainJoystick.L3.whenPressed(new VisionCollectHatchPanel());
+        mainJoystick.L3.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+        mainJoystick.R3.whenPressed(new VisionPlaceHatchPanel());
+        mainJoystick.R3.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
     }
 
     private static void initUnsafeBindings() {

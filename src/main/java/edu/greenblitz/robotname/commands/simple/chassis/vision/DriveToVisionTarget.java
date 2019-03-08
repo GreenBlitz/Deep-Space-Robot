@@ -42,6 +42,7 @@ public class DriveToVisionTarget extends ChassisBaseCommand {
 
     @Override
     protected void initialize() {
+        VisionMaster.getInstance().setCurrentAlgorithm(VisionMaster.Algorithm.TARGETS);
         var state = VisionMaster.getInstance().getStandardizedData();
         var inputDrive = state.getPlaneryDistance();
         var inputTurn = state.getRelativeAngle();

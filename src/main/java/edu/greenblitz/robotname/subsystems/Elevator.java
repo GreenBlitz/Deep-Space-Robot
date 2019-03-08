@@ -225,6 +225,6 @@ public class Elevator extends GBSubsystem {
 
     public void update() {
         updateLevel().ifPresent(this::setLevel);
-        SmartDashboard.putNumber("height", getHeight());
+//        SmartDashboard.putNumber("height", getHeight());
     }
 }
