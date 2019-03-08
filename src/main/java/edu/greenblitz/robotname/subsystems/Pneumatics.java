@@ -86,7 +86,7 @@ public class Pneumatics extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new HandleCompressor());
+//        setDefaultCommand(new HandleCompressor());
     }
 
     public double getMinPressureReleased() {
