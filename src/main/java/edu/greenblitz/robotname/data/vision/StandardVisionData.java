@@ -1,6 +1,8 @@
 package edu.greenblitz.robotname.data.vision;
 
 public class StandardVisionData {
+    public static final double DISTANCE_TOO_CLOSE = 4;
+
     /**
      * X coordinate of the target (horizontal distance)
      */
@@ -50,6 +52,14 @@ public class StandardVisionData {
 
     public StandardVisionData(double[] rawData) {
         this(rawData[0], rawData[1], rawData[2], rawData[3]);
+    }
+
+    public boolean isValid() {
+        return Double.isFinite(x) && Double.isFinite(y) && Double.isFinite(z) && Double.isFinite(angle);
+    }
+
+    public boolean isTooClose() {
+        return getDistance() > DISTANCE_TOO_CLOSE;
     }
 
     @Override
