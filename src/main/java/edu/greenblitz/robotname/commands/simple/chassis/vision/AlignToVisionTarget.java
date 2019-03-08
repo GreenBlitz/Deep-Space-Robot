@@ -9,10 +9,11 @@ import org.greenblitz.motion.tolerance.ITolerance;
 
 public class AlignToVisionTarget extends ChassisBaseCommand {
 
-    private static final double FULL_POWER = 0;
-    private static final long TIME_ON_TARGET = 0;
-    private static final PIDObject PID_CONFIG = new PIDObject(0, 0, 0);
-    private static final ITolerance PID_TOLERANCE = new AbsoluteTolerance(0.1);
+    private static final double FULL_POWER = 0.15;
+    private static final double SLOWDOWN_ANGLE = 25;
+    private static final long TIME_ON_TARGET = 200;
+    private static final PIDObject PID_CONFIG = new PIDObject(FULL_POWER / SLOWDOWN_ANGLE, 0, 0);
+    private static final ITolerance PID_TOLERANCE = new AbsoluteTolerance(3);
 
     private long m_onTarget = -1;
 
@@ -35,11 +36,12 @@ public class AlignToVisionTarget extends ChassisBaseCommand {
 
     @Override
     protected boolean isFinished() {
-        if (m_controller.isFinished(get()))
+        if (m_controller.isFinished(get())) {
             if (m_onTarget == -1)
                 m_onTarget = System.currentTimeMillis();
-            else
-                m_onTarget = -1;
+        }
+        else
+            m_onTarget = -1;
 
       return m_controller.isFinished(get()) && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
     }

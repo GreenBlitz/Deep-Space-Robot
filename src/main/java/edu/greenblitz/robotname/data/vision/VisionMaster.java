@@ -12,8 +12,8 @@ public class VisionMaster {
 
     public enum Algorithm {
         CARGO("send_cargo"),
-        TARGETS("send_vision_targets"),
-        HATCH("send_hatch"),
+        TARGETS("send_hatch"),
+        HATCH("send_hatch_panel"),
         RAMP("send_ramp");
 
         public final String rawAlgorithmName;
