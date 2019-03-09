@@ -1,43 +1,54 @@
-//package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous;
-//
-//import edu.greenblitz.robotname.OI;
-//import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
-//import edu.greenblitz.robotname.commands.complex.hidden.poker.FullPokerCycle;
-//import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
-//import edu.greenblitz.robotname.commands.simple.chassis.motion.MultiPathAPPCCommand;
-//import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToVisionTarget;
-////import edu.greenblitz.robotname.commands.simple.chassis.vision.SetLocalizerLocationByVisionTarget;
-//import edu.greenblitz.robotname.commands.simple.poker.ExtendPoker;
-//import edu.greenblitz.robotname.commands.simple.poker.RetractPoker;
-//import edu.greenblitz.robotname.subsystems.Elevator;
-//import edu.greenblitz.utils.Paths;
-//import edu.greenblitz.utils.VisionTargetLocations;
-//import edu.greenblitz.utils.command.chain.CommandChain;
-//
-//public class Auto2HatchCargoship extends CommandChain {
-//
-//    @Override
-//    protected void initChain() {
-//        //TODO: Calibrate APPC parameters.
-//        var state = OI.GameObject.HATCH;
-//        addSequential(new APPCCommand(Paths.get("Vis Cargoship1"), 0.5, 0.2, false, 0.3, 0.5, 1));
-//        addParallel(new DriveToVisionTarget(), new SafeMoveElevator(Elevator.Level.CARGO_SHIP.heightByState(state)));
-//        addSequential(new FullPokerCycle());
-////        addSequential(new SetLocalizerLocationByVisionTarget(VisionTargetLocations.Cargoship.Left.SECTION1));
-//        addParallel(
-//                new SafeMoveElevator(Elevator.Level.GROUND.heightByState(state)),
-//                new MultiPathAPPCCommand("MotionDrive(Pure Cargoship2, Vis Cargoship3)",
-//                                                new APPCCommand(Paths.get("Pure Cargoship2"), 0.5, 0.2, false, 0.3, 0.5, 1),
-//                                                new APPCCommand(Paths.get("Vis Cargoship3"), 0.5, 0.2, false, 0.3, 0.5, 1)));
-//        addParallel(new DriveToVisionTarget(), new SafeMoveElevator(Elevator.Level.GROUND.heightByState(state)), new ExtendPoker());
-////        addSequential(new SetLocalizerLocationByVisionTarget(VisionTargetLocations.Feeder.LEFT));
-//        addParallel(new RetractPoker(),
-//                new SafeMoveElevator(Elevator.Level.GROUND.heightByState(state)),
-//                new MultiPathAPPCCommand("MotionDrive(Pure Cargoship4, Vis Cargoship5)",
-//                                                new APPCCommand(Paths.get("Pure Cargoship4"), 0.5, 0.2, false, 0.3, 0.5, 1),
-//                                                new APPCCommand(Paths.get("Vis Cargoship5"), 0.5, 0.2, false, 0.3, 0.5, 1)));
-//        addParallel(new DriveToVisionTarget(), new SafeMoveElevator(Elevator.Level.CARGO_SHIP.heightByState(state)));
-//        addSequential(new FullPokerCycle());
-////        addSequential(new SetLocalizerLocationByVisionTarget(VisionTargetLocations.Cargoship.Left.SECTION2));
-//    }
-//}
+package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous;
+
+import edu.greenblitz.robotname.commands.simple.chassis.DriveStraightByDistance;
+import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
+import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFromVisionTarget;
+import edu.greenblitz.robotname.commands.simple.poker.*;
+import edu.greenblitz.utils.command.chain.CommandChain;
+import org.greenblitz.motion.base.Position;
+import org.greenblitz.motion.pathing.Path;
+
+//import edu.greenblitz.robotname.commands.simple.chassis.vision.SetLocalizerLocationByVisionTarget;
+
+public class Auto2HatchCargoship extends CommandChain {
+
+    private static final double DISTANCE = 1.0;
+
+    @Override
+    protected void initChain() {
+        addSequential(new APPCCommand(
+                new Path<>(APPCCommand.getPath("Cargoship1.pf1.csv")),
+                new Position(-3.08, 1.55, Math.PI),
+                0.6, 0.2, true, 0.2, 0.7, .4, .2/*0.6*/));
+
+        addParallel(new RetractAndHold(100), new DriveToDistanceFromVisionTarget(DISTANCE));
+        addParallel(new ExtendPoker(), new DriveStraightByDistance(DISTANCE - 0.3, 1000));
+        addParallel(new ReleaseHatch(), new DriveStraightByDistance(-0.7, 1000));
+        addSequential(new RetractAndHold(100));
+
+        addSequential(
+                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship2.pf1.csv")),
+                        null, 0.6, 0.1, true,
+                        0.1, 0.4, 0.4, 0.6));
+        addSequential(
+                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")), null, .8, 0.15, false, 0.1,
+                        .3, 0.4, .2)
+        );
+
+        addParallel(new RetractPoker(), new HoldHatch(), new DriveToDistanceFromVisionTarget(DISTANCE));
+        addParallel(new ExtendPoker(), new DriveStraightByDistance(DISTANCE-0.1, 1000));
+        addParallel(new RetractPoker(), new DriveStraightByDistance(-0.5, 1000));
+
+        addSequential(new APPCCommand(
+                new Path<>(APPCCommand.getPath("Cargoship4.pf1.csv")),
+                null, .6, .2, true,
+                .1, 0.5, 0.4, .2
+        ));
+
+        addParallel(new RetractAndHold(100), new DriveToDistanceFromVisionTarget(DISTANCE));
+        addParallel(new ExtendPoker(), new DriveStraightByDistance(DISTANCE - 0.3, 1000));
+        addParallel(new ReleaseHatch(), new DriveStraightByDistance(-0.7, 1000));
+        addSequential(new RetractAndHold(100));
+        addSequential(new VisionPlaceHatchPanel());
+    }
+}

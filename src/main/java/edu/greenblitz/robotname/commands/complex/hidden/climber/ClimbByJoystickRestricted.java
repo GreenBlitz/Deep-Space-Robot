@@ -5,6 +5,7 @@ import edu.greenblitz.robotname.commands.simple.climber.ClimberExtendByJoystick;
 import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.robotname.subsystems.Climber;
+import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -31,7 +32,7 @@ public class ClimbByJoystickRestricted extends CommandChain {
     }
 
     @Override
-    public Set<Subsystem> getLazyRequirements() {
+    public Set<GBSubsystem> getLazyRequirements() {
         return Set.of(Chassis.getInstance(), Climber.getInstance().getBig(), Climber.getInstance().getExtender(), Climber.getInstance().getWheels());
     }
 

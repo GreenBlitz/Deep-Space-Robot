@@ -7,11 +7,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.Vector;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class GBCommand extends Command {
     protected static final Logger logger = LogManager.getLogger(GBCommand.class);
@@ -31,12 +28,12 @@ public abstract class GBCommand extends Command {
         }
     }
 
-    public void addRequirements(Iterable<Subsystem> systems) {
+    public void addRequirements(Iterable<? extends Subsystem> systems) {
         for (Subsystem s : systems)
             requires(s);
     }
 
-    public final Set<Subsystem> getRequirements() {
+    public final Set<GBSubsystem> getRequirements() {
         var ret = new HashSet<>(getWPILibRequirements());
         ret.addAll(getLazyRequirements());
         return ret;
@@ -48,16 +45,16 @@ public abstract class GBCommand extends Command {
      * @return the wpilib managed requirements of this command
      */
     @SuppressWarnings("unchecked")
-    public final Set<Subsystem> getWPILibRequirements() {
+    public final Set<GBSubsystem> getWPILibRequirements() {
         try {
-            var wpiRequires = (Vector<Subsystem>) requirements.get(requirementsSet.get(this));
+            var wpiRequires = (Vector<GBSubsystem>) requirements.get(requirementsSet.get(this));
             return new HashSet<>(wpiRequires);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Set<Subsystem> getLazyRequirements() {
+    public Set<GBSubsystem> getLazyRequirements() {
         return Set.of();
     }
 
@@ -101,7 +98,8 @@ public abstract class GBCommand extends Command {
     }
 
     protected void reportCommandInterrupt() {
-        logger.debug("command {} was interrupted", getName());
+        var requirements = getRequirements();
+        logger.debug("command {} was interrupted; requiring {}", getName(), requirements);
     }
 
     public abstract Optional<State> getDeltaState();

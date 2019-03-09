@@ -9,6 +9,7 @@ import edu.greenblitz.robotname.RobotMap.Chassis.Motor;
 import edu.greenblitz.robotname.RobotMap.Chassis.Sensor;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.robotname.data.LocalizerRunner;
+import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.SparkEncoder;
 import edu.greenblitz.utils.sendables.SendableSparkMax;
@@ -18,7 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenblitz.motion.base.Position;
 
-public class Chassis extends Subsystem {
+public class Chassis extends GBSubsystem {
     private static final double DEADZONE = 0.03;
     private static final double GAMMA = 1;
     private static final double MULTIPLIER = 1;
