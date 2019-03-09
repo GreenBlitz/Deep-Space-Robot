@@ -89,15 +89,15 @@ package edu.greenblitz.robotname.commands.simple.chassis.vision;
 import edu.greenblitz.robotname.commands.simple.chassis.ChassisBaseCommand;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.greenblitz.motion.pid.PIDController;
+import org.greenblitz.motion.pid.PIDObject;
+import org.greenblitz.motion.tolerance.AbsoluteTolerance;
 
-public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implements PIDSource, PIDOutput {
+import java.lang.annotation.Inherited;
 
-    private static final double Kp = 0.4, Ki = 0, Kd = 0;
+public class AproachVisionTarget extends ChassisBaseCommand {
+
+    private static final double Kp = 0.15, Ki = 0, Kd = 0;
     private static final double turnKp = 0.06/25;
 
     private static final long TIME_ON_TARGET = 0;
@@ -107,58 +107,48 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
 
     private PIDController m_controller;
 
-    public DriveToDistanceFromVisionTarget(double distance) {
+    public AproachVisionTarget(double distance) {
         m_distance = distance;
 
-        m_controller = new PIDController(Kp, Ki, Kd, this, this);
+        m_controller = new PIDController(new PIDObject(Kp, Ki, Kd));
     }
 
     @Override
     protected void initialize() {
-        m_controller.setOutputRange(-0.35, 0.35);
-
-        m_controller.setSetpoint(m_distance/2);
-        m_controller.setAbsoluteTolerance(m_distance/2);
+        m_controller.configure(pidGet(), m_distance/2,
+                -.25, .25, 0.15);
+        m_controller.setTolerance(new AbsoluteTolerance(m_distance/2));
 
         VisionMaster.getInstance().setCurrentAlgorithm(VisionMaster.Algorithm.TARGETS);
-        m_controller.enable();
     }
 
     @Override
+    protected void execute(){
+        pidWrite(m_controller.calculatePID(pidGet()));
+    }
+
     public void pidWrite(double output) {
-        if (Math.abs(output) < 0.15)
-            output = Math.signum(output) * 0.15;
         Chassis.getInstance().arcadeDrive(-output, VisionMaster.getInstance().getAngle()*turnKp);
     }
 
-    @Override
-    public void setPIDSourceType(PIDSourceType pidSource) {}
-
-    @Override
-    public PIDSourceType getPIDSourceType() {
-        return PIDSourceType.kDisplacement;
-    }
-
-    @Override
     public double pidGet() {
         return VisionMaster.getInstance().getPlaneryDistance();
     }
 
     @Override
     protected boolean isFinished() {
-        if (m_controller.onTarget()) {
+        if (m_controller.isFinished(pidGet())) {
             if (m_onTarget == -1)
                 m_onTarget = System.currentTimeMillis();
         }
         else
             m_onTarget = -1;
 
-        return m_onTarget != -1 && m_controller.onTarget() && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
+        return m_onTarget != -1 && m_controller.isFinished(pidGet()) && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
     }
 
     @Override
     protected void atEnd() {
-        m_controller.disable();
         Chassis.getInstance().stop();
     }
 }

@@ -125,7 +125,7 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
     protected void initialize() {
         m_angle = Chassis.getInstance().getAngle();
 
-        m_controller.setOutputRange(-0.3, 0.3);
+        m_controller.setOutputRange(-0.15, 0.15);
         m_controller.setSetpoint(Chassis.getInstance().getDistance() + m_distance);
         m_controller.setAbsoluteTolerance(0.1);
 
@@ -159,7 +159,7 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
         else
             m_onTarget = -1;
 
-        return m_onTarget != -1 && m_controller.onTarget() && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
+        return isTimedOut() || (m_onTarget != -1 && m_controller.onTarget() && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET);
     }
 
     @Override

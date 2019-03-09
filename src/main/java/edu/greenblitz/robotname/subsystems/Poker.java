@@ -6,6 +6,7 @@ import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -116,7 +117,7 @@ public class Poker extends Subsystem {
     }
 
     public boolean isHeld() {
-        return getHolderState() != Value.kReverse;
+        return getHolderState() == Value.kReverse;
     }
 
     public boolean isReleased() {
@@ -143,5 +144,9 @@ public class Poker extends Subsystem {
     public void reset() {
         retract();
         hold();
+    }
+
+    public void update() {
+        SmartDashboard.putBoolean("Poker::IsHeld", isHeld());
     }
 }

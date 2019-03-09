@@ -80,13 +80,13 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putData(Scheduler.getInstance());
         allowChassis();
-        allowElevator();
-        allowKicker();
+//        allowElevator();
+//        allowKicker();
         allowPoker();
         allowPneumatics();
-        allowRoller();
-        allowClimber();
-        allowShifter();
+//        allowRoller();
+//        allowClimber();
+//        allowShifter();
 
         OI.initBindings();
         m_pdp = new PowerDistributionPanel();
@@ -97,13 +97,14 @@ public class Robot extends TimedRobot {
         var pi = new Thread(new Pi());
         pi.start();
 
-        autonomousCommand = new CommandChain() {
-            @Override
-            protected void initChain() {
-                addSequential(new SetLocalizerLocation(new Position(3.0734, 1.7092)));
-                addSequential(new APPCCommand(Paths.get("Cargoship1"), 0.5, 0.2, false, 0.1, 0.5, 0.3));
-            }
-        };
+//        autonomousCommand = new CommandChain() {
+//            @Override
+//            protected void initChain() {
+//                addSequential(new SetLocalizerLocation(new Position(3.0734, 1.7092)));
+//                addSequential(new APPCCommand(Paths.get("Cargoship1"), 0.5, 0.2, false, 0.1, 0.5, 0.3));
+//            }
+//        };
+        logger.debug(APPCCommand.getPath("Cargoship3.pf1.csv"));
     }
 
     @Override
@@ -142,6 +143,7 @@ public class Robot extends TimedRobot {
         } else {
             logger.info("testing...");
             // This is for testing
+//            Shifter.getInstance().setShift(Shifter.Gear.SPEED);
             matchInit();
         }
     }
@@ -162,19 +164,20 @@ public class Robot extends TimedRobot {
     }
 
     private void update() {
-        Elevator.getInstance().update();
+//        Elevator.getInstance().update();
         Chassis.getInstance().update();
+        Poker.getInstance().update();
         VisionMaster.getInstance().update();
         OI.update();
     }
 
     private void reset() {
         Chassis.getInstance().reset();
-        Elevator.getInstance().reset();
+//        Elevator.getInstance().reset();
         Poker.getInstance().reset();
-        Roller.getInstance().reset();
-        Kicker.getInstance().reset();
-        Shifter.getInstance().reset();
+//        Roller.getInstance().reset();
+//        Kicker.getInstance().reset();
+//        Shifter.getInstance().reset();
         Pneumatics.getInstance().reset();
 
         m_usageReport.reset();

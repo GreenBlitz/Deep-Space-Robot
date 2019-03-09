@@ -2,6 +2,7 @@ package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.commands.complex.HoldAllCommands;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.VisionCollectHatchPanel;
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.VisionPlaceHatchPanel;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickRestricted;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
@@ -10,15 +11,14 @@ import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.chassis.DriveStraightByDistance;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
+import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCChain;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.SetLocalizerLocation;
-import edu.greenblitz.robotname.commands.simple.chassis.vision.AlignToVisionTarget;
-import edu.greenblitz.robotname.commands.simple.chassis.vision.ArcPidDriveToVisionTarget;
-import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFromVisionTarget;
-import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToVisionTarget;
+import edu.greenblitz.robotname.commands.simple.chassis.vision.*;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
+import edu.greenblitz.robotname.commands.simple.poker.TogglePokerHolder;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollIn;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
 import edu.greenblitz.robotname.commands.simple.shifter.ToggleShift;
@@ -31,6 +31,7 @@ import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.buttons.POVButton;
 import org.greenblitz.motion.base.Position;
+import org.greenblitz.motion.pathing.Path;
 
 import java.util.Optional;
 
@@ -97,29 +98,45 @@ public class OI {
     }
 
     private static void initUntestedBindings() {
-        mainJoystick.R1.whenPressed(new DriveToVisionTarget());
-        mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+//        mainJoystick.R1.whenPressed(new DriveToVisionTarget());
+//        mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+//
+//        mainJoystick.START.whenReleased(new HoldAllCommands());
+//
+//        mainJoystick.A.whenPressed(new VisionCollectHatchPanel());
+////        mainJoystick.A.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+//
+        mainJoystick.L1.whenPressed(new VisionPlaceHatchPanel());
+        mainJoystick.L1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+//
+//        mainJoystick.X.whenPressed(new TogglePokerHolder());
+//        mainJoystick.Y.whenPressed(new TogglePokerExtender());
 
-        mainJoystick.START.whenReleased(new HoldAllCommands());
 
-        mainJoystick.A.whenPressed(new VisionCollectHatchPanel());
-        mainJoystick.A.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+        mainJoystick.A.whenPressed(new APPCCommand(
+                new Path<>(APPCCommand.getPath("Cargoship1.pf1.csv")),
+                new Position(-3.08, 1.55, Math.PI),
+                0.6, 0.2, true, 0.2, 0.7, .4, .2/*0.6*/));
 
-        mainJoystick.L3.whenPressed(new ToggleShift());
-        mainJoystick.Y.whenPressed(new TogglePokerExtender());
+        mainJoystick.X.whenPressed(new APPCChain(
+                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship2.pf1.csv")),
+                        new Position(-3.37, 6.6, -Math.PI/2), 0.6, 0.1, true,
+                        0.1, 0.4, 0.4, 0.6),
+                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")), null, .5, 0.15, false, 0.1,
+                        .3, 0.4, .2)
+        ));
 
-        mainJoystick.X.whenPressed(new DriveToDistanceFromVisionTarget(0.9));
-        mainJoystick.X.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
-        mainJoystick.B.whenPressed(new DriveStraightByDistance(0.7));
-        mainJoystick.B.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+        mainJoystick.B.whenPressed(new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")),
+                new Position(-1.984, 7.11, Math.PI), .5, 0.2, false, 0.1,
+                0.5, 0.4, .2));
 
-        mainJoystick.L1.whenPressed(new CommandChain() {
-            @Override
-            protected void initChain() {
-                addSequential(new SetLocalizerLocation(new Position(3.5034, 1.7092)));
-                addSequential(new APPCCommand(Paths.get("Cargoship1"), 0.5, 0.2, false, 0.1, 0.5, 0.3));
-            }
-        });
+
+        // TODO note start location isn't correct, it's moved so we will have space on bama
+        mainJoystick.Y.whenPressed(new APPCCommand(
+                new Path<>(APPCCommand.getPath("Cargoship4.pf1.csv")),
+                new Position(-0.68, 1.202, -Math.PI), 1, .2, true,
+                .1, 1.5, 0.5, .6
+        ));
     }
 
     private static void initUnsafeBindings() {
