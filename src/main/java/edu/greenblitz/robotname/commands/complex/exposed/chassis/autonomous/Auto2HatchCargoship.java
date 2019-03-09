@@ -18,8 +18,8 @@ public class Auto2HatchCargoship extends CommandChain {
     protected void initChain() {
         addSequential(new APPCCommand(
                 new Path<>(APPCCommand.getPath("Cargoship1.pf1.csv")),
-                new Position(-3.08, 1.55, Math.PI),
-                0.6, 0.2, true, 0.2, 0.7, .4, .2/*0.6*/));
+                new Position(-0.651 - 2.5, 1.6, Math.PI),
+                0.6, 0.1, true, 0.2, 1, .4, .2/*0.6*/));
 
         addParallel(new RetractAndHold(100), new DriveToDistanceFromVisionTarget(DISTANCE));
         addParallel(new ExtendPoker(), new DriveStraightByDistance(DISTANCE - 0.3, 1000));
