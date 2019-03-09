@@ -122,7 +122,7 @@ public class OI {
                 new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship2.pf1.csv")),
                         null, 0.6, 0.1, true,
                         0.1, 0.4, 0.4, 0.6),
-                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")), null, .5, 0.15, false, 0.1,
+                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")), null, .8, 0.15, false, 0.1,
                         .3, 0.4, .2)
         ));
 
