@@ -67,7 +67,8 @@ public class Chassis extends Subsystem {
         m_navX = new AHRS(Sensor.NAVX);
 
         m_localizer = new LocalizerRunner(RobotMap.Chassis.Data.WHEEL_BASE_RADIUS, m_leftEncoder, m_rightEncoder);
-        m_localizer.enableGyro();
+//        m_localizer.enableGyro();
+//        m_localizer.start();
 
         addChild(m_leftLeader);
         m_leftLeader.setName("left");
@@ -133,9 +134,12 @@ public class Chassis extends Subsystem {
     }
 
     public void reset() {
+        m_localizer.stop();
         resetNavx();
         resetEncoders();
         m_localizer.reset();
+        m_localizer.enableGyro();
+        m_localizer.start();
     }
 
     public void resetNavx() {
@@ -171,9 +175,15 @@ public class Chassis extends Subsystem {
         m_rightLeader.setOpenLoopRampRate(timeToTopSpeed);
     }
 
+    public void setLocation(Position location) {
+        m_localizer.forceSetLocation(location, getLeftDistance(), getRightDistance());
+    }
+
     public void update() {
         SmartDashboard.putNumber("Chassis::Distance", getDistance());
         SmartDashboard.putNumber("Chassis::Angle", getAngle());
+        SmartDashboard.putString("Localizer", getLocation().toString());
+//        logger.debug(m_localizer.getLocation());
     }
 
     public void startLoclizer(){

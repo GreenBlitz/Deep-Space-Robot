@@ -27,7 +27,7 @@ public class SetLocalizerLocation extends GBCommand {
         if (m_x == Double.NaN) m_x = Chassis.getInstance().getLocation().getX();
         if (m_y == Double.NaN) m_y = Chassis.getInstance().getLocation().getY();
         if (m_a == Double.NaN) m_a = Chassis.getInstance().getLocation().getAngle();
-        Chassis.getInstance().getLocation().set(m_x ,m_y, m_a);
+        Chassis.getInstance().setLocation(new Position(m_x, m_y, m_a));
     }
 
     @Override

@@ -9,11 +9,12 @@ import edu.greenblitz.utils.command.chain.CommandChain;
 
 public class VisionCollectHatchPanel extends CommandChain {
 
-    private static final double DISTANCE = 1;
+    private static final double DISTANCE = 0.9;
 
     @Override
     protected void initChain() {
         addParallel(new RetractPoker(), new HoldHatch(), new DriveToDistanceFromVisionTarget(DISTANCE));
-        addParallel(new ExtendPoker()/*, new DriveStraightByDistance(DISTANCE-0.2, 1000)*/);
+        addSequential(new ExtendPoker());
+        addSequential(new DriveStraightByDistance(DISTANCE-0.1, 1000));
     }
 }
