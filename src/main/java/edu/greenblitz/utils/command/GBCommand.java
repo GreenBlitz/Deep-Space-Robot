@@ -98,8 +98,8 @@ public abstract class GBCommand extends Command {
     }
 
     protected void reportCommandInterrupt() {
-        var requirements = getRequirements();
-        logger.debug("command {} was interrupted; requiring {}", getName(), requirements);
+        var requirements = getWPILibRequirements();
+        logger.debug("command {} was interrupted; requiring (native) {}", getName(), requirements);
     }
 
     public abstract Optional<State> getDeltaState();

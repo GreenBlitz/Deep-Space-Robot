@@ -6,6 +6,7 @@ import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Command;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -67,12 +68,12 @@ public class ParallelCommand extends GBCommand {
 
     public ParallelCommand(String name, double timeout, GBCommand... commands) {
         super(name, timeout);
-        m_commands = commands;
-        addParallel();
+        addParallel(commands);
         getDeltaState();
     }
 
-    private void addParallel() {
+    private void addParallel(GBCommand[] command) {
+        m_commands = command;
         Arrays.stream(m_commands).flatMap(cmd -> cmd.getRequirements().stream()).forEach(this::requires);
     }
 
@@ -97,7 +98,7 @@ public class ParallelCommand extends GBCommand {
     protected boolean isFinished() {
         for (var cmd : m_commands) {
             if (cmd.isCanceled()) {
-                logger.debug("Command " + cmd + " was canceled. Stopping all parallel commands.");
+                logger.debug("Command " + cmd + " was canceled. Stopping all other parallel commands.");
                 return true;
             }
         }
