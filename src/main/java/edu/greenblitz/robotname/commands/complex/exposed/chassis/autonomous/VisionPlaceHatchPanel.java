@@ -16,7 +16,7 @@ public class VisionPlaceHatchPanel extends CommandChain {
     @Override
     protected void initChain() {
         addParallel(new RetractPoker(), new HoldHatch(), new DriveToDistanceFromVisionTarget(DISTANCE));
-        addParallel(new ExtendPoker(), new DriveStraightByDistance(DISTANCE-0.2, 1000));
+        addParallel(new ExtendPoker(), new DriveStraightByDistance(DISTANCE-0.3, 1000));
         addParallel(new ReleaseHatch(), new DriveStraightByDistance(-0.7, 1000));
         addSequential(new HoldHatch());
         addSequential(new RetractPoker(100));

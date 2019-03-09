@@ -91,7 +91,7 @@ public class Robot extends TimedRobot {
         OI.initBindings();
         m_pdp = new PowerDistributionPanel();
 
-        Stream.init();
+//        Stream.init();
         VisionMaster.init();
 
         var pi = new Thread(new Pi());
