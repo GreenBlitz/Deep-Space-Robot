@@ -115,26 +115,26 @@ public class OI {
 
 
         mainJoystick.A.whenPressed(new Auto2HatchCargoship());
-
-        mainJoystick.X.whenPressed(new APPCChain(
-                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship2.pf1.csv")),
-                        null, 0.6, 0.1, true,
-                        0.1, 0.4, 0.4, 0.6),
-                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")), null, .8, 0.15, false, 0.1,
-                        .3, 0.4, .2)
-        ));
-
-//        mainJoystick.B.whenPressed(new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship4.pf1.csv")),
-//                new Position(-1.984, 7.11, Math.PI), .5, 0.2, false, 0.1,
-//                0.5, 0.4, .2));
-
-
-        // TODO note start location isn't correct, it's moved so we will have space on bama
-        mainJoystick.Y.whenPressed(new APPCCommand(
-                new Path<>(APPCCommand.getPath("Cargoship4.pf1.csv")),
-                null, .6, .2, true,
-                .1, 0.5, 0.4, .2
-        ));
+//
+//        mainJoystick.X.whenPressed(new APPCChain(
+//                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship2.pf1.csv")),
+//                        null, 0.6, 0.1, true,
+//                        0.1, 0.4, 0.4, 0.6),
+//                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")), null, .8, 0.15, false, 0.1,
+//                        .3, 0.4, .2)
+//        ));
+//
+////        mainJoystick.B.whenPressed(new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship4.pf1.csv")),
+////                new Position(-1.984, 7.11, Math.PI), .5, 0.2, false, 0.1,
+////                0.5, 0.4, .2));
+//
+//
+//        // TODO note start location isn't correct, it's moved so we will have space on bama
+//        mainJoystick.Y.whenPressed(new APPCCommand(
+//                new Path<>(APPCCommand.getPath("Cargoship4.pf1.csv")),
+//                null, .6, .2, true,
+//                .1, 0.5, 0.4, .2
+//        ));
     }
 
     private static void initUnsafeBindings() {
@@ -143,10 +143,11 @@ public class OI {
         mainJoystick.A.whenPressed(new TogglePokerExtender());
         mainJoystick.B.whenPressed(new ReleaseHatch());
         mainJoystick.B.whenReleased(new HoldHatch());
+
         mainJoystick.L1.whenPressed(new ExtendAndRollIn());
         mainJoystick.L1.whenReleased(new RetractAndStopRoller());
         mainJoystick.L3.whenPressed(new ToggleShift());
-        mainJoystick.R1.whenPressed(new AlignToVisionTarget());
+
         mainJoystick.X.whenPressed(new KickBall());
         mainJoystick.Y.whenPressed(new ToggleRoller());
 

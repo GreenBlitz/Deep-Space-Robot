@@ -97,8 +97,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implements PIDSource, PIDOutput {
 
-    private static final double Kp = 0.4, Ki = 0, Kd = 0;
-    private static final double turnKp = 0.06/25;
+    private static final double Kp = 0.3, Ki = 0, Kd = 0;
+    private static final double turnKp = 0.08/25;
 
     private static final long TIME_ON_TARGET = 0;
 
@@ -115,7 +115,7 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
 
     @Override
     protected void initialize() {
-        m_controller.setOutputRange(-0.35, 0.35);
+        m_controller.setOutputRange(-0.3, 0.3);
 
         m_controller.setSetpoint(m_distance/2);
         m_controller.setAbsoluteTolerance(m_distance/2);
