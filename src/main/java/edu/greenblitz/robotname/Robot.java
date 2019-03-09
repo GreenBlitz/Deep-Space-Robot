@@ -1,17 +1,23 @@
 package edu.greenblitz.robotname;
 
+import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
+import edu.greenblitz.robotname.commands.simple.chassis.motion.SetLocalizerLocation;
 import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.*;
+import edu.greenblitz.utils.Paths;
+import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.sm.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.greenblitz.motion.base.Position;
 
 import java.util.function.Supplier;
 
@@ -41,6 +47,8 @@ public class Robot extends TimedRobot {
     private Logger logger;
     private StateMachine m_status;
     private Report m_usageReport;
+
+    private Command autonomousCommand;
 
     /**
      * @deprecated state machine updates were commented out due to unclear bugs, so every part of the sm shouldn't be used
@@ -88,11 +96,19 @@ public class Robot extends TimedRobot {
 
         var pi = new Thread(new Pi());
         pi.start();
+
+        autonomousCommand = new CommandChain() {
+            @Override
+            protected void initChain() {
+                addSequential(new SetLocalizerLocation(new Position(3.0734, 1.7092)));
+                addSequential(new APPCCommand(Paths.get("Cargoship1"), 0.5, 0.2, false, 0.1, 0.5, 0.3));
+            }
+        };
     }
 
     @Override
     public void disabledInit() {
-        reset();
+//        reset();
         Scheduler.getInstance().removeAll();
         if (m_usageReport.isReportValid()) report();
     }
@@ -114,6 +130,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         matchInit();
+        Scheduler.getInstance().add(autonomousCommand);
     }
 
     @Override

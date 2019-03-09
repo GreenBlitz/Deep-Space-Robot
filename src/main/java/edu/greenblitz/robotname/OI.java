@@ -10,6 +10,8 @@ import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.chassis.DriveStraightByDistance;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
+import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
+import edu.greenblitz.robotname.commands.simple.chassis.motion.SetLocalizerLocation;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.AlignToVisionTarget;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.ArcPidDriveToVisionTarget;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFromVisionTarget;
@@ -21,11 +23,14 @@ import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollIn;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
 import edu.greenblitz.robotname.commands.simple.shifter.ToggleShift;
 import edu.greenblitz.robotname.subsystems.Elevator;
+import edu.greenblitz.utils.Paths;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.ResetCommands;
+import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.buttons.POVButton;
+import org.greenblitz.motion.base.Position;
 
 import java.util.Optional;
 
@@ -101,13 +106,20 @@ public class OI {
         mainJoystick.A.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
 
         mainJoystick.L3.whenPressed(new ToggleShift());
-        mainJoystick.R3.whenPressed(new TogglePokerExtender());
-
+        mainJoystick.Y.whenPressed(new TogglePokerExtender());
 
         mainJoystick.X.whenPressed(new DriveToDistanceFromVisionTarget(0.9));
         mainJoystick.X.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
-        mainJoystick.B.whenPressed(new DriveStraightByDistance(1));
+        mainJoystick.B.whenPressed(new DriveStraightByDistance(0.7));
         mainJoystick.B.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+
+        mainJoystick.L1.whenPressed(new CommandChain() {
+            @Override
+            protected void initChain() {
+                addSequential(new SetLocalizerLocation(new Position(3.5034, 1.7092)));
+                addSequential(new APPCCommand(Paths.get("Cargoship1"), 0.5, 0.2, false, 0.1, 0.5, 0.3));
+            }
+        });
     }
 
     private static void initUnsafeBindings() {
