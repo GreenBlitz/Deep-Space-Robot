@@ -172,6 +172,8 @@ public class Chassis extends Subsystem {
     }
 
     public void update() {
+        SmartDashboard.putNumber("Chassis::Distance", getDistance());
+        SmartDashboard.putNumber("Chassis::Angle", getAngle());
     }
 
     public void startLoclizer(){
