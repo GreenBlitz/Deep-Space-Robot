@@ -101,6 +101,12 @@ public class VisionMaster {
         return new StandardVisionData(getCurrentVisionData());
     }
 
+    /**
+     *
+     * @deprecated Do not use this unless you know what you are doing. I don't even know why this function exists
+     *              other than to confuse, since I cannot think of a valid use for this.
+     */
+    @Deprecated
     public double getDistance() {
         return getStandardizedData().getDistance();
     }

@@ -85,6 +85,9 @@ public class Robot extends TimedRobot {
 
         Stream.init();
         VisionMaster.init();
+
+        var pi = new Thread(new Pi());
+        pi.start();
     }
 
     @Override

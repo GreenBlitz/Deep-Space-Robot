@@ -103,14 +103,14 @@ public class DriveToVisionTarget extends ChassisBaseCommand implements PIDSource
 
     public DriveToVisionTarget() {
         m_controller = new PIDController(Kp, Ki, Kd, this, this);
-
-        m_controller.setAbsoluteTolerance(0.1);
-        m_controller.setSetpoint(0);
-        m_controller.setOutputRange(-0.4, 0.4);
     }
 
     @Override
     protected void initialize() {
+        m_controller.setAbsoluteTolerance(0.1);
+        m_controller.setSetpoint(0);
+        m_controller.setOutputRange(-0.4, 0.4);
+
         VisionMaster.getInstance().setCurrentAlgorithm(VisionMaster.Algorithm.TARGETS);
         m_controller.enable();
     }
@@ -135,7 +135,7 @@ public class DriveToVisionTarget extends ChassisBaseCommand implements PIDSource
 
     @Override
     public double pidGet() {
-        return VisionMaster.getInstance().getDistance();
+        return VisionMaster.getInstance().getPlaneryDistance();
     }
 
     @Override

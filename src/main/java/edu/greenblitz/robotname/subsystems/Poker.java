@@ -30,12 +30,12 @@ public class Poker extends Subsystem {
         m_holderPiston = new SendableDoubleSolenoid(Solenoid.Holder.PCM, Solenoid.Holder.FORWARD, Solenoid.Holder.REVERSE);
         m_extenderPiston = new SendableDoubleSolenoid(Solenoid.Extender.PCM, Solenoid.Extender.FORWARD, Solenoid.Extender.REVERSE);
 
-        addChild(m_holderPiston);
-        m_holderPiston.setName("holder");
-
-        addChild(m_extenderPiston);
-        m_extenderPiston.setName("extender");
-
+//        addChild(m_holderPiston);
+//        m_holderPiston.setName("holder");
+//
+//        addChild(m_extenderPiston);
+//        m_extenderPiston.setName("extender");
+//
         logger.info("instantiated");
     }
 
