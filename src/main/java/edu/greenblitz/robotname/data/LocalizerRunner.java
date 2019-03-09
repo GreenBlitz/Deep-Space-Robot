@@ -75,7 +75,7 @@ public class LocalizerRunner extends PeriodicRunner {
         var lTicks = m_leftEncoder.getNormalizedTicks();
         var rTicks = m_rightEncoder.getNormalizedTicks();
 
-        if (useGyro) {
+        if (false) {
             m_localizer.update(lTicks, rTicks, -Math.toRadians(Chassis.getInstance().getAngle()));
         } else {
             m_localizer.update(lTicks, rTicks);

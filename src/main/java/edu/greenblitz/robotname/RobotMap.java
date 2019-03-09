@@ -98,9 +98,9 @@ public class RobotMap {
     public static class FrontPoker {
         public static class Solenoid {
             public static class Holder {
-                public static final int FORWARD = 6;
-                public static final int REVERSE = 7;
-                public static final int PCM = 22;
+                public static final int FORWARD = 2;
+                public static final int REVERSE = 4;
+                public static final int PCM = 21;
             }
 
             public static class Extender {
