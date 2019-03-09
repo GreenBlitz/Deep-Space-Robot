@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname;
 
+import edu.greenblitz.robotname.commands.complex.HoldAllCommands;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.VisionCollectHatchPanel;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.VisionPlaceHatchPanel;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
@@ -107,6 +108,8 @@ public class OI {
         mainJoystick.L3.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
         mainJoystick.R3.whenPressed(new VisionPlaceHatchPanel());
         mainJoystick.R3.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+
+        mainJoystick.START.whenReleased(new HoldAllCommands());
     }
 
     private static void initUnsafeBindings() {
