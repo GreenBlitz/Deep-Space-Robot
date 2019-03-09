@@ -51,9 +51,9 @@ public abstract class CommandChain extends GBCommand {
         addSequential(new NullCommand()); // To ensure that the commands ends AFTER each child did
         if (!updateCurrentCommand()){
             var cmd = m_commands.peek();
-            logger.warn(
-                    "chain {} aborted due to invalid state change - command: {}, states: from {}, delta {}",
-                    getName(), cmd.getName(), Robot.getInstance().getCurrentState(), cmd.getDeltaState());
+//            logger.warn(
+//                    "chain {} aborted due to invalid state change - command: {}, states: from {}, delta {}",
+//                    getName(), cmd.getName(), Robot.getInstance().getCurrentState(), cmd.getDeltaState());
             m_commands.clear();
             m_currentCommand = new ParallelCommand(new NullCommand());
         }
@@ -66,10 +66,10 @@ public abstract class CommandChain extends GBCommand {
 
         if (!m_commands.isEmpty()) {
             if (!updateCurrentCommand()) {
-                var cmd = m_commands.peek();
-                logger.warn(
-                        "chain {} aborted due to invalid state change - command: {}, states: from {}, delta {}",
-                        getName(), cmd.getName(), Robot.getInstance().getCurrentState(), cmd.getDeltaState());
+//                var cmd = m_commands.peek();
+//                logger.warn(
+//                        "chain {} aborted due to invalid state change - command: {}, states: from {}, delta {}",
+//                        getName(), cmd.getName(), Robot.getInstance().getCurrentState(), cmd.getDeltaState());
                 m_commands.clear();
             }
         }
