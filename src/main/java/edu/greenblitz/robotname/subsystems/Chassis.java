@@ -166,6 +166,7 @@ public class Chassis extends Subsystem {
         r = deadzone(r);
         SmartDashboard.putNumber("raw left", l);
         SmartDashboard.putNumber("raw right", r);
+        logger.trace("Giver {} and {} to motors", l, r);
         m_leftLeader.set(l);
         m_rightLeader.set(r);
     }

@@ -103,8 +103,8 @@ public class OI {
 //
 //        mainJoystick.START.whenReleased(new HoldAllCommands());
 //
-//        mainJoystick.A.whenPressed(new VisionCollectHatchPanel());
-////        mainJoystick.A.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+        mainJoystick.R1.whenPressed(new VisionCollectHatchPanel());
+        mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
 //
         mainJoystick.L1.whenPressed(new VisionPlaceHatchPanel());
         mainJoystick.L1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
@@ -120,22 +120,22 @@ public class OI {
 
         mainJoystick.X.whenPressed(new APPCChain(
                 new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship2.pf1.csv")),
-                        new Position(-3.37, 6.6, -Math.PI/2), 0.6, 0.1, true,
+                        null, 0.6, 0.1, true,
                         0.1, 0.4, 0.4, 0.6),
                 new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")), null, .5, 0.15, false, 0.1,
                         .3, 0.4, .2)
         ));
 
-        mainJoystick.B.whenPressed(new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")),
-                new Position(-1.984, 7.11, Math.PI), .5, 0.2, false, 0.1,
-                0.5, 0.4, .2));
+//        mainJoystick.B.whenPressed(new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship4.pf1.csv")),
+//                new Position(-1.984, 7.11, Math.PI), .5, 0.2, false, 0.1,
+//                0.5, 0.4, .2));
 
 
         // TODO note start location isn't correct, it's moved so we will have space on bama
         mainJoystick.Y.whenPressed(new APPCCommand(
                 new Path<>(APPCCommand.getPath("Cargoship4.pf1.csv")),
-                new Position(-0.68, 1.202, -Math.PI), 1, .2, true,
-                .1, 1.5, 0.5, .6
+                null, .6, .2, true,
+                .1, 0.5, 0.4, .2
         ));
     }
 
