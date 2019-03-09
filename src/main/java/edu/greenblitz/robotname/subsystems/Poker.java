@@ -2,6 +2,7 @@ package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.robotname.RobotMap.FrontPoker.Solenoid;
+import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -12,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 
-public class Poker extends Subsystem {
+public class Poker extends GBSubsystem {
 
     public static final long POKER_EXTEND_TIMEOUT = 1000;
 

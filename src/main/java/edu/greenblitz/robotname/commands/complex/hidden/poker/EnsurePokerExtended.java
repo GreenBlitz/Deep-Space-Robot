@@ -3,6 +3,7 @@ package edu.greenblitz.robotname.commands.complex.hidden.poker;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.EnsureKickerClosed;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.EnsureRollerRetracted;
 import edu.greenblitz.robotname.commands.simple.poker.ExtendPoker;
+import edu.greenblitz.robotname.commands.simple.roller.RetractRoller;
 import edu.greenblitz.robotname.subsystems.Kicker;
 import edu.greenblitz.robotname.subsystems.Poker;
 import edu.greenblitz.utils.command.DynamicRequire;
@@ -28,7 +29,7 @@ public class EnsurePokerExtended extends CommandChain {
                 return new DynamicRequire(Kicker.getInstance());
             }
         });
-        addSequential(new EnsureRollerRetracted());
+        addSequential(new RetractRoller());
         addSequential(new ExtendPoker());
     }
 }

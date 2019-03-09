@@ -1,6 +1,7 @@
 package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.commands.complex.HoldAllCommands;
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.Auto2HatchCargoship;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.VisionCollectHatchPanel;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.VisionPlaceHatchPanel;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
@@ -113,10 +114,7 @@ public class OI {
 //        mainJoystick.Y.whenPressed(new TogglePokerExtender());
 
 
-        mainJoystick.A.whenPressed(new APPCCommand(
-                new Path<>(APPCCommand.getPath("Cargoship1.pf1.csv")),
-                new Position(-3.08, 1.55, Math.PI),
-                0.6, 0.2, true, 0.2, 0.7, .4, .2/*0.6*/));
+        mainJoystick.A.whenPressed(new Auto2HatchCargoship());
 
         mainJoystick.X.whenPressed(new APPCChain(
                 new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship2.pf1.csv")),

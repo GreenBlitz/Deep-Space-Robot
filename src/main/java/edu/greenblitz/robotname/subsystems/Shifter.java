@@ -2,6 +2,7 @@ package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.robotname.RobotMap.Shifter.Solenoid;
+import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -20,7 +21,7 @@ import static edu.greenblitz.robotname.RobotMap.Shifter.PCM;
  * @see DoubleSolenoid
  */
 
-public class Shifter extends Subsystem {
+public class Shifter extends GBSubsystem {
 
     private static Shifter instance;
 

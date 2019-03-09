@@ -2,6 +2,7 @@ package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.robotname.RobotMap.Pneumatics.Sensor;
 import edu.greenblitz.robotname.commands.simple.pneumatics.HandleCompressor;
+import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.sensors.PressureSensor;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -13,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import static edu.greenblitz.robotname.RobotMap.Pneumatics.PCM;
 
-public class Pneumatics extends Subsystem {
+public class Pneumatics extends GBSubsystem {
     private static final double DEFAULT_MIN_PRESSURE_RELEASED = 40;
     private static final double DEFAULT_MAX_PRESSURE_RELEASED = 80;
 

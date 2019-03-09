@@ -1,9 +1,9 @@
 package edu.greenblitz.utils.command.chain;
 
 import edu.greenblitz.utils.command.GBCommand;
+import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -115,7 +115,7 @@ public class ParallelCommand extends GBCommand {
     }
 
     @Override
-    public Set<Subsystem> getLazyRequirements() {
+    public Set<GBSubsystem> getLazyRequirements() {
         return Arrays.stream(m_commands).flatMap(lst -> lst.getRequirements().stream()).collect(Collectors.toSet());
     }
 }

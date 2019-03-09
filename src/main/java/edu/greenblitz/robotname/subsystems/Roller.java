@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.RobotMap.Roller.Solenoid;
+import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -11,7 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class Roller extends Subsystem {
+public class Roller extends GBSubsystem {
     public static final long ROLLER_STATE_TIMEOUT = 1000;
     private static final double ROLL_IN = -0.7;
     private static final double ROLL_OUT = 0.7;

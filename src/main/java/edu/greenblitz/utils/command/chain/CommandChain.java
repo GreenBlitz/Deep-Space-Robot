@@ -2,17 +2,16 @@ package edu.greenblitz.utils.command.chain;
 
 import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.utils.command.GBCommand;
+import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.command.dynamic.NullCommand;
 import edu.greenblitz.utils.sm.State;
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 import java.util.*;
 
 public abstract class CommandChain extends GBCommand {
 
     protected Queue<ParallelCommand> m_commands = new LinkedList<>();
-    protected Set<Subsystem> m_requiresSoFar = new HashSet<>();
+    protected Set<GBSubsystem> m_requiresSoFar = new HashSet<>();
     private ParallelCommand m_currentCommand;
 
     public CommandChain() {
@@ -82,8 +81,8 @@ public abstract class CommandChain extends GBCommand {
     }
 
     @Override
-    public Set<Subsystem> getLazyRequirements() {
-        Set<Subsystem> ret = new HashSet<>();
+    public Set<GBSubsystem> getLazyRequirements() {
+        Set<GBSubsystem> ret = new HashSet<>();
         for (ParallelCommand c : m_commands)
             ret.addAll(c.getLazyRequirements());
         return ret;

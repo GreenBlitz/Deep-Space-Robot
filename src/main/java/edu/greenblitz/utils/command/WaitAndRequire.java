@@ -7,9 +7,9 @@ import java.util.Optional;
 import java.util.Set;
 
 public class WaitAndRequire extends GBCommand {
-    private Subsystem m_subsystem;
+    private GBSubsystem m_subsystem;
 
-    public WaitAndRequire(Subsystem subsystems) {
+    public WaitAndRequire(GBSubsystem subsystems) {
         super(WaitAndRequire.class.getSimpleName() + " for " + subsystems);
         m_subsystem = subsystems;
     }
@@ -31,7 +31,7 @@ public class WaitAndRequire extends GBCommand {
     }
 
     @Override
-    public Set<Subsystem> getLazyRequirements() {
+    public Set<GBSubsystem> getLazyRequirements() {
         return Set.of(m_subsystem);
     }
 }
