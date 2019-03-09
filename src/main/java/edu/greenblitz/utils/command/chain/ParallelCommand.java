@@ -5,10 +5,7 @@ import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Command;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ParallelCommand extends GBCommand {
@@ -69,11 +66,23 @@ public class ParallelCommand extends GBCommand {
     public ParallelCommand(String name, double timeout, GBCommand... commands) {
         super(name, timeout);
         addParallel(commands);
-        getDeltaState();
     }
 
     private void addParallel(GBCommand[] command) {
         m_commands = command;
+        var requirements = new HashMap<GBSubsystem, GBCommand>();
+
+        for (var cmd : command) {
+            for (var require : cmd.getRequirements()) {
+                if (requirements.containsKey(require)) {
+                    logger.error("Collision of requirements in {}: ({} from {}) collides with ({} from {})", getName(), require, cmd, require, requirements.get(require));
+                    return;
+                }
+
+                requirements.put(require, cmd);
+            }
+        }
+
         Arrays.stream(m_commands).flatMap(cmd -> cmd.getRequirements().stream()).forEach(this::requires);
     }
 
