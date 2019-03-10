@@ -6,6 +6,7 @@ import edu.greenblitz.utils.encoder.IEncoder;
 import edu.wpi.first.wpilibj.DriverStation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.greenblitz.debug.RemoteGuydeBugger;
 import org.greenblitz.motion.app.Localizer;
 import org.greenblitz.motion.base.Position;
 
@@ -79,6 +80,9 @@ public class LocalizerRunner extends PeriodicRunner {
         } else {
             m_localizer.update(lTicks, rTicks);
         }
+
+        var pos = m_localizer.getLocation();
+        RemoteGuydeBugger.report(pos.getX(), pos.getY(), pos.getAngle());
     }
 
     @Override

@@ -126,7 +126,7 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
 
     @Override
     protected void initialize() {
-        m_controller.setOutputRange(-0.3, 0.3);
+        m_controller.setOutputRange(-0.15, 0.15);
 
         m_controller.setSetpoint(m_distance/2);
         m_controller.setAbsoluteTolerance(m_distance/2);
@@ -137,8 +137,6 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
 
     @Override
     public void pidWrite(double output) {
-        if (Math.abs(output) < 0.15)
-            output = Math.signum(output) * 0.15;
         Chassis.getInstance().arcadeDrive(-output, VisionMaster.getInstance().getAngle()*turnKp);
     }
 

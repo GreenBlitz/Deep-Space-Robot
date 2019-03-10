@@ -10,7 +10,7 @@ import edu.greenblitz.utils.command.chain.CommandChain;
 public class VisionPlaceHatchPanel extends CommandChain {
 
     private static final double ALIGN_DISTANCE = 0.7;
-    private static final double EXTEND_DISTANCE = 0.3;
+    private static final double EXTEND_DISTANCE = 0.25;
 
     @Override
     protected void initChain() {
