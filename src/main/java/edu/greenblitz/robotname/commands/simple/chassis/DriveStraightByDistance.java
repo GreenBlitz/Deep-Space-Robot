@@ -111,10 +111,16 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
         return DriveStraightByDistance.class.getSimpleName() + " for {" + distance + "}";
     }
 
-    public DriveStraightByDistance(double distance) {
+    public DriveStraightByDistance(double distance, double min, double max, double tolerance, double kP) {
         super(generateName(distance));
         m_distance = distance;
-        m_controller = new PIDController(Kp, Ki, Kd, this, this);
+        m_controller = new PIDController(kP, 0, 0, this, this);
+        m_controller.setOutputRange(min, max);
+        m_controller.setAbsoluteTolerance(tolerance);
+    }
+
+    public DriveStraightByDistance(double distance) {
+        this(distance, Kp, -0.15, 0.15, 0.1);
     }
 
     public DriveStraightByDistance(double distance, long ms) {
@@ -122,15 +128,14 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
 
         m_distance = distance;
         m_controller = new PIDController(Kp, Ki, Kd, this, this);
+        m_controller.setOutputRange(-0.15, 0.15);
+        m_controller.setAbsoluteTolerance(0.1);
     }
 
     @Override
     protected void initialize() {
         m_angle = Chassis.getInstance().getAngle();
-
-        m_controller.setOutputRange(-0.15, 0.15);
         m_controller.setSetpoint(Chassis.getInstance().getDistance() + m_distance);
-        m_controller.setAbsoluteTolerance(0.1);
 
         m_controller.enable();
     }

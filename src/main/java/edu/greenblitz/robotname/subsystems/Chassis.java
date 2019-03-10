@@ -139,7 +139,6 @@ public class Chassis extends GBSubsystem {
         resetNavx();
         resetEncoders();
         m_localizer.reset();
-        m_localizer.enableGyro();
         m_localizer.start();
     }
 
@@ -186,11 +185,15 @@ public class Chassis extends GBSubsystem {
         SmartDashboard.putNumber("Chassis::Distance", getDistance());
         SmartDashboard.putNumber("Chassis::Angle", getAngle());
         SmartDashboard.putString("Localizer", getLocation().toString());
-//        logger.debug(m_localizer.getLocation());
+        SmartDashboard.putNumber("Accel down", getDownAcceleration());
     }
 
     public void startLoclizer(){
         m_localizer.start();
+    }
+
+    public double getDownAcceleration() {
+        return m_navX.getWorldLinearAccelY();
     }
 
     private double gamma(double power) {
