@@ -14,7 +14,6 @@ public class VisionPlaceHatchPanel extends CommandChain {
 
     @Override
     protected void initChain() {
-        logger.debug("Placing hatch panel: {} -> {}", Chassis.getInstance().getLocation(), VisionMaster.getInstance().getStandardizedData());
         addParallel(new RetractAndHold(100), new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE));
         addParallel(new ExtendPoker(), new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 1000));
         addParallel(new ReleaseHatch(), new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 1000));

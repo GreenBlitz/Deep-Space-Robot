@@ -6,6 +6,10 @@ public class ExtendPoker extends PokerBaseCommand {
     public ExtendPoker() {
     }
 
+    public ExtendPoker(long ms) {
+        super(ms);
+    }
+
     @Override
     protected void initialize() {
         system.extend(true);

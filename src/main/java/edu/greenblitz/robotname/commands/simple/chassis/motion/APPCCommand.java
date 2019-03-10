@@ -82,22 +82,4 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
     protected boolean isFinished() {
         return m_controller.isFinished(system.getLocation());
     }
-
-    public static List<Position> getPath(String filename) {
-        CSVParser read;
-        try {
-            read = CSVFormat.DEFAULT.parse(new FileReader(new File("/home/lvuser/deploy/output/" + filename)));
-            ArrayList<Position> path = new ArrayList<>();
-            List<CSVRecord> records = read.getRecords();
-            for (int i = 1; i < records.size(); i++) {
-                path.add(new Position(new Point(Double.parseDouble(records.get(i).get(1)), Double.parseDouble(records.get(i).get(2))).weaverToLocalizerCoords()));
-            }
-            return path;
-        } catch (Exception e) {
-            logger.error(e);
-        }
-        logger.error("Failed to read file");
-        return new ArrayList<>();
-    }
-
 }
