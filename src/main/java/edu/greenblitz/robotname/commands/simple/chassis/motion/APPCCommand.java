@@ -17,9 +17,7 @@ import org.greenblitz.motion.pathing.Path;
 
 import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class APPCCommand extends SubsystemCommand<Chassis> {
 
@@ -61,7 +59,6 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
         var moveValues = m_controller.iteration(loc);
         system.tankDrive(moveValues[0], moveValues[1]);
         m_logger.report(loc.getX(), loc.getY());
-        RemoteGuydeBugger.report(loc.getX(), loc.getY(), loc.getAngle());
     }
 
     @Override
