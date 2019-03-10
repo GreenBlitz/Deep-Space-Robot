@@ -127,7 +127,6 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
         m_controller.setAbsoluteTolerance(m_distance/2);
 
         VisionMaster.getInstance().setCurrentAlgorithm(VisionMaster.Algorithm.TARGETS);
-        logger.debug("vision target position: {}", VisionMaster.getInstance().getStandardizedData());
         m_controller.enable();
     }
 
