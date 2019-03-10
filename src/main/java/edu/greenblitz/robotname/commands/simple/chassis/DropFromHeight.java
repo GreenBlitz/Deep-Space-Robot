@@ -7,9 +7,9 @@ import edu.greenblitz.utils.sm.State;
 import java.util.Optional;
 
 public class DropFromHeight extends TimedSubsystemCommand<Chassis> {
-    private static final double DOWN_ACCELERATION_THRESHOLD = 0.05;
-    private static final double DEFAULT_POWER = 0.2;
+    private static final double DEFAULT_POWER = 0.5;
     private static final boolean DEFAULT_BACKWARDS = true;
+    private static final long DEFAULT_FALL_TIME = 500;
 
     private final double m_power;
     private final int m_backwards;
@@ -20,8 +20,8 @@ public class DropFromHeight extends TimedSubsystemCommand<Chassis> {
         m_backwards = isBackwards ? -1 : 1;
     }
 
-    public DropFromHeight(long ms) {
-        this(ms, DEFAULT_POWER, DEFAULT_BACKWARDS);
+    public DropFromHeight() {
+        this(DEFAULT_FALL_TIME, DEFAULT_POWER, DEFAULT_BACKWARDS);
     }
 
     @Override
@@ -32,10 +32,5 @@ public class DropFromHeight extends TimedSubsystemCommand<Chassis> {
     @Override
     public Optional<State> getDeltaState() {
         return Optional.empty();
-    }
-
-    @Override
-    protected boolean isFinished() {
-        return Math.abs(system.getDownAcceleration()) < DOWN_ACCELERATION_THRESHOLD || isTimedOut();
     }
 }
