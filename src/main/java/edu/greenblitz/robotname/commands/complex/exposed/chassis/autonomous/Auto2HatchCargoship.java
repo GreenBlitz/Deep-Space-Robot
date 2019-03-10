@@ -18,7 +18,7 @@ public class Auto2HatchCargoship extends CommandChain {
 
         addParallel(new APPCCommand(Paths.get("Cargoship1"),
                         0.6, 0.2,
-                        true, 0.2, 0.7, .6, .2)
+                        true, 0.1, 0.7, .6, .4)
         );
 
         addSequential(new VisionPlaceHatchPanel());

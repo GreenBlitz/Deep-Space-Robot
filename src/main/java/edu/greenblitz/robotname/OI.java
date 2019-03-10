@@ -100,6 +100,7 @@ public class OI {
         mainJoystick.Y.whenPressed(new TogglePokerHolder());
 
         mainJoystick.A.whenPressed(new Auto2HatchCargoship());
+
     }
 
     private static void initUnsafeBindings() {

@@ -80,15 +80,15 @@ public class RobotMap {
 
     public static class Kicker {
         public static class Solenoid {
-            public static final int FORWARD = 2;
-            public static final int REVERSE = 3;
+            public static final int FORWARD = 0; // TODO change
+            public static final int REVERSE = 0;
             public static final int PCM = 21;
         }
     }
 
     public static class Shifter {
         public static class Solenoid {
-            public static final int FORWARD = 5;
+            public static final int FORWARD = 2;
             public static final int REVERSE = 4;
         }
 

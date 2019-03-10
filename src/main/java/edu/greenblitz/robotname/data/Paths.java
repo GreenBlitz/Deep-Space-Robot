@@ -24,7 +24,7 @@ public class Paths {
     public static Path<Position> get(String pathname) {
         if (!paths.containsKey(pathname))
             paths.put(pathname, nativeGetPath("/home/lvuser/deploy/output/" + pathname + ".pf1.csv"));
-        return paths.get(pathname);
+        return paths.get (pathname);
     }
 
     public static void init(String... pathname) {
