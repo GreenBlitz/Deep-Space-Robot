@@ -94,7 +94,8 @@ public class Chassis extends GBSubsystem {
     }
 
     public void stop() {
-        tankDrive(0, 0);
+        m_leftLeader.stopMotor();
+        m_rightLeader.stopMotor();
     }
 
     public double getDistance() {
