@@ -1,6 +1,6 @@
 package edu.greenblitz.robotname.commands.complex.hidden.climber;
 
-import edu.greenblitz.robotname.commands.simple.chassis.SlowArcadeDriveByJoystick;
+import edu.greenblitz.robotname.commands.simple.chassis.driver.SlowArcadeDriveByJoystick;
 import edu.greenblitz.robotname.commands.simple.climber.ClimberDriveByJoystick;
 import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.hid.SmartJoystick;

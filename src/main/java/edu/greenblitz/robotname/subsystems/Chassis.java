@@ -55,7 +55,7 @@ public class Chassis extends GBSubsystem {
 
         m_leftLeader.setInverted(true);
 
-        m_leftFollower1.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        toBrake();
 
         m_leftFollower1.follow(m_leftLeader);
         m_leftFollower2.follow(m_leftLeader);
@@ -68,8 +68,7 @@ public class Chassis extends GBSubsystem {
         m_navX = new AHRS(Sensor.NAVX);
 
         m_localizer = new LocalizerRunner(RobotMap.Chassis.Data.WHEEL_BASE_RADIUS, m_leftEncoder, m_rightEncoder);
-//        m_localizer.enableGyro();
-//        m_localizer.start();
+        m_localizer.start();
 
         addChild(m_leftLeader);
         m_leftLeader.setName("left");
@@ -166,7 +165,6 @@ public class Chassis extends GBSubsystem {
         r = deadzone(r);
         SmartDashboard.putNumber("raw left", l);
         SmartDashboard.putNumber("raw right", r);
-        logger.trace("Giver {} and {} to motors", l, r);
         m_leftLeader.set(l);
         m_rightLeader.set(r);
     }
@@ -198,6 +196,24 @@ public class Chassis extends GBSubsystem {
 
     public Position getGyroPosition() {
         return new Position(m_navX.getDisplacementX(), m_navX.getDisplacementZ(), m_navX.getYaw());
+    }
+
+    public void setNeutralState(CANSparkMax.IdleMode state) {
+        m_leftLeader.setIdleMode(state);
+        m_leftFollower1.setIdleMode(state);
+        m_leftFollower2.setIdleMode(state);
+
+        m_rightLeader.setIdleMode(state);
+        m_rightFollower1.setIdleMode(state);
+        m_rightFollower2.setIdleMode(state);
+    }
+
+    public void toCoast() {
+        setNeutralState(CANSparkMax.IdleMode.kCoast);
+    }
+
+    public void toBrake() {
+        setNeutralState(CANSparkMax.IdleMode.kBrake);
     }
 
     private double gamma(double power) {

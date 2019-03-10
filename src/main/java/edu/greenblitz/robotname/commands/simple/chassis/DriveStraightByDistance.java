@@ -88,7 +88,6 @@
 
 package edu.greenblitz.robotname.commands.simple.chassis;
 
-import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -106,6 +105,7 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
     private double m_distance, m_angle;
 
     private PIDController m_controller;
+    private boolean m_stopAtEnd = true;
 
     private static String generateName(double distance) {
         return DriveStraightByDistance.class.getSimpleName() + " for {" + distance + "}";
@@ -123,13 +123,18 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
         this(distance, Kp, -0.15, 0.15, 0.1);
     }
 
-    public DriveStraightByDistance(double distance, long ms) {
+    public DriveStraightByDistance(double distance, long ms, boolean stopAtEnd) {
         super(generateName(distance), ms);
 
         m_distance = distance;
         m_controller = new PIDController(Kp, Ki, Kd, this, this);
         m_controller.setOutputRange(-0.15, 0.15);
         m_controller.setAbsoluteTolerance(0.1);
+        m_stopAtEnd = stopAtEnd;
+    }
+
+    public DriveStraightByDistance(double distance, long ms) {
+        this(distance, ms, false);
     }
 
     @Override
@@ -173,7 +178,7 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
     @Override
     protected void atEnd() {
         m_controller.disable();
-        Chassis.getInstance().stop();
+        if (m_stopAtEnd) Chassis.getInstance().stop();
     }
 
     @Override

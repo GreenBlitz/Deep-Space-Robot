@@ -7,18 +7,19 @@
 
 package edu.greenblitz.robotname.commands.simple.chassis;
 
-import edu.greenblitz.robotname.subsystems.Chassis;
-
 public class StopChassis extends ChassisBaseCommand {
 
+    private static final double VELOCITY_THRESHOLD = 0.1;
+
     @Override
-    protected void execute() {
-        Chassis.getInstance().stop();
+    protected void initialize() {
+        system.toBrake();
+        system.stop();
     }
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return Math.abs(system.getVelocity()) < VELOCITY_THRESHOLD;
     }
 
 }

@@ -12,6 +12,10 @@ public class ReleaseHatch extends SubsystemCommand<Poker> {
         super(Poker.getInstance());
     }
 
+    public ReleaseHatch(long ms) {
+        super(ms, Poker.getInstance());
+    }
+
     @Override
     protected void initialize() {
         system.hold(false);

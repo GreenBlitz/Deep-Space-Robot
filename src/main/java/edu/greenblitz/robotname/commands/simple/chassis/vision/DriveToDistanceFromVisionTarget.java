@@ -107,16 +107,21 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
     private double m_distance;
 
     private PIDController m_controller;
-
+    private boolean m_stopAtEnd;
 
     private static String generateName(double distance) {
         return DriveToDistanceFromVisionTarget.class.getSimpleName() + " for {" + distance + "}";
     }
 
-    public DriveToDistanceFromVisionTarget(double distance) {
+    public DriveToDistanceFromVisionTarget(double distance, boolean stopAtEnd) {
         super(generateName(distance));
         m_distance = distance;
         m_controller = new PIDController(Kp, Ki, Kd, this, this);
+        m_stopAtEnd = stopAtEnd;
+    }
+
+    public DriveToDistanceFromVisionTarget(double distance) {
+        this(distance, false);
     }
 
     @Override
@@ -165,6 +170,6 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
     @Override
     protected void atEnd() {
         m_controller.disable();
-        Chassis.getInstance().stop();
+        if (m_stopAtEnd) Chassis.getInstance().stop();
     }
 }
