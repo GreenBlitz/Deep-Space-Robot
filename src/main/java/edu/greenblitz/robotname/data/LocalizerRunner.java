@@ -16,7 +16,7 @@ public class LocalizerRunner extends PeriodicRunner {
     private IEncoder m_leftEncoder;
     private IEncoder m_rightEncoder;
 
-    private boolean useGyro;
+    private boolean m_useGyro;
 
     private boolean m_resetOnDisable = false;
 
@@ -32,16 +32,15 @@ public class LocalizerRunner extends PeriodicRunner {
         leftEncoder.reset();
         m_rightEncoder = rightEncoder;
         rightEncoder.reset();
-        enableGyro();
     }
 
     public void enableGyro() {
-        useGyro = true;
+        m_useGyro = true;
         logger.debug("gyro enabled!");
     }
 
     public void disableGyro() {
-        useGyro = false;
+        m_useGyro = false;
         logger.debug("gyro disabled!");
     }
 
@@ -75,7 +74,7 @@ public class LocalizerRunner extends PeriodicRunner {
         var lTicks = m_leftEncoder.getNormalizedTicks();
         var rTicks = m_rightEncoder.getNormalizedTicks();
 
-        if (false) {
+        if (m_useGyro) {
             m_localizer.update(lTicks, rTicks, -Math.toRadians(Chassis.getInstance().getAngle()));
         } else {
             m_localizer.update(lTicks, rTicks);

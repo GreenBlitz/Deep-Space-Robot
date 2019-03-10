@@ -8,26 +8,27 @@ import org.greenblitz.motion.base.Position;
 import java.util.Optional;
 
 
-public class SetLocalizerLocation extends GBCommand {
+public class ResetLocalizer extends GBCommand {
 
-    private double m_x, m_y, m_a;
+    private double m_x, m_y, m_angle;
 
-    public SetLocalizerLocation(double x, double y, double a) {
+    public ResetLocalizer(double x, double y, double angle) {
         m_x = x;
         m_y = y;
-        m_a = a;
+        m_angle = angle;
     }
 
-    public SetLocalizerLocation(Position location) {
+    public ResetLocalizer(Position location) {
         this(location.getX(), location.getY(), location.getAngle());
+    }
+
+    public ResetLocalizer() {
+        this(0, 0 , 0);
     }
 
     @Override
     protected void initialize() {
-        if (m_x == Double.NaN) m_x = Chassis.getInstance().getLocation().getX();
-        if (m_y == Double.NaN) m_y = Chassis.getInstance().getLocation().getY();
-        if (m_a == Double.NaN) m_a = Chassis.getInstance().getLocation().getAngle();
-        Chassis.getInstance().setLocation(new Position(m_x, m_y, m_a));
+        Chassis.getInstance().setLocation(new Position(m_x, m_y, m_angle));
     }
 
     @Override

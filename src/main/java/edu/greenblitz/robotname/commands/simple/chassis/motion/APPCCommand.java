@@ -25,18 +25,16 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
 
     private AdaptivePurePursuitController m_controller;
     private RemoteCSVTarget m_logger;
-    private Position startPos;
     private double accelTime;
 
-    public APPCCommand(AdaptivePurePursuitController c, Position startPos, double accelTime) {
+    public APPCCommand(AdaptivePurePursuitController c, double accelTime) {
         super(Chassis.getInstance());
         m_controller = c;
         m_logger = RemoteCSVTarget.initTarget("Location", "x", "y");
-        this.startPos = startPos;
         this.accelTime = accelTime;
     }
 
-    public APPCCommand(Path<Position> path, Position startPos, double lookAhead,
+    public APPCCommand(Path<Position> path, double lookAhead,
                        double tolerance, boolean isBackwards,
                        double minSpeed, double maxSpeedDist, double maxSpeed, double accelTime) {
         super(Chassis.getInstance());
@@ -44,24 +42,13 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
                 minSpeed, maxSpeedDist, maxSpeed);
         m_logger = RemoteCSVTarget.initTarget("Location", "x", "y");
         this.accelTime = accelTime;
-        this.startPos = startPos;
-    }
-
-    public APPCCommand(Path<Position> path, double lookAhead,
-                       double tolerance, boolean isBackwards,
-                       double minSpeed, double maxSpeedDist, double maxSpeed, double accelTime) {
-        this(path, null, lookAhead, tolerance, isBackwards, minSpeed, maxSpeedDist, maxSpeed, accelTime);
     }
 
     @Override
     protected void initialize() {
         system.setRampRate(this.accelTime);
-        if (this.startPos != null)
-            Localizer.getInstance().reset(Chassis.getInstance().getLeftDistance(),
-                    Chassis.getInstance().getRightDistance(), this.startPos);
-        else
-            Localizer.getInstance().resetEncoders(Chassis.getInstance().getLeftDistance(),
-                    Chassis.getInstance().getRightDistance());
+        Localizer.getInstance().resetEncoders(Chassis.getInstance().getLeftDistance(),
+                Chassis.getInstance().getRightDistance());
         system.getLogger().debug("initial: {}, end: {}, current: {}",
                 m_controller.getPath().get(0), m_controller.getPath().getLast(),
                 Localizer.getInstance().getLocation());

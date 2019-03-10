@@ -30,10 +30,8 @@ public abstract class PokerBaseCommand extends TimedSubsystemCommand<Poker> {
     }
 
     /**
-     * @deprecated state machine updates were commented out due to unclear bugs, so every part of the sm shouldn't be used
      * @return the command's desired poker state
      */
-    @Deprecated
     protected abstract PokerState getNextState();
 
     /**
