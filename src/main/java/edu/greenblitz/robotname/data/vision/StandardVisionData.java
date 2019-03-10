@@ -1,5 +1,7 @@
 package edu.greenblitz.robotname.data.vision;
 
+import java.text.DecimalFormat;
+
 public class StandardVisionData {
     public static final double DISTANCE_TOO_CLOSE = 4;
 
@@ -64,7 +66,12 @@ public class StandardVisionData {
 
     @Override
     public String toString() {
-
-        return "relative " + String.format("%.4f",getRelativeAngle()) + " center " + String.format("%.4f",getCenterAngle());
+        DecimalFormat fmt = new DecimalFormat("###.####");
+        return "StandardVisionData{" +
+                "x=" + fmt.format(x) +
+                ", y=" + fmt.format(y) +
+                ", z=" + fmt.format(z) +
+                ", angle=" + fmt.format(angle) +
+                '}';
     }
 }

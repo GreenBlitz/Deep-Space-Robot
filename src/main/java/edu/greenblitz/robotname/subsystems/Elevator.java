@@ -223,8 +223,7 @@ public class Elevator extends GBSubsystem {
         builder.addDoubleProperty("height", this::getHeight, null);
     }
 
-    public void update() {
+    public void periodic() {
         updateLevel().ifPresent(this::setLevel);
-//        SmartDashboard.putNumber("height", getHeight());
     }
 }

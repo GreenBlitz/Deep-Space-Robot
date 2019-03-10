@@ -1,21 +1,15 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.robotname.commands.complex.HoldAllCommands;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.Auto2HatchCargoship;
-import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.VisionCollectHatchPanel;
-import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.VisionPlaceHatchPanel;
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionCollectHatchPanel;
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionPlaceHatchPanel;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickRestricted;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
-import edu.greenblitz.robotname.commands.simple.chassis.DriveStraightByDistance;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
-import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCChain;
-import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
-import edu.greenblitz.robotname.commands.simple.chassis.motion.SetLocalizerLocation;
-import edu.greenblitz.robotname.commands.simple.chassis.vision.*;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
@@ -24,15 +18,11 @@ import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollIn;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
 import edu.greenblitz.robotname.commands.simple.shifter.ToggleShift;
 import edu.greenblitz.robotname.subsystems.Elevator;
-import edu.greenblitz.utils.Paths;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.ResetCommands;
-import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.buttons.POVButton;
-import org.greenblitz.motion.base.Position;
-import org.greenblitz.motion.pathing.Path;
 
 import java.util.Optional;
 
@@ -109,6 +99,9 @@ public class OI {
 //
         mainJoystick.L1.whenPressed(new VisionPlaceHatchPanel());
         mainJoystick.L1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+
+        mainJoystick.X.whenPressed(new TogglePokerExtender());
+        mainJoystick.Y.whenPressed(new TogglePokerHolder());
 //
 //        mainJoystick.X.whenPressed(new TogglePokerHolder());
 //        mainJoystick.Y.whenPressed(new TogglePokerExtender());
@@ -122,7 +115,7 @@ public class OI {
 //                        0.1, 0.4, 0.4, 0.6),
 //                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")), null, .8, 0.15, false, 0.1,
 //                        .3, 0.4, .2)
-//        ));
+//        ));[]\
 //
 ////        mainJoystick.B.whenPressed(new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship4.pf1.csv")),
 ////                new Position(-1.984, 7.11, Math.PI), .5, 0.2, false, 0.1,

@@ -1,5 +1,7 @@
 package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous;
 
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionCollectHatchPanel;
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionPlaceHatchPanel;
 import edu.greenblitz.robotname.commands.simple.chassis.DriveStraightByDistance;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFromVisionTarget;
@@ -12,8 +14,6 @@ import org.greenblitz.motion.pathing.Path;
 
 public class Auto2HatchCargoship extends CommandChain {
 
-    private static final double DISTANCE = 1.0;
-
     @Override
     protected void initChain() {
         addSequential(new APPCCommand(
@@ -21,10 +21,7 @@ public class Auto2HatchCargoship extends CommandChain {
                 new Position(-0.651 - 2.5, 1.6, Math.PI),
                 0.6, 0.1, true, 0.2, 1, .4, .2/*0.6*/));
 
-        addParallel(new RetractAndHold(100), new DriveToDistanceFromVisionTarget(DISTANCE));
-        addParallel(new ExtendPoker(), new DriveStraightByDistance(DISTANCE - 0.3, 1000));
-        addParallel(new ReleaseHatch(), new DriveStraightByDistance(-0.7, 1000));
-        addSequential(new RetractAndHold(100));
+        addSequential(new VisionPlaceHatchPanel());
 
         addSequential(
                 new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship2.pf1.csv")),
@@ -35,9 +32,7 @@ public class Auto2HatchCargoship extends CommandChain {
                         .3, 0.4, .2)
         );
 
-        addParallel(new RetractPoker(), new HoldHatch(), new DriveToDistanceFromVisionTarget(DISTANCE));
-        addParallel(new ExtendPoker(), new DriveStraightByDistance(DISTANCE-0.1, 1000));
-        addParallel(new RetractPoker(), new DriveStraightByDistance(-0.5, 1000));
+        addSequential(new VisionCollectHatchPanel());
 
         addSequential(new APPCCommand(
                 new Path<>(APPCCommand.getPath("Cargoship4.pf1.csv")),
@@ -45,10 +40,6 @@ public class Auto2HatchCargoship extends CommandChain {
                 .1, 0.5, 0.4, .2
         ));
 
-        addParallel(new RetractAndHold(100), new DriveToDistanceFromVisionTarget(DISTANCE));
-        addParallel(new ExtendPoker(), new DriveStraightByDistance(DISTANCE - 0.3, 1000));
-        addParallel(new ReleaseHatch(), new DriveStraightByDistance(-0.7, 1000));
-        addSequential(new RetractAndHold(100));
         addSequential(new VisionPlaceHatchPanel());
     }
 }

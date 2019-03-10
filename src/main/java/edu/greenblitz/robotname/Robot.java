@@ -1,12 +1,8 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
-import edu.greenblitz.robotname.commands.simple.chassis.motion.SetLocalizerLocation;
 import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.*;
-import edu.greenblitz.utils.Paths;
-import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.sm.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -17,7 +13,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.greenblitz.motion.base.Position;
 
 import java.util.function.Supplier;
 
@@ -92,19 +87,8 @@ public class Robot extends TimedRobot {
         m_pdp = new PowerDistributionPanel();
 
 //        Stream.init();
+        Pi.init();
         VisionMaster.init();
-
-        var pi = new Thread(new Pi());
-        pi.start();
-
-//        autonomousCommand = new CommandChain() {
-//            @Override
-//            protected void initChain() {
-//                addSequential(new SetLocalizerLocation(new Position(3.0734, 1.7092)));
-//                addSequential(new APPCCommand(Paths.get("Cargoship1"), 0.5, 0.2, false, 0.1, 0.5, 0.3));
-//            }
-//        };
-        logger.debug(APPCCommand.getPath("Cargoship3.pf1.csv"));
     }
 
     @Override
@@ -164,10 +148,8 @@ public class Robot extends TimedRobot {
     }
 
     private void update() {
-//        Elevator.getInstance().update();
-        Chassis.getInstance().update();
-        Poker.getInstance().update();
         VisionMaster.getInstance().update();
+        Pi.update();
         OI.update();
     }
 

@@ -68,6 +68,7 @@ public class Poker extends GBSubsystem {
         var value = valueFromState(state);
         if (getExtenderState() != value) {
             Robot.getInstance().getReport().updatePneumaticsUsed(m_extenderPistonName);
+            logger.debug("Extender state: {}", state ? "retracted" : "extended");
         }
         m_extenderPiston.set(value);
     }
@@ -147,7 +148,7 @@ public class Poker extends GBSubsystem {
         hold();
     }
 
-    public void update() {
+    public void periodic() {
         SmartDashboard.putBoolean("Poker::IsHeld", isHeld());
     }
 }

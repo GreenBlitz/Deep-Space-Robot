@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 public class ParallelCommand extends GBCommand {
     private GBCommand[] m_commands;
+    private Set<GBSubsystem> m_requirements;
 
     @Override
     public Optional<State> getDeltaState() {
@@ -60,7 +61,7 @@ public class ParallelCommand extends GBCommand {
     }
 
     public ParallelCommand(double timeout, GBCommand... commands) {
-        this(Arrays.toString(commands), timeout, commands);
+        this(ParallelCommand.class.getSimpleName() + " " + Arrays.toString(commands), timeout, commands);
     }
 
     public ParallelCommand(String name, double timeout, GBCommand... commands) {
@@ -90,10 +91,6 @@ public class ParallelCommand extends GBCommand {
         return m_commands;
     }
 
-    public boolean contains(GBCommand command) {
-        return Arrays.asList(m_commands).contains(command);
-    }
-
     private void runCommands() {
         Arrays.stream(m_commands).forEach(GBCommand::start);
     }
@@ -104,24 +101,22 @@ public class ParallelCommand extends GBCommand {
     }
 
     @Override
-    protected boolean isFinished() {
+    protected void execute() {
         for (var cmd : m_commands) {
             if (cmd.isCanceled()) {
-                logger.debug("Command " + cmd + " was canceled. Stopping all other parallel commands.");
-                return true;
+                logger.debug("{}: Command {} was canceled. Stopping all other commands.", getName(), cmd.getName());
+                cancel();
             }
         }
-
-        for (var cmd : m_commands) {
-            if (!cmd.isCompleted()) return false;
-        }
-
-        return true;
     }
 
     @Override
-    protected void atEnd() {
-        Arrays.stream(m_commands).forEach(Command::cancel);
+    protected boolean isFinished() {
+        for (var cmd : m_commands) {
+            if (!cmd.isCompleted() || cmd.isRunning()) return false;
+        }
+
+        return true;
     }
 
     @Override

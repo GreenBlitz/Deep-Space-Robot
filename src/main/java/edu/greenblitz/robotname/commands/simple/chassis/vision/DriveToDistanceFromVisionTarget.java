@@ -87,6 +87,7 @@
 package edu.greenblitz.robotname.commands.simple.chassis.vision;
 
 import edu.greenblitz.robotname.commands.simple.chassis.ChassisBaseCommand;
+import edu.greenblitz.robotname.commands.simple.chassis.DriveStraightByDistance;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.wpi.first.wpilibj.PIDController;
@@ -107,9 +108,14 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
 
     private PIDController m_controller;
 
-    public DriveToDistanceFromVisionTarget(double distance) {
-        m_distance = distance;
 
+    private static String generateName(double distance) {
+        return DriveToDistanceFromVisionTarget.class.getSimpleName() + " for {" + distance + "}";
+    }
+
+    public DriveToDistanceFromVisionTarget(double distance) {
+        super(generateName(distance));
+        m_distance = distance;
         m_controller = new PIDController(Kp, Ki, Kd, this, this);
     }
 
@@ -121,6 +127,7 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
         m_controller.setAbsoluteTolerance(m_distance/2);
 
         VisionMaster.getInstance().setCurrentAlgorithm(VisionMaster.Algorithm.TARGETS);
+        logger.debug("vision target position: {}", VisionMaster.getInstance().getStandardizedData());
         m_controller.enable();
     }
 

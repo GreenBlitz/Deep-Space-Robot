@@ -1,27 +1,22 @@
 package edu.greenblitz.robotname.subsystems;
 
+import edu.greenblitz.robotname.Robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class Pi implements Runnable {
+public class Pi {
 
     private static InetAddress pi;
 
-    static {
+    public static void init() {
         try {
             pi = InetAddress.getByName("10.45.90.8");
         } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void run() {
-        while (true) {
-            SmartDashboard.putBoolean("Pi::isReachable", isReachable());
+            LogManager.getLogger().error("could not resolve PI's ip");
         }
     }
 
@@ -35,5 +30,9 @@ public class Pi implements Runnable {
 
     public static boolean isReachable() {
         return isReachable(1000);
+    }
+
+    public static void update() {
+        SmartDashboard.putBoolean("Pi::isReachable", isReachable());
     }
 }
