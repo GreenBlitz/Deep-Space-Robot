@@ -9,14 +9,15 @@ import edu.greenblitz.utils.command.chain.CommandChain;
 
 public class VisionPlaceHatchPanel extends CommandChain {
 
-    private static final double DISTANCE = 1.0;
+    private static final double ALIGN_DISTANCE = 0.7;
+    private static final double EXTEND_DISTANCE = 0.3;
 
     @Override
     protected void initChain() {
         logger.debug("Placing hatch panel: {} -> {}", Chassis.getInstance().getLocation(), VisionMaster.getInstance().getStandardizedData());
-        addParallel(new RetractAndHold(100), new DriveToDistanceFromVisionTarget(DISTANCE));
-        addParallel(new ExtendPoker(), new DriveStraightByDistance(DISTANCE - 0.3, 1000));
-        addParallel(new ReleaseHatch(), new DriveStraightByDistance(-0.7, 1000));
+        addParallel(new RetractAndHold(100), new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE));
+        addParallel(new ExtendPoker(), new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 1000));
+        addParallel(new ReleaseHatch(), new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 1000));
         addSequential(new RetractAndHold(100));
     }
 }

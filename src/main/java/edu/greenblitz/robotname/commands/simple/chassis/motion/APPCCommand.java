@@ -28,7 +28,7 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
     private Position startPos;
     private double accelTime;
 
-    public APPCCommand(AdaptivePurePursuitController c, Position startPos, double accelTime){
+    public APPCCommand(AdaptivePurePursuitController c, Position startPos, double accelTime) {
         super(Chassis.getInstance());
         m_controller = c;
         m_logger = RemoteCSVTarget.initTarget("Location", "x", "y");
@@ -47,8 +47,14 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
         this.startPos = startPos;
     }
 
+    public APPCCommand(Path<Position> path, double lookAhead,
+                       double tolerance, boolean isBackwards,
+                       double minSpeed, double maxSpeedDist, double maxSpeed, double accelTime) {
+        this(path, null, lookAhead, tolerance, isBackwards, minSpeed, maxSpeedDist, maxSpeed, accelTime);
+    }
+
     @Override
-    protected void initialize(){
+    protected void initialize() {
         system.setRampRate(this.accelTime);
         if (this.startPos != null)
             Localizer.getInstance().reset(Chassis.getInstance().getLeftDistance(),

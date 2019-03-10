@@ -105,7 +105,7 @@ public class LocalizerRunner extends PeriodicRunner {
     @Override
     public void stop() {
         super.stop();
-        logger.debug("stopRolling!");
+        logger.debug("stop!");
     }
 
     public void forceSetLocation(Position location, double currentLeftDistance, double currentRightDistance) {

@@ -10,8 +10,8 @@
 //import edu.greenblitz.robotname.commands.simple.poker.ExtendPoker;
 //import edu.greenblitz.robotname.commands.simple.poker.RetractPoker;
 //import edu.greenblitz.robotname.subsystems.Elevator;
-//import edu.greenblitz.utils.Paths;
-//import edu.greenblitz.utils.VisionTargetLocations;
+//import edu.greenblitz.robotname.data.Paths;
+//import edu.greenblitz.robotname.data.VisionTargetLocations;
 //import edu.greenblitz.utils.command.chain.CommandChain;
 //
 //public class Auto2HatchRocketSame extends CommandChain {

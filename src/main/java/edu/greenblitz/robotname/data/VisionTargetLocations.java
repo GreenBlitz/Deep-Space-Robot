@@ -1,4 +1,4 @@
-package edu.greenblitz.utils;
+package edu.greenblitz.robotname.data;
 
 import org.greenblitz.motion.base.Position;
 

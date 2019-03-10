@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname;
 
+import edu.greenblitz.robotname.data.Paths;
 import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.*;
@@ -74,6 +75,7 @@ public class Robot extends TimedRobot {
         OI.initJoysticks();
 
         SmartDashboard.putData(Scheduler.getInstance());
+
         allowChassis();
 //        allowElevator();
 //        allowKicker();
@@ -89,6 +91,7 @@ public class Robot extends TimedRobot {
 //        Stream.init();
         Pi.init();
         VisionMaster.init();
+        Paths.init("Cargoship1", "Cargoship2", "Cargoship3", "Cargoship4");
     }
 
     @Override
