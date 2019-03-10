@@ -107,17 +107,20 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
 
     private PIDController m_controller;
 
-    public DriveStraightByDistance(double distance) {
-        m_distance = distance;
+    private static String generateName(double distance) {
+        return DriveStraightByDistance.class.getSimpleName() + " for {" + distance + "}";
+    }
 
+    public DriveStraightByDistance(double distance) {
+        super(generateName(distance));
+        m_distance = distance;
         m_controller = new PIDController(Kp, Ki, Kd, this, this);
     }
 
     public DriveStraightByDistance(double distance, long ms) {
-        super(ms);
+        super(generateName(distance), ms);
 
         m_distance = distance;
-
         m_controller = new PIDController(Kp, Ki, Kd, this, this);
     }
 
@@ -166,5 +169,13 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
     protected void atEnd() {
         m_controller.disable();
         Chassis.getInstance().stop();
+    }
+
+    @Override
+    public String toString() {
+        return "DriveStraightByDistance{" +
+                "distance=" + m_distance +
+                ", angle=" + m_angle +
+                '}';
     }
 }

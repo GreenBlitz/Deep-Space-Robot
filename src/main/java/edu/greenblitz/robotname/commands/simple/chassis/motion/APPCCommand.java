@@ -99,12 +99,11 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
             for (int i = 1; i < records.size(); i++) {
                 path.add(new Position(new Point(Double.parseDouble(records.get(i).get(1)), Double.parseDouble(records.get(i).get(2))).weaverToLocalizerCoords()));
             }
-            System.out.println(filename + ": " + path);
             return path;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
         }
-        System.out.println("Failed to read file");
+        logger.error("Failed to read file");
         return new ArrayList<>();
     }
 

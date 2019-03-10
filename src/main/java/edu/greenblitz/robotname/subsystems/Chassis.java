@@ -181,7 +181,8 @@ public class Chassis extends GBSubsystem {
         m_localizer.forceSetLocation(location, getLeftDistance(), getRightDistance());
     }
 
-    public void update() {
+    @Override
+    public void periodic() {
         SmartDashboard.putNumber("Chassis::Distance", getDistance());
         SmartDashboard.putNumber("Chassis::Angle", getAngle());
         SmartDashboard.putString("Localizer", getLocation().toString());

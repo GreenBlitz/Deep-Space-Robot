@@ -1,4 +1,4 @@
-package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous;
+package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision;
 
 import edu.greenblitz.robotname.commands.simple.chassis.DriveStraightByDistance;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFromVisionTarget;
