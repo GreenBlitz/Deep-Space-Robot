@@ -9,6 +9,7 @@ import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
+import edu.greenblitz.robotname.commands.simple.chassis.DropFromHeight;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
@@ -89,45 +90,16 @@ public class OI {
     }
 
     private static void initUntestedBindings() {
-//        mainJoystick.R1.whenPressed(new DriveToVisionTarget());
-//        mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
-//
-//        mainJoystick.START.whenReleased(new HoldAllCommands());
-//
         mainJoystick.R1.whenPressed(new VisionCollectHatchPanel());
         mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
-//
+
         mainJoystick.L1.whenPressed(new VisionPlaceHatchPanel());
         mainJoystick.L1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
 
         mainJoystick.X.whenPressed(new TogglePokerExtender());
         mainJoystick.Y.whenPressed(new TogglePokerHolder());
-//
-//        mainJoystick.X.whenPressed(new TogglePokerHolder());
-//        mainJoystick.Y.whenPressed(new TogglePokerExtender());
-
 
         mainJoystick.A.whenPressed(new Auto2HatchCargoship());
-//
-//        mainJoystick.X.whenPressed(new APPCChain(
-//                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship2.pf1.csv")),
-//                        null, 0.6, 0.1, true,
-//                        0.1, 0.4, 0.4, 0.6),
-//                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")), null, .8, 0.15, false, 0.1,
-//                        .3, 0.4, .2)
-//        ));[]\
-//
-////        mainJoystick.B.whenPressed(new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship4.pf1.csv")),
-////                new Position(-1.984, 7.11, Math.PI), .5, 0.2, false, 0.1,
-////                0.5, 0.4, .2));
-//
-//
-//        // TODO note start location isn't correct, it's moved so we will have space on bama
-//        mainJoystick.Y.whenPressed(new APPCCommand(
-//                new Path<>(APPCCommand.getPath("Cargoship4.pf1.csv")),
-//                null, .6, .2, true,
-//                .1, 0.5, 0.4, .2
-//        ));
     }
 
     private static void initUnsafeBindings() {

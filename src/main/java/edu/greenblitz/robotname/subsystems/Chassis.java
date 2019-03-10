@@ -196,6 +196,10 @@ public class Chassis extends GBSubsystem {
         return m_navX.getWorldLinearAccelY();
     }
 
+    public Position getGyroPosition() {
+        return new Position(m_navX.getDisplacementX(), m_navX.getDisplacementZ(), m_navX.getYaw());
+    }
+
     private double gamma(double power) {
         return Math.pow(Math.abs(power), GAMMA) * MULTIPLIER * Math.signum(power);
     }
