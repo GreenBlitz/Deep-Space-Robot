@@ -31,9 +31,9 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
                 system.setCompressor(false);
             }
         } else {
-            if (system.getPressure() < 30) {
+            if (system.getPressure() < 50) {
                 system.setCompressor(true);
-            } else if (system.getPressure() > 60) {
+            } else if (system.getPressure() > 80) {
                 system.setCompressor(false);
             }
         }
