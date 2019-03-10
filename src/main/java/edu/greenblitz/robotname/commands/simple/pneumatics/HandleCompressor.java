@@ -10,6 +10,7 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
 
     public HandleCompressor() {
         super(Pneumatics.getInstance());
+        setRunWhenDisabled(true);
     }
 
     @Override
