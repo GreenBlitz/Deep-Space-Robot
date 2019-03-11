@@ -2,7 +2,7 @@ package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous;
 
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionCollectHatchPanel;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionPlaceHatchPanel;
-import edu.greenblitz.robotname.commands.simple.chassis.DropFromHeight;
+import edu.greenblitz.robotname.commands.simple.chassis.DriveByTime;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.ResetLocalizer;
 import edu.greenblitz.robotname.data.Paths;
@@ -14,7 +14,7 @@ public class Auto2HatchCargoship extends CommandChain {
     @Override
     protected void initChain() {
         addParallel(new ResetLocalizer(-3.151, 1.6, Math.PI));
-        addSequential(new DropFromHeight());
+        addSequential(new DriveByTime());
 
         addParallel(new APPCCommand(Paths.get("Cargoship1"),
                         0.6, 0.2,

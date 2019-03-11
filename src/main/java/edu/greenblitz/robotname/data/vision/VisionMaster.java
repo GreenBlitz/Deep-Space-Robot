@@ -4,7 +4,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -102,6 +101,10 @@ public class VisionMaster {
 
     public StandardVisionData[] getStandardizedData() {
         double[] input = getCurrentVisionData();
+
+        if (input == null) return new StandardVisionData[]
+                {new StandardVisionData(new double[]{Double.NaN, Double.NaN, Double.NaN, Double.NaN})};
+
         StandardVisionData[] ret = new StandardVisionData[input.length / 4];
         for (int i = 0; i < ret.length; i++) {
             ret[i] = new StandardVisionData(input[4 * i], input[4 * i + 1], input[4 * i + 2], input[4 * i + 3]);

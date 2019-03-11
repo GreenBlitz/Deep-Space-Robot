@@ -182,6 +182,8 @@ public class Chassis extends GBSubsystem {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Chassis::Distance", getDistance());
+        SmartDashboard.putNumber("Chssis::Left raw ticks", m_leftEncoder.getRawTicks());
+        SmartDashboard.putNumber("Chssis::Right raw ticks", m_rightEncoder.getRawTicks());
         SmartDashboard.putNumber("Chassis::Angle", getAngle());
         SmartDashboard.putNumber("Chassis::RPM", 60*getVelocity()/  0.47);
         SmartDashboard.putString("Localizer", getLocation().toString());

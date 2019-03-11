@@ -88,7 +88,9 @@
 
 package edu.greenblitz.robotname.commands.simple.chassis;
 
+import edu.greenblitz.robotname.data.GearDependentDouble;
 import edu.greenblitz.robotname.subsystems.Chassis;
+import edu.greenblitz.robotname.subsystems.Shifter;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -96,39 +98,35 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 
 public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSource, PIDOutput {
 
-    private static final double Kp = 0.35, Ki = 0, Kd = 0;
-    private static final double turnKp = 0.06/25;
+    private static final GearDependentDouble
+            kP = new GearDependentDouble(Shifter.Gear.SPEED, 0.25),
+            kI = new GearDependentDouble(Shifter.Gear.SPEED, 0),
+            kD = new GearDependentDouble(Shifter.Gear.SPEED, 0);
+
+    private static final GearDependentDouble TURN_P = new GearDependentDouble(Shifter.Gear.SPEED, 0.06 / 25);
 
     private static final long TIME_ON_TARGET = 200;
+
+    private static final GearDependentDouble POWER_LIMIT = new GearDependentDouble(Shifter.Gear.SPEED, 0.15);
 
     private long m_onTarget = -1;
     private double m_distance, m_angle;
 
     private PIDController m_controller;
-    private boolean m_stopAtEnd = true;
+
+    private GearDependentDouble p = kP, i = kI, d = kD;
+    private boolean m_stopAtEnd;
 
     private static String generateName(double distance) {
         return DriveStraightByDistance.class.getSimpleName() + " for {" + distance + "}";
-    }
-
-    public DriveStraightByDistance(double distance, double min, double max, double tolerance, double kP) {
-        super(generateName(distance));
-        m_distance = distance;
-        m_controller = new PIDController(kP, 0, 0, this, this);
-        m_controller.setOutputRange(min, max);
-        m_controller.setAbsoluteTolerance(tolerance);
-    }
-
-    public DriveStraightByDistance(double distance) {
-        this(distance, Kp, -0.15, 0.15, 0.1);
     }
 
     public DriveStraightByDistance(double distance, long ms, boolean stopAtEnd) {
         super(generateName(distance), ms);
 
         m_distance = distance;
-        m_controller = new PIDController(Kp, Ki, Kd, this, this);
-        m_controller.setOutputRange(-0.15, 0.15);
+        m_controller = new PIDController(0, 0, 0, this, this);
+
         m_controller.setAbsoluteTolerance(0.1);
         m_stopAtEnd = stopAtEnd;
     }
@@ -142,16 +140,27 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
         m_angle = Chassis.getInstance().getAngle();
         m_controller.setSetpoint(Chassis.getInstance().getDistance() + m_distance);
 
+        var current = Shifter.getInstance().getCurrentGear();
+        var limit = POWER_LIMIT.getByGear(current);
+        m_controller.setOutputRange(-limit, limit);
+
+        m_controller.setPID(p.getByGear(current), i.getByGear(current), d.getByGear(current));
+
         m_controller.enable();
     }
 
     @Override
     public void pidWrite(double output) {
-        Chassis.getInstance().arcadeDrive(output, (m_angle - Chassis.getInstance().getAngle())*turnKp);
+        Chassis.getInstance().arcadeDrive(output, pidOverAngle());
+    }
+
+    private double pidOverAngle() {
+        return (m_angle - Chassis.getInstance().getAngle()) * TURN_P.getByCurrentGear();
     }
 
     @Override
-    public void setPIDSourceType(PIDSourceType pidSource) {}
+    public void setPIDSourceType(PIDSourceType pidSource) {
+    }
 
     @Override
     public PIDSourceType getPIDSourceType() {
@@ -168,8 +177,7 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
         if (m_controller.onTarget()) {
             if (m_onTarget == -1)
                 m_onTarget = System.currentTimeMillis();
-        }
-        else
+        } else
             m_onTarget = -1;
 
         return isTimedOut() || (m_onTarget != -1 && m_controller.onTarget() && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET);
@@ -178,6 +186,7 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
     @Override
     protected void atEnd() {
         m_controller.disable();
+        logger.debug("PID error: {}", m_controller.getError());
         if (m_stopAtEnd) Chassis.getInstance().stop();
     }
 

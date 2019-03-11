@@ -111,7 +111,7 @@ public class Report {
     }
 
     private String getVoltageReport() {
-        return String.format("\tvoltage at report init: %f", getVoltageAtInit());
+        return String.format("\tvoltage at init: %f", getVoltageAtInit());
     }
 
     private void initVoltageToShuffleboard() {

@@ -19,6 +19,7 @@ import java.util.function.Supplier;
 
 public class Robot extends TimedRobot {
 
+
     private static class RobotSupplier implements Supplier<Robot> {
         private Robot currentRobot;
 

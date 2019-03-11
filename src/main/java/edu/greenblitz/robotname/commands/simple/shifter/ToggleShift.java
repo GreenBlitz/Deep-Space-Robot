@@ -12,7 +12,7 @@ public class ToggleShift extends ShifterBaseCommand {
 
     @Override
     protected void execute() {
-        system.setShift(system.getCurrentShift() == Shifter.Gear.POWER ? Shifter.Gear.SPEED : Shifter.Gear.POWER);
+        system.setShift(system.getCurrentGear() == Shifter.Gear.POWER ? Shifter.Gear.SPEED : Shifter.Gear.POWER);
     }
 
     @Override

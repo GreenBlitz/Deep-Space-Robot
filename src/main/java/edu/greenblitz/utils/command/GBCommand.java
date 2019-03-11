@@ -34,6 +34,12 @@ public abstract class GBCommand extends Command {
             requires(s);
     }
 
+    public void requires(GBSubsystem... requirements) {
+        for (var requirement : requirements) {
+            requires(requirement);
+        }
+    }
+
     public final Set<GBSubsystem> getRequirements() {
         var ret = new HashSet<>(getWPILibRequirements());
         ret.addAll(getLazyRequirements());
@@ -90,18 +96,15 @@ public abstract class GBCommand extends Command {
         super(name, timeout, subsystem);
     }
 
-    protected void reportCommandStart() {
+    private void reportCommandStart() {
         logger.debug("command {} has started!", getName());
     }
 
-    protected void reportCommandEnd() {
-        logger.debug("command {} has ended!", getName());
+    private void reportCommandEnd() {
     }
 
-    protected void reportCommandInterrupt() {
-        var requirements = getWPILibRequirements();
-        logger.debug("command {} was interrupted; requiring (native) {}", getName(), requirements);
-    }
+    private void reportCommandInterrupt() {
+            }
 
     public abstract Optional<State> getDeltaState();
 
@@ -130,42 +133,30 @@ public abstract class GBCommand extends Command {
 ////        } else {
 //        }
 //            Robot.getInstance().getStateMachine().setCurrentState(newState);
-        reportCommandStart();
+        logger.debug("starting command {}...", getName());
         super.start();
         atStart();
-    }
-
-    public boolean canRun() {
-//        State currState = Robot.getInstance().getStateMachine().getCurrentState();
-//        var newStateOpt = getDeltaState();
-//        if (newStateOpt.isEmpty()) return true;
-//
-//        var newState = newStateOpt.get();
-//        if (newState.getElevatorState() == null)
-//            newState.setElevatorState(currState.getElevatorState());
-//        if (newState.getKickerState() == null)
-//            newState.setKickerState(currState.getKickerState());
-//        if (newState.getPokerState() == null)
-//            newState.setPokerState(currState.getPokerState());
-//        if (newState.getRollerState() == null)
-//            newState.setRollerState(currState.getRollerState());
-//
-//        return Robot.getInstance().getStateMachine().isAllowed(currState, newState);
-        return true;
+        logger.debug("command {} has started!", getName());
     }
 
     @Override
     protected final void end() {
+        logger.debug("ending command {}...", getName());
         atEnd();
         super.end();
-        reportCommandEnd();
+        logger.debug("command {} has ended!", getName());
     }
 
     @Override
     protected final void interrupted() {
+        logger.debug("interrupting command {}", getName());
+
         interrupted = true;
+        var requirements = getWPILibRequirements();
+
         atInterrupt();
-        reportCommandInterrupt();
+
+        logger.debug("command {} was interrupted; requiring (native) {}", getName(), requirements);
     }
 
     protected void atInterrupt() {

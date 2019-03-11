@@ -6,7 +6,6 @@ import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -88,6 +87,10 @@ public class Shifter extends GBSubsystem {
         public DoubleSolenoid.Value getValue() {
             return m_value;
         }
+
+        public boolean isSpeed() {
+            return this == SPEED;
+        }
     }
 
     /**
@@ -106,7 +109,7 @@ public class Shifter extends GBSubsystem {
     }
 
     public void toggleShift() {
-        setShift(getCurrentShift() == Gear.POWER ? Gear.SPEED : Gear.POWER);
+        setShift(getCurrentGear() == Gear.POWER ? Gear.SPEED : Gear.POWER);
     }
 
     /**
@@ -114,7 +117,7 @@ public class Shifter extends GBSubsystem {
      *
      * @return The state of the piston through the Gear enum
      */
-    public Gear getCurrentShift() {
+    public Gear getCurrentGear() {
         return m_currentShift;
     }
 
@@ -126,7 +129,7 @@ public class Shifter extends GBSubsystem {
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
-        builder.addStringProperty("gear", () -> getCurrentShift().name(), null);
+        builder.addStringProperty("gear", () -> getCurrentGear().name(), null);
     }
 
     public Logger getLogger() {
