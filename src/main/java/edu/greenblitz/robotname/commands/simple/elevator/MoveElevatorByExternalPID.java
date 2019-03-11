@@ -13,10 +13,12 @@ import java.util.Optional;
 public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
     public static final double SLOW_DOWN_DISTANCE = 0.5;
     public static final double MAX_POWER_UP = 0.7;
-    public static final double MAX_POWER_DOWN = -0.5;
+    public static final double MAX_POWER_DOWN = -0.3;
     public static final double MIN_POWER = 0;
     public static final double UP_FF = 0.3;
     public static final double DOWN_FF = -0.1;
+
+    public static final long TIMEOUT = 2000;
 
     private static final PIDObject PID_CONFIG = new PIDObject(MAX_POWER_UP / SLOW_DOWN_DISTANCE, 0, 0, 0);
 
@@ -24,6 +26,9 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
     private PIDController m_controller;
     private double toleBelow;
     private double toleAbove;
+
+    private long timeStart;
+
 
     public MoveElevatorByExternalPID(double height) {
         this(height, Elevator.LEVEL_HEIGHT_TOLERANCE, Elevator.LEVEL_HEIGHT_TOLERANCE);
@@ -38,6 +43,7 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
 
     @Override
     protected void initialize() {
+        timeStart = System.currentTimeMillis();
         m_controller = new PIDController(PID_CONFIG, (goal, current) -> {
             double error = goal - current;
             if (error <= 0 && Math.abs(error) < toleBelow) return true;
@@ -66,7 +72,8 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
 
     @Override
     protected boolean isFinished() {
-        return m_controller.isFinished(system.getHeight());
+        return m_controller.isFinished(system.getHeight()) ||
+                System.currentTimeMillis() - timeStart > TIMEOUT;
     }
 
     @Override

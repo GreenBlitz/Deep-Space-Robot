@@ -30,6 +30,7 @@ import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.buttons.POVButton;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Optional;
 
@@ -134,6 +135,7 @@ public class OI {
         sideJoystick.A.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
         sideJoystick.B.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
         sideJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
+        sideJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
         sideJoystick.L1.whenReleased(new ToggleRoller());
 
         var pov = new POVButton(sideJoystick.getRawJoystick(), 0);
@@ -156,5 +158,6 @@ public class OI {
     }
 
     public static void update() {
+        SmartDashboard.putString("Mode", oiGameObject.toString());
     }
 }
