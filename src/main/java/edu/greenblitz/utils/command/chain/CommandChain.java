@@ -96,6 +96,7 @@ public abstract class CommandChain extends GBCommand {
 
     @Override
     public synchronized void cancel() {
+        logger.warn("CommandChain was interrupted and stoped!");
         finishChain();
         super.cancel();
     }

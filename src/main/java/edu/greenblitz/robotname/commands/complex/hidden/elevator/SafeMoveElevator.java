@@ -13,22 +13,30 @@ import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.command.dynamic.DynamicCommand;
 import edu.greenblitz.utils.command.dynamic.NullCommand;
 import edu.greenblitz.utils.sm.State;
+import org.opencv.core.Mat;
 
 import java.util.Optional;
 
 public class SafeMoveElevator extends CommandChain {
     private double height;
 
+    Elevator.Level level;
+
     public SafeMoveElevator(double height) {
         this.height = height;
     }
 
     public SafeMoveElevator(Elevator.Level level) {
-        this(level.heightByCurrentState());
+        this.level = level;
     }
 
     @Override
     protected void initChain() {
+
+        if (level != null){
+            height = level.heightByCurrentState();
+        }
+
         addSequential(new DynamicCommand("Ensuring roller safe") {
             @Override
             protected GBCommand pick() {
