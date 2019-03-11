@@ -1,7 +1,5 @@
 package edu.greenblitz.robotname.subsystems;
 
-import edu.greenblitz.robotname.Robot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;

@@ -10,7 +10,6 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
 
     public HandleCompressor() {
         super(Pneumatics.getInstance());
-        setRunWhenDisabled(true);
     }
 
     @Override
@@ -34,8 +33,6 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
         } else {
             if (system.getPressure() < 50) {
                 system.setCompressor(true);
-            } else if (system.getPressure() > 80) {
-                system.setCompressor(false);
             }
         }
     }
