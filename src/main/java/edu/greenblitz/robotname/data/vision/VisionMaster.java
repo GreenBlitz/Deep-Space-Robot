@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * able to handle more that one at a time
+ */
 public class VisionMaster {
 
     public enum Algorithm {
@@ -73,20 +76,20 @@ public class VisionMaster {
     }
 
     public double[] getCurrentVisionData() {
-        if (m_values.getType() != NetworkTableType.kDoubleArray){
+        if (m_values.getType() != NetworkTableType.kDoubleArray) {
             if (m_lastError != Error.NOT_ARRAY) {
                 logger.warn(Error.NOT_ARRAY);
                 m_lastError = Error.NOT_ARRAY;
             }
-            return new double[]{Double.NaN, Double.NaN, Double.NaN, Double.NaN};
+            return null;
         }
         var ret = m_values.getValue().getDoubleArray();
-        if (ret.length != 4) {
+        if (ret.length == 0 || ret.length % 4 != 0) {
             if (m_lastError != Error.UNEXPECTED_LENGTH) {
                 logger.warn(Error.UNEXPECTED_LENGTH);
                 m_lastError = Error.UNEXPECTED_LENGTH;
             }
-            return new double[]{Double.NaN, Double.NaN, Double.NaN, Double.NaN};
+            return null;
         }
 
         m_lastError = Error.OK;
@@ -97,42 +100,40 @@ public class VisionMaster {
         return m_lastError;
     }
 
-    public StandardVisionData getStandardizedData() {
-        return new StandardVisionData(getCurrentVisionData());
+    public StandardVisionData[] getStandardizedData() {
+        double[] input = getCurrentVisionData();
+        StandardVisionData[] ret = new StandardVisionData[input.length / 4];
+        for (int i = 0; i < ret.length; i++) {
+            ret[i] = new StandardVisionData(input[4 * i], input[4 * i + 1], input[4 * i + 2], input[4 * i + 3]);
+        }
+        return ret;
     }
 
-    /**
-     *
-     * @deprecated Do not use this unless you know what you are doing. I don't even know why this function exists
-     *              other than to confuse, since I cannot think of a valid use for this.
-     */
-    @Deprecated
-    public double getDistance() {
-        return getStandardizedData().getDistance();
+    public double getPlaneryDistance(int ind) {
+        return getStandardizedData()[ind].getPlaneryDistance();
+    }
+
+    public double getRelativeAngle(int ind) {
+        return getStandardizedData()[ind].getRelativeAngle();
+    }
+
+    public double getAngle(int ind) {
+        return getStandardizedData()[ind].getCenterAngle();
     }
 
     public double getPlaneryDistance() {
-        return getStandardizedData().getPlaneryDistance();
+        return getPlaneryDistance(0);
     }
 
     public double getRelativeAngle() {
-        return getStandardizedData().getRelativeAngle();
+        return getRelativeAngle(0);
     }
 
     public double getAngle() {
-        return getStandardizedData().getCenterAngle();
+        return getAngle(0);
     }
 
     public void getCurrentVisionData(double[] dest) {
         m_values.getDoubleArray(dest);
     }
-
-    public void update() {
-        SmartDashboard.putNumber("Vision::Angle", getAngle());
-        SmartDashboard.putNumber("Vision::RelativeAngle", getRelativeAngle());
-        SmartDashboard.putNumber("Vision::Distance", getPlaneryDistance());
-        SmartDashboard.putBoolean("Vision::IsTooClose", getStandardizedData().isTooClose());
-        SmartDashboard.putBoolean("Vision::IsValid", getStandardizedData().isValid());
-    }
-
 }

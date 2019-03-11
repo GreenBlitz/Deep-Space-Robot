@@ -26,7 +26,7 @@ public class TriggerDriveByVision extends ChassisBaseCommand {
 
     @Override
     protected void initialize() {
-        m_pid.configure(VisionMaster.getInstance().getStandardizedData().getCenterAngle(), 0,
+        m_pid.configure(VisionMaster.getInstance().getStandardizedData()[0].getCenterAngle(), 0,
                 -FULL_POWER, FULL_POWER, DEADBAND);
     }
 
@@ -41,7 +41,7 @@ public class TriggerDriveByVision extends ChassisBaseCommand {
     }
 
     private double get() {
-        return VisionMaster.getInstance().getStandardizedData().getCenterAngle();
+        return VisionMaster.getInstance().getStandardizedData()[0].getCenterAngle();
     }
 
     private void set(double output) {

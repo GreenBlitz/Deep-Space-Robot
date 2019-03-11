@@ -56,6 +56,6 @@ public class AlignToVisionTarget extends ChassisBaseCommand {
     }
 
     public double get() {
-        return VisionMaster.getInstance().getStandardizedData().getCenterAngle();
+        return VisionMaster.getInstance().getStandardizedData()[0].getCenterAngle();
     }
 }

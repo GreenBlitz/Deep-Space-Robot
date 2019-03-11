@@ -4,7 +4,6 @@ import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.commands.simple.chassis.ChassisBaseCommand;
 import edu.greenblitz.robotname.data.vision.StandardVisionData;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
-import edu.greenblitz.robotname.subsystems.Chassis;
 import org.greenblitz.motion.base.Point;
 import org.greenblitz.motion.base.Vector2D;
 import org.greenblitz.motion.pid.PIDController;
@@ -30,7 +29,7 @@ public class ArcPidDriveToVisionTarget extends ChassisBaseCommand {
     private double curvature;
     private Point endLocation;
 
-    public ArcPidDriveToVisionTarget(StandardVisionData data){
+    public ArcPidDriveToVisionTarget(StandardVisionData data) {
         this.data = data;
         m_controller = new PIDController(PID_CONFIG, PID_TOLERANCE);
     }
@@ -38,8 +37,8 @@ public class ArcPidDriveToVisionTarget extends ChassisBaseCommand {
     private static final double EPSILON = 1E-2;
 
     @Override
-    protected void initialize(){
-        data = VisionMaster.getInstance().getStandardizedData();
+    protected void initialize() {
+        data = VisionMaster.getInstance().getStandardizedData()[0];
         double targetX = data.x;
         double targetY = data.z;
         curvature = getCurvature(targetX, targetY);
@@ -49,9 +48,9 @@ public class ArcPidDriveToVisionTarget extends ChassisBaseCommand {
     }
 
     @Override
-    protected void execute(){
+    protected void execute() {
         double pidValue = m_controller.calculatePID(get());
-        data = VisionMaster.getInstance().getStandardizedData();
+        data = VisionMaster.getInstance().getStandardizedData()[0];
         double targetX = data.x;
         double targetY = data.z;
         curvature = getCurvature(targetX, targetY);
@@ -67,7 +66,7 @@ public class ArcPidDriveToVisionTarget extends ChassisBaseCommand {
 
 
     private double getCurvature(double dx, double dy) {
-        if(Double.isNaN(dx) || Double.isNaN(dy))
+        if (Double.isNaN(dx) || Double.isNaN(dy))
             throw new IllegalArgumentException("invalid argument : NaN");
         return -2 * dx / Math.hypot(dx, dy);
     }
@@ -92,9 +91,9 @@ public class ArcPidDriveToVisionTarget extends ChassisBaseCommand {
         return m_onTarget >= 4;
     }
 
-    private double getDesiredAngle(){
-        StandardVisionData target = VisionMaster.getInstance().getStandardizedData();
-        return system.getAngle() + 2*target.getCenterAngle() + target.getRelativeAngle();
+    private double getDesiredAngle() {
+        StandardVisionData target = VisionMaster.getInstance().getStandardizedData()[0];
+        return system.getAngle() + 2 * target.getCenterAngle() + target.getRelativeAngle();
     }
 
     private double get() {
