@@ -224,6 +224,8 @@ public class Elevator extends GBSubsystem {
     }
 
     public void periodic() {
+        SmartDashboard.putNumber("Elevator::power", m_leader.get());
+        SmartDashboard.putNumber("Elevator::Height", getHeight());
         updateLevel().ifPresent(this::setLevel);
     }
 }

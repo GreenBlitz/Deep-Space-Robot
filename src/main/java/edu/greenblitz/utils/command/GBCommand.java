@@ -5,17 +5,17 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.util.ReflectionUtil;
 
 import java.lang.reflect.Field;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public abstract class GBCommand extends Command {
     protected static final Logger logger = LogManager.getLogger(GBCommand.class);
 
     private static final Field requirements;
     private static final Field requirementsSet;
+
+    private boolean interrupted = false;
 
     static {
         try {
@@ -162,7 +162,8 @@ public abstract class GBCommand extends Command {
     }
 
     @Override
-    protected void interrupted() {
+    protected final void interrupted() {
+        interrupted = true;
         atInterrupt();
         reportCommandInterrupt();
     }
@@ -172,6 +173,10 @@ public abstract class GBCommand extends Command {
     }
 
     protected void atEnd() {
+    }
+
+    public boolean isInterrupted(){
+        return interrupted;
     }
 
     protected void atStart() {
