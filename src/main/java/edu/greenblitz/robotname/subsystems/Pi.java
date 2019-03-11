@@ -33,6 +33,7 @@ public class Pi {
     }
 
     public static void update() {
-        SmartDashboard.putBoolean("Pi::isReachable", isReachable());
+        // WTF who put command with 1000ms timeout in robot periodic
+//        SmartDashboard.putBoolean("Pi::isReachable", isReachable());
     }
 }

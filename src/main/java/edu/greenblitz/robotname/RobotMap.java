@@ -25,8 +25,8 @@ public class RobotMap {
         
         public static class Sensor {
             public static class Encoder {
-                public static final double TICKS_PER_METER_POWER = 2295;
-                public static final double TICKS_PER_METER_SPEED = 633.5;
+                public static final double TICKS_PER_METER_POWER = 3442; // mistaken value before 11.3: 2295
+                public static final double TICKS_PER_METER_SPEED = 934; // mistaken value before 11.3: 633.5
             }
             public static final Port NAVX = Port.kUSB;
         }
@@ -60,8 +60,8 @@ public class RobotMap {
         }
 
         public static class Solenoid {
-            public static final int FORWARD = 7; // TODO
-            public static final int REVERSE = 3;
+            public static final int FORWARD = 0;
+            public static final int REVERSE = 5;
             public static final int PCM = 21;
         }
     }
@@ -72,15 +72,15 @@ public class RobotMap {
         }
 
         public static class Solenoid {
-            public static final int FORWARD = 2; // TODO
-            public static final int REVERSE = 3;
+            public static final int FORWARD = 5;
+            public static final int REVERSE = 7;
             public static final int PCM = 22;
         }
     }
 
     public static class Kicker {
         public static class Solenoid {
-            public static final int FORWARD = 2; // TODO check direction
+            public static final int FORWARD = 2;
             public static final int REVERSE = 4;
             public static final int PCM = 21;
         }
@@ -88,7 +88,7 @@ public class RobotMap {
 
     public static class Shifter {
         public static class Solenoid {
-            public static final int FORWARD = 5; // TODO
+            public static final int FORWARD = 3;
             public static final int REVERSE = 6;
         }
 
@@ -98,14 +98,14 @@ public class RobotMap {
     public static class FrontPoker {
         public static class Solenoid {
             public static class Holder {
-                public static final int FORWARD = 6; // TODO check directions
+                public static final int FORWARD = 6;
                 public static final int REVERSE = 4;
                 public static final int PCM = 22;
             }
 
             public static class Extender {
-                public static final int FORWARD = 1; // TODO check direction
-                public static final int REVERSE = 0;
+                public static final int FORWARD = 7;
+                public static final int REVERSE = 1;
                 public static final int PCM = 21;
             }
         }
