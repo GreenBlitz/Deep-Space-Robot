@@ -2,20 +2,23 @@ package edu.greenblitz.robotname.commands.simple.shifter;
 
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.robotname.subsystems.Shifter;
+import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.sm.State;
 import org.greenblitz.motion.app.Localizer;
 
 import java.util.Optional;
 
-public class AutoChangeShift extends ShifterBaseCommand {
+public class AutoChangeShift extends GBCommand {
 
-    private static final double TO_POWER_THRESHOLD = 1,
-            TO_SPEED_THRESHOLD = 2;
-    private static final long TIMEOUT = 1000;
+    private static final double TO_POWER_THRESHOLD = 1.3,
+            TO_SPEED_THRESHOLD = 1.5;
+    private static final long TIMEOUT = 700;
     private double t0;
+    private Shifter system;
 
     @Override
     protected void initialize() {
+        system = Shifter.getInstance();
         t0 = System.currentTimeMillis();
     }
 
@@ -29,17 +32,19 @@ public class AutoChangeShift extends ShifterBaseCommand {
         if (Math.abs(Chassis.getInstance().getVelocity()) > TO_SPEED_THRESHOLD &&
                 system.getCurrentShift() == Shifter.Gear.POWER &&
                 System.currentTimeMillis() - t0 > TIMEOUT) {
+
             t0 = System.currentTimeMillis();
-            Shifter.getInstance().setShift(Shifter.Gear.SPEED);
-            Localizer.getInstance().setSleep(50, Chassis.getInstance().getLeftVelocity(), Chassis.getInstance().getRightVelocity());
+            new GracefulShifterToggle().start();
+
         }
 
         if (Math.abs(Chassis.getInstance().getVelocity()) < TO_POWER_THRESHOLD &&
                 system.getCurrentShift() == Shifter.Gear.SPEED &&
                 System.currentTimeMillis() - t0 > TIMEOUT) {
+
             t0 = System.currentTimeMillis();
-            Shifter.getInstance().setShift(Shifter.Gear.POWER);
-            Localizer.getInstance().setSleep(50, Chassis.getInstance().getLeftVelocity(), Chassis.getInstance().getRightVelocity());
+            new GracefulShifterToggle().start();
+
         }
     }
 

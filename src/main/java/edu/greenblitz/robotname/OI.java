@@ -11,6 +11,8 @@ import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.chassis.DropFromHeight;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
+import edu.greenblitz.robotname.commands.simple.elevator.BrakeElevator;
+import edu.greenblitz.robotname.commands.simple.elevator.ToggleElevatorBrake;
 import edu.greenblitz.robotname.commands.simple.kicker.ToggleKicker;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
@@ -18,6 +20,8 @@ import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerHolder;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollIn;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
+import edu.greenblitz.robotname.commands.simple.shifter.GracefulShifterSwitch;
+import edu.greenblitz.robotname.commands.simple.shifter.GracefulShifterToggle;
 import edu.greenblitz.robotname.commands.simple.shifter.ToggleShift;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.GBCommand;
@@ -25,6 +29,7 @@ import edu.greenblitz.utils.command.ResetCommands;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.buttons.POVButton;
+import edu.wpi.first.wpilibj.command.Command;
 
 import java.util.Optional;
 
@@ -82,12 +87,12 @@ public class OI {
 
     public static void initJoysticks() {
         if (mainJoystick == null) mainJoystick = new SmartJoystick(RobotMap.Joysticks.MAIN);
-//        if (sideJoystick == null) sideJoystick = new SmartJoystick(RobotMap.Joysticks.SIDE);
+        if (sideJoystick == null) sideJoystick = new SmartJoystick(RobotMap.Joysticks.SIDE);
     }
 
     public static void initBindings() {
-//        initUnsafeBindings(); // For real game shit
-        initUntestedBindings(); // For testing code
+        initUnsafeBindings(); // For real game shit
+//        initUntestedBindings(); // For testing code
     }
 
     private static void initUntestedBindings() {
@@ -102,7 +107,8 @@ public class OI {
         mainJoystick.L3.whenPressed(new ToggleShift());
         mainJoystick.B.whenPressed(new ToggleKicker());
         mainJoystick.A.whenPressed(new ToggleRoller());
-
+        mainJoystick.R1.whenPressed(new ToggleElevatorBrake());
+        mainJoystick.L1.whenPressed(new ToggleShift());
 
 
 //        mainJoystick.A.whenPressed(new Auto2HatchCargoship());
@@ -118,7 +124,7 @@ public class OI {
 
         mainJoystick.L1.whenPressed(new ExtendAndRollIn());
         mainJoystick.L1.whenReleased(new RetractAndStopRoller());
-        mainJoystick.L3.whenPressed(new ToggleShift());
+        mainJoystick.L3.whenPressed(new GracefulShifterToggle());
 
         mainJoystick.X.whenPressed(new KickBall());
         mainJoystick.Y.whenPressed(new ToggleRoller());
@@ -128,7 +134,6 @@ public class OI {
         sideJoystick.A.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
         sideJoystick.B.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
         sideJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
-        sideJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
         sideJoystick.L1.whenReleased(new ToggleRoller());
 
         var pov = new POVButton(sideJoystick.getRawJoystick(), 0);

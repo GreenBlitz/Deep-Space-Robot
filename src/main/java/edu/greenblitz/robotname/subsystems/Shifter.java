@@ -2,6 +2,7 @@ package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.robotname.RobotMap.Shifter.Solenoid;
+import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -60,6 +61,7 @@ public class Shifter extends GBSubsystem {
     }
 
     public void reset() {
+        new AutoChangeShift().start();
         setShift(Gear.SPEED);
     }
 
@@ -100,6 +102,7 @@ public class Shifter extends GBSubsystem {
             logger.debug("shifted to {}", state);
         }
         m_piston.set(state.getValue());
+        Chassis.getInstance().setTickPerMeter(state);
     }
 
     public void toggleShift() {

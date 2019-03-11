@@ -183,6 +183,7 @@ public class Chassis extends GBSubsystem {
     public void periodic() {
         SmartDashboard.putNumber("Chassis::Distance", getDistance());
         SmartDashboard.putNumber("Chassis::Angle", getAngle());
+        SmartDashboard.putNumber("Chassis::RPM", 60*getVelocity()/  0.47);
         SmartDashboard.putString("Localizer", getLocation().toString());
         SmartDashboard.putNumber("Accel down", getDownAcceleration());
     }
@@ -193,6 +194,12 @@ public class Chassis extends GBSubsystem {
 
     public double getDownAcceleration() {
         return m_navX.getWorldLinearAccelY();
+    }
+
+    public void setTickPerMeter(Shifter.Gear gear){
+        double ticks = gear == Shifter.Gear.POWER ? Sensor.Encoder.TICKS_PER_METER_POWER : Sensor.Encoder.TICKS_PER_METER_SPEED;
+        m_rightEncoder.setNormalizeConst(ticks);
+        m_leftEncoder.setNormalizeConst(ticks);
     }
 
     public Position getGyroPosition() {
