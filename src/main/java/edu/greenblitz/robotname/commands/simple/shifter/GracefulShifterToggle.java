@@ -1,6 +1,5 @@
 package edu.greenblitz.robotname.commands.simple.shifter;
 
-import com.revrobotics.CANSparkMax;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.robotname.subsystems.Shifter;
 
@@ -12,8 +11,7 @@ public class GracefulShifterToggle extends ShifterBaseCommand {
     private static final long DEFAULT_DELAY = 50;
 
     public GracefulShifterToggle(long sleepTime) {
-        requires(Shifter.getInstance());
-        requires(Chassis.getInstance());
+        requires(Shifter.getInstance(), Chassis.getInstance());
         chassisSleepTime = sleepTime;
     }
 
@@ -24,16 +22,15 @@ public class GracefulShifterToggle extends ShifterBaseCommand {
     @Override
     protected void initialize() {
         didToggle = false;
-        Chassis.getInstance().setNeutralState(CANSparkMax.IdleMode.kCoast);
-        if (Shifter.getInstance().getCurrentShift() == Shifter.Gear.POWER)
+        Chassis.getInstance().toCoast();
+        if (Shifter.getInstance().getCurrentGear() == Shifter.Gear.POWER)
             Chassis.getInstance().stop();
         initTime = System.currentTimeMillis();
     }
 
     @Override
     protected void execute() {
-        var now = System.currentTimeMillis();
-        if (/*now > initTime + chassisSleepTime / 2 && */!didToggle) {
+        if (!didToggle) {
             didToggle = true;
             Shifter.getInstance().toggleShift();
         }
@@ -41,7 +38,7 @@ public class GracefulShifterToggle extends ShifterBaseCommand {
 
     @Override
     protected void atEnd(){
-        Chassis.getInstance().setNeutralState(CANSparkMax.IdleMode.kBrake);
+        Chassis.getInstance().toBrake();
     }
 
     @Override

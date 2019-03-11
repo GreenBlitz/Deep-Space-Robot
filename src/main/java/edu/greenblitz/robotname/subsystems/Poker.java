@@ -1,12 +1,10 @@
 package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.robotname.Robot;
-import edu.greenblitz.robotname.RobotMap.FrontPoker.Solenoid;
+import edu.greenblitz.robotname.RobotMap.Poker.Solenoid;
 import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,12 +30,12 @@ public class Poker extends GBSubsystem {
         m_holderPiston = new SendableDoubleSolenoid(Solenoid.Holder.PCM, Solenoid.Holder.FORWARD, Solenoid.Holder.REVERSE);
         m_extenderPiston = new SendableDoubleSolenoid(Solenoid.Extender.PCM, Solenoid.Extender.FORWARD, Solenoid.Extender.REVERSE);
 
-//        addChild(m_holderPiston);
-//        m_holderPiston.setName("holder");
-//
-//        addChild(m_extenderPiston);
-//        m_extenderPiston.setName("extender");
-//
+        addChild(m_holderPiston);
+        m_holderPiston.setName("holder");
+
+        addChild(m_extenderPiston);
+        m_extenderPiston.setName("extender");
+
         logger.info("instantiated");
     }
 
@@ -59,7 +57,7 @@ public class Poker extends GBSubsystem {
         var value = state ? Value.kReverse : Value.kForward;
         if (m_extenderPiston.get() != value) {
             Robot.getInstance().getReport().updatePneumaticsUsed(m_holderPistonName);
-            logger.debug("holder state: {}", state ? "hold" : "released");
+            logger.debug("Next holder state: {}", state ? "hold" : "released");
         }
         m_holderPiston.set(value);
     }
@@ -68,7 +66,7 @@ public class Poker extends GBSubsystem {
         var value = valueFromState(state);
         if (getExtenderState() != value) {
             Robot.getInstance().getReport().updatePneumaticsUsed(m_extenderPistonName);
-            logger.debug("Extender state: {}", state ? "retracted" : "extended");
+            logger.debug("Next extender state: {}", state ? "extended" : "retracted" );
         }
         m_extenderPiston.set(value);
     }

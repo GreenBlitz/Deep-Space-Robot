@@ -25,8 +25,8 @@ public class RobotMap {
         
         public static class Sensor {
             public static class Encoder {
-                public static final double TICKS_PER_METER_POWER = 3442; // mistaken value before 11.3: 2295
-                public static final double TICKS_PER_METER_SPEED = 934; // mistaken value before 11.3: 633.5
+                public static final double TICKS_PER_METER_POWER = 2227;// 3442; // mistaken value before 11.3: 2295
+                public static final double TICKS_PER_METER_SPEED = 600;//934; // mistaken value before 11.3: 633.5
             }
             public static final Port NAVX = Port.kUSB;
         }
@@ -95,7 +95,7 @@ public class RobotMap {
         public static final int PCM = 21;
     }
 
-    public static class FrontPoker {
+    public static class Poker {
         public static class Solenoid {
             public static class Holder {
                 public static final int FORWARD = 6;

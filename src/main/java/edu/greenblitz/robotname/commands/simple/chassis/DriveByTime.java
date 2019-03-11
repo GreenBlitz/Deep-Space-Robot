@@ -6,7 +6,7 @@ import edu.greenblitz.utils.sm.State;
 
 import java.util.Optional;
 
-public class DropFromHeight extends TimedSubsystemCommand<Chassis> {
+public class DriveByTime extends TimedSubsystemCommand<Chassis> {
     private static final double DEFAULT_POWER = 0.5;
     private static final boolean DEFAULT_BACKWARDS = true;
     private static final long DEFAULT_FALL_TIME = 500;
@@ -14,13 +14,13 @@ public class DropFromHeight extends TimedSubsystemCommand<Chassis> {
     private final double m_power;
     private final int m_backwards;
 
-    public DropFromHeight(long ms, double power, boolean isBackwards) {
+    public DriveByTime(long ms, double power, boolean isBackwards) {
         super(ms, Chassis.getInstance());
         m_power = power;
         m_backwards = isBackwards ? -1 : 1;
     }
 
-    public DropFromHeight() {
+    public DriveByTime() {
         this(DEFAULT_FALL_TIME, DEFAULT_POWER, DEFAULT_BACKWARDS);
     }
 

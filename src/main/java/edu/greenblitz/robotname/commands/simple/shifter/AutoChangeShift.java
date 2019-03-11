@@ -4,7 +4,6 @@ import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.robotname.subsystems.Shifter;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.sm.State;
-import org.greenblitz.motion.app.Localizer;
 
 import java.util.Optional;
 
@@ -30,7 +29,7 @@ public class AutoChangeShift extends GBCommand {
     @Override
     protected void execute() {
         if (Math.abs(Chassis.getInstance().getVelocity()) > TO_SPEED_THRESHOLD &&
-                system.getCurrentShift() == Shifter.Gear.POWER &&
+                system.getCurrentGear() == Shifter.Gear.POWER &&
                 System.currentTimeMillis() - t0 > TIMEOUT) {
 
             t0 = System.currentTimeMillis();
@@ -39,7 +38,7 @@ public class AutoChangeShift extends GBCommand {
         }
 
         if (Math.abs(Chassis.getInstance().getVelocity()) < TO_POWER_THRESHOLD &&
-                system.getCurrentShift() == Shifter.Gear.SPEED &&
+                system.getCurrentGear() == Shifter.Gear.SPEED &&
                 System.currentTimeMillis() - t0 > TIMEOUT) {
 
             t0 = System.currentTimeMillis();

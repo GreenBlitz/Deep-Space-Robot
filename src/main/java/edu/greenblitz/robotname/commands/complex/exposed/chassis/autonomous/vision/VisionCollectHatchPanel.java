@@ -11,13 +11,14 @@ import edu.greenblitz.utils.command.chain.CommandChain;
 public class VisionCollectHatchPanel extends CommandChain {
 
     private static final double ALIGN_DISTANCE = 0.7;
-    private static final double EXTEND_DISTANCE = 0;
+    private static final double EXTEND_DISTANCE = 0.15;
 
     @Override
     protected void initChain() {
         addParallel(new RetractAndHold(), new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE));
         addSequential(new ExtendPoker());
-        addParallel(new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 1000));
-        addParallel(new RetractPoker(), new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 1000));
+        addSequential(new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 1000));
+        addSequential(new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 1000));
+        addSequential(new RetractPoker());
     }
 }

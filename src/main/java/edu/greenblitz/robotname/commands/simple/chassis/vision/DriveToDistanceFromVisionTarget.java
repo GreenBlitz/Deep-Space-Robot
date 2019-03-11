@@ -87,19 +87,25 @@
 package edu.greenblitz.robotname.commands.simple.chassis.vision;
 
 import edu.greenblitz.robotname.commands.simple.chassis.ChassisBaseCommand;
-import edu.greenblitz.robotname.commands.simple.chassis.DriveStraightByDistance;
+import edu.greenblitz.robotname.data.GearDependentDouble;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
+import edu.greenblitz.robotname.subsystems.Shifter;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implements PIDSource, PIDOutput {
 
-    private static final double Kp = 0.3, Ki = 0, Kd = 0;
-    private static final double turnKp = 0.08/25;
+    private static final GearDependentDouble
+            kP = new GearDependentDouble(Shifter.Gear.SPEED, 0.3),
+            kI = new GearDependentDouble(Shifter.Gear.SPEED, 0),
+            kD = new GearDependentDouble(Shifter.Gear.SPEED, 0);
+
+    private static final GearDependentDouble POWER_LIMIT = new GearDependentDouble(Shifter.Gear.SPEED, 0.15);
+
+    private static final GearDependentDouble turnKp = new GearDependentDouble(Shifter.Gear.SPEED, 0.08/25);
 
     private static final long TIME_ON_TARGET = 0;
 
@@ -116,7 +122,7 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
     public DriveToDistanceFromVisionTarget(double distance, boolean stopAtEnd) {
         super(generateName(distance));
         m_distance = distance;
-        m_controller = new PIDController(Kp, Ki, Kd, this, this);
+        m_controller = new PIDController(0, 0, 0, this, this);
         m_stopAtEnd = stopAtEnd;
     }
 
@@ -126,10 +132,18 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
 
     @Override
     protected void initialize() {
-        m_controller.setOutputRange(-0.15, 0.15);
 
+        var currentGear = Shifter.getInstance().getCurrentGear();
+
+        var limit = POWER_LIMIT.getByGear(currentGear);
+        var p = kP.getByGear(currentGear);
+        var i = kI.getByGear(currentGear);
+        var d = kD.getByGear(currentGear);
+
+        m_controller.setOutputRange(-limit, limit);
+        m_controller.setPID(p, i, d);
         m_controller.setSetpoint(m_distance/2);
-        m_controller.setAbsoluteTolerance(m_distance/2);
+        m_controller.setAbsoluteTolerance(m_distance/3);
 
         VisionMaster.getInstance().setCurrentAlgorithm(VisionMaster.Algorithm.TARGETS);
         m_controller.enable();
@@ -137,7 +151,7 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
 
     @Override
     public void pidWrite(double output) {
-        Chassis.getInstance().arcadeDrive(-output, VisionMaster.getInstance().getAngle()*turnKp);
+        Chassis.getInstance().arcadeDrive(-output, VisionMaster.getInstance().getAngle()*turnKp.getByCurrentGear());
     }
 
     @Override

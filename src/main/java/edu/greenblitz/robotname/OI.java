@@ -1,6 +1,5 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.Auto2HatchCargoship;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionCollectHatchPanel;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionPlaceHatchPanel;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
@@ -9,27 +8,19 @@ import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
-import edu.greenblitz.robotname.commands.simple.chassis.DropFromHeight;
-import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
-import edu.greenblitz.robotname.commands.simple.elevator.BrakeElevator;
-import edu.greenblitz.robotname.commands.simple.elevator.ToggleElevatorBrake;
-import edu.greenblitz.robotname.commands.simple.kicker.ToggleKicker;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerHolder;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollIn;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
-import edu.greenblitz.robotname.commands.simple.shifter.GracefulShifterSwitch;
 import edu.greenblitz.robotname.commands.simple.shifter.GracefulShifterToggle;
-import edu.greenblitz.robotname.commands.simple.shifter.ToggleShift;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.ResetCommands;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.buttons.POVButton;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Optional;
@@ -92,43 +83,40 @@ public class OI {
     }
 
     public static void initBindings() {
-        initUnsafeBindings(); // For real game shit
-//        initUntestedBindings(); // For testing code
+//        initOfficalBindings(); // For real game shit
+        initTestBindings(); // For testing code
     }
 
-    private static void initUntestedBindings() {
-//        mainJoystick.R1.whenPressed(new VisionCollectHatchPanel());
-//        mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
-//
-//        mainJoystick.L1.whenPressed(new VisionPlaceHatchPanel());
-//        mainJoystick.L1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+    private static void initTestBindings() {
+//        mainJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
+//        mainJoystick.A.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
+//        mainJoystick.B.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
+//        mainJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
+//        mainJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
+//        mainJoystick.L1.whenReleased(new ToggleRoller());
 
-        mainJoystick.X.whenPressed(new TogglePokerExtender());
-        mainJoystick.Y.whenPressed(new TogglePokerHolder());
-        mainJoystick.L3.whenPressed(new ToggleShift());
-        mainJoystick.B.whenPressed(new ToggleKicker());
-        mainJoystick.A.whenPressed(new ToggleRoller());
-        mainJoystick.R1.whenPressed(new ToggleElevatorBrake());
-        mainJoystick.L1.whenPressed(new ToggleShift());
+//        mainJoystick.L3.whenPressed(new TogglePokerExtender());
+        mainJoystick.L1.whenPressed(new VisionPlaceHatchPanel());
+        mainJoystick.R1.whenPressed(new VisionCollectHatchPanel());
 
-
-//        mainJoystick.A.whenPressed(new Auto2HatchCargoship());
-
+        mainJoystick.A.whenPressed(new TogglePokerExtender());
+        mainJoystick.B.whenPressed(new TogglePokerHolder());
+        mainJoystick.X.whenPressed(new ToggleRoller());
     }
 
-    private static void initUnsafeBindings() {
+    private static void initOfficalBindings() {
         mainJoystick.START.whenPressed(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
         mainJoystick.BACK.whenPressed(new StopClimbing());
         mainJoystick.A.whenPressed(new TogglePokerExtender());
+
         mainJoystick.B.whenPressed(new ReleaseHatch());
         mainJoystick.B.whenReleased(new HoldHatch());
 
-        mainJoystick.L1.whenPressed(new ExtendAndRollIn());
-        mainJoystick.L1.whenReleased(new RetractAndStopRoller());
         mainJoystick.L3.whenPressed(new GracefulShifterToggle());
 
         mainJoystick.X.whenPressed(new KickBall());
-        mainJoystick.Y.whenPressed(new ToggleRoller());
+        mainJoystick.Y.whenPressed(new ExtendAndRollIn());
+        mainJoystick.Y.whenReleased(new RetractAndStopRoller());
 
         sideJoystick.L3.whenPressed(new ResetCommands());
         sideJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
