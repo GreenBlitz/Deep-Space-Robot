@@ -10,7 +10,7 @@ import java.util.Optional;
 public class AutoChangeShift extends GBCommand {
 
     private static final double TO_POWER_THRESHOLD = 1.3,
-            TO_SPEED_THRESHOLD = 1.5;
+            TO_SPEED_THRESHOLD = 1.4;
     private static final long TIMEOUT = 700;
     private double t0;
     private Shifter system;
@@ -34,7 +34,6 @@ public class AutoChangeShift extends GBCommand {
 
             t0 = System.currentTimeMillis();
             new GracefulShifterToggle().start();
-
         }
 
         if (Math.abs(Chassis.getInstance().getVelocity()) < TO_POWER_THRESHOLD &&
