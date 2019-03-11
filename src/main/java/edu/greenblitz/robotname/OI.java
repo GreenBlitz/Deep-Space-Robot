@@ -11,6 +11,7 @@ import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.chassis.DropFromHeight;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
+import edu.greenblitz.robotname.commands.simple.kicker.ToggleKicker;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
@@ -90,16 +91,21 @@ public class OI {
     }
 
     private static void initUntestedBindings() {
-        mainJoystick.R1.whenPressed(new VisionCollectHatchPanel());
-        mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
-
-        mainJoystick.L1.whenPressed(new VisionPlaceHatchPanel());
-        mainJoystick.L1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+//        mainJoystick.R1.whenPressed(new VisionCollectHatchPanel());
+//        mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+//
+//        mainJoystick.L1.whenPressed(new VisionPlaceHatchPanel());
+//        mainJoystick.L1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
 
         mainJoystick.X.whenPressed(new TogglePokerExtender());
         mainJoystick.Y.whenPressed(new TogglePokerHolder());
+        mainJoystick.L3.whenPressed(new ToggleShift());
+        mainJoystick.B.whenPressed(new ToggleKicker());
+        mainJoystick.A.whenPressed(new ToggleRoller());
 
-        mainJoystick.A.whenPressed(new Auto2HatchCargoship());
+
+
+//        mainJoystick.A.whenPressed(new Auto2HatchCargoship());
 
     }
 
