@@ -4,7 +4,6 @@ import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.command.dynamic.NullCommand;
 import edu.greenblitz.utils.sm.State;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 
 import java.util.*;
 
@@ -53,7 +52,7 @@ public abstract class CommandChain extends GBCommand {
 
     @Override
     protected void execute() {
-        if (m_currentCommand.isCanceled()) {
+        if (m_currentCommand.isCanceled() || m_currentCommand.isInterrupted()) {
             cancel();
             return;
         }
