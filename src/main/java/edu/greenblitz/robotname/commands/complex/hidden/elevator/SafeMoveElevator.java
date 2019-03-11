@@ -1,51 +1,36 @@
 package edu.greenblitz.robotname.commands.complex.hidden.elevator;
 
-import edu.greenblitz.robotname.commands.simple.kicker.Kick;
-import edu.greenblitz.robotname.commands.simple.kicker.Unkick;
 import edu.greenblitz.robotname.commands.simple.poker.RetractPoker;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendRoller;
 import edu.greenblitz.robotname.commands.simple.roller.RetractRoller;
 import edu.greenblitz.robotname.subsystems.Elevator;
-import edu.greenblitz.robotname.subsystems.Kicker;
 import edu.greenblitz.utils.command.GBCommand;
-import edu.greenblitz.utils.command.SubsystemCommand;
 import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.command.dynamic.DynamicCommand;
 import edu.greenblitz.utils.command.dynamic.NullCommand;
-import edu.greenblitz.utils.sm.State;
-import org.opencv.core.Mat;
-
-import java.util.Optional;
 
 public class SafeMoveElevator extends CommandChain {
-    private double height;
 
-    Elevator.Level level;
-
-    public SafeMoveElevator(double height) {
-        this.height = height;
-    }
+    private Elevator.Level m_level;
+    private double m_height;
 
     public SafeMoveElevator(Elevator.Level level) {
-        this.level = level;
+        m_level = level;
     }
 
     @Override
     protected void initChain() {
-
-        if (level != null){
-            height = level.heightByCurrentState();
-        }
+        m_height = m_level.heightByCurrentState();
 
         addSequential(new DynamicCommand("Ensuring roller safe") {
             @Override
             protected GBCommand pick() {
-                if (Elevator.isBelowCritical(height) || Elevator.isBelowCritical(Elevator.getInstance().getHeight()))
+                if (Elevator.isBelowCritical(m_height) || Elevator.isBelowCritical(Elevator.getInstance().getHeight()))
                     return new GroundMovement();
                 return new NullCommand();
             }
         });
-        addSequential(new MoveElevator(height));
+        addSequential(new MoveElevator(m_height));
         addSequential(new RetractRoller(300));
     }
 
@@ -58,5 +43,4 @@ public class SafeMoveElevator extends CommandChain {
         }
 
     }
-
 }

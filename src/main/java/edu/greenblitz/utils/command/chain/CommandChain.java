@@ -7,6 +7,10 @@ import edu.greenblitz.utils.sm.State;
 
 import java.util.*;
 
+/**
+ * Change this when you have time. This is buggy and dangerous
+ */
+@Deprecated
 public abstract class CommandChain extends GBCommand {
 
     private Queue<ParallelCommand> m_commands = new LinkedList<>();
@@ -96,7 +100,6 @@ public abstract class CommandChain extends GBCommand {
 
     @Override
     public synchronized void cancel() {
-        logger.warn("CommandChain was interrupted and stoped!");
         finishChain();
         super.cancel();
     }

@@ -117,9 +117,9 @@ public class DriveToVisionTarget extends ChassisBaseCommand implements PIDSource
 
     @Override
     public void pidWrite(double output) {
-        if (VisionMaster.getInstance().getStandardizedData().isValid())
+        if (VisionMaster.getInstance().getStandardizedData()[0].isValid())
             Chassis.getInstance().arcadeDrive(-output, VisionMaster.getInstance().getAngle()*turnKp);
-        else if (VisionMaster.getInstance().getStandardizedData().isTooClose())
+        else if (VisionMaster.getInstance().getStandardizedData()[0].isTooClose())
             Chassis.getInstance().arcadeDrive(0.15, 0);
         else
             Chassis.getInstance().arcadeDrive(0.5, 0);

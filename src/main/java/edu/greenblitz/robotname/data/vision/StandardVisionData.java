@@ -37,7 +37,6 @@ public class StandardVisionData {
     }
 
     /**
-     *
      * @return distance to target ignoring y component
      */
     public double getPlaneryDistance() {
@@ -60,6 +59,13 @@ public class StandardVisionData {
         return Double.isFinite(x) && Double.isFinite(y) && Double.isFinite(z) && Double.isFinite(angle);
     }
 
+    /**
+     * Vision works in a certain range. If we are too far, the information will be invalid ({@link StandardVisionData#isValid()}).
+     * If we are too close - the values are too big. Big enough that if they are the real range, vision shouldn't recognise them.
+     * <p>And that's why we check if the data is too far to check if it is too close.</p>
+     *
+     * @return is the camera too close to target
+     */
     public boolean isTooClose() {
         return getDistance() > DISTANCE_TOO_CLOSE;
     }

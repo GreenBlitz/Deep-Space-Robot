@@ -151,7 +151,6 @@ public class Robot extends TimedRobot {
     }
 
     private void update() {
-        VisionMaster.getInstance().update();
         Pi.update();
         OI.update();
     }
