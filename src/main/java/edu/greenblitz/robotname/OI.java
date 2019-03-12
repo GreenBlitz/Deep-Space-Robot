@@ -4,10 +4,14 @@ import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.visi
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionPlaceHatchPanel;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickRestricted;
+import edu.greenblitz.robotname.commands.complex.hidden.climber.StartSideClimberControl;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.exposed.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.exposed.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
+import edu.greenblitz.robotname.commands.simple.climber.ClimberBigControlByJoystick;
+import edu.greenblitz.robotname.commands.simple.climber.ClimberDriveByJoystick;
+import edu.greenblitz.robotname.commands.simple.climber.ClimberProportionalExtendByJoystick;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
@@ -84,8 +88,8 @@ public class OI {
     }
 
     public static void initBindings() {
-//        initOfficialBindings(); // For real game shit
-        initTestBindings(); // For testing code
+        initOfficialBindings(); // For real game shit
+//        initTestBindings(); // For testing code
     }
 
     private static void initTestBindings() {
@@ -94,6 +98,7 @@ public class OI {
         mainJoystick.X.whenPressed(new KickBall());
         mainJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
         mainJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
+        mainJoystick.L1.whileHeld(new ClimberProportionalExtendByJoystick(mainJoystick));
     }
 
     private static void initOfficialBindings() {

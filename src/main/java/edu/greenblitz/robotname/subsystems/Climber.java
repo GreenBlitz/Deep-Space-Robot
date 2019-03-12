@@ -1,6 +1,7 @@
 package edu.greenblitz.robotname.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
 import edu.greenblitz.robotname.RobotMap.Climber.Motor;
 import edu.greenblitz.robotname.RobotMap.Climber.Sensor;
 import edu.greenblitz.utils.command.GBSubsystem;
@@ -9,6 +10,7 @@ import edu.greenblitz.utils.encoder.SparkEncoder;
 import edu.greenblitz.utils.sendables.SendableSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,9 +31,7 @@ public class Climber {
     private Logger logger;
 
     public class Extender extends GBSubsystem {
-        private static final int TICKS_PER_METER = 1;
-
-        private static final int LOWER_END_TICK_LIMIT = 10;
+        private static final int TICKS_PER_METER = 12220;
 
         private SendableSparkMax m_extender;
         private IEncoder m_encoder;
@@ -41,6 +41,8 @@ public class Climber {
 
             m_extender = new SendableSparkMax(Motor.EXTENDER, MotorType.kBrushless);
             m_encoder = new SparkEncoder(TICKS_PER_METER, m_extender);
+//            m_extender.setInverted(true);
+            resetEncoder();
             addChild(m_extender);
             m_extender.setName("Extender");
 
@@ -53,10 +55,8 @@ public class Climber {
         }
 
         public void extend(double power) {
-//            if (m_encoder.getRawTicks() >= LOWER_END_TICK_LIMIT)
-//                m_extender.set(power);
-//            else
-//                m_extender.set(Math.min(Math.max(power, -0.1), 0.1));
+//            if ((power < 0 && getHeight() > 0.5) ||
+//                (power > 0 && getHeight() < 0))
             m_extender.set(power);
         }
 
@@ -66,6 +66,28 @@ public class Climber {
 
         public double getHeight() {
             return m_encoder.getNormalizedTicks();
+        }
+
+        @Override
+        public void periodic() {
+            SmartDashboard.putNumber("Extender::Height", -getHeight());
+        }
+
+        public void setIdleMode(CANSparkMax.IdleMode mode) {
+            m_extender.setIdleMode(mode);
+        }
+
+        public void setCoast() {
+            setIdleMode(CANSparkMax.IdleMode.kCoast);
+        }
+
+        public void setBrake() {
+            setIdleMode(CANSparkMax.IdleMode.kBrake);
+        }
+
+        public void reset() {
+            setBrake();
+            resetEncoder();
         }
     }
 

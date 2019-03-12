@@ -133,6 +133,7 @@ public class Robot extends TimedRobot {
             // This is for testing
 //            Shifter.getInstance().setShift(Shifter.Gear.SPEED);
             matchInit();
+            Climber.getInstance().getExtender().resetEncoder();
         }
     }
 
@@ -164,6 +165,7 @@ public class Robot extends TimedRobot {
         Kicker.getInstance().reset();
         Shifter.getInstance().reset();
         Pneumatics.getInstance().reset();
+        Climber.getInstance().getExtender().reset();
 
         m_usageReport.reset();
         m_status.setCurrentState(
