@@ -4,6 +4,7 @@ import edu.greenblitz.robotname.commands.simple.poker.RetractPoker;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendRoller;
 import edu.greenblitz.robotname.commands.simple.roller.RetractRoller;
 import edu.greenblitz.robotname.subsystems.Elevator;
+import edu.greenblitz.utils.command.DynamicRequire;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.command.dynamic.DynamicCommand;
@@ -31,7 +32,7 @@ public class SafeMoveElevator extends CommandChain {
             }
         });
         addSequential(new MoveElevator(m_height));
-        addSequential(new RetractRoller(300));
+        addParallel(new DynamicRequire(Elevator.getInstance()), new RetractRoller(300));
     }
 
     private static class GroundMovement extends CommandChain {

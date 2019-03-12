@@ -32,8 +32,8 @@ public class Elevator extends GBSubsystem {
         GROUND(CARGO_OFFSET, HATCH_OFFSET),
         ROCKET_LOW(0.7, HATCH_OFFSET),
         CARGO_SHIP(1, HATCH_OFFSET),
-        ROCKET_MID(1.41, 1.19),
-        ROCKET_HIGH(2.12, 1.9);
+        ROCKET_MID(1.41, 1.22),
+        ROCKET_HIGH(2.12, 2);
 
         public final double cargo;
         public final double hatch;
@@ -112,7 +112,7 @@ public class Elevator extends GBSubsystem {
     }
 
     public static boolean isBelowCritical(double h){
-        return h <= getCriticalHeight();
+        return h < getCriticalHeight();
     }
 
     public static Elevator getInstance() {

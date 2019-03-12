@@ -182,12 +182,15 @@ public class Chassis extends GBSubsystem {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Chassis::Distance", getDistance());
-        SmartDashboard.putNumber("Chssis::Left raw ticks", m_leftEncoder.getRawTicks());
-        SmartDashboard.putNumber("Chssis::Right raw ticks", m_rightEncoder.getRawTicks());
-        SmartDashboard.putNumber("Chassis::Angle", getAngle());
-        SmartDashboard.putNumber("Chassis::RPM", 60*getVelocity()/  0.47);
-        SmartDashboard.putString("Localizer", getLocation().toString());
-        SmartDashboard.putNumber("Accel down", getDownAcceleration());
+
+        SmartDashboard.putNumber("Chssis::Left Raw Ticks", m_leftEncoder.getRawTicks());
+        SmartDashboard.putNumber("Chssis::Right Raw Ticks", m_rightEncoder.getRawTicks());
+
+        SmartDashboard.putNumber("Chassis::RPM", 60*getVelocity() / 0.47);
+        SmartDashboard.putNumber("Chassis::Left RPM", 60*getLeftVelocity() / 0.47);
+        SmartDashboard.putNumber("Chassis::Right RPM", 60*getRightVelocity() / 0.47);
+
+        SmartDashboard.putString("Chassis::Location", getLocation().toString());
     }
 
     public void startLoclizer(){

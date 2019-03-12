@@ -15,7 +15,7 @@ public abstract class GBCommand extends Command {
     private static final Field requirements;
     private static final Field requirementsSet;
 
-    private boolean interrupted = false;
+    protected boolean interrupted = false;
 
     static {
         try {

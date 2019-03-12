@@ -105,6 +105,7 @@ public class ParallelCommand extends GBCommand {
         for (var cmd : m_commands) {
             if (cmd.isCanceled()) {
                 logger.debug("{}: Command {} was canceled. Stopping all other commands.", getName(), cmd.getName());
+                interrupted = true;
                 cancel();
             }
         }

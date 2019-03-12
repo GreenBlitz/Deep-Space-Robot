@@ -18,7 +18,7 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
     public static final double UP_FF = 0.3;
     public static final double DOWN_FF = -0.1;
 
-    public static final long TIMEOUT = 2000;
+    public static final long TIMEOUT = 4000;
 
     private static final PIDObject PID_CONFIG = new PIDObject(MAX_POWER_UP / SLOW_DOWN_DISTANCE, 0, 0, 0);
 

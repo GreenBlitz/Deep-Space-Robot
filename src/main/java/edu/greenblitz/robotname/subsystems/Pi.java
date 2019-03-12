@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
@@ -27,11 +28,10 @@ public class Pi {
     }
 
     public static boolean isReachable() {
-        return isReachable(1000);
+        return isReachable(10);
     }
 
     public static void update() {
-        // WTF who put command with 1000ms timeout in robot periodic
-//        SmartDashboard.putBoolean("Pi::isReachable", isReachable());
+        SmartDashboard.putBoolean("Pi::isReachable", isReachable());
     }
 }
