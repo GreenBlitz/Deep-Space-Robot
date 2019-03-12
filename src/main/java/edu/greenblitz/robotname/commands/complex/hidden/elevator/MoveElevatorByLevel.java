@@ -5,15 +5,18 @@ import edu.greenblitz.robotname.commands.simple.elevator.MoveElevatorByExternalP
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.dynamic.DynamicCommand;
+import edu.wpi.first.wpilibj.command.ConditionalCommand;
 
-public class MoveElevatorByLevel extends DynamicCommand {
-    private double m_lowerTol, m_higherTol;
+public class MoveElevatorByLevel extends ConditionalCommand {
     private Elevator.Level m_level;
 
     public MoveElevatorByLevel(Elevator.Level height, double lowerTol, double higherTol) {
+        super(
+                new MoveElevatorByExternalPID(height, lowerTol, higherTol),
+                new MoveElevatorByExternalPID(height, higherTol, lowerTol)
+        );
+
         m_level = height;
-        m_lowerTol = lowerTol;
-        m_higherTol = higherTol;
         setName("Move elevator to " + height);
     }
 
@@ -22,14 +25,7 @@ public class MoveElevatorByLevel extends DynamicCommand {
     }
 
     @Override
-    protected GBCommand pick() {
-        var state = OI.getOIState();
-        if (Elevator.getInstance().getHeight() > m_level.heightByState(state)) {
-            // Going down
-            return new MoveElevatorByExternalPID(m_level.heightByState(state), m_lowerTol, m_higherTol);
-        } else {
-            // Going up
-            return new MoveElevatorByExternalPID(m_level.heightByState(state), m_higherTol, m_lowerTol);
-        }
+    protected boolean condition() {
+        return Elevator.getInstance().getHeight() > m_level.heightByCurrentState();
     }
 }

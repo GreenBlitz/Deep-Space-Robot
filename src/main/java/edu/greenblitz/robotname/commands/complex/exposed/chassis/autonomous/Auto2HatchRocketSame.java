@@ -1,7 +1,7 @@
 //package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous;
 //
 //import edu.greenblitz.robotname.OI;
-//import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
+//import edu.greenblitz.robotname.commands.complex.exposed.elevator.SafeMoveElevator;
 //import edu.greenblitz.robotname.commands.complex.hidden.poker.FullPokerCycle;
 //import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
 //import edu.greenblitz.robotname.commands.simple.chassis.motion.MultiPathAPPCCommand;

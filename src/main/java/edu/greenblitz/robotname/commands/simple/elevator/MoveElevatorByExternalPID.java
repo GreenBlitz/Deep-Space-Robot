@@ -22,7 +22,7 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
 
     private static final PIDObject PID_CONFIG = new PIDObject(MAX_POWER_UP / SLOW_DOWN_DISTANCE, 0, 0, 0);
 
-    private double m_height;
+    private Elevator.Level m_level;
     private PIDController m_controller;
     private double toleBelow;
     private double toleAbove;
@@ -30,27 +30,28 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
     private long timeStart;
 
 
-    public MoveElevatorByExternalPID(double height) {
-        this(height, Elevator.LEVEL_HEIGHT_TOLERANCE, Elevator.LEVEL_HEIGHT_TOLERANCE);
+    public MoveElevatorByExternalPID(Elevator.Level level) {
+        this(level, Elevator.LEVEL_HEIGHT_TOLERANCE, Elevator.LEVEL_HEIGHT_TOLERANCE);
     }
 
-    public MoveElevatorByExternalPID(double height, double toleranceBelow, double toleranceAbove) {
+    public MoveElevatorByExternalPID(Elevator.Level level, double toleranceBelow, double toleranceAbove) {
         super(Elevator.getInstance());
         toleBelow = toleranceBelow;
         toleAbove = toleranceAbove;
-        m_height = height;
+        m_level = level;
     }
 
     @Override
     protected void atInit() {
         timeStart = System.currentTimeMillis();
+        double height = m_level.heightByCurrentState();
         m_controller = new PIDController(PID_CONFIG, (goal, current) -> {
             double error = goal - current;
             if (error <= 0 && Math.abs(error) < toleBelow) return true;
             return error >= 0 && error < toleAbove;
         });
-        m_controller.configure(system.getHeight(), m_height, MAX_POWER_DOWN, MAX_POWER_UP, MIN_POWER);
-        m_controller.setGoal(m_height);
+        m_controller.configure(system.getHeight(), height, MAX_POWER_DOWN, MAX_POWER_UP, MIN_POWER);
+        m_controller.setGoal(height);
         m_controller.configureOutputLimits(MAX_POWER_DOWN, MAX_POWER_UP);
         system.brake(false);
     }
@@ -85,7 +86,7 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
     @Override
     public Optional<State> getDeltaState() {
         return Optional.of(
-                new State(ElevatorState.getStateByHeight(m_height),
+                new State(ElevatorState.getStateByHeight(m_level),
                         null, null, null));
     }
 
