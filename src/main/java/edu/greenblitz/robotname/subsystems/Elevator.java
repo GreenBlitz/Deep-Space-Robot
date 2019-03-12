@@ -33,7 +33,7 @@ public class Elevator extends GBSubsystem {
         ROCKET_LOW(0.7, HATCH_OFFSET),
         CARGO_SHIP(1, HATCH_OFFSET),
         ROCKET_MID(1.41, 1.22),
-        ROCKET_HIGH(2.12, 2);
+        ROCKET_HIGH(2.12, 1.95);
 
         public final double cargo;
         public final double hatch;
