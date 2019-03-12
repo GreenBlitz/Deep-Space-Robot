@@ -84,8 +84,8 @@ public class OI {
     }
 
     public static void initBindings() {
-        initOfficialBindings(); // For real game shit
-//        initTestBindings(); // For testing code
+//        initOfficialBindings(); // For real game shit
+        initTestBindings(); // For testing code
     }
 
     private static void initTestBindings() {
