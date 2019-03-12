@@ -10,13 +10,14 @@ import edu.greenblitz.utils.command.DynamicRequire;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.command.dynamic.DynamicCommand;
+import edu.wpi.first.wpilibj.command.Command;
 
 public class KickBall extends CommandChain {
     @Override
     protected void initChain() {
         addSequential(new DynamicCommand("KickBall dynamic") {
             @Override
-            protected GBCommand pick() {
+            protected Command pick() {
                 if (Elevator.getInstance().isFloorLevel()) return new KickAtFloor();
                 else return new KickAtHeight();
             }

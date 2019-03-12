@@ -10,8 +10,7 @@ public class ButtonReleaseAndHold extends CommandChain {
         addSequential(new ReleaseHatch());
     }
 
-    @Override
-    protected void atEnd() {
+    protected void end() {
         new HoldHatch().start();
     }
 }
