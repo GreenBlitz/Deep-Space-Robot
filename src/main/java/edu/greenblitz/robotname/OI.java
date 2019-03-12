@@ -142,7 +142,6 @@ public class OI {
         POVButton pov = new POVButton(sideJoystick.getRawJoystick(), 0);
         pov.whenPressed(new ClimbByJoystickRestricted(mainJoystick, mainJoystick, sideJoystick));
 
-
         sideJoystick.START.whenPressed(new ToCargoMode());
         sideJoystick.BACK.whenPressed(new ToHatchMode());
     }

@@ -1,8 +1,9 @@
 package edu.greenblitz.robotname.commands.complex.hidden.kicker;
 
-import edu.greenblitz.robotname.commands.simple.kicker.Kick;
 import edu.greenblitz.robotname.commands.simple.poker.RetractPoker;
-import edu.greenblitz.robotname.commands.simple.roller.*;
+import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollOut;
+import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
+import edu.greenblitz.robotname.commands.simple.roller.RollOut;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.robotname.subsystems.Poker;
 import edu.greenblitz.robotname.subsystems.Roller;

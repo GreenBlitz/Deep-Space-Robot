@@ -26,7 +26,6 @@ public abstract class DynamicCommand extends GBCommand {
     protected static Logger logger = LogManager.getLogger("chosen commands");
 
     private Command chosen;
-    private State delta = new State();
 
     public DynamicCommand() {
     }
@@ -44,7 +43,7 @@ public abstract class DynamicCommand extends GBCommand {
 
     @Override
     public Optional<State> getDeltaState() {
-        return Optional.ofNullable(null);
+        return Optional.empty();
     }
 
     @Override
