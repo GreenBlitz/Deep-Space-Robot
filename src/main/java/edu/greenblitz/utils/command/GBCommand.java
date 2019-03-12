@@ -7,7 +7,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.Vector;
 
 public abstract class GBCommand extends Command {
     protected static final Logger logger = LogManager.getLogger(GBCommand.class);
@@ -96,54 +99,19 @@ public abstract class GBCommand extends Command {
         super(name, timeout, subsystem);
     }
 
-    private void reportCommandStart() {
-        logger.debug("command {} has started!", getName());
-    }
-
-    private void reportCommandEnd() {
-    }
-
-    private void reportCommandInterrupt() {
-            }
-
     public abstract Optional<State> getDeltaState();
 
     @Override
-    public final synchronized void start() {
-//        State currState = Robot.getInstance().getStateMachine().getCurrentState();
-//        var newStateOpt = getDeltaState();
-//        State newState;
-//        if (newStateOpt.isPresent()) {
-//            newState = newStateOpt.get();
-//            if (newState.getElevatorState() == null)
-//                newState.setElevatorState(currState.getElevatorState());
-//            if (newState.getKickerState() == null)
-//                newState.setKickerState(currState.getKickerState());
-//            if (newState.getPokerState() == null)
-//                newState.setPokerState(currState.getPokerState());
-//            if (newState.getRollerState() == null)
-//                newState.setRollerState(currState.getRollerState());
-//        } else {
-//            newState = currState;
-//        }
-//
-//        if (!Robot.getInstance().getStateMachine().isAllowed(currState, newState)) {
-//            logger.warn("command {} aborted due to invalid state change: origin - {}, delta - {}",
-//                    getName(), Robot.getInstance().getCurrentState(), getDeltaState());
-////        } else {
-//        }
-//            Robot.getInstance().getStateMachine().setCurrentState(newState);
-        logger.debug("starting command {}...", getName());
-        super.start();
-        atStart();
-        logger.debug("command {} has started!", getName());
+    protected final void initialize() {
+        logger.debug("initializing command {}...", getName());
+        atInit();
+        logger.debug("command {} has initialized!", getName());
     }
 
     @Override
     protected final void end() {
         logger.debug("ending command {}...", getName());
         atEnd();
-        super.end();
         logger.debug("command {} has ended!", getName());
     }
 
@@ -166,10 +134,10 @@ public abstract class GBCommand extends Command {
     protected void atEnd() {
     }
 
-    public boolean isInterrupted(){
+    public boolean isInterrupted() {
         return interrupted;
     }
 
-    protected void atStart() {
+    protected void atInit() {
     }
 }

@@ -8,7 +8,7 @@ import java.util.Optional;
 public class ResetCommands extends GBCommand {
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         Scheduler.getInstance().removeAll();
     }
 

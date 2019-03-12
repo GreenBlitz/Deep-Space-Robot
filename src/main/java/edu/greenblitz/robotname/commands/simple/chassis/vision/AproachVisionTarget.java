@@ -114,7 +114,7 @@ public class AproachVisionTarget extends ChassisBaseCommand {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         m_controller.configure(pidGet(), m_distance/2,
                 -.25, .25, 0.15);
         m_controller.setTolerance(new AbsoluteTolerance(m_distance/2));

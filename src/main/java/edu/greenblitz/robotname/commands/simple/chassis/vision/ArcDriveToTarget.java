@@ -14,7 +14,7 @@ public class ArcDriveToTarget extends ChassisBaseCommand {
     private static final double EPSILON = 1E-2;
 
     @Override
-    protected void initialize(){
+    protected void atInit(){
         double[] difference = VisionMaster.getInstance().getCurrentVisionData();
         double targetX = difference[0];
         double targetY = difference[2];

@@ -26,7 +26,7 @@ public class CompressorOff extends SubsystemCommand<Pneumatics> {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.setCompressor(false);
     }
 

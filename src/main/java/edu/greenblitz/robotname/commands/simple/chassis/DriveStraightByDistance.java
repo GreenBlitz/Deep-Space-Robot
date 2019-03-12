@@ -136,7 +136,7 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         m_angle = Chassis.getInstance().getAngle();
         m_controller.setSetpoint(Chassis.getInstance().getDistance() + m_distance);
 

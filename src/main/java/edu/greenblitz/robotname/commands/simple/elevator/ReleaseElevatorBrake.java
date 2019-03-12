@@ -23,7 +23,7 @@ public class ReleaseElevatorBrake extends SubsystemCommand<Elevator> {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.brake(false);
     }
 }

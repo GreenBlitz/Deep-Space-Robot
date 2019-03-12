@@ -18,7 +18,7 @@ public class ExtendAndRollIn extends RollerBaseCommand {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.extend();
         system.rollIn();
     }

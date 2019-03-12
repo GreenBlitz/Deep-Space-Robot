@@ -12,7 +12,7 @@ public class ToggleElevatorBrake extends SubsystemCommand<Elevator> {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.brake(!system.isBraking());
     }
 

@@ -12,7 +12,7 @@ public class StopChassis extends ChassisBaseCommand {
     private static final double VELOCITY_THRESHOLD = 0.1;
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.toBrake();
         system.stop();
     }

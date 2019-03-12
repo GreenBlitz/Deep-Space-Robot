@@ -20,7 +20,7 @@ public class AutoChangeShift extends SubsystemCommand<Shifter> {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.setDefaultCommand(this);
         t0 = System.currentTimeMillis();
     }

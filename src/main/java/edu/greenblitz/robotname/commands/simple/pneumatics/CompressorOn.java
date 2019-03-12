@@ -10,6 +10,7 @@ public class CompressorOn extends SubsystemCommand<Pneumatics> {
 
     /**
      * Stops the compressor for a set amount of time. Set to 0 to block forever.
+     *
      * @param ms compressor stopRolling time
      */
     public CompressorOn(long ms) {
@@ -24,8 +25,9 @@ public class CompressorOn extends SubsystemCommand<Pneumatics> {
     public Optional<State> getDeltaState() {
         return Optional.empty();
     }
+
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.setCompressor(true);
     }
 

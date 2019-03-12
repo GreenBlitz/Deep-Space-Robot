@@ -96,7 +96,7 @@ public class ParallelCommand extends GBCommand {
     }
 
     @Override
-    protected void atStart() {
+    protected void atInit() {
         runCommands();
     }
 

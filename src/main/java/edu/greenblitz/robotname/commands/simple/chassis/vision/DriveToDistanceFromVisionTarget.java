@@ -131,7 +131,7 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
 
         var currentGear = Shifter.getInstance().getCurrentGear();
 

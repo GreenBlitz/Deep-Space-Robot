@@ -11,8 +11,7 @@ import edu.greenblitz.utils.command.chain.CommandChain;
 public class Auto2HatchCargoship extends CommandChain {
     private static final long POKER_TIMEOUT = 100;
 
-    @Override
-    protected void initChain() {
+    public Auto2HatchCargoship() {
         addParallel(new ResetLocalizer(-3.151, 1.6, Math.PI));
         addSequential(new DriveByTime());
 

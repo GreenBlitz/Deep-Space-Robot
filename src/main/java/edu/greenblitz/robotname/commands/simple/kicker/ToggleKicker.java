@@ -19,7 +19,7 @@ public class ToggleKicker extends KickerBaseCommand {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.kick(!system.isOpen());
     }
 }

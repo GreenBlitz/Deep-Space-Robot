@@ -25,7 +25,7 @@ public class BrakeElevator extends SubsystemCommand<Elevator> {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.brake(true);
         system.setRawPower(0);
     }

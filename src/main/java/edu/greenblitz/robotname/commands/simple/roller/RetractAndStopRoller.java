@@ -17,7 +17,7 @@ public class RetractAndStopRoller extends RollerBaseCommand {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.retract();
     }
 

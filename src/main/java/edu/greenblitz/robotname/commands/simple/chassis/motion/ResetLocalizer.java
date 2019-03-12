@@ -27,7 +27,7 @@ public class ResetLocalizer extends GBCommand {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         Chassis.getInstance().setLocation(new Position(m_x, m_y, m_angle));
     }
 

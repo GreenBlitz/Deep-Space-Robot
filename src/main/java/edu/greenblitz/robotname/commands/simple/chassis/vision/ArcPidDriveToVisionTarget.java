@@ -37,7 +37,7 @@ public class ArcPidDriveToVisionTarget extends ChassisBaseCommand {
     private static final double EPSILON = 1E-2;
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         data = VisionMaster.getInstance().getStandardizedData()[0];
         double targetX = data.x;
         double targetY = data.z;

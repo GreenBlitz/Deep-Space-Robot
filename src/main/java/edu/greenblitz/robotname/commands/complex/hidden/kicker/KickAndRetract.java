@@ -6,24 +6,19 @@ import edu.greenblitz.robotname.subsystems.Kicker;
 import edu.greenblitz.utils.command.chain.CommandChain;
 
 public class KickAndRetract extends CommandChain {
-    private long m_timeout;
-
     public KickAndRetract() {
         this(Kicker.KICKER_STATE_TIMEOUT);
     }
 
     public KickAndRetract(long timeout) {
-        m_timeout = timeout;
+        addSequential(new Kick(timeout));
+        addSequential(new Unkick(timeout));
     }
 
     public KickAndRetract(long timeout, String name) {
         super(name);
-        m_timeout = timeout;
-    }
 
-    @Override
-    protected void initChain() {
-        addSequential(new Kick(m_timeout));
-        addSequential(new Unkick(m_timeout));
+        addSequential(new Kick(timeout));
+        addSequential(new Unkick(timeout));
     }
 }

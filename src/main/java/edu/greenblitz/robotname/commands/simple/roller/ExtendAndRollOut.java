@@ -18,7 +18,7 @@ public class ExtendAndRollOut extends RollerBaseCommand {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.extend();
         system.rollOut();
     }

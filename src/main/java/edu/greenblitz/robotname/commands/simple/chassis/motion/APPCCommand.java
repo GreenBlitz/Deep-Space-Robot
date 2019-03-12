@@ -43,7 +43,7 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.setRampRate(this.accelTime);
         Localizer.getInstance().resetEncoders(Chassis.getInstance().getLeftDistance(),
                 Chassis.getInstance().getRightDistance());

@@ -8,7 +8,7 @@ public class ClosePoker extends PokerBaseCommand {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.fullClose();
     }
 

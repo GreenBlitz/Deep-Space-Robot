@@ -1,5 +1,6 @@
-package edu.greenblitz.robotname.commands.complex.hidden.kicker;
+package edu.greenblitz.robotname.commands.complex.exposed.kicker;
 
+import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickAndRetract;
 import edu.greenblitz.robotname.commands.simple.poker.RetractPoker;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollOut;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
@@ -12,46 +13,48 @@ import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.command.dynamic.DynamicCommand;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.ConditionalCommand;
 
 public class KickBall extends CommandChain {
-    @Override
-    protected void initChain() {
-        addSequential(new DynamicCommand("KickBall dynamic") {
+    public KickBall() {
+        addSequential(new ConditionalCommand("KickBall dynamic", new KickAtFloor(), new KickAtHeight()) {
             @Override
-            protected Command pick() {
-                if (Elevator.getInstance().isFloorLevel()) return new KickAtFloor();
-                else return new KickAtHeight();
+            protected boolean condition() {
+                return Elevator.getInstance().isFloorLevel();
             }
         });
     }
 
     public static class KickAtFloor extends CommandChain {
-        @Override
-        protected void initChain() {
-            addSequential(new DynamicCommand("unpoke if needed") {
+        public KickAtFloor() {
+            addSequential(new ConditionalCommand("unpoke if needed", new RetractPoker(300)) {
                 @Override
-                protected GBCommand pick() {
-                    if (Poker.getInstance().isRetracted()) return new DynamicRequire(Poker.getInstance());
-                    else return new RetractPoker();
-                }
-            });
-            addSequential(new DynamicCommand("extend roller if needed") {
-                @Override
-                protected GBCommand pick() {
-                    if (Roller.getInstance().isRetracted()) return new ExtendAndRollOut(300);
-                    else return new RollOut(1);
+                protected boolean condition() {
+                    return Poker.getInstance().isExtended();
                 }
             });
 
-            addSequential(new KickAndRetract(300));
+            addSequential(new ConditionalCommand("extend roller if needed", new ExtendAndRollOut(300), new RollOut(1)) {
+                @Override
+                protected boolean condition() {
+                    return Roller.getInstance().isRetracted();
+                }
+            });
+
+            addSequential(new KickAndRetract(500));
             addSequential(new RetractAndStopRoller(800));
         }
     }
 
     public static class KickAtHeight extends CommandChain {
-        @Override
-        protected void initChain() {
+        public KickAtHeight() {
             addSequential(new KickAndRetract());
         }
+    }
+
+    @Override
+    protected void atEnd() {
+        Roller.getInstance().stopRolling();
+        Roller.getInstance().retract();
     }
 }

@@ -11,6 +11,7 @@ import edu.greenblitz.utils.command.dynamic.DynamicCommand;
 import edu.greenblitz.utils.command.dynamic.NullCommand;
 import edu.wpi.first.wpilibj.command.Command;
 
+// TODO: convert to new chains
 public class SafeMoveElevator extends CommandChain {
 
     private Elevator.Level m_level;
@@ -20,8 +21,7 @@ public class SafeMoveElevator extends CommandChain {
         m_level = level;
     }
 
-    @Override
-    protected void initChain() {
+    public SafeMoveElevator() {
         m_height = m_level.heightByCurrentState();
 
         addSequential(new DynamicCommand("Ensuring roller safe") {
@@ -37,9 +37,7 @@ public class SafeMoveElevator extends CommandChain {
     }
 
     private static class GroundMovement extends CommandChain {
-
-        @Override
-        protected void initChain() {
+        public GroundMovement() {
             addSequential(new RetractPoker(200));
             addSequential(new ExtendRoller(300));
         }

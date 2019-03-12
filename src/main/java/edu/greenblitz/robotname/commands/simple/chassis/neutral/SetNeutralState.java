@@ -13,7 +13,7 @@ public class SetNeutralState extends ChassisBaseCommand {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.setNeutralState(m_neutralState);
     }
 

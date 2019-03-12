@@ -18,7 +18,7 @@ public class GracefulShifterToggle extends ShifterBaseCommand {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         didToggle = false;
         Chassis.getInstance().toCoast();
         if (system.getCurrentGear() == Shifter.Gear.POWER)
