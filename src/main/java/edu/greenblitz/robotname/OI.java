@@ -5,7 +5,7 @@ import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.visi
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickRestricted;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
-import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
+import edu.greenblitz.robotname.commands.complex.exposed.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.exposed.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
@@ -92,6 +92,8 @@ public class OI {
         mainJoystick.A.whenPressed(new TogglePokerExtender());
         mainJoystick.B.whenPressed(new ToggleRoller());
         mainJoystick.X.whenPressed(new KickBall());
+        mainJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
+        mainJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
     }
 
     private static void initOfficialBindings() {
