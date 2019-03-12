@@ -24,6 +24,10 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
+/*TODO: In order to reverse the motor I simply multiplied the power by -1.
+        I don't think this will work if you try to use the internal Motion Magic.
+        BE CAREFUL WHEN TRYING IT OUT.
+*/
 public class Elevator extends GBSubsystem {
     private static final double CARGO_OFFSET = 0.165;
     private static final double HATCH_OFFSET = 0.48;
@@ -173,12 +177,14 @@ public class Elevator extends GBSubsystem {
         m_leader.selectProfileSlot(loopIdx, AUXILIARY_PID_IDX);
     }
 
+    @Deprecated
     public void setPosition(double level) {
         m_leader.set(
                 ControlMode.Position, Sensor.TICKS_PER_METER * level,
                 DemandType.ArbitraryFeedForward, GRAVITY_FF);
     }
 
+    @Deprecated
     public void setSmartPosition(double level) {
         m_leader.set(
                 ControlMode.MotionMagic, Sensor.TICKS_PER_METER * level,
@@ -196,7 +202,7 @@ public class Elevator extends GBSubsystem {
     }
 
     public void setCompensatedPower(double power, double ff) {
-        m_leader.set(ControlMode.PercentOutput, power, DemandType.ArbitraryFeedForward, ff);
+        m_leader.set(ControlMode.PercentOutput, -power, DemandType.ArbitraryFeedForward, ff);
     }
 
     private Optional<Level> updateLevel() {

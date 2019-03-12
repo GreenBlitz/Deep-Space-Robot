@@ -21,10 +21,10 @@ public abstract class CommandChain extends CommandGroup {
         super(name);
     }
 
-    public void addParallel(Command first, Command... cmd) {
-        addSequential(first);
-        for (Command c : cmd)
-            addParallel(c);
+    public void addParallel(Command... commands) {
+        for (var cmd : commands) {
+            addParallel(cmd);
+        }
     }
 
     @Override
@@ -45,7 +45,7 @@ public abstract class CommandChain extends CommandGroup {
     protected void interrupted() {
         logger.debug("interrupting command {}", getName());
         atInterrupt();
-        logger.debug("command {} has been interrupted!");
+        logger.debug("command {} has been interrupted!", getName());
     }
 
     protected void atInit() {

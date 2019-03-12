@@ -10,6 +10,6 @@ public class StartSideClimberControl extends CommandChain {
 
     public StartSideClimberControl(SmartJoystick joystick) {
         addParallel(new ClimberDriveByJoystick(joystick),
-                new SlowArcadeDriveByJoystick(joystick, DRIVE_MULT));
+                    new SlowArcadeDriveByJoystick(joystick, DRIVE_MULT));
     }
 }

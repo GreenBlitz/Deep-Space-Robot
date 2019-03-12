@@ -1,7 +1,7 @@
 package edu.greenblitz.robotname.commands.complex.hidden.climber;
 
 import edu.greenblitz.robotname.commands.simple.climber.ClimberBigControlByJoystick;
-import edu.greenblitz.robotname.commands.simple.climber.ClimberExtendByJoystick;
+import edu.greenblitz.robotname.commands.simple.climber.ClimberProportionalExtendByJoystick;
 import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
 import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.hid.SmartJoystick;
@@ -11,10 +11,9 @@ public class ClimbByJoystick extends CommandChain {
     private static final double SAFE_POWER = 1.0;
 
     public ClimbByJoystick(SmartJoystick bigJoystick, SmartJoystick extenderJoystick, SmartJoystick driveJoystick) {
-
-        addParallel(new ClimberBigControlByJoystick(SAFE_POWER, bigJoystick),
-                new ClimberExtendByJoystick(extenderJoystick),
-                new StartSideClimberControl(driveJoystick),
-                new ToPower());
+        addParallel(new ClimberBigControlByJoystick(SAFE_POWER, bigJoystick));
+        addParallel(new ClimberProportionalExtendByJoystick(extenderJoystick));
+        addParallel(new StartSideClimberControl(driveJoystick));
+        addParallel(new ToPower());
     }
 }
