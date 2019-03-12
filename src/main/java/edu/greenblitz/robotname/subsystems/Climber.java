@@ -31,6 +31,8 @@ public class Climber {
     public class Extender extends GBSubsystem {
         private static final int TICKS_PER_METER = 1;
 
+        private static final int LOWER_END_TICK_LIMIT = 10;
+
         private SendableSparkMax m_extender;
         private IEncoder m_encoder;
 
@@ -51,6 +53,10 @@ public class Climber {
         }
 
         public void extend(double power) {
+//            if (m_encoder.getRawTicks() >= LOWER_END_TICK_LIMIT)
+//                m_extender.set(power);
+//            else
+//                m_extender.set(Math.min(Math.max(power, -0.1), 0.1));
             m_extender.set(power);
         }
 

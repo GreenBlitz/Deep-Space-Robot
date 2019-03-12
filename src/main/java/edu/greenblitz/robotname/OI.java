@@ -11,10 +11,12 @@ import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
-import edu.greenblitz.robotname.commands.simple.poker.TogglePokerHolder;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollIn;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
+import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.robotname.commands.simple.shifter.GracefulShifterToggle;
+import edu.greenblitz.robotname.commands.simple.shifter.KeepShift;
+import edu.greenblitz.robotname.commands.simple.shifter.ToggleShift;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.ResetCommands;
@@ -83,8 +85,8 @@ public class OI {
     }
 
     public static void initBindings() {
-//        initOfficalBindings(); // For real game shit
-        initTestBindings(); // For testing code
+        initOfficialBindings(); // For real game shit
+//        initTestBindings(); // For testing code
     }
 
     private static void initTestBindings() {
@@ -95,16 +97,19 @@ public class OI {
 //        mainJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
 //        mainJoystick.L1.whenReleased(new ToggleRoller());
 
-//        mainJoystick.L3.whenPressed(new TogglePokerExtender());
-        mainJoystick.L1.whenPressed(new VisionPlaceHatchPanel());
-        mainJoystick.R1.whenPressed(new VisionCollectHatchPanel());
+//        mainJoystick.A.whenPressed(new AutoChangeShift());
+//        mainJoystick.B.whenPressed(new KeepShift());
 
-        mainJoystick.A.whenPressed(new TogglePokerExtender());
-        mainJoystick.B.whenPressed(new TogglePokerHolder());
-        mainJoystick.X.whenPressed(new ToggleRoller());
+//        mainJoystick.L3.whenPressed(new TogglePokerExtender());
+//        mainJoystick.L1.whenPressed(new VisionPlaceHatchPanel());
+//        mainJoystick.R1.whenPressed(new VisionCollectHatchPanel());
+
+//        mainJoystick.A.whenPressed(new TogglePokerExtender());
+//        mainJoystick.B.whenPressed(new TogglePokerHolder());
+//        mainJoystick.X.whenPressed(new ToggleRoller());
     }
 
-    private static void initOfficalBindings() {
+    private static void initOfficialBindings() {
         mainJoystick.START.whenPressed(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
         mainJoystick.BACK.whenPressed(new StopClimbing());
         mainJoystick.A.whenPressed(new TogglePokerExtender());
@@ -116,7 +121,15 @@ public class OI {
 
         mainJoystick.X.whenPressed(new KickBall());
         mainJoystick.Y.whenPressed(new ExtendAndRollIn());
-        mainJoystick.Y.whenReleased(new RetractAndStopRoller());
+        mainJoystick.Y.whenReleased(new RetractAndStopRoller(300));
+
+        mainJoystick.L1.whenPressed(new VisionPlaceHatchPanel());
+        mainJoystick.R1.whenPressed(new VisionCollectHatchPanel());
+
+        POVButton autoShiftOn = new POVButton(mainJoystick.getRawJoystick(), 0);
+        autoShiftOn.whenPressed(new AutoChangeShift());
+        POVButton autoShiftOff = new POVButton(mainJoystick.getRawJoystick(), 180);
+        autoShiftOff.whenPressed(new KeepShift());
 
         sideJoystick.L3.whenPressed(new ResetCommands());
         sideJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
@@ -126,8 +139,9 @@ public class OI {
         sideJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
         sideJoystick.L1.whenReleased(new ToggleRoller());
 
-        var pov = new POVButton(sideJoystick.getRawJoystick(), 0);
+        POVButton pov = new POVButton(sideJoystick.getRawJoystick(), 0);
         pov.whenPressed(new ClimbByJoystickRestricted(mainJoystick, mainJoystick, sideJoystick));
+
 
         sideJoystick.START.whenPressed(new ToCargoMode());
         sideJoystick.BACK.whenPressed(new ToHatchMode());

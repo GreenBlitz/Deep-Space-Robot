@@ -22,11 +22,7 @@ public class TalonEncoder extends AbstractEncoder {
 
     @Override
     public double getTickRate() {
-        return m_talon.getSelectedSensorVelocity();
+        return m_talon.getSelectedSensorVelocity() * 10;
     }
 
-    @Override
-    public double getNormalizedVelocity() {
-        return getTickRate() * 10 / getNormalizeConst();
-    }
 }

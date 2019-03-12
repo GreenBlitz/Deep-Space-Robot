@@ -28,6 +28,10 @@ public interface IEncoder {
         return getRawTicks() * invert() / getNormalizeConst();
     }
 
+    /**
+     *
+     * @return velocity after conversion in m/s
+     */
     default double getNormalizedVelocity() {
         return getTickRate() * invert() / getNormalizeConst();
     }
