@@ -42,7 +42,7 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         timeStart = System.currentTimeMillis();
         m_controller = new PIDController(PID_CONFIG, (goal, current) -> {
             double error = goal - current;

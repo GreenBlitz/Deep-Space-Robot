@@ -24,7 +24,7 @@ public class StopRolling extends SubsystemCommand<Roller> {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.stopRolling();
     }
 

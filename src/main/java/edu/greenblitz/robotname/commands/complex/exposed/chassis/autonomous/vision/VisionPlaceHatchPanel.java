@@ -12,8 +12,7 @@ public class VisionPlaceHatchPanel extends CommandChain {
     private static final double ALIGN_DISTANCE = 0.7;
     private static final double EXTEND_DISTANCE = 0.3;
 
-    @Override
-    protected void initChain() {
+    public VisionPlaceHatchPanel() {
         addParallel(new RetractAndHold(100), new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE));
         addSequential(new ExtendPoker(100));
         addSequential(new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 1000));

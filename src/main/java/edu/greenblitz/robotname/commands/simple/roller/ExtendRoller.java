@@ -23,7 +23,7 @@ public class ExtendRoller extends RollerBaseCommand {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.extend();
     }
 }

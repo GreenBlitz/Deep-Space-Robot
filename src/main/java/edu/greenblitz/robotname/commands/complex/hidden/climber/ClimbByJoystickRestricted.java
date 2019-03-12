@@ -21,17 +21,15 @@ public class ClimbByJoystickRestricted extends CommandChain {
         m_bigJoystick = bigJoystick;
         m_extenderJoystick = extenderJoystick;
         m_driveJoystick = driveJoystick;
-    }
 
-    @Override
-    protected void initChain() {
         addParallel(new ClimberBigControlByJoystick(SAFE_POWER, m_bigJoystick),
                 new ClimberExtendByJoystick(m_extenderJoystick),
                 new StopSideClimberControl(),
                 new ToPower());
     }
 
-    protected void end() {
+    @Override
+    protected void atEnd() {
         new ClimbByJoystick(m_bigJoystick, m_extenderJoystick, m_driveJoystick).start();
     }
 }

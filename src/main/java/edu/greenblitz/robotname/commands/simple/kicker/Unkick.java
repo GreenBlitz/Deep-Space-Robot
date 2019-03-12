@@ -27,7 +27,7 @@ public class Unkick extends KickerBaseCommand {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.unkick();
     }
 }

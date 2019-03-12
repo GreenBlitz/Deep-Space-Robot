@@ -44,7 +44,7 @@ public class VerboseMoveElevatorByExternalPID extends SubsystemCommand<Elevator>
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         m_controller = new PIDController(PID_CONFIG, (goal, current) -> {
             double error = goal - current;
             if (error <= 0 && Math.abs(error) < m_toleranceBelow) return true;

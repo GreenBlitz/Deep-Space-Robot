@@ -11,7 +11,7 @@ public class ExtendPoker extends PokerBaseCommand {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.extend(true);
     }
 

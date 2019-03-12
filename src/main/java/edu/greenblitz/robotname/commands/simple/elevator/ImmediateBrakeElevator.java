@@ -13,7 +13,7 @@ public class ImmediateBrakeElevator extends SubsystemCommand<Elevator> {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.brake(true);
     }
 

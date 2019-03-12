@@ -18,7 +18,7 @@ public class StopClimbDrive extends SubsystemCommand<Climber.Wheels> {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.stop();
     }
 

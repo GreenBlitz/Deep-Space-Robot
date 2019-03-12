@@ -8,22 +8,13 @@ import edu.greenblitz.utils.hid.SmartJoystick;
 
 public class ClimbByJoystick extends CommandChain {
 
-    private SmartJoystick m_bigJoystick, m_extenderJoystick, m_driveJoystick;
     private static final double SAFE_POWER = 1.0;
 
     public ClimbByJoystick(SmartJoystick bigJoystick, SmartJoystick extenderJoystick, SmartJoystick driveJoystick) {
-        m_bigJoystick = bigJoystick;
-        m_extenderJoystick = extenderJoystick;
-        m_driveJoystick = driveJoystick;
+
+        addParallel(new ClimberBigControlByJoystick(SAFE_POWER, bigJoystick),
+                new ClimberExtendByJoystick(extenderJoystick),
+                new StartSideClimberControl(driveJoystick),
+                new ToPower());
     }
-
-    @Override
-    protected void initChain() {
-        addParallel(new ClimberBigControlByJoystick(SAFE_POWER, m_bigJoystick),
-                    new ClimberExtendByJoystick(m_extenderJoystick),
-                    new StartSideClimberControl(m_driveJoystick),
-                    new ToPower());
-    }
-
-
 }

@@ -25,7 +25,7 @@ public class DriveByTime extends TimedSubsystemCommand<Chassis> {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.arcadeDrive(m_power * m_backwards, 0);
     }
 

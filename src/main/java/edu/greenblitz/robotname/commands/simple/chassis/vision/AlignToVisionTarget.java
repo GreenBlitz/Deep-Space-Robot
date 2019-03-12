@@ -24,7 +24,7 @@ public class AlignToVisionTarget extends ChassisBaseCommand {
     }
 
     @Override
-    public void initialize() {
+    public void atInit() {
         VisionMaster.getInstance().setCurrentAlgorithm(VisionMaster.Algorithm.TARGETS);
         m_controller.configure(get(), 0, -FULL_POWER, FULL_POWER, 0);
     }

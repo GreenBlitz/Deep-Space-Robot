@@ -17,7 +17,7 @@ public class ReleaseHatch extends SubsystemCommand<Poker> {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.hold(false);
     }
 

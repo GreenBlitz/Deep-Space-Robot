@@ -23,7 +23,7 @@ public class TurnToAngle extends ChassisBaseCommand {
         targetAngle = angle;
     }
 
-    protected void initialize() {
+    protected void atInit() {
         m_controller.configure(get(), 0, -FULL_POWER, FULL_POWER, DEADBAND);
     }
 

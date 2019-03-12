@@ -13,7 +13,7 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         system.setCompressor(false);
     }
 

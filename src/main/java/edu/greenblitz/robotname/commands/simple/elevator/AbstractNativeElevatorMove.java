@@ -22,7 +22,7 @@ public abstract class AbstractNativeElevatorMove extends TimedSubsystemCommand<E
     abstract void startNativeMove(double level);
 
     @Override
-    protected final void initialize() {
+    protected final void atInit() {
         system.setMainLoopIdx(m_loopIdx);
         system.brake(false);
         startNativeMove(m_destination);

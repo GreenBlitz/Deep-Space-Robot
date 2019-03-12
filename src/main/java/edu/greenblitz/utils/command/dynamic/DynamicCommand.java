@@ -14,14 +14,17 @@ import java.util.Optional;
  *
  * <p>
  * A {@code DynamicCommand} requires no subsystems, and will stay in the scheduler as long as the chosen command does.
- * IT calls the chosen m_commands {@link Command#start()} when it's own is called,
+ * It starts the chosen commands {@link Command#start()} when it's own is called,
  * </p>
  * <p>
  * Use {@link DynamicCommand#logger} to log additional data about the chosen command
  * </p>
  *
  * @see edu.wpi.first.wpilibj.command.ConditionalCommand
+ *
+ * @deprecated The idea was good but doesn't integrate with {@link edu.wpi.first.wpilibj.command.CommandGroup CommandGroup} at all, use {@link edu.wpi.first.wpilibj.command.ConditionalCommand ConditionalCommand}
  */
+@Deprecated
 public abstract class DynamicCommand extends GBCommand {
     protected static Logger logger = LogManager.getLogger("chosen commands");
 
@@ -35,7 +38,7 @@ public abstract class DynamicCommand extends GBCommand {
     }
 
     @Override
-    protected void atStart() {
+    protected void atInit() {
         chosen = pick();
         logger.debug(chosen);
         chosen.start();
@@ -47,13 +50,26 @@ public abstract class DynamicCommand extends GBCommand {
     }
 
     @Override
-    protected void atEnd() {
-        chosen = null;
+    protected void execute() {
+        if (chosen.isCanceled()) {
+            cancel();
+        }
     }
 
     @Override
     protected boolean isFinished() {
-        return chosen.isCanceled() || chosen.isCompleted();
+        return chosen.isCompleted();
+    }
+
+    @Override
+    public synchronized void cancel() {
+        logger.debug("aborting dynamic command {} due to child interruption", getName());
+        super.cancel();
+    }
+
+    @Override
+    protected void atEnd() {
+        if (chosen.isRunning()) chosen.cancel();
     }
 
     protected abstract Command pick();

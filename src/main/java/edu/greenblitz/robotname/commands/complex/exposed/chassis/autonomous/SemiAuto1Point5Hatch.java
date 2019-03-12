@@ -19,9 +19,7 @@ import java.awt.*;
  */
 public class SemiAuto1Point5Hatch extends CommandChain {
 
-
-    @Override
-    protected void initChain() {
+        public SemiAuto1Point5Hatch() {
         addSequential(new VisionPlaceHatchPanel());
 
         addSequential(new DynamicCommand() {

@@ -6,7 +6,7 @@ import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickRestricted;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.hidden.elevator.SafeMoveElevator;
-import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickBall;
+import edu.greenblitz.robotname.commands.complex.exposed.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
@@ -16,7 +16,6 @@ import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
 import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.robotname.commands.simple.shifter.GracefulShifterToggle;
 import edu.greenblitz.robotname.commands.simple.shifter.KeepShift;
-import edu.greenblitz.robotname.commands.simple.shifter.ToggleShift;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.ResetCommands;
@@ -57,7 +56,7 @@ public class OI {
         }
 
         @Override
-        protected void initialize() {
+        protected void atInit() {
             oiGameObject = GameObject.HATCH;
         }
     }
@@ -74,7 +73,7 @@ public class OI {
         }
 
         @Override
-        protected void initialize() {
+        protected void atInit() {
             oiGameObject = GameObject.CARGO;
         }
     }
@@ -85,28 +84,14 @@ public class OI {
     }
 
     public static void initBindings() {
-        initOfficialBindings(); // For real game shit
-//        initTestBindings(); // For testing code
+//        initOfficialBindings(); // For real game shit
+        initTestBindings(); // For testing code
     }
 
     private static void initTestBindings() {
-//        mainJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
-//        mainJoystick.A.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
-//        mainJoystick.B.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
-//        mainJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
-//        mainJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
-//        mainJoystick.L1.whenReleased(new ToggleRoller());
-
-//        mainJoystick.A.whenPressed(new AutoChangeShift());
-//        mainJoystick.B.whenPressed(new KeepShift());
-
-//        mainJoystick.L3.whenPressed(new TogglePokerExtender());
-//        mainJoystick.L1.whenPressed(new VisionPlaceHatchPanel());
-//        mainJoystick.R1.whenPressed(new VisionCollectHatchPanel());
-
-//        mainJoystick.A.whenPressed(new TogglePokerExtender());
-//        mainJoystick.B.whenPressed(new TogglePokerHolder());
-//        mainJoystick.X.whenPressed(new ToggleRoller());
+        mainJoystick.A.whenPressed(new TogglePokerExtender());
+        mainJoystick.B.whenPressed(new ToggleRoller());
+        mainJoystick.X.whenPressed(new KickBall());
     }
 
     private static void initOfficialBindings() {

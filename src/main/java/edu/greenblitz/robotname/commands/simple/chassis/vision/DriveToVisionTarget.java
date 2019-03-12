@@ -106,7 +106,7 @@ public class DriveToVisionTarget extends ChassisBaseCommand implements PIDSource
     }
 
     @Override
-    protected void initialize() {
+    protected void atInit() {
         m_controller.setAbsoluteTolerance(0.1);
         m_controller.setSetpoint(0);
         m_controller.setOutputRange(-0.4, 0.4);
