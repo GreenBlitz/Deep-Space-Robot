@@ -43,6 +43,7 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
 
     @Override
     protected void atInit() {
+        logger.debug("moving the elevator to {}", m_level);
         timeStart = System.currentTimeMillis();
         double height = m_level.heightByCurrentState();
         m_controller = new PIDController(PID_CONFIG, (goal, current) -> {

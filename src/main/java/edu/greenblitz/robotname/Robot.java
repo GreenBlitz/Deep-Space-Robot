@@ -45,8 +45,6 @@ public class Robot extends TimedRobot {
     private StateMachine m_status;
     private Report m_usageReport;
 
-    private Command autonomousCommand;
-
     /**
      * @deprecated state machine updates were commented out due to unclear bugs, so every part of the sm shouldn't be used
      * @return current robot's state machine
@@ -119,7 +117,6 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         matchInit();
-        Scheduler.getInstance().add(autonomousCommand);
     }
 
     @Override
@@ -131,7 +128,6 @@ public class Robot extends TimedRobot {
         } else {
             logger.info("testing...");
             // This is for testing
-//            Shifter.getInstance().setShift(Shifter.Gear.SPEED);
             matchInit();
             Climber.getInstance().getExtender().resetEncoder();
         }

@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.command.ConditionalCommand;
 public class SafeMoveElevator extends CommandChain {
 
     public SafeMoveElevator(Elevator.Level level) {
-
         addSequential(new ConditionalCommand("Ensuring roller safe", new GroundMovement()) {
             @Override
             protected boolean condition() {
