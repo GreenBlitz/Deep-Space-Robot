@@ -11,7 +11,7 @@ public class ButtonKickAndRetract extends CommandChain {
     }
 
     @Override
-    protected void atEnd() {
+    protected void end() {
         new Unkick().start();
     }
 }

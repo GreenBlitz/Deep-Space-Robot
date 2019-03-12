@@ -25,7 +25,7 @@ import java.util.Optional;
 public abstract class DynamicCommand extends GBCommand {
     protected static Logger logger = LogManager.getLogger("chosen commands");
 
-    private GBCommand chosen;
+    private Command chosen;
     private State delta = new State();
 
     public DynamicCommand() {
@@ -38,14 +38,13 @@ public abstract class DynamicCommand extends GBCommand {
     @Override
     protected void atStart() {
         chosen = pick();
-        delta = chosen.getDeltaState().orElse(new State());
         logger.debug(chosen);
         chosen.start();
     }
 
     @Override
     public Optional<State> getDeltaState() {
-        return Optional.ofNullable(delta.hasChanges() ? delta : null);
+        return Optional.ofNullable(null);
     }
 
     @Override
@@ -58,5 +57,5 @@ public abstract class DynamicCommand extends GBCommand {
         return chosen.isCanceled() || chosen.isCompleted();
     }
 
-    protected abstract GBCommand pick();
+    protected abstract Command pick();
 }

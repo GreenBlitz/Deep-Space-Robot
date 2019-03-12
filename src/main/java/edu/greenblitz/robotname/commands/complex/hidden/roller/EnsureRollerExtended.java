@@ -11,10 +11,9 @@ import edu.greenblitz.utils.command.WaitAndRequire;
 import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.command.dynamic.DynamicCommand;
 import edu.greenblitz.utils.command.dynamic.NullCommand;
+import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
+
 public class EnsureRollerExtended extends CommandChain {
     @Override
     protected void initChain() {
@@ -26,7 +25,7 @@ public class EnsureRollerExtended extends CommandChain {
 
         addSequential(new DynamicCommand() {
             @Override
-            protected GBCommand pick() {
+            protected Command pick() {
                 if (Elevator.getInstance().isFloorLevel() && Poker.getInstance().isExtended())
                     return new EnsurePokerRetracted();
                 return new DynamicRequire(Poker.getInstance());

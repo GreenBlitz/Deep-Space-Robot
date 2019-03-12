@@ -11,6 +11,7 @@ import edu.greenblitz.utils.command.WaitAndRequire;
 import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.command.dynamic.DynamicCommand;
 import edu.greenblitz.utils.command.dynamic.NullCommand;
+import edu.wpi.first.wpilibj.command.Command;
 
 public class EnsurePokerRetracted extends CommandChain {
     @Override
@@ -22,7 +23,7 @@ public class EnsurePokerRetracted extends CommandChain {
         }
         addSequential(new DynamicCommand() {
             @Override
-            protected GBCommand pick() {
+            protected Command pick() {
                 if (Kicker.getInstance().isOpen())
                     return new EnsureKickerClosed();
                 return new DynamicRequire(Kicker.getInstance());

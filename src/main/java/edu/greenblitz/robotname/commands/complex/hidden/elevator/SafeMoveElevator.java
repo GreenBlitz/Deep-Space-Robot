@@ -9,6 +9,7 @@ import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.command.dynamic.DynamicCommand;
 import edu.greenblitz.utils.command.dynamic.NullCommand;
+import edu.wpi.first.wpilibj.command.Command;
 
 public class SafeMoveElevator extends CommandChain {
 
@@ -25,7 +26,7 @@ public class SafeMoveElevator extends CommandChain {
 
         addSequential(new DynamicCommand("Ensuring roller safe") {
             @Override
-            protected GBCommand pick() {
+            protected Command pick() {
                 if (Elevator.isBelowCritical(m_height) || Elevator.isBelowCritical(Elevator.getInstance().getHeight()))
                     return new GroundMovement();
                 return new NullCommand();

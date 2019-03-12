@@ -14,8 +14,7 @@ public class SafeExtendAndRollIn extends CommandChain {
         addSequential(new DelayCommand(1000));
     }
 
-    @Override
-    protected void atEnd(){
+    protected void end(){
         new RetractAndRollIn().start();
     }
 }

@@ -31,13 +31,7 @@ public class ClimbByJoystickRestricted extends CommandChain {
                 new ToPower());
     }
 
-    @Override
-    public Set<GBSubsystem> getLazyRequirements() {
-        return Set.of(Chassis.getInstance(), Climber.getInstance().getBig(), Climber.getInstance().getExtender(), Climber.getInstance().getWheels());
-    }
-
-    @Override
-    protected void atEnd() {
+    protected void end() {
         new ClimbByJoystick(m_bigJoystick, m_extenderJoystick, m_driveJoystick).start();
     }
 }
