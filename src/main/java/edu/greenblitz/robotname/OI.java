@@ -126,8 +126,8 @@ public class OI {
         sideJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
         sideJoystick.L1.whenReleased(new ToggleRoller());
 
-        POVButton pov = new POVButton(sideJoystick.getRawJoystick(), 0);
-        pov.whenPressed(new ClimbByJoystickRestricted(mainJoystick, mainJoystick, sideJoystick));
+        POVButton restrictClimbing = new POVButton(sideJoystick.getRawJoystick(), 0);
+        restrictClimbing.whenPressed(new ClimbByJoystickRestricted(mainJoystick, mainJoystick, sideJoystick));
 
         sideJoystick.START.whenPressed(new ToCargoMode());
         sideJoystick.BACK.whenPressed(new ToHatchMode());
