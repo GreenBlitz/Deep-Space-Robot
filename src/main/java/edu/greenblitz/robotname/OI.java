@@ -112,10 +112,10 @@ public class OI {
         mainJoystick.L3.whenPressed(new GracefulShifterToggle());
 
         mainJoystick.X.whenPressed(new KickBall());
-        mainJoystick.Y.whenPressed(new ExtendAndRollIn());
-        mainJoystick.Y.whenReleased(new RetractAndStopRoller(300));
+        mainJoystick.L1.whenPressed(new ExtendAndRollIn());
+        mainJoystick.L1.whenReleased(new RetractAndStopRoller(300));
 
-        mainJoystick.L1.whenPressed(new VisionPlaceHatchPanel());
+        mainJoystick.Y.whenPressed(new VisionPlaceHatchPanel());
         mainJoystick.R1.whenPressed(new VisionCollectHatchPanel());
 
         POVButton autoShiftOn = new POVButton(mainJoystick.getRawJoystick(), 0);
