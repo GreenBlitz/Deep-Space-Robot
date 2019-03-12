@@ -1,6 +1,7 @@
 package edu.greenblitz.robotname.commands.complex.exposed.kicker;
 
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickAndRetract;
+import edu.greenblitz.robotname.commands.simple.elevator.ImmediateBrakeElevator;
 import edu.greenblitz.robotname.commands.simple.poker.RetractPoker;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollOut;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
@@ -8,21 +9,20 @@ import edu.greenblitz.robotname.commands.simple.roller.RollOut;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.robotname.subsystems.Poker;
 import edu.greenblitz.robotname.subsystems.Roller;
-import edu.greenblitz.utils.command.DynamicRequire;
-import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.chain.CommandChain;
-import edu.greenblitz.utils.command.dynamic.DynamicCommand;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 
 public class KickBall extends CommandChain {
     public KickBall() {
-        addSequential(new ConditionalCommand("KickBall dynamic", new KickAtFloor(), new KickAtHeight()) {
-            @Override
-            protected boolean condition() {
-                return Elevator.getInstance().isFloorLevel();
-            }
-        });
+        addSequential(new ImmediateBrakeElevator());
+        addSequential(
+                new ConditionalCommand("KickBall dynamic", new KickAtFloor(), new KickAtHeight()) {
+                    @Override
+                    protected boolean condition() {
+                        return Elevator.getInstance().isFloorLevel();
+                    }
+                }
+        );
     }
 
     public static class KickAtFloor extends CommandChain {
@@ -50,11 +50,5 @@ public class KickBall extends CommandChain {
         public KickAtHeight() {
             addSequential(new KickAndRetract());
         }
-    }
-
-    @Override
-    protected void atEnd() {
-        Roller.getInstance().stopRolling();
-        Roller.getInstance().retract();
     }
 }
