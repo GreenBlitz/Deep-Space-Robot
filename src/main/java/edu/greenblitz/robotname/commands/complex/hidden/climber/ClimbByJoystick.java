@@ -3,13 +3,8 @@ package edu.greenblitz.robotname.commands.complex.hidden.climber;
 import edu.greenblitz.robotname.commands.simple.climber.ClimberBigControlByJoystick;
 import edu.greenblitz.robotname.commands.simple.climber.ClimberExtendByJoystick;
 import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
-import edu.greenblitz.robotname.subsystems.Chassis;
-import edu.greenblitz.robotname.subsystems.Climber;
-import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.command.chain.CommandChain;
 import edu.greenblitz.utils.hid.SmartJoystick;
-
-import java.util.Set;
 
 public class ClimbByJoystick extends CommandChain {
 
