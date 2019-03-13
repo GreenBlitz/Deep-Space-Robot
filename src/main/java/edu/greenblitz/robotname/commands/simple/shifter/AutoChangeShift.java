@@ -11,7 +11,7 @@ import java.util.Optional;
 public class AutoChangeShift extends SubsystemCommand<Shifter> {
 
     private static final double TO_POWER_THRESHOLD = 1.3,
-            TO_SPEED_THRESHOLD = 1.4;
+            TO_SPEED_THRESHOLD = 1.6;
     private static final long TIMEOUT = 700;
     private double t0;
 

@@ -14,9 +14,9 @@ import java.util.Optional;
 
 public class ClimberProportionalExtendByJoystick extends JoystickCommand<Climber.Extender> implements PIDSource, PIDOutput {
 
-    private static final double START_UPPER_LIMIT = 0.20;
+    private static final double START_UPPER_LIMIT = 0.2;
     private static final double GOAL = -0.5;
-    private static final double Kp = 7 / 17.0, Ki = 0, Kd = 0;
+    private static final double Kp = 11 / 17.0, Ki = 0, Kd = 0;
 
     private static final double PIDGET_MULTI = 8.5;
     private static final double MIN_MULTI = 0.25;

@@ -1,5 +1,6 @@
-package edu.greenblitz.robotname.commands.complex.hidden.climber;
+package edu.greenblitz.robotname.commands.complex.exposed;
 
+import edu.greenblitz.robotname.commands.complex.hidden.climber.StartSideClimberControl;
 import edu.greenblitz.robotname.commands.simple.climber.ClimberBigControlByJoystick;
 import edu.greenblitz.robotname.commands.simple.climber.ClimberProportionalExtendByJoystick;
 import edu.greenblitz.robotname.commands.simple.shifter.ToPower;

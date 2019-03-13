@@ -1,20 +1,13 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.HybridCollectHatchPanel;
-import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.HybridPlaceHatchPanel;
-import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionCollectHatchPanel;
-import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionPlaceHatchPanel;
-import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
+import edu.greenblitz.robotname.commands.complex.exposed.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickRestricted;
-import edu.greenblitz.robotname.commands.complex.hidden.climber.StartSideClimberControl;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.exposed.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.exposed.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.AlignToVisionTarget;
-import edu.greenblitz.robotname.commands.simple.climber.ClimberBigControlByJoystick;
-import edu.greenblitz.robotname.commands.simple.climber.ClimberDriveByJoystick;
 import edu.greenblitz.robotname.commands.simple.climber.ClimberProportionalExtendByJoystick;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;

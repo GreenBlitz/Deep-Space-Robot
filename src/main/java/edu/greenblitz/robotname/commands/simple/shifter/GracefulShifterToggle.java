@@ -6,10 +6,11 @@ import edu.greenblitz.robotname.subsystems.Shifter;
 public class GracefulShifterToggle extends ShifterBaseCommand {
     private boolean didToggle;
 
-    private static final long DEFAULT_DELAY = 50;
+    private static final long DEFAULT_DELAY = 0;
 
     public GracefulShifterToggle(long sleepTime) {
         super(sleepTime);
+
         requires(Chassis.getInstance());
     }
 

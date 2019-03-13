@@ -1,6 +1,7 @@
 package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
+import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;
 import edu.greenblitz.robotname.data.Paths;
 import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
