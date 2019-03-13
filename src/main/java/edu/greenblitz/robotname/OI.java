@@ -118,8 +118,8 @@ public class OI {
         mainJoystick.L1.whenPressed(new ExtendAndRollIn());
         mainJoystick.L1.whenReleased(new RetractAndStopRoller(300));
 
-        mainJoystick.Y.whileHeld(new HybridPlaceHatchPanel());
-        mainJoystick.R1.whileHeld(new HybridCollectHatchPanel());
+//        mainJoystick.Y.whileHeld(new HybridPlaceHatchPanel());
+//        mainJoystick.R1.whileHeld(new HybridCollectHatchPanel());
 
         POVButton autoShiftOn = new POVButton(mainJoystick.getRawJoystick(), 0);
         autoShiftOn.whenPressed(new AutoChangeShift());
