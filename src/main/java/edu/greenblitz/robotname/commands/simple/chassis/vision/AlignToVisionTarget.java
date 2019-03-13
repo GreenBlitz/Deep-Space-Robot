@@ -2,64 +2,70 @@ package edu.greenblitz.robotname.commands.simple.chassis.vision;
 
 import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.commands.simple.chassis.ChassisBaseCommand;
+import edu.greenblitz.robotname.data.GearDependentDouble;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
+import edu.greenblitz.robotname.subsystems.Shifter;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import org.greenblitz.motion.pid.PIDController;
-import org.greenblitz.motion.pid.PIDObject;
-import org.greenblitz.motion.tolerance.AbsoluteTolerance;
-import org.greenblitz.motion.tolerance.ITolerance;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 
-public class AlignToVisionTarget extends ChassisBaseCommand {
+public class AlignToVisionTarget extends ChassisBaseCommand implements PIDSource, PIDOutput {
 
-    private static final double FULL_POWER = 0.15;
-    private static final double SLOWDOWN_ANGLE = 25;
-    private static final long TIME_ON_TARGET = 200;
-    private static final PIDObject PID_CONFIG = new PIDObject(FULL_POWER / SLOWDOWN_ANGLE, 0, 0);
-    private static final ITolerance PID_TOLERANCE = new AbsoluteTolerance(3);
+    private static final GearDependentDouble POWER_LIMIT = new GearDependentDouble(Shifter.Gear.SPEED, 0.15);
 
-    private long m_onTarget = -1;
+    private static final GearDependentDouble turnKp = new GearDependentDouble(Shifter.Gear.SPEED, 0.08/25);
 
     private PIDController m_controller;
 
     public AlignToVisionTarget(){
-        m_controller = new PIDController(PID_CONFIG, PID_TOLERANCE);
+        m_controller = new PIDController(0, 0, 0, this, this);
     }
 
     @Override
     public void atInit() {
         VisionMaster.getInstance().setCurrentAlgorithm(VisionMaster.Algorithm.TARGETS);
-        m_controller.configure(get(), 0, -FULL_POWER, FULL_POWER, 0);
+        var current = Shifter.getInstance().getCurrentGear();
+
+        var p = turnKp.getByGear(current);
+        m_controller.setP(p);
+        m_controller.setAbsoluteTolerance(2);
+        m_controller.setSetpoint(0);
+
+        m_controller.enable();
     }
 
-    @Override
-    protected void execute() {
-        system.arcadeDrive(0.5 * SmartJoystick.Axis.LEFT_Y.getValue(OI.getMainJoystick()),
-                           -m_controller.calculatePID(get()));
-    }
 
     @Override
     protected boolean isFinished() {
-//        if (m_controller.isFinished(get())) {
-//            if (m_onTarget == -1)
-//                m_onTarget = System.currentTimeMillis();
-//        }
-//        else
-//            m_onTarget = -1;
-//
-//      return m_controller.isFinished(get()) && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
         return false;
     }
 
-    public void set(double output) {
+    @Override
+    public void pidWrite(double output) {
+        system.arcadeDrive(
+                POWER_LIMIT.getByCurrentGear() * OI.getMainJoystick().getAxisValue(SmartJoystick.Axis.LEFT_Y),
+                -output);
+    }
 
+    @Override
+    public void setPIDSourceType(PIDSourceType pidSource) {
+
+    }
+
+    @Override
+    public PIDSourceType getPIDSourceType() {
+        return PIDSourceType.kDisplacement;
+    }
+
+    @Override
+    public double pidGet() {
+        return VisionMaster.getInstance().getStandardizedData()[0].getCenterAngle();
     }
 
     @Override
     protected void atEnd(){
         system.stop();
-    }
-
-    public double get() {
-        return VisionMaster.getInstance().getStandardizedData()[0].getCenterAngle();
     }
 }
