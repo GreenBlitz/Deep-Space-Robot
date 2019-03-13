@@ -33,7 +33,7 @@ public class AlignToVisionTarget extends ChassisBaseCommand {
 
     @Override
     protected void execute() {
-        system.arcadeDrive(SmartJoystick.Axis.LEFT_Y.getValue(OI.getMainJoystick()),
+        system.arcadeDrive(0.5 * SmartJoystick.Axis.LEFT_Y.getValue(OI.getMainJoystick()),
                            -m_controller.calculatePID(get()));
     }
 
