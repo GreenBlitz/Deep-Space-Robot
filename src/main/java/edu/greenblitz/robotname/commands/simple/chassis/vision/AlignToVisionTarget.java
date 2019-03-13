@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AlignToVisionTarget extends ChassisBaseCommand implements PIDSource, PIDOutput {
 
@@ -61,11 +62,19 @@ public class AlignToVisionTarget extends ChassisBaseCommand implements PIDSource
 
     @Override
     public double pidGet() {
-        return VisionMaster.getInstance().getStandardizedData()[0].getCenterAngle();
+        if (VisionMaster.getInstance().isDataValid()) {
+            var ret = VisionMaster.getInstance().getStandardizedData()[0].getCenterAngle();
+            SmartDashboard.putNumber("Vision::center angle", ret);
+            return ret;
+        } else {
+            SmartDashboard.putNumber("Vision::center angle", 0);
+            return 0;
+        }
     }
 
     @Override
     protected void atEnd(){
+        m_controller.disable();
         system.stop();
     }
 }

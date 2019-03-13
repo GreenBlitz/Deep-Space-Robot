@@ -162,6 +162,7 @@ public class Robot extends TimedRobot {
         Shifter.getInstance().reset();
         Pneumatics.getInstance().reset();
         Climber.getInstance().getExtender().reset();
+        Scheduler.getInstance().removeAll();
 
         m_usageReport.reset();
         m_status.setCurrentState(

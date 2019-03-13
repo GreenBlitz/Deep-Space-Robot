@@ -4,6 +4,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -60,6 +61,7 @@ public class VisionMaster {
     private NetworkTable m_visionTable;
     private NetworkTableEntry m_algorithm;
     private NetworkTableEntry m_values;
+    private NetworkTableEntry m_found;
     private Logger logger;
     private Error m_lastError = Error.OK;
 
@@ -68,6 +70,7 @@ public class VisionMaster {
         m_visionTable = NetworkTableInstance.getDefault().getTable("vision");
         m_algorithm = m_visionTable.getEntry("algorithm");
         m_values = m_visionTable.getEntry("output");
+        m_found = m_visionTable.getEntry("found");
     }
 
     public void setCurrentAlgorithm(Algorithm algo) {
@@ -139,4 +142,9 @@ public class VisionMaster {
     public void getCurrentVisionData(double[] dest) {
         m_values.getDoubleArray(dest);
     }
+
+    public boolean isDataValid() {
+        return m_found.getBoolean(false);
+    }
+
 }
