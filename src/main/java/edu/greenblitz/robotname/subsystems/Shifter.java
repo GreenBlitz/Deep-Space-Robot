@@ -61,7 +61,7 @@ public class Shifter extends GBSubsystem {
     }
 
     public void reset() {
-        setShift(Gear.SPEED);
+        setShift(Gear.POWER);
     }
 
     /**
@@ -123,7 +123,7 @@ public class Shifter extends GBSubsystem {
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new KeepShift());
+        setDefaultCommand(new AutoChangeShift());
     }
 
     @Override

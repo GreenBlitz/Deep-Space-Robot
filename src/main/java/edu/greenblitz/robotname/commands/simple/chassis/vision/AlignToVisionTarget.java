@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AlignToVisionTarget extends ChassisBaseCommand implements PIDSource, PIDOutput {
 
-    private static final GearDependentDouble POWER_LIMIT = new GearDependentDouble(Shifter.Gear.SPEED, 0.15);
-
     private static final GearDependentDouble turnKp = new GearDependentDouble(Shifter.Gear.SPEED, 0.08/25);
 
     private PIDController m_controller;
@@ -46,7 +44,7 @@ public class AlignToVisionTarget extends ChassisBaseCommand implements PIDSource
     @Override
     public void pidWrite(double output) {
         system.arcadeDrive(
-                POWER_LIMIT.getByCurrentGear() * OI.getMainJoystick().getAxisValue(SmartJoystick.Axis.LEFT_Y),
+                OI.getMainJoystick().getAxisValue(SmartJoystick.Axis.LEFT_Y),
                 -output);
     }
 
