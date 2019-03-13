@@ -32,8 +32,8 @@ public class Elevator extends GBSubsystem {
         GROUND(CARGO_OFFSET, HATCH_OFFSET),
         ROCKET_LOW(0.7, HATCH_OFFSET),
         CARGO_SHIP(1, HATCH_OFFSET),
-        ROCKET_MID(1.41, 1.22),
-        ROCKET_HIGH(2.12, 1.95);
+        ROCKET_MID(1.41 - 0.1, 1.22),
+        ROCKET_HIGH(2.12 - 0.1, 1.95 - 0.1);
 
         public final double cargo;
         public final double hatch;
@@ -60,7 +60,7 @@ public class Elevator extends GBSubsystem {
 
     public static final double LEVEL_HEIGHT_TOLERANCE = 0.05;
 
-    public static final double LOWER_TOLERANCE = 0.01;
+    public static final double LOWER_TOLERANCE = 0.04;
     public static final double HIGHER_TOLERANCE = 1;
 
     public static final int MAGIC_LOOP_IDX = 0;

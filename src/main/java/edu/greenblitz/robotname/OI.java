@@ -1,5 +1,7 @@
 package edu.greenblitz.robotname;
 
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.HybridCollectHatchPanel;
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.HybridPlaceHatchPanel;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionCollectHatchPanel;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionPlaceHatchPanel;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystick;
@@ -112,11 +114,12 @@ public class OI {
         mainJoystick.L3.whenPressed(new GracefulShifterToggle());
 
         mainJoystick.X.whenPressed(new KickBall());
+
         mainJoystick.L1.whenPressed(new ExtendAndRollIn());
         mainJoystick.L1.whenReleased(new RetractAndStopRoller(300));
 
-        mainJoystick.Y.whenPressed(new VisionPlaceHatchPanel());
-        mainJoystick.R1.whenPressed(new VisionCollectHatchPanel());
+        mainJoystick.Y.whileHeld(new HybridPlaceHatchPanel());
+        mainJoystick.R1.whileHeld(new HybridCollectHatchPanel());
 
         POVButton autoShiftOn = new POVButton(mainJoystick.getRawJoystick(), 0);
         autoShiftOn.whenPressed(new AutoChangeShift());

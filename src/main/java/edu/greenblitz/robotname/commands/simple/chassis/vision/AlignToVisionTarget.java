@@ -1,7 +1,9 @@
 package edu.greenblitz.robotname.commands.simple.chassis.vision;
 
+import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.commands.simple.chassis.ChassisBaseCommand;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
+import edu.greenblitz.utils.hid.SmartJoystick;
 import org.greenblitz.motion.pid.PIDController;
 import org.greenblitz.motion.pid.PIDObject;
 import org.greenblitz.motion.tolerance.AbsoluteTolerance;
@@ -31,23 +33,25 @@ public class AlignToVisionTarget extends ChassisBaseCommand {
 
     @Override
     protected void execute() {
-        set(m_controller.calculatePID(get()));
+        system.arcadeDrive(SmartJoystick.Axis.LEFT_Y.getValue(OI.getMainJoystick()),
+                           -m_controller.calculatePID(get()));
     }
 
     @Override
     protected boolean isFinished() {
-        if (m_controller.isFinished(get())) {
-            if (m_onTarget == -1)
-                m_onTarget = System.currentTimeMillis();
-        }
-        else
-            m_onTarget = -1;
-
-      return m_controller.isFinished(get()) && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
+//        if (m_controller.isFinished(get())) {
+//            if (m_onTarget == -1)
+//                m_onTarget = System.currentTimeMillis();
+//        }
+//        else
+//            m_onTarget = -1;
+//
+//      return m_controller.isFinished(get()) && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
+        return false;
     }
 
     public void set(double output) {
-        system.tankDrive(-output, output);
+
     }
 
     @Override
