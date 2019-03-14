@@ -17,6 +17,7 @@ import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
 import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.robotname.commands.simple.shifter.GracefulShifterToggle;
 import edu.greenblitz.robotname.commands.simple.shifter.KeepShift;
+import edu.greenblitz.robotname.commands.simple.shifter.ToggleShift;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.ResetCommands;
@@ -106,7 +107,7 @@ public class OI {
         mainJoystick.B.whenPressed(new ReleaseHatch());
         mainJoystick.B.whenReleased(new HoldHatch());
 
-        mainJoystick.L3.whenPressed(new GracefulShifterToggle());
+        mainJoystick.L3.whenPressed(new ToggleShift());
 
         mainJoystick.X.whenPressed(new KickBall());
 

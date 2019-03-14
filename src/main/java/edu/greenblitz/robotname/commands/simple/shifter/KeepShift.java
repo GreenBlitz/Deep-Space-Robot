@@ -18,7 +18,6 @@ public class KeepShift extends SubsystemCommand<Shifter> {
 
     @Override
     protected void atInit(){
-        system.setDefaultCommand(this);
     }
 
     @Override

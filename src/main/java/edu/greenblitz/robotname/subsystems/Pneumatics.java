@@ -1,6 +1,7 @@
 package edu.greenblitz.robotname.subsystems;
 
 import edu.greenblitz.robotname.RobotMap.Pneumatics.Sensor;
+import edu.greenblitz.robotname.commands.simple.pneumatics.CompressorOn;
 import edu.greenblitz.robotname.commands.simple.pneumatics.HandleCompressor;
 import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.sensors.PressureSensor;
@@ -87,7 +88,7 @@ public class Pneumatics extends GBSubsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new HandleCompressor());
+        setDefaultCommand(new CompressorOn(0));
     }
 
     public double getMinPressureReleased() {
