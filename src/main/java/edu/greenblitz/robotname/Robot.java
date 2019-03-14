@@ -1,6 +1,7 @@
 package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
+import edu.greenblitz.robotname.commands.simple.shifter.KeepShift;
 import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;
 import edu.greenblitz.robotname.data.Paths;
 import edu.greenblitz.robotname.data.Report;
@@ -119,6 +120,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         matchInit();
+        new KeepShift().start();
     }
 
     @Override
@@ -127,6 +129,7 @@ public class Robot extends TimedRobot {
             logger.info("WERE IN FOR A REAL MATCH BOYS!");
             // This is for a real match
             Scheduler.getInstance().removeAll();
+            new AutoChangeShift().start();
         } else {
             logger.info("testing...");
             // This is for testing
