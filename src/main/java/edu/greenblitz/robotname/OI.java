@@ -1,6 +1,7 @@
 package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.commands.complex.exposed.ClimbByJoystick;
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionCollectHatchPanel;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickRestricted;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.exposed.elevator.SafeMoveElevator;
@@ -8,6 +9,7 @@ import edu.greenblitz.robotname.commands.complex.exposed.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.AlignToVisionTarget;
+import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFromVisionTarget;
 import edu.greenblitz.robotname.commands.simple.climber.ClimberProportionalExtendByJoystick;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
@@ -114,7 +116,8 @@ public class OI {
         mainJoystick.L1.whenPressed(new ExtendAndRollIn());
         mainJoystick.L1.whenReleased(new RetractAndStopRoller(300));
 
-        mainJoystick.R1.whenPressed(new AlignToVisionTarget());
+        mainJoystick.R1.whenPressed(new VisionCollectHatchPanel());
+//        mainJoystick.R1.whenPressed(new DriveToDistanceFromVisionTarget(0.7));
         mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
 
         POVButton autoShiftOn = new POVButton(mainJoystick.getRawJoystick(), 0);

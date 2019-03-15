@@ -147,4 +147,8 @@ public class VisionMaster {
         return m_found.getBoolean(false);
     }
 
+    public void update() {
+        SmartDashboard.putNumber("Vision::PlanetaryDistance", getPlaneryDistance());
+        SmartDashboard.putNumber("Vision::Angle", getAngle());
+    }
 }
