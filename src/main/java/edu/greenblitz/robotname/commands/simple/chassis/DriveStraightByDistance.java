@@ -99,7 +99,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSource, PIDOutput {
 
     private static final GearDependentDouble
-            kP = new GearDependentDouble(Shifter.Gear.SPEED, 0.25),
+            kP = new GearDependentDouble(Shifter.Gear.SPEED, 0.3),
             kI = new GearDependentDouble(Shifter.Gear.SPEED, 0),
             kD = new GearDependentDouble(Shifter.Gear.SPEED, 0);
 

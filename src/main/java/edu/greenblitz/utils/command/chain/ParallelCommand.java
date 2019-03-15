@@ -1,127 +1,42 @@
 package edu.greenblitz.utils.command.chain;
 
-import edu.greenblitz.utils.command.GBCommand;
-import edu.greenblitz.utils.command.GBSubsystem;
-import edu.greenblitz.utils.sm.State;
+import java.util.Vector;
+
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
-import java.util.*;
-import java.util.stream.Collectors;
+public class ParallelCommand {
+    private Vector<Command> m_commands = new Vector<Command>();
 
-public class ParallelCommand extends GBCommand {
-    private GBCommand[] m_commands;
-    private Set<GBSubsystem> m_requirements;
-
-    @Override
-    public Optional<State> getDeltaState() {
-        State ret = new State(null, null, null, null);
-        var nullState = new State(null, null, null, null);
-
-        for (GBCommand c : m_commands)
-            updateState(ret, c.
-                    getDeltaState().orElse(nullState));
-
-        return Optional.ofNullable(ret.equals(nullState) ? null : ret);
+    public ParallelCommand(Command command) {
+        addParallel(command);
     }
 
-    private State updateState(State current, State toAdd) {
-        if (toAdd.getElevatorState() != null) {
-            if (current.getElevatorState() != null && current.getElevatorState() != toAdd.getElevatorState()) {
-                throw new RuntimeException("Two commands with conflicting states.");
-            }
-            current.setElevatorState(toAdd.getElevatorState());
-        }
-        if (toAdd.getKickerState() != null) {
-            if (current.getKickerState() != null && current.getKickerState() != toAdd.getKickerState()) {
-                throw new RuntimeException("Two commands with conflicting states.");
-            }
-            current.setKickerState(toAdd.getKickerState());
-        }
-        if (toAdd.getPokerState() != null) {
-            if (current.getPokerState() != null && current.getPokerState() != toAdd.getPokerState()) {
-                throw new RuntimeException("Two commands with conflicting states.");
-            }
-            current.setPokerState(toAdd.getPokerState());
-        }
-        if (toAdd.getRollerState() != null) {
-            if (current.getRollerState() != null && current.getRollerState() != toAdd.getRollerState()) {
-                throw new RuntimeException("Two commands with conflicting states.");
-            }
-            current.setRollerState(toAdd.getRollerState());
-        }
-        return current;
+    public void addParallel(Command command) {
+        m_commands.add(command);
     }
 
-    public ParallelCommand(GBCommand... commands) {
-        this(0, commands);
-    }
-
-    public ParallelCommand(String name, GBCommand... commands) {
-        this(name, 0, commands);
-    }
-
-    public ParallelCommand(double timeout, GBCommand... commands) {
-        this(ParallelCommand.class.getSimpleName() + " " + Arrays.toString(commands), timeout, commands);
-    }
-
-    public ParallelCommand(String name, double timeout, GBCommand... commands) {
-        super(name, timeout);
-        addParallel(commands);
-    }
-
-    private void addParallel(GBCommand[] command) {
-        m_commands = command;
-        var requirements = new HashMap<GBSubsystem, GBCommand>();
-
-        for (var cmd : command) {
-            for (var require : cmd.getRequirements()) {
-                if (requirements.containsKey(require)) {
-                    logger.error("Collision of requirements in {}: ({} from {}) collides with ({} from {})", getName(), require, cmd, require, requirements.get(require));
-                    return;
-                }
-
-                requirements.put(require, cmd);
-            }
-        }
-
-        Arrays.stream(m_commands).flatMap(cmd -> cmd.getRequirements().stream()).forEach(this::requires);
-    }
-
-    public GBCommand[] getCommands() {
+    public Vector<Command> getParallelCommands() {
         return m_commands;
     }
 
-    private void runCommands() {
-        Arrays.stream(m_commands).forEach(GBCommand::start);
+    public boolean contains(Command command) {
+        return m_commands.contains(command);
     }
 
-    @Override
-    protected void atInit() {
-        runCommands();
+    public void runCommands() {
+        m_commands.forEach(x ->
+                Scheduler.getInstance().add(x));
     }
 
-    @Override
-    protected void execute() {
-        for (var cmd : m_commands) {
-            if (cmd.isCanceled()) {
-                logger.debug("{}: Command {} was canceled. Stopping all other commands.", getName(), cmd.getName());
-                interrupted = true;
-                cancel();
-            }
-        }
+    public boolean isCompleted() {
+        return !m_commands.stream().filter(x ->
+                x.isRunning()).findAny().isPresent();
     }
 
-    @Override
-    protected boolean isFinished() {
-        for (var cmd : m_commands) {
-            if (!cmd.isCompleted() || cmd.isRunning()) return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public Set<GBSubsystem> getLazyRequirements() {
-        return Arrays.stream(m_commands).flatMap(lst -> lst.getRequirements().stream()).collect(Collectors.toSet());
+    public boolean doesRequire(Subsystem subsystem) {
+        return m_commands.stream().filter(x ->
+                x.doesRequire(subsystem)).findAny().isPresent();
     }
 }

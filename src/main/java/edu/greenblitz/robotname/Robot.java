@@ -134,7 +134,7 @@ public class Robot extends TimedRobot {
             logger.info("testing...");
             // This is for testing
             matchInit();
-            Climber.getInstance().getExtender().resetEncoder();
+            new ToSpeed().start();
         }
     }
 
@@ -156,6 +156,7 @@ public class Robot extends TimedRobot {
     private void update() {
         Pi.update();
         OI.update();
+        VisionMaster.getInstance().update();
     }
 
     private void reset() {

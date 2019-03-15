@@ -103,9 +103,9 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
             kI = new GearDependentDouble(Shifter.Gear.SPEED, 0),
             kD = new GearDependentDouble(Shifter.Gear.SPEED, 0);
 
-    private static final GearDependentDouble POWER_LIMIT = new GearDependentDouble(Shifter.Gear.SPEED, 0.15);
+    private static final GearDependentDouble POWER_LIMIT = new GearDependentDouble(Shifter.Gear.SPEED, 0.2);
 
-    private static final GearDependentDouble turnKp = new GearDependentDouble(Shifter.Gear.SPEED, 0.08/25);
+    private static final GearDependentDouble turnKp = new GearDependentDouble(Shifter.Gear.SPEED, 0.006);
 
     private static final long TIME_ON_TARGET = 0;
 
@@ -151,7 +151,10 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
 
     @Override
     public void pidWrite(double output) {
-        Chassis.getInstance().arcadeDrive(-output, VisionMaster.getInstance().getAngle()*turnKp.getByCurrentGear());
+//        if (VisionMaster.getInstance().isDataValid())
+            Chassis.getInstance().arcadeDrive(-output, VisionMaster.getInstance().getAngle()*turnKp.getByCurrentGear());
+//        else
+//            Chassis.getInstance().stop();
     }
 
     @Override
@@ -176,7 +179,7 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
         else
             m_onTarget = -1;
 
-        return m_onTarget != -1 && m_controller.onTarget() && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET;
+        return VisionMaster.getInstance().isDataValid() && (m_onTarget != -1 && m_controller.onTarget() && System.currentTimeMillis() - m_onTarget > TIME_ON_TARGET);
     }
 
     @Override
