@@ -1,50 +1,58 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2019.3.2"
+    id 'org.hidetake.ssh' version '2.9.0'
 }
 
 def ROBOT_MAIN_CLASS = "edu.greenblitz.robotname.Robot"
 
-// Define my targets (RoboRIO) and artifacts (deployable files)
-// This is added by GradleRIO's backing project EmbeddedTools.
 deploy {
     targets {
         roboRIO("roborio") {
-            // Team number is loaded either from the .wpilib/wpilib_preferences.json
-            // or from command line. If not found an exception will be thrown.
-            // You can use getTeamOrDefault(team) instead of getTeamNumber if you
-            // want to store a team number in this file.
             team = frc.getTeamNumber()
         }
     }
     artifacts {
         frcJavaArtifact('frcJava') {
             targets << "roborio"
-            // Debug can be overridden by command line, for use with VSCode
             debug = frc.getDebugOrDefault(false)
         }
-        // Built in artifact to deploy arbitrary files to the roboRIO.
+
         fileTreeArtifact('frcStaticFileDeploy') {
-            // The directory below is the local directory to deploy
             files = fileTree(dir: 'src/main/deploy')
-            // Deploy to RoboRIO target, into /home/lvuser/deploy
             targets << "roborio"
             directory = '/home/lvuser/deploy'
         }
     }
 }
 
-// Set this to true to enable desktop support.
-def includeDesktopSupport = false
-
-// Maven central needed for JUnit
 repositories {
     jcenter()
     maven { url "https://jitpack.io" }
     mavenCentral()
 }
 
-// Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
+remotes {
+    pi {
+        host = '10.45.90.8'
+        user = 'pi'
+        password = 'raspberry' // Saving a password in plaintext, not my proudest moment :(
+    }
+}
+
+task do_vision {
+    doLast {
+        ssh.run {
+            session(remotes.pi) {
+                execute 'cd "Python Vision 2018-19"'
+                execute './do_vision'
+            }
+        }
+    }
+}
+
+tasks.deploy.dependsOn(do_vision)
+
 dependencies {
     compile wpi.deps.wpilib()
     compile wpi.deps.vendor.java()
@@ -61,9 +69,6 @@ dependencies {
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
 }
 
-// Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
-// in order to make them all available at runtime. Also adding  the manifest so WPILib
-// knows where to look for our Robot Class.
 jar {
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
