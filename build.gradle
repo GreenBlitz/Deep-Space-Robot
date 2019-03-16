@@ -34,9 +34,10 @@ repositories {
 
 remotes {
     pi {
-        host = '10.45.90.8'
-        user = 'pi'
-        password = 'raspberry' // Saving a password in plaintext, not my proudest moment :(
+        host = '10.45.90.8'     // static IP
+        port = 5809             // Port which gets throw the FMS
+        user = 'pi'             
+        password = 'raspberry'  // Saving a password in plaintext, not my proudest moment :(
     }
 }
 
