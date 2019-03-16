@@ -105,7 +105,7 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
 
     private static final GearDependentDouble POWER_LIMIT = new GearDependentDouble(Shifter.Gear.SPEED, 0.2);
 
-    private static final GearDependentDouble turnKp = new GearDependentDouble(Shifter.Gear.SPEED, 0.006);
+    private static final GearDependentDouble turnKp = new GearDependentDouble(Shifter.Gear.SPEED, 0.005);
 
     private static final long TIME_ON_TARGET = 0;
 

@@ -1,23 +1,19 @@
 package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.commands.complex.exposed.ClimbByJoystick;
+import edu.greenblitz.robotname.commands.complex.exposed.HoldHatchAndMoveToFloor;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionCollectHatchPanel;
-import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickRestricted;
-import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionPlaceHatchPanel;
 import edu.greenblitz.robotname.commands.complex.exposed.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.exposed.kicker.KickBall;
+import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickRestricted;
+import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
-import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
-import edu.greenblitz.robotname.commands.simple.chassis.vision.AlignToVisionTarget;
-import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFromVisionTarget;
-import edu.greenblitz.robotname.commands.simple.climber.ClimberProportionalExtendByJoystick;
-import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollIn;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
 import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
-import edu.greenblitz.robotname.commands.simple.shifter.GracefulShifterToggle;
 import edu.greenblitz.robotname.commands.simple.shifter.KeepShift;
 import edu.greenblitz.robotname.commands.simple.shifter.ToggleShift;
 import edu.greenblitz.robotname.subsystems.Elevator;
@@ -88,17 +84,18 @@ public class OI {
     }
 
     public static void initBindings() {
-        initOfficialBindings(); // For real game shit
-//        initTestBindings(); // For testing code
+//        initOfficialBindings(); // For real game shit
+        initTestBindings(); // For testing code
     }
 
     private static void initTestBindings() {
         mainJoystick.A.whenPressed(new TogglePokerExtender());
-        mainJoystick.B.whenPressed(new ToggleRoller());
-        mainJoystick.X.whenPressed(new KickBall());
-        mainJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
-        mainJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
-        mainJoystick.L1.whileHeld(new ClimberProportionalExtendByJoystick(mainJoystick));
+
+        mainJoystick.B.whenPressed(new ReleaseHatch());
+        mainJoystick.B.whenReleased(new HoldHatchAndMoveToFloor());
+
+        mainJoystick.R1.whenPressed(new VisionCollectHatchPanel());
+        mainJoystick.L1.whenPressed(new VisionPlaceHatchPanel());
     }
 
     private static void initOfficialBindings() {
@@ -107,7 +104,7 @@ public class OI {
         mainJoystick.A.whenPressed(new TogglePokerExtender());
 
         mainJoystick.B.whenPressed(new ReleaseHatch());
-        mainJoystick.B.whenReleased(new HoldHatch());
+        mainJoystick.B.whenReleased(new HoldHatchAndMoveToFloor());
 
         mainJoystick.L3.whenPressed(new ToggleShift());
 
@@ -115,10 +112,6 @@ public class OI {
 
         mainJoystick.L1.whenPressed(new ExtendAndRollIn());
         mainJoystick.L1.whenReleased(new RetractAndStopRoller(300));
-
-        mainJoystick.R1.whenPressed(new VisionCollectHatchPanel());
-//        mainJoystick.R1.whenPressed(new DriveToDistanceFromVisionTarget(0.7));
-        mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
 
         POVButton autoShiftOn = new POVButton(mainJoystick.getRawJoystick(), 0);
         autoShiftOn.whenPressed(new AutoChangeShift());
