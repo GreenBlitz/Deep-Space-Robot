@@ -88,8 +88,8 @@ public class OI {
     }
 
     public static void initBindings() {
-//        initOfficialBindings(); // For real game shit
-        initTestBindings(); // For testing code
+        initOfficialBindings(); // For real game shit
+//        initTestBindings(); // For testing code
     }
 
     private static void initTestBindings() {
@@ -124,12 +124,18 @@ public class OI {
         mainJoystick.B.whenPressed(new ReleaseHatch());
         mainJoystick.B.whenReleased(new HoldHatchAndMoveToFloor());
 
+        mainJoystick.Y.whenPressed(new VisionPlaceGameObject());
+        mainJoystick.Y.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+
         mainJoystick.L3.whenPressed(new ToggleShift());
 
         mainJoystick.X.whenPressed(new KickBall());
 
         mainJoystick.L1.whenPressed(new ExtendAndRollIn());
         mainJoystick.L1.whenReleased(new RetractAndStopRoller(300));
+
+        mainJoystick.R1.whenPressed(new VisionCollectHatchPanel());
+        mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
 
         POVButton autoShiftOn = new POVButton(mainJoystick.getRawJoystick(), 0);
         autoShiftOn.whenPressed(new AutoChangeShift());
