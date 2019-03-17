@@ -1,6 +1,5 @@
 package edu.greenblitz.robotname.commands.complex.exposed.kicker;
 
-import edu.greenblitz.robotname.commands.complex.exposed.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickAndRetract;
 import edu.greenblitz.robotname.commands.simple.elevator.ImmediateBrakeElevator;
 import edu.greenblitz.robotname.commands.simple.poker.RetractPoker;
@@ -15,7 +14,7 @@ import edu.wpi.first.wpilibj.command.ConditionalCommand;
 
 public class KickBall extends CommandChain {
     public KickBall() {
-        addSequential(new ImmediateBrakeElevator());
+//        addSequential(new ImmediateBrakeElevator());
         addSequential(
                 new ConditionalCommand("KickBall dynamic", new KickAtFloor(), new KickAtHeight()) {
                     @Override
@@ -50,7 +49,6 @@ public class KickBall extends CommandChain {
     public static class KickAtHeight extends CommandChain {
         public KickAtHeight() {
             addSequential(new KickAndRetract());
-            addSequential(new SafeMoveElevator(Elevator.Level.GROUND));
         }
     }
 }

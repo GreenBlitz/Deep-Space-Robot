@@ -98,14 +98,16 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 
 public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implements PIDSource, PIDOutput {
 
+    private static final double VISION_TARGET_OFFSET = 3;
+
     private static final GearDependentDouble
             kP = new GearDependentDouble(Shifter.Gear.SPEED, 0.3),
             kI = new GearDependentDouble(Shifter.Gear.SPEED, 0),
             kD = new GearDependentDouble(Shifter.Gear.SPEED, 0);
 
-    private static final GearDependentDouble POWER_LIMIT = new GearDependentDouble(Shifter.Gear.SPEED, 0.2);
+    private static final GearDependentDouble POWER_LIMIT = new GearDependentDouble(Shifter.Gear.SPEED, 0.25);
 
-    private static final GearDependentDouble turnKp = new GearDependentDouble(Shifter.Gear.SPEED, 0.005);
+    private static final GearDependentDouble turnKp = new GearDependentDouble(Shifter.Gear.SPEED, 0.0035);
 
     private static final long TIME_ON_TARGET = 0;
 
@@ -152,7 +154,7 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
     @Override
     public void pidWrite(double output) {
 //        if (VisionMaster.getInstance().isDataValid())
-            Chassis.getInstance().arcadeDrive(-output, VisionMaster.getInstance().getAngle()*turnKp.getByCurrentGear());
+            Chassis.getInstance().arcadeDrive(-output, (VisionMaster.getInstance().getAngle() + VISION_TARGET_OFFSET)*turnKp.getByCurrentGear());
 //        else
 //            Chassis.getInstance().stop();
     }
