@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Kicker extends GBSubsystem {
 
-    public static final long KICKER_STATE_TIMEOUT = 1000;
+    public static final long KICKER_STATE_TIMEOUT = 500;
 
     private static Kicker instance;
 

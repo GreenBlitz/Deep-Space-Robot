@@ -15,7 +15,7 @@ import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.TalonEncoder;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.greenblitz.utils.sm.ElevatorState;
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -48,7 +48,7 @@ public class Elevator extends GBSubsystem {
         }
 
         public double heightByCurrentState() {
-            return heightByState(OI.getOIState());
+            return heightByState(OI.getGameObject());
         }
     }
 
@@ -75,6 +75,8 @@ public class Elevator extends GBSubsystem {
     private SendableDoubleSolenoid m_brake;
     private Level m_level = Level.GROUND;
     private Logger logger;
+
+    private DoubleSolenoid.Value m_brakeValue = Value.kForward;
 
     private Elevator() {
         logger = LogManager.getLogger(getClass());
@@ -108,7 +110,7 @@ public class Elevator extends GBSubsystem {
     }
 
     public static double getCriticalHeight(){
-        return Level.ROCKET_LOW.cargo;
+        return Level.ROCKET_LOW.cargo - 0.15;
     }
 
     public static boolean isBelowCritical(double h){
@@ -152,7 +154,7 @@ public class Elevator extends GBSubsystem {
                 logger.debug("brake released");
             }
         }
-        m_brake.set(value);
+        m_brakeValue = value;
     }
 
     public void setRawPower(double power) {
@@ -200,7 +202,7 @@ public class Elevator extends GBSubsystem {
     }
 
     private Optional<Level> updateLevel() {
-        var state = OI.getOIState();
+        var state = OI.getGameObject();
         for (var lvl : Level.values()) {
             if (Math.abs(lvl.heightByState(state) - getHeight()) <= LEVEL_HEIGHT_TOLERANCE) {
                 return Optional.of(lvl);
@@ -227,5 +229,7 @@ public class Elevator extends GBSubsystem {
         SmartDashboard.putNumber("Elevator::power", m_leader.get());
         SmartDashboard.putNumber("Elevator::Height", getHeight());
         updateLevel().ifPresent(this::setLevel);
+        if (m_brakeValue != m_brake.get())
+            m_brake.set(m_brakeValue);
     }
 }

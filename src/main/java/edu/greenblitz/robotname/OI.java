@@ -3,14 +3,18 @@ package edu.greenblitz.robotname;
 import edu.greenblitz.robotname.commands.complex.exposed.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.exposed.HoldHatchAndMoveToFloor;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionCollectHatchPanel;
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionPlaceCargo;
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionPlaceGameObject;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionPlaceHatchPanel;
 import edu.greenblitz.robotname.commands.complex.exposed.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.exposed.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickRestricted;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
+import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
+import edu.greenblitz.robotname.commands.simple.poker.TogglePokerHolder;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollIn;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
 import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
@@ -44,7 +48,7 @@ public class OI {
         return sideJoystick;
     }
 
-    private static class ToHatchMode extends GBCommand {
+    public static class ToHatchMode extends GBCommand {
         @Override
         public Optional<State> getDeltaState() {
             return Optional.empty();
@@ -61,7 +65,7 @@ public class OI {
         }
     }
 
-    private static class ToCargoMode extends GBCommand {
+    public static class ToCargoMode extends GBCommand {
         @Override
         public Optional<State> getDeltaState() {
             return Optional.empty();
@@ -89,13 +93,27 @@ public class OI {
     }
 
     private static void initTestBindings() {
-        mainJoystick.A.whenPressed(new TogglePokerExtender());
 
-        mainJoystick.B.whenPressed(new ReleaseHatch());
-        mainJoystick.B.whenReleased(new HoldHatchAndMoveToFloor());
+//        mainJoystick.B.whenPressed(new VisionCollectHatchPanel());
+//        mainJoystick.B.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+        mainJoystick.X.whenPressed(new VisionPlaceGameObject());
+        mainJoystick.X.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
 
-        mainJoystick.R1.whenPressed(new VisionCollectHatchPanel());
-        mainJoystick.L1.whenPressed(new VisionPlaceHatchPanel());
+        mainJoystick.L1.whenPressed(new ExtendAndRollIn());
+        mainJoystick.L1.whenReleased(new RetractAndStopRoller(300));
+
+        mainJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
+
+        mainJoystick.START.whenPressed(new ToCargoMode());
+//        mainJoystick.BACK.whenPressed(new ToHatchMode());
+
+        mainJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
+
+        sideJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
+        sideJoystick.A.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
+        sideJoystick.B.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
+        sideJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
+        sideJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
     }
 
     private static void initOfficialBindings() {
@@ -133,16 +151,16 @@ public class OI {
         sideJoystick.BACK.whenPressed(new ToHatchMode());
     }
 
-    public static GameObject getOIState() {
+    public static GameObject getGameObject() {
         return oiGameObject;
     }
 
     public static boolean isStateCargo() {
-        return getOIState() == GameObject.CARGO;
+        return getGameObject() == GameObject.CARGO;
     }
 
     public static boolean isStateHatch() {
-        return getOIState() == GameObject.HATCH;
+        return getGameObject() == GameObject.HATCH;
     }
 
     public static void update() {

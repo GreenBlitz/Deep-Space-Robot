@@ -42,7 +42,7 @@ public abstract class CommandChain extends CommandGroup {
     }
 
     @Override
-    protected void interrupted() {
+    protected final void interrupted() {
         logger.debug("interrupting command {}", getName());
         atInterrupt();
         logger.debug("command {} has been interrupted!", getName());
