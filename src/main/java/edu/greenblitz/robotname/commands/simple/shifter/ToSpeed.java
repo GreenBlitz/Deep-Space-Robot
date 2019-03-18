@@ -24,6 +24,6 @@ public class ToSpeed extends SubsystemCommand<Shifter> {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 }
