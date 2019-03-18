@@ -10,6 +10,7 @@ import edu.greenblitz.robotname.commands.complex.exposed.elevator.SafeMoveElevat
 import edu.greenblitz.robotname.commands.complex.exposed.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickRestricted;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
+import edu.greenblitz.robotname.commands.complex.hidden.roller.SmartExtendAndRollIn;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.TriggerDriveByVision;
@@ -132,7 +133,7 @@ public class OI {
 
         mainJoystick.X.whenPressed(new KickBall());
 
-        mainJoystick.L1.whenPressed(new ExtendAndRollIn());
+        mainJoystick.L1.whenPressed(new SmartExtendAndRollIn());
         mainJoystick.L1.whenReleased(new RetractAndStopRoller(300));
 
         mainJoystick.R1.whenPressed(new TriggerDriveByVision());

@@ -1,10 +1,13 @@
 package edu.greenblitz.robotname.commands.simple.chassis.vision;
 
 import edu.greenblitz.robotname.OI;
+import edu.greenblitz.robotname.commands.complex.hidden.poker.SmartSetPokerExtenderState;
 import edu.greenblitz.robotname.commands.simple.chassis.ChassisBaseCommand;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
+import edu.greenblitz.robotname.subsystems.Poker;
 import edu.greenblitz.utils.hid.SmartJoystick;
+import edu.greenblitz.utils.sm.PokerState;
 import edu.wpi.first.wpilibj.GenericHID;
 import org.greenblitz.motion.pid.PIDController;
 import org.greenblitz.motion.pid.PIDObject;
@@ -78,5 +81,8 @@ public class TriggerDriveByVision extends ChassisBaseCommand {
     protected void atEnd() {
         m_joystick.rumble(false, 0);
         m_joystick.rumble(true, 0);
+//        if (OI.getGameObject() == OI.GameObject.HATCH){
+//            new SmartSetPokerExtenderState(true).start(); // TODO test
+//        }
     }
 }
