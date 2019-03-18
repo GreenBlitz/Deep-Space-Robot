@@ -1,7 +1,10 @@
 package edu.greenblitz.utils.hid;
 
+import edu.greenblitz.robotname.RobotMap;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is in charge of making the Joystick easy to assign things to buttons and invert the axes of the joystick.
@@ -120,5 +123,15 @@ public class SmartJoystick {
 
     public double getAxisValue(Axis axis) {
         return axis.getValue(this);
+    }
+
+    /**
+     * Rumbles the controller at a certain side
+     * @param left rumble side (false for left)
+     * @param power normalized rumble [0, 1]
+     */
+    public void rumble(boolean left, double power) {
+        m_joystick.setRumble(left ? GenericHID.RumbleType.kLeftRumble : GenericHID.RumbleType.kRightRumble, power);
+        SmartDashboard.putNumber((left ? "left" : "right") + " rumble", power);
     }
 }
