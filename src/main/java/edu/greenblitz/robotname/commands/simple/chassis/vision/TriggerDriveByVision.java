@@ -16,8 +16,8 @@ import org.greenblitz.motion.tolerance.AbsoluteTolerance;
 public class TriggerDriveByVision extends ChassisBaseCommand {
 
     private static final double FULL_POWER = 0.25;
-    private static final double SLOWDOWN_ANGLE = 30;
-    private static final double TOLERANCE = 10; // In degrees
+    private static final double SLOWDOWN_ANGLE = 50;
+    private static final double TOLERANCE = 6; // In degrees
     private static final double DEADBAND = 0;
     private static final double kP = FULL_POWER / SLOWDOWN_ANGLE, Ki = 0, Kd = 0, kF = 0;
 
