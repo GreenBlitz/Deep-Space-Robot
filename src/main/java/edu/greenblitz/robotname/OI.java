@@ -14,6 +14,7 @@ import edu.greenblitz.robotname.commands.complex.hidden.roller.SmartExtendAndRol
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.TriggerDriveByVision;
+import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerHolder;
@@ -124,7 +125,7 @@ public class OI {
         mainJoystick.A.whenPressed(new TogglePokerExtender());
 
         mainJoystick.B.whenPressed(new ReleaseHatch());
-        mainJoystick.B.whenReleased(new HoldHatchAndMoveToFloor());
+        mainJoystick.B.whenReleased(new HoldHatch());
 
         mainJoystick.Y.whenPressed(new VisionPlaceGameObject());
         mainJoystick.Y.whenReleased(new ArcadeDriveByJoystick(mainJoystick));

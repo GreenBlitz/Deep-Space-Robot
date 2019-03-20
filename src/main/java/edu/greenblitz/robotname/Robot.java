@@ -141,7 +141,6 @@ public class Robot extends TimedRobot {
             logger.info("testing...");
             // This is for testing
             matchInit();
-            new ToSpeed().start();
             new OI.ToCargoMode().start();
         }
     }
