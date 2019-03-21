@@ -1,4 +1,4 @@
-package edu.greenblitz.utils.command.chain;
+package edu.greenblitz.utils.command;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;

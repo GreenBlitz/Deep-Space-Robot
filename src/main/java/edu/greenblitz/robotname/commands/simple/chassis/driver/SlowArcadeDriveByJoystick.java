@@ -1,7 +1,7 @@
 package edu.greenblitz.robotname.commands.simple.chassis.driver;
 
 import edu.greenblitz.robotname.subsystems.Chassis;
-import edu.greenblitz.utils.command.JoystickCommand;
+import edu.greenblitz.utils.command.base.JoystickCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.greenblitz.utils.sm.State;
 

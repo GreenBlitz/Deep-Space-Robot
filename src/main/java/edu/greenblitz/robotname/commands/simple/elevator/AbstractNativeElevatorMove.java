@@ -1,7 +1,7 @@
 package edu.greenblitz.robotname.commands.simple.elevator;
 
 import edu.greenblitz.robotname.subsystems.Elevator;
-import edu.greenblitz.utils.command.TimedSubsystemCommand;
+import edu.greenblitz.utils.command.base.TimedSubsystemCommand;
 import edu.greenblitz.utils.sm.ElevatorState;
 import edu.greenblitz.utils.sm.State;
 

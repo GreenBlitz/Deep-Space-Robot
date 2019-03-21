@@ -3,12 +3,15 @@ package edu.greenblitz.robotname.commands.complex.hidden.roller;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendRoller;
 import edu.greenblitz.robotname.commands.simple.roller.RetractRoller;
 import edu.greenblitz.robotname.subsystems.Roller;
-import edu.greenblitz.utils.command.GBCommand;
-import edu.greenblitz.utils.command.dynamic.DynamicCommand;
+import edu.wpi.first.wpilibj.command.ConditionalCommand;
 
-public class ToggleRoller extends DynamicCommand {
+public class ToggleRoller extends ConditionalCommand {
+    public ToggleRoller() {
+        super(new RetractRoller(), new ExtendRoller());
+    }
+
     @Override
-    protected GBCommand pick() {
-        return Roller.getInstance().isExtended() ? new RetractRoller() : new ExtendRoller();
+    protected boolean condition() {
+        return Roller.getInstance().isExtended();
     }
 }

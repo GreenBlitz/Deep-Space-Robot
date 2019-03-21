@@ -1,4 +1,6 @@
-package edu.greenblitz.utils.command;
+package edu.greenblitz.utils.command.base;
+
+import edu.greenblitz.utils.command.GBSubsystem;
 
 public abstract class SubsystemCommand<S extends GBSubsystem> extends GBCommand {
     protected final S system;

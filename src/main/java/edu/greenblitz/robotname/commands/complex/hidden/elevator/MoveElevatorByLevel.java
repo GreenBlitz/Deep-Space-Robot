@@ -1,10 +1,7 @@
 package edu.greenblitz.robotname.commands.complex.hidden.elevator;
 
-import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.commands.simple.elevator.MoveElevatorByExternalPID;
 import edu.greenblitz.robotname.subsystems.Elevator;
-import edu.greenblitz.utils.command.GBCommand;
-import edu.greenblitz.utils.command.dynamic.DynamicCommand;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 
 public class MoveElevatorByLevel extends ConditionalCommand {

@@ -1,7 +1,7 @@
-package edu.greenblitz.utils.command;
+package edu.greenblitz.utils.command.base;
 
+import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 public abstract class JoystickCommand<S extends GBSubsystem> extends SubsystemCommand<S> {
     protected SmartJoystick joystick;

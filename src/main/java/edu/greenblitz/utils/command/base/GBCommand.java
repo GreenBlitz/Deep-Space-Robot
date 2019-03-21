@@ -1,5 +1,6 @@
-package edu.greenblitz.utils.command;
+package edu.greenblitz.utils.command.base;
 
+import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;

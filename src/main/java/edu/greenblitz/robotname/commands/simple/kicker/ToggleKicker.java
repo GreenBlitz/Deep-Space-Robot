@@ -1,6 +1,5 @@
 package edu.greenblitz.robotname.commands.simple.kicker;
 
-import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.utils.sm.KickerState;
 
 import static edu.greenblitz.robotname.subsystems.Kicker.KICKER_STATE_TIMEOUT;
@@ -12,10 +11,7 @@ public class ToggleKicker extends KickerBaseCommand {
 
     @Override
     protected KickerState getNextState() {
-        if (Robot.getInstance().getStateMachine().getCurrentState().getKickerState() == KickerState.KICK)
-            return KickerState.UNKICK;
-        else
-            return KickerState.KICK;
+        return null;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package edu.greenblitz.robotname.commands.simple.kicker;
 
 import edu.greenblitz.robotname.subsystems.Kicker;
-import edu.greenblitz.utils.command.TimedSubsystemCommand;
+import edu.greenblitz.utils.command.base.TimedSubsystemCommand;
 import edu.greenblitz.utils.sm.KickerState;
 import edu.greenblitz.utils.sm.State;
 

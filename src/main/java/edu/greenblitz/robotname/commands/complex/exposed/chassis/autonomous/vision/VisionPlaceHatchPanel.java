@@ -6,7 +6,7 @@ import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFr
 import edu.greenblitz.robotname.commands.simple.poker.ExtendPoker;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.RetractAndHold;
-import edu.greenblitz.utils.command.chain.CommandChain;
+import edu.greenblitz.utils.command.CommandChain;
 
 public class VisionPlaceHatchPanel extends CommandChain {
 

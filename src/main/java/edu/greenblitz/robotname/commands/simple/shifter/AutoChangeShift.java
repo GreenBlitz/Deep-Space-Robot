@@ -2,8 +2,7 @@ package edu.greenblitz.robotname.commands.simple.shifter;
 
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.robotname.subsystems.Shifter;
-import edu.greenblitz.utils.command.GBCommand;
-import edu.greenblitz.utils.command.SubsystemCommand;
+import edu.greenblitz.utils.command.base.SubsystemCommand;
 import edu.greenblitz.utils.sm.State;
 
 import java.util.Optional;

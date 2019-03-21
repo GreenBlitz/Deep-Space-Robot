@@ -4,13 +4,11 @@ import edu.greenblitz.robotname.commands.complex.hidden.elevator.MoveElevatorByL
 import edu.greenblitz.robotname.commands.simple.kicker.Unkick;
 import edu.greenblitz.robotname.commands.simple.poker.RetractPoker;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendRoller;
-import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
 import edu.greenblitz.robotname.commands.simple.roller.RetractRoller;
 import edu.greenblitz.robotname.commands.simple.roller.StopRolling;
 import edu.greenblitz.robotname.subsystems.*;
-import edu.greenblitz.utils.command.chain.CommandChain;
+import edu.greenblitz.utils.command.CommandChain;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SafeMoveElevator extends CommandChain {
 

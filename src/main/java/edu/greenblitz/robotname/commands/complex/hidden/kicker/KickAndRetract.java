@@ -3,7 +3,7 @@ package edu.greenblitz.robotname.commands.complex.hidden.kicker;
 import edu.greenblitz.robotname.commands.simple.kicker.Kick;
 import edu.greenblitz.robotname.commands.simple.kicker.Unkick;
 import edu.greenblitz.robotname.subsystems.Kicker;
-import edu.greenblitz.utils.command.chain.CommandChain;
+import edu.greenblitz.utils.command.CommandChain;
 
 public class KickAndRetract extends CommandChain {
     public KickAndRetract() {

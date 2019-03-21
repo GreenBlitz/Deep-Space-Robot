@@ -4,7 +4,7 @@ import edu.greenblitz.robotname.commands.complex.hidden.climber.StartSideClimber
 import edu.greenblitz.robotname.commands.simple.climber.ClimberBigControlByJoystick;
 import edu.greenblitz.robotname.commands.simple.climber.ClimberProportionalExtendByJoystick;
 import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
-import edu.greenblitz.utils.command.chain.CommandChain;
+import edu.greenblitz.utils.command.CommandChain;
 import edu.greenblitz.utils.hid.SmartJoystick;
 
 public class ClimbByJoystick extends CommandChain {
