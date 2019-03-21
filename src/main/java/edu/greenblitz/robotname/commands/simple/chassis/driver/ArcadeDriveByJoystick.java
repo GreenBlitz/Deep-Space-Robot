@@ -11,8 +11,6 @@ public class ArcadeDriveByJoystick extends ChassisBaseCommand {
     public static final double SPEED_MULT = 1;
     public static final GearDependentDouble TURN_MULT = new GearDependentDouble(1, 0.7);
 
-    public static final double RAMPING_RATE_JOYSTIK = 1;
-
     private SmartJoystick m_joystick;
 
     public ArcadeDriveByJoystick(SmartJoystick joystick) {

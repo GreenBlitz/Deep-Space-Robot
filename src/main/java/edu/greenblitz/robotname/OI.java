@@ -1,11 +1,8 @@
 package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.commands.complex.exposed.ClimbByJoystick;
-import edu.greenblitz.robotname.commands.complex.exposed.HoldHatchAndMoveToFloor;
-import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionCollectHatchPanel;
-import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionPlaceCargo;
+import edu.greenblitz.robotname.commands.complex.exposed.HybridAlign;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionPlaceGameObject;
-import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionPlaceHatchPanel;
 import edu.greenblitz.robotname.commands.complex.exposed.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.exposed.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickRestricted;
@@ -13,11 +10,9 @@ import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.SmartExtendAndRollIn;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
-import edu.greenblitz.robotname.commands.simple.chassis.vision.TriggerDriveByVision;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
-import edu.greenblitz.robotname.commands.simple.poker.TogglePokerHolder;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollIn;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
 import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
@@ -27,21 +22,20 @@ import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.GBCommand;
 import edu.greenblitz.utils.command.ResetCommands;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.buttons.POVButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Optional;
 
 public class OI {
-    public enum GameObject {
+    public enum State {
         CARGO,
         HATCH
     }
 
     private static SmartJoystick mainJoystick;
     private static SmartJoystick sideJoystick;
-    private static GameObject oiGameObject = GameObject.HATCH;
+    private static State oiState = State.HATCH;
 
     public static SmartJoystick getMainJoystick() {
         return mainJoystick;
@@ -53,7 +47,7 @@ public class OI {
 
     public static class ToHatchMode extends GBCommand {
         @Override
-        public Optional<State> getDeltaState() {
+        public Optional<edu.greenblitz.utils.sm.State> getDeltaState() {
             return Optional.empty();
         }
 
@@ -64,13 +58,13 @@ public class OI {
 
         @Override
         protected void atInit() {
-            oiGameObject = GameObject.HATCH;
+            oiState = State.HATCH;
         }
     }
 
     public static class ToCargoMode extends GBCommand {
         @Override
-        public Optional<State> getDeltaState() {
+        public Optional<edu.greenblitz.utils.sm.State> getDeltaState() {
             return Optional.empty();
         }
 
@@ -81,7 +75,7 @@ public class OI {
 
         @Override
         protected void atInit() {
-            oiGameObject = GameObject.CARGO;
+            oiState = State.CARGO;
         }
     }
 
@@ -127,9 +121,6 @@ public class OI {
         mainJoystick.B.whenPressed(new ReleaseHatch());
         mainJoystick.B.whenReleased(new HoldHatch());
 
-        mainJoystick.Y.whenPressed(new VisionPlaceGameObject());
-        mainJoystick.Y.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
-
         mainJoystick.L3.whenPressed(new ToggleShift());
 
         mainJoystick.X.whenPressed(new KickBall());
@@ -137,7 +128,7 @@ public class OI {
         mainJoystick.L1.whenPressed(new SmartExtendAndRollIn());
         mainJoystick.L1.whenReleased(new RetractAndStopRoller(300));
 
-        mainJoystick.R1.whenPressed(new TriggerDriveByVision());
+        mainJoystick.R1.whenPressed(new HybridAlign());
         mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
 
         POVButton autoShiftOn = new POVButton(mainJoystick.getRawJoystick(), 0);
@@ -160,19 +151,23 @@ public class OI {
         sideJoystick.BACK.whenPressed(new ToHatchMode());
     }
 
-    public static GameObject getGameObject() {
-        return oiGameObject;
+    public static State getState() {
+        return oiState;
     }
 
     public static boolean isStateCargo() {
-        return getGameObject() == GameObject.CARGO;
+        return getState() == State.CARGO;
     }
 
     public static boolean isStateHatch() {
-        return getGameObject() == GameObject.HATCH;
+        return getState() == State.HATCH;
+    }
+
+    public static void setOIState(State state) {
+        oiState = state;
     }
 
     public static void update() {
-        SmartDashboard.putString("Mode", oiGameObject.toString());
+        SmartDashboard.putString("Mode", oiState.toString());
     }
 }
