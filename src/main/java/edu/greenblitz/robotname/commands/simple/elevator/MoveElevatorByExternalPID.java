@@ -1,7 +1,7 @@
 package edu.greenblitz.robotname.commands.simple.elevator;
 
 import edu.greenblitz.robotname.subsystems.Elevator;
-import edu.greenblitz.utils.command.SubsystemCommand;
+import edu.greenblitz.utils.command.base.SubsystemCommand;
 import edu.greenblitz.utils.sm.ElevatorState;
 import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

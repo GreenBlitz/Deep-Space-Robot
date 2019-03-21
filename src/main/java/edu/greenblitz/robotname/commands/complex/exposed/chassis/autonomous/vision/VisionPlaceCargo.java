@@ -2,7 +2,7 @@ package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vis
 
 import edu.greenblitz.robotname.commands.simple.chassis.DriveStraightByDistance;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFromVisionTarget;
-import edu.greenblitz.utils.command.chain.CommandChain;
+import edu.greenblitz.utils.command.CommandChain;
 
 public class VisionPlaceCargo extends CommandChain {
 

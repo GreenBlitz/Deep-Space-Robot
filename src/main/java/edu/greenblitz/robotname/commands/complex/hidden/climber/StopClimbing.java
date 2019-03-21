@@ -2,7 +2,7 @@ package edu.greenblitz.robotname.commands.complex.hidden.climber;
 
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.robotname.subsystems.Climber;
-import edu.greenblitz.utils.command.GBCommand;
+import edu.greenblitz.utils.command.base.GBCommand;
 import edu.greenblitz.utils.sm.State;
 
 import java.util.Optional;

@@ -1,14 +1,13 @@
 package edu.greenblitz.robotname.commands.simple.climber;
 
 import edu.greenblitz.robotname.subsystems.Climber;
-import edu.greenblitz.utils.command.JoystickCommand;
+import edu.greenblitz.utils.command.base.JoystickCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Optional;
 

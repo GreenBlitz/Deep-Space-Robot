@@ -1,5 +1,6 @@
 package edu.greenblitz.utils.command;
 
+import edu.greenblitz.utils.command.base.GBCommand;
 import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Scheduler;
 

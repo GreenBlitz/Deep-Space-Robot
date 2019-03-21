@@ -1,7 +1,7 @@
 package edu.greenblitz.robotname.commands.simple.chassis.motion;
 
 import edu.greenblitz.robotname.subsystems.Chassis;
-import edu.greenblitz.utils.command.GBCommand;
+import edu.greenblitz.utils.command.base.GBCommand;
 import edu.greenblitz.utils.sm.State;
 import org.greenblitz.motion.base.Position;
 

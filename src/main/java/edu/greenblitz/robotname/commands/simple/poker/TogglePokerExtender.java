@@ -1,6 +1,5 @@
 package edu.greenblitz.robotname.commands.simple.poker;
 
-import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.utils.sm.PokerState;
 
 public class TogglePokerExtender extends PokerBaseCommand {
@@ -16,9 +15,6 @@ public class TogglePokerExtender extends PokerBaseCommand {
 
     @Override
     protected PokerState getNextState() {
-        if (Robot.getInstance().getStateMachine().getCurrentState().getPokerState() == PokerState.UNPOKING)
-            return PokerState.POKING;
-        else
-            return PokerState.UNPOKING;
+        return null;
     }
 }

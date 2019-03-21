@@ -6,7 +6,7 @@ import edu.greenblitz.robotname.commands.simple.chassis.DriveByTime;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.ResetLocalizer;
 import edu.greenblitz.robotname.data.Paths;
-import edu.greenblitz.utils.command.chain.CommandChain;
+import edu.greenblitz.utils.command.CommandChain;
 
 public class Auto2HatchCargoship extends CommandChain {
     private static final long POKER_TIMEOUT = 100;

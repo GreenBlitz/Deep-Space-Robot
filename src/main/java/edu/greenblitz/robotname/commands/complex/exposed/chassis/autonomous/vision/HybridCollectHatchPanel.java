@@ -2,7 +2,7 @@ package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vis
 
 import edu.greenblitz.robotname.commands.simple.chassis.vision.AlignToVisionTarget;
 import edu.greenblitz.robotname.commands.simple.poker.ExtendAndHold;
-import edu.greenblitz.utils.command.chain.CommandChain;
+import edu.greenblitz.utils.command.CommandChain;
 
 @Deprecated
 public class HybridCollectHatchPanel extends CommandChain {

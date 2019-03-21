@@ -1,7 +1,6 @@
 package edu.greenblitz.robotname.commands.complex.exposed.kicker;
 
 import edu.greenblitz.robotname.commands.complex.hidden.kicker.KickAndRetract;
-import edu.greenblitz.robotname.commands.simple.elevator.ImmediateBrakeElevator;
 import edu.greenblitz.robotname.commands.simple.poker.RetractPoker;
 import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollOut;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
@@ -9,7 +8,7 @@ import edu.greenblitz.robotname.commands.simple.roller.RollOut;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.robotname.subsystems.Poker;
 import edu.greenblitz.robotname.subsystems.Roller;
-import edu.greenblitz.utils.command.chain.CommandChain;
+import edu.greenblitz.utils.command.CommandChain;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 
 public class KickBall extends CommandChain {

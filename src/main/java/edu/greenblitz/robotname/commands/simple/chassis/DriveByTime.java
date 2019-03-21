@@ -1,7 +1,7 @@
 package edu.greenblitz.robotname.commands.simple.chassis;
 
 import edu.greenblitz.robotname.subsystems.Chassis;
-import edu.greenblitz.utils.command.TimedSubsystemCommand;
+import edu.greenblitz.utils.command.base.TimedSubsystemCommand;
 import edu.greenblitz.utils.sm.State;
 
 import java.util.Optional;

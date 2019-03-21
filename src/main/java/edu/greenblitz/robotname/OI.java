@@ -19,7 +19,7 @@ import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.robotname.commands.simple.shifter.KeepShift;
 import edu.greenblitz.robotname.commands.simple.shifter.ToggleShift;
 import edu.greenblitz.robotname.subsystems.Elevator;
-import edu.greenblitz.utils.command.GBCommand;
+import edu.greenblitz.utils.command.base.GBCommand;
 import edu.greenblitz.utils.command.ResetCommands;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj.buttons.POVButton;
@@ -128,7 +128,7 @@ public class OI {
         mainJoystick.L1.whenPressed(new SmartExtendAndRollIn());
         mainJoystick.L1.whenReleased(new RetractAndStopRoller(300));
 
-        mainJoystick.R1.whenPressed(new HybridAlign());
+        mainJoystick.R1.toggleWhenActive(new HybridAlign());
         mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
 
         POVButton autoShiftOn = new POVButton(mainJoystick.getRawJoystick(), 0);

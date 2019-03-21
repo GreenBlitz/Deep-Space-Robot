@@ -1,4 +1,6 @@
-package edu.greenblitz.utils.command;
+package edu.greenblitz.utils.command.base;
+
+import edu.greenblitz.utils.command.GBSubsystem;
 
 public abstract class TimedSubsystemCommand<S extends GBSubsystem> extends SubsystemCommand<S> {
     public TimedSubsystemCommand(long ms, S system) {

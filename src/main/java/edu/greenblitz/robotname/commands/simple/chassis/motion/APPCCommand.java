@@ -2,21 +2,14 @@ package edu.greenblitz.robotname.commands.simple.chassis.motion;
 
 import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.subsystems.Chassis;
-import edu.greenblitz.utils.command.SubsystemCommand;
+import edu.greenblitz.utils.command.base.SubsystemCommand;
 import edu.greenblitz.utils.sm.State;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 import org.greenblitz.debug.RemoteCSVTarget;
-import org.greenblitz.debug.RemoteGuydeBugger;
 import org.greenblitz.motion.app.AdaptivePurePursuitController;
 import org.greenblitz.motion.app.Localizer;
-import org.greenblitz.motion.base.Point;
 import org.greenblitz.motion.base.Position;
 import org.greenblitz.motion.pathing.Path;
 
-import java.io.File;
-import java.io.FileReader;
 import java.util.*;
 
 public class APPCCommand extends SubsystemCommand<Chassis> {

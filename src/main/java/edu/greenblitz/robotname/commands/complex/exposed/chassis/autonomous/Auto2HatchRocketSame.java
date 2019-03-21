@@ -12,7 +12,7 @@
 //import edu.greenblitz.robotname.subsystems.Elevator;
 //import edu.greenblitz.robotname.data.Paths;
 //import edu.greenblitz.robotname.data.VisionTargetLocations;
-//import edu.greenblitz.utils.command.chain.CommandChain;
+//import edu.greenblitz.utils.command.CommandChain;
 //
 //public class Auto2HatchRocketSame extends CommandChain {
 //
