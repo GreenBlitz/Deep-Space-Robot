@@ -16,17 +16,10 @@ import org.apache.logging.log4j.Logger;
 import static edu.greenblitz.robotname.RobotMap.Pneumatics.PCM;
 
 public class Pneumatics extends GBSubsystem {
-    private static final double DEFAULT_MIN_PRESSURE_RELEASED = 40;
-    private static final double DEFAULT_MAX_PRESSURE_RELEASED = 80;
-
-    private static final String SMD_MAX_PRESSURE_RELEASED = "Pneumatics::max pressure";
-    private static final String SMD_MIN_PRESSURE_RELEASED = "Pneumatics::min pressure";
-
     private static Pneumatics instance;
 
     private PressureSensor m_pressureSensor;
     private Compressor m_compressor;
-//    private DigitalInput m_switch;
     private boolean m_activated;
     private Logger logger;
 
@@ -35,11 +28,9 @@ public class Pneumatics extends GBSubsystem {
 
         m_pressureSensor = new PressureSensor(Sensor.PRESSURE);
         m_compressor = new Compressor(PCM);
-//        m_switch = new DigitalInput(Sensor.SWITCH);
 
         addChild(m_pressureSensor);
         m_compressor.setName("pressure");
-//        addChild(m_switch);
         addChild(m_compressor);
         m_compressor.setName("compressor");
 
@@ -66,11 +57,6 @@ public class Pneumatics extends GBSubsystem {
         return m_compressor.enabled();
     }
 
-    public boolean isGameMode() {
-        return false;
-//        return m_switch.get();
-    }
-
     public static void init() {
         if (instance == null)
             instance = new Pneumatics();
@@ -88,15 +74,7 @@ public class Pneumatics extends GBSubsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new CompressorOn(0));
-    }
-
-    public double getMinPressureReleased() {
-        return SmartDashboard.getNumber(SMD_MIN_PRESSURE_RELEASED, DEFAULT_MIN_PRESSURE_RELEASED);
-    }
-
-    public double getMaxPressureReleased() {
-        return SmartDashboard.getNumber(SMD_MAX_PRESSURE_RELEASED, DEFAULT_MAX_PRESSURE_RELEASED);
+        setDefaultCommand(new HandleCompressor());
     }
 
     public void reset() {

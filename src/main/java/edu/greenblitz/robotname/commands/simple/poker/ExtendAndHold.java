@@ -3,6 +3,11 @@ package edu.greenblitz.robotname.commands.simple.poker;
 import edu.greenblitz.utils.sm.PokerState;
 
 public class ExtendAndHold extends PokerBaseCommand {
+    public ExtendAndHold(long ms) {
+        super(ms);
+    }
+
+    public ExtendAndHold() {}
 
     @Override
     protected void atInit() {
@@ -12,6 +17,6 @@ public class ExtendAndHold extends PokerBaseCommand {
 
     @Override
     protected PokerState getNextState() {
-        return PokerState.POKING;
+        return PokerState.UNPOKING;
     }
 }

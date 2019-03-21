@@ -123,7 +123,7 @@ public class Shifter extends GBSubsystem {
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new AutoChangeShift());
+        setDefaultCommand(new KeepShift());
     }
 
     @Override

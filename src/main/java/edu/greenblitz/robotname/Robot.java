@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname;
 
+import edu.greenblitz.robotname.commands.complex.exposed.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.robotname.commands.simple.shifter.KeepShift;
 import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;
@@ -94,6 +95,12 @@ public class Robot extends TimedRobot {
         Pi.init();
         VisionMaster.init();
         Paths.init("Cargoship1", "Cargoship2", "Cargoship3", "Cargoship4");
+
+        SmartDashboard.putData("Elevator GR", new SafeMoveElevator(Elevator.Level.GROUND));
+        SmartDashboard.putData("Elevator R1", new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
+        SmartDashboard.putData("Elevator R2", new SafeMoveElevator(Elevator.Level.ROCKET_MID));
+        SmartDashboard.putData("Elevator R3", new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
+        SmartDashboard.putData("Elevator CS", new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
     }
 
     @Override
@@ -134,7 +141,7 @@ public class Robot extends TimedRobot {
             logger.info("testing...");
             // This is for testing
             matchInit();
-            new ToSpeed().start();
+            new OI.ToCargoMode().start();
         }
     }
 

@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum ElevatorState {
-    GROUND(Elevator.Level.GROUND.heightByState(OI.GameObject.CARGO)),
-    UP(Elevator.Level.CARGO_SHIP.heightByState(OI.GameObject.CARGO));
+    GROUND(Elevator.Level.GROUND.heightByState(OI.State.CARGO)),
+    UP(Elevator.Level.CARGO_SHIP.heightByState(OI.State.CARGO));
 
     public final double height;
 

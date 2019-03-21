@@ -11,18 +11,19 @@ import org.greenblitz.motion.tolerance.AbsoluteTolerance;
 
 public class TriggerDriveByVision extends ChassisBaseCommand {
 
-    private PIDController m_pid;
-
-    private static final double FULL_POWER = 0.3;
-    private static final double SLOWDOWN_ANGLE = 5;
-    private static final double TOLERANCE = 2;
+    private static final double FULL_POWER = 0.25;
+    private static final double SLOWDOWN_ANGLE = 50;
+    private static final double TOLERANCE = 0.5; // In degrees
     private static final double DEADBAND = 0;
     private static final double kP = FULL_POWER / SLOWDOWN_ANGLE, Ki = 0, Kd = 0, kF = 0;
+
+    private PIDController m_pid;
 
     public TriggerDriveByVision() {
         m_pid = new PIDController(new PIDObject(kP, Ki, Kd, kF),
                 new AbsoluteTolerance(Math.toRadians(TOLERANCE)));
     }
+
 
     @Override
     protected void atInit() {
@@ -37,7 +38,8 @@ public class TriggerDriveByVision extends ChassisBaseCommand {
 
     @Override
     protected void execute() {
-        set(m_pid.calculatePID(get()));
+        var angle = get();
+        set(-m_pid.calculatePID(angle));
     }
 
     private double get() {
@@ -46,7 +48,7 @@ public class TriggerDriveByVision extends ChassisBaseCommand {
 
     private void set(double output) {
         Chassis.getInstance().arcadeDrive(
-                OI.getMainJoystick().getAxisValue(SmartJoystick.Axis.RIGHT_TRIGGER) - OI.getMainJoystick().getAxisValue(SmartJoystick.Axis.LEFT_TRIGGER),
+                OI.getMainJoystick().getAxisValue(SmartJoystick.Axis.LEFT_Y),
                 output);
     }
 }

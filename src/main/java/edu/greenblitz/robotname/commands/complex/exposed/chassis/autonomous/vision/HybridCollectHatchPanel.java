@@ -4,6 +4,7 @@ import edu.greenblitz.robotname.commands.simple.chassis.vision.AlignToVisionTarg
 import edu.greenblitz.robotname.commands.simple.poker.ExtendAndHold;
 import edu.greenblitz.utils.command.chain.CommandChain;
 
+@Deprecated
 public class HybridCollectHatchPanel extends CommandChain {
     public HybridCollectHatchPanel() {
         addParallel(new ExtendAndHold(), new AlignToVisionTarget());
