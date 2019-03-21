@@ -11,6 +11,6 @@ public class VisionPlaceGameObject extends ConditionalCommand {
 
     @Override
     protected boolean condition() {
-        return OI.getGameObject() == OI.GameObject.HATCH;
+        return OI.getState() == OI.State.HATCH;
     }
 }

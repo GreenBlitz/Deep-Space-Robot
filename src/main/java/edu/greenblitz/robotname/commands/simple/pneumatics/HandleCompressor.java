@@ -24,16 +24,8 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
 
     @Override
     protected void execute() {
-        if (system.isGameMode()) {
-            if (system.getPressure() < system.getMinPressureReleased()) {
-                system.setCompressor(true);
-            } else if (system.getPressure() >= system.getMaxPressureReleased()) {
-                system.setCompressor(false);
-            }
-        } else {
-            if (system.getPressure() < 70) {
-                system.setCompressor(true);
-            }
+        if (system.getPressure() < 70) {
+            system.setCompressor(true);
         }
     }
 

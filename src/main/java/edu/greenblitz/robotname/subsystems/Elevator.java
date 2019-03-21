@@ -43,12 +43,12 @@ public class Elevator extends GBSubsystem {
             this.hatch = hatch - HATCH_OFFSET;
         }
 
-        public double heightByState(OI.GameObject state) {
-            return state == OI.GameObject.CARGO ? cargo : hatch;
+        public double heightByState(OI.State state) {
+            return state == OI.State.CARGO ? cargo : hatch;
         }
 
         public double heightByCurrentState() {
-            return heightByState(OI.getGameObject());
+            return heightByState(OI.getState());
         }
     }
 
@@ -202,7 +202,7 @@ public class Elevator extends GBSubsystem {
     }
 
     private Optional<Level> updateLevel() {
-        var state = OI.getGameObject();
+        var state = OI.getState();
         for (var lvl : Level.values()) {
             if (Math.abs(lvl.heightByState(state) - getHeight()) <= LEVEL_HEIGHT_TOLERANCE) {
                 return Optional.of(lvl);
