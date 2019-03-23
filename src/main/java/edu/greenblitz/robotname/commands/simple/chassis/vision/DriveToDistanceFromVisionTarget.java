@@ -98,7 +98,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 
 public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implements PIDSource, PIDOutput {
 
-    private static final double VISION_TARGET_OFFSET = 3;
+    private static final double VISION_TARGET_OFFSET = 0;
 
     private static final GearDependentDouble
             kP = new GearDependentDouble(Shifter.Gear.SPEED, 0.3),
@@ -113,6 +113,7 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
 
     private long m_onTarget = -1;
     private double m_distance;
+    private double m_visionTargetOffset;
 
     private PIDController m_controller;
     private boolean m_stopAtEnd;
@@ -121,15 +122,20 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
         return DriveToDistanceFromVisionTarget.class.getSimpleName() + " for {" + distance + "}";
     }
 
-    public DriveToDistanceFromVisionTarget(double distance, boolean stopAtEnd) {
+    public DriveToDistanceFromVisionTarget(double distance, double visionTargetOffset, boolean stopAtEnd) {
         super(generateName(distance));
         m_distance = distance;
         m_controller = new PIDController(0, 0, 0, this, this);
         m_stopAtEnd = stopAtEnd;
+        m_visionTargetOffset = visionTargetOffset;
     }
 
     public DriveToDistanceFromVisionTarget(double distance) {
-        this(distance, false);
+        this(distance, VISION_TARGET_OFFSET, false);
+    }
+
+    public DriveToDistanceFromVisionTarget(double distance, double visionTargetOffset) {
+        this(distance, visionTargetOffset, false);
     }
 
     @Override
@@ -154,7 +160,7 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
     @Override
     public void pidWrite(double output) {
 //        if (VisionMaster.getInstance().isDataValid())
-            Chassis.getInstance().arcadeDrive(-output, (VisionMaster.getInstance().getAngle() + VISION_TARGET_OFFSET)*turnKp.getByCurrentGear());
+            Chassis.getInstance().arcadeDrive(-output, (VisionMaster.getInstance().getAngle() + m_visionTargetOffset)*turnKp.getByCurrentGear());
 //        else
 //            Chassis.getInstance().stop();
     }
