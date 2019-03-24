@@ -13,6 +13,8 @@ import org.apache.logging.log4j.Logger;
  */
 public class VisionMaster {
 
+    private static final double CAMERA_X_OFFSET = 0.07;
+
     public enum Algorithm {
         CARGO("send_cargo"),
         TARGETS("send_hatch"),
@@ -27,6 +29,18 @@ public class VisionMaster {
 
         public String getRawName() {
             return rawAlgorithmName;
+        }
+    }
+
+    public enum Focus {
+        LEFT("left"),
+        MIDDLE("middle"),
+        RIGHT("right");
+
+        public final String rawFocusName;
+
+        Focus(String rawFocusName) {
+            this.rawFocusName = rawFocusName;
         }
     }
 
@@ -59,6 +73,7 @@ public class VisionMaster {
     }
 
     private NetworkTable m_visionTable;
+    private NetworkTableEntry m_focus;
     private NetworkTableEntry m_algorithm;
     private NetworkTableEntry m_values;
     private NetworkTableEntry m_found;
@@ -69,12 +84,17 @@ public class VisionMaster {
         logger = LogManager.getLogger(getClass());
         m_visionTable = NetworkTableInstance.getDefault().getTable("vision");
         m_algorithm = m_visionTable.getEntry("algorithm");
+        m_focus = m_visionTable.getEntry("focus");
         m_values = m_visionTable.getEntry("output");
         m_found = m_visionTable.getEntry("found");
     }
 
     public void setCurrentAlgorithm(Algorithm algo) {
         m_algorithm.setString(algo.getRawName());
+    }
+
+    public void setCurrentFocus(Focus focus) {
+        m_focus.setString(focus.rawFocusName);
     }
 
     public double[] getCurrentVisionData() {
@@ -148,7 +168,9 @@ public class VisionMaster {
     }
 
     public void update() {
-        SmartDashboard.putNumber("Vision::PlanetaryDistance", getPlaneryDistance());
-        SmartDashboard.putNumber("Vision::Angle", getAngle());
+        var current = getStandardizedData()[0];
+        SmartDashboard.putString("Vision::focus", m_visionTable.getEntry("focus").getString(""));
+        SmartDashboard.putString("Vision::raw data", current.toString());
+        SmartDashboard.putNumber("Vision::planery distance", current.getPlaneryDistance());
     }
 }

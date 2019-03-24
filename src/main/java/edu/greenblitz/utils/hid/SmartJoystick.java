@@ -1,9 +1,9 @@
 package edu.greenblitz.utils.hid;
 
-import edu.greenblitz.robotname.RobotMap;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.POVButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -26,6 +26,10 @@ public class SmartJoystick {
             BACK,
             L3,
             R3;
+    public final POVButton POV_UP,
+            POV_RIGHT,
+            POV_DOWN,
+            POV_LEFT;
 
     /**
      * This enum is in charge of all joystick axes.
@@ -81,6 +85,10 @@ public class SmartJoystick {
         START = new JoystickButton(m_joystick, 8);
         L3 = new JoystickButton(m_joystick, 9);
         R3 = new JoystickButton(m_joystick, 10);
+        POV_UP = new POVButton(m_joystick, 0);
+        POV_RIGHT = new POVButton(m_joystick, 90);
+        POV_DOWN = new POVButton(m_joystick, 180);
+        POV_LEFT = new POVButton(m_joystick, 270);
     }
 
     /**
