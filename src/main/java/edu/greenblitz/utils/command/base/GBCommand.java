@@ -119,13 +119,9 @@ public abstract class GBCommand extends Command {
     @Override
     protected final void interrupted() {
         logger.debug("interrupting command {}", getName());
-
         interrupted = true;
-        var requirements = getWPILibRequirements();
-
         atInterrupt();
-
-        logger.debug("command {} was interrupted; requiring (native) {}", getName(), requirements);
+        logger.debug("command {} was interrupted", getName());
     }
 
     protected void atInterrupt() {

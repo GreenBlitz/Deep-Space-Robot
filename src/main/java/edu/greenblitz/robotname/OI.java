@@ -145,9 +145,6 @@ public class OI {
         mainJoystick.L1.whenPressed(new SmartExtendAndRollIn());
         mainJoystick.L1.whenReleased(new RetractAndStopRoller(300));
 
-        mainJoystick.R1.toggleWhenActive(new HybridAlign());
-        mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
-
         mainJoystick.POV_UP.whenPressed(new AutoChangeShift());
         mainJoystick.POV_LEFT.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.LEFT));
         mainJoystick.POV_RIGHT.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.RIGHT));
