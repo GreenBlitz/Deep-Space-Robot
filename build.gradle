@@ -1,7 +1,6 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2019.3.2"
-    id 'org.hidetake.ssh' version '2.9.0'
 }
 
 def ROBOT_MAIN_CLASS = "edu.greenblitz.robotname.Robot"
@@ -31,28 +30,6 @@ repositories {
     maven { url "https://jitpack.io" }
     mavenCentral()
 }
-
-remotes {
-    pi {
-        host = '10.45.90.8'     // static IP
-        port = 5809             // Port which gets throw the FMS
-        user = 'pi'             
-        password = 'raspberry'  // Saving a password in plaintext, not my proudest moment :(
-    }
-}
-
-task do_vision {
-    doLast {
-        ssh.run {
-            session(remotes.pi) {
-                execute 'cd "Python Vision 2018-19"'
-                execute './do_vision'
-            }
-        }
-    }
-}
-
-tasks.deploy.dependsOn(do_vision)
 
 dependencies {
     compile wpi.deps.wpilib()

@@ -3,6 +3,7 @@ package edu.greenblitz.robotname;
 import edu.greenblitz.robotname.commands.complex.exposed.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.robotname.commands.simple.shifter.KeepShift;
+import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
 import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;
 import edu.greenblitz.robotname.data.Paths;
 import edu.greenblitz.robotname.data.Report;
@@ -141,7 +142,8 @@ public class Robot extends TimedRobot {
             logger.info("testing...");
             // This is for testing
             matchInit();
-            new OI.ToCargoMode().start();
+            new OI.ToHatchMode().start();
+            new ToPower().start();
         }
     }
 
