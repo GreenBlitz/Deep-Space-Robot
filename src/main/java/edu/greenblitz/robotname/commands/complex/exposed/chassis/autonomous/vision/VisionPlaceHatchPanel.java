@@ -14,7 +14,7 @@ public class VisionPlaceHatchPanel extends CommandChain {
 
     private static final double ALIGN_DISTANCE = 1;
     private static final double EXTEND_DISTANCE = 0.0;
-    private static final double VISION_TARGET_OFFSET = 3;
+    private static final double VISION_TARGET_OFFSET = 5;
 
     public VisionPlaceHatchPanel() {
         addSequential(new ToSpeed());
@@ -41,13 +41,13 @@ public class VisionPlaceHatchPanel extends CommandChain {
     private class Part2 extends CommandChain {
         private Part2() {
             addSequential(new ExtendPoker(50));
-            addSequential(new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 600));
+            addSequential(new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 1000));
         }
     }
 
     private class endPart extends CommandChain {
         private endPart() {
-            addSequential(new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 500));
+            addSequential(new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 1000));
             addSequential(new HoldHatchAndMoveToFloor());
         }
     }
