@@ -115,12 +115,12 @@ public class OI {
        // mainJoystick.L1.whenPressed(new ExtendAndRollIn());
        // mainJoystick.L1.whenReleased(new RetractAndStopRoller(100));
 
-        mainJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
+       // mainJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
 
         mainJoystick.START.whenPressed(new ToCargoMode());
         mainJoystick.BACK.whenPressed(new ToHatchMode());
 
-        mainJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
+        //mainJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
 
         sideJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
         sideJoystick.A.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_LOW));

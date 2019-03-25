@@ -21,7 +21,7 @@ public class Auto2HatchCargoship extends CommandChain {
     private static final long POKER_TIMEOUT = 100;
 
     public Auto2HatchCargoship() {
-        addParallel(new ChangeTargetFocus(VisionMaster.Focus.RIGHT), new ToSpeed());
+        addParallel(new ChangeTargetFocus(VisionMaster.Focus.MIDDLE), new ToSpeed());
 
         addSequential(new APPCCommand(
                 new Path<>(APPCCommand.getPath("Cargoship1.pf1.csv")),
