@@ -23,13 +23,12 @@ public class VisionCollectHatchPanel extends CommandChain {
         addSequential(new ToSpeed());
         addSequential(new Part1());
         addSequential(new Part2());
-
+        addParallel(new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 300),
+        new RetractPoker());
     }
 
     @Override
     protected void atEnd() {
-        new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 500).start();
-        new RetractPoker().start();
         Shifter.getInstance().setDefaultCommand(lastShifterCommand);
         Shifter.getInstance().setShift(lastGear);
     }
