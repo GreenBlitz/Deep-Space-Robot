@@ -1,11 +1,13 @@
 package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision;
 
 import edu.greenblitz.robotname.commands.complex.exposed.HoldHatchAndMoveToFloor;
+import edu.greenblitz.robotname.commands.simple.chassis.ArcadeUntilVision;
 import edu.greenblitz.robotname.commands.simple.chassis.DriveStraightByDistance;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFromVisionTarget;
 import edu.greenblitz.robotname.commands.simple.poker.ExtendPoker;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.RetractAndHold;
+import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
 import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;
 import edu.greenblitz.utils.command.CommandChain;
 
@@ -13,19 +15,15 @@ public class VisionPlaceHatchPanel extends CommandChain {
 
     private static final double ALIGN_DISTANCE = 1.2;
     private static final double EXTEND_DISTANCE = 0.0;
-    private static final double VISION_TARGET_OFFSET = 5;
+    private static final double VISION_TARGET_OFFSET = 1;
 
     public VisionPlaceHatchPanel() {
-        addSequential(new ToSpeed());
+        addSequential(new ArcadeUntilVision());
+        addSequential(new ToPower());
         addSequential(new Part1());
         addSequential(new Part2());
-        addSequential(new ReleaseHatch());
         addSequential(new Cleanup());
     }
-
-    @Override
-    protected void atInterrupt() {}
-
 
     public static class Part1 extends CommandChain {
         public Part1() {
@@ -36,13 +34,14 @@ public class VisionPlaceHatchPanel extends CommandChain {
     public static class Part2 extends CommandChain {
         public Part2() {
             addSequential(new ExtendPoker(50));
-            addSequential(new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 550));
+            addSequential(new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 1000));
+            addSequential(new ReleaseHatch());
         }
     }
 
     public static class Cleanup extends CommandChain {
         public Cleanup() {
-            addSequential(new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 300));
+            addSequential(new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 600));
             addSequential(new HoldHatchAndMoveToFloor());
         }
     }

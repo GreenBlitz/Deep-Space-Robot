@@ -5,6 +5,7 @@ import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFr
 import edu.greenblitz.robotname.commands.simple.poker.ExtendPoker;
 import edu.greenblitz.robotname.commands.simple.poker.RetractAndHold;
 import edu.greenblitz.robotname.commands.simple.poker.RetractPoker;
+import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
 import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;
 import edu.greenblitz.robotname.subsystems.Shifter;
 import edu.greenblitz.utils.command.CommandChain;
@@ -13,18 +14,17 @@ import edu.wpi.first.wpilibj.command.Command;
 public class VisionCollectHatchPanel extends CommandChain {
 
     private static final double ALIGN_DISTANCE = 1.1;
-    private static final double EXTEND_DISTANCE = -0.1;
-    private static final double VISION_TARGET_OFFSET = 6;
+    private static final double EXTEND_DISTANCE = 0.0;
+    private static final double VISION_TARGET_OFFSET = 4;
 
     private Command lastShifterCommand;
     private Shifter.Gear lastGear;
 
     public VisionCollectHatchPanel() {
-        addSequential(new ToSpeed());
+        addSequential(new ToPower());
         addSequential(new Part1());
         addSequential(new Part2());
-        addParallel(new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 300),
-        new RetractPoker());
+        addSequential(new Cleanup());
     }
 
     @Override
@@ -40,9 +40,6 @@ public class VisionCollectHatchPanel extends CommandChain {
         lastShifterCommand = Shifter.getInstance().getDefaultCommand();
     }
 
-    @Override
-    protected void atInterrupt() {}
-
     private class Part1 extends CommandChain{
         private Part1() {
             addParallel(new RetractAndHold(), new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE, VISION_TARGET_OFFSET));
@@ -52,7 +49,13 @@ public class VisionCollectHatchPanel extends CommandChain {
     private class Part2 extends CommandChain{
         private Part2() {
             addSequential(new ExtendPoker(50)); // Needed in different commands for small delay
-            addSequential(new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 600));
+            addSequential(new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 1000));
+        }
+    }
+
+    private class Cleanup extends CommandChain {
+        private Cleanup() {
+            addParallel(new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 300), new RetractPoker());
         }
     }
 }
