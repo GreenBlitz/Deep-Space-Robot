@@ -68,6 +68,7 @@ public class Chassis extends GBSubsystem {
         m_navX = new AHRS(Sensor.NAVX);
 
         m_localizer = new LocalizerRunner(RobotMap.Chassis.Data.WHEEL_BASE_RADIUS, m_leftEncoder, m_rightEncoder);
+        m_localizer.disableGyro();
         m_localizer.start();
 
         addChild(m_leftLeader);

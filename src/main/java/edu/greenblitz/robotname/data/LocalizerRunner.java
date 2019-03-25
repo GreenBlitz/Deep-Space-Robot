@@ -75,14 +75,13 @@ public class LocalizerRunner extends PeriodicRunner {
         var lTicks = m_leftEncoder.getNormalizedTicks();
         var rTicks = m_rightEncoder.getNormalizedTicks();
 
-        if (m_useGyro) {
-            m_localizer.update(lTicks, rTicks, -Math.toRadians(Chassis.getInstance().getAngle()));
-        } else {
+//        if (false) {
+//            m_localizer.update(lTicks, rTicks, -Math.toRadians(Chassis.getInstance().getAngle()));
+//        } else {
             m_localizer.update(lTicks, rTicks);
-        }
+//        }
 
         var pos = m_localizer.getLocation();
-        RemoteGuydeBugger.report(pos.getX(), pos.getY(), pos.getAngle());
     }
 
     @Override
