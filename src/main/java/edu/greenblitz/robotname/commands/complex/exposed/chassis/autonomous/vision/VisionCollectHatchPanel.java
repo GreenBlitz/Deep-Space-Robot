@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class VisionCollectHatchPanel extends CommandChain {
 
-    private static final double ALIGN_DISTANCE = 1;
+    private static final double ALIGN_DISTANCE = 1.1;
     private static final double EXTEND_DISTANCE = -0.1;
     private static final double VISION_TARGET_OFFSET = 6;
 

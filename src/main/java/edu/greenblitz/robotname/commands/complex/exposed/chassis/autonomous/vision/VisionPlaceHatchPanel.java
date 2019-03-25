@@ -11,7 +11,7 @@ import edu.greenblitz.utils.command.CommandChain;
 
 public class VisionPlaceHatchPanel extends CommandChain {
 
-    private static final double ALIGN_DISTANCE = 1;
+    private static final double ALIGN_DISTANCE = 1.2;
     private static final double EXTEND_DISTANCE = 0.0;
     private static final double VISION_TARGET_OFFSET = 5;
 
@@ -36,7 +36,7 @@ public class VisionPlaceHatchPanel extends CommandChain {
     public static class Part2 extends CommandChain {
         public Part2() {
             addSequential(new ExtendPoker(50));
-            addSequential(new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 650));
+            addSequential(new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 550));
         }
     }
 
