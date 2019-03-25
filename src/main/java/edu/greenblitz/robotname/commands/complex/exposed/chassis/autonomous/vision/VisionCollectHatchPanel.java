@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision;
 
+import edu.greenblitz.robotname.commands.simple.chassis.ArcadeUntilVision;
 import edu.greenblitz.robotname.commands.simple.chassis.DriveStraightByDistance;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFromVisionTarget;
 import edu.greenblitz.robotname.commands.simple.poker.ExtendPoker;
@@ -21,6 +22,7 @@ public class VisionCollectHatchPanel extends CommandChain {
     private Shifter.Gear lastGear;
 
     public VisionCollectHatchPanel() {
+        addSequential(new ArcadeUntilVision());
         addSequential(new ToPower());
         addSequential(new Part1());
         addSequential(new Part2());
