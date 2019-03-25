@@ -107,7 +107,7 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
 
     private static final long TIME_ON_TARGET = 200;
 
-    private static final GearDependentDouble POWER_LIMIT = new GearDependentDouble(Shifter.Gear.SPEED, 0.4);
+    private static final GearDependentDouble POWER_LIMIT = new GearDependentDouble(0.4, 0.4);
 
     private long m_onTarget = -1;
     private double m_distance, m_angle;

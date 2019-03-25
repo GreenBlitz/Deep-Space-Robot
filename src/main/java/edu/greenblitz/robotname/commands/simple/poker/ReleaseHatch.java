@@ -9,7 +9,7 @@ import java.util.Optional;
 public class ReleaseHatch extends SubsystemCommand<Poker> {
 
     public ReleaseHatch() {
-        super(200, Poker.getInstance());
+        super(400, Poker.getInstance());
     }
 
     public ReleaseHatch(long ms) {

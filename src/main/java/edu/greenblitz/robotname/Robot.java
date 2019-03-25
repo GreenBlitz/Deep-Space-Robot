@@ -123,6 +123,7 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().removeAll();
         reset();
         m_usageReport.setVoltageAtInit(m_pdp.getVoltage());
+        VisionMaster.getInstance().setCurrentFocus(VisionMaster.Focus.RIGHT);
     }
 
     @Override

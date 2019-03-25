@@ -13,8 +13,6 @@ import org.apache.logging.log4j.Logger;
  */
 public class VisionMaster {
 
-    private static final double CAMERA_X_OFFSET = 0.07;
-
     public enum Algorithm {
         CARGO("send_cargo"),
         TARGETS("send_hatch"),
@@ -164,7 +162,7 @@ public class VisionMaster {
     }
 
     public boolean isDataValid() {
-        return m_found.getBoolean(false);
+        return m_found.getBoolean(false) && m_lastError == Error.OK;
     }
 
     public void update() {
