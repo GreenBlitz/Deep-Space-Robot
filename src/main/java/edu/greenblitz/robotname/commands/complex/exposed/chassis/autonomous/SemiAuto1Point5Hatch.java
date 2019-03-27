@@ -23,16 +23,19 @@ import org.opencv.core.Mat;
  */
 public class SemiAuto1Point5Hatch extends CommandChain {
 
+    private long tStart;
+
     public SemiAuto1Point5Hatch() {
 
-        addParallel(new ResetLocalizer(0, 0, Math.PI), new ChangeTargetFocus(VisionMaster.Focus.RIGHT), new ToSpeed());
+        addParallel(new ResetLocalizer(0, 0, 0),
+                new ChangeTargetFocus(VisionMaster.Focus.RIGHT),
+                new ToPower(),
+                new ArcadeUntilVision());
 
-        addSequential(new ArcadeUntilVision());
-        addSequential(new ToPower());
         addSequential(new VisionPlaceHatchPanel.Part1());
         addSequential(new VisionPlaceHatchPanel.Part2());
         addSequential(new ResetLocalizerWithGyro(-3.36, 6.6));
-        // TODO This ^ assumes the robot is inside the cargoship, do some mesurments to fix
+        // TODO This ^ assumes the robot is inside the cargoship, do some measurements to fix
         addSequential(new VisionPlaceHatchPanel.Cleanup());
 
         addSequential(new ToSpeed());
@@ -54,8 +57,17 @@ public class SemiAuto1Point5Hatch extends CommandChain {
         ));
 
         addSequential(new VisionPlaceHatchPanel());
+    }
 
-        //new Position(-3.36, 6.6, -Math.PI/2)
+    @Override
+    protected void atInit(){
+        tStart = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void atEnd(){
+        long now = System.currentTimeMillis();
+        logger.debug("FINISHED 1.5 AUTO, TAKING {} MS = {} S", now - tStart, (now - tStart)/1000.0);
     }
 
 }

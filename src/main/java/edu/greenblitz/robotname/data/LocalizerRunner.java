@@ -89,6 +89,10 @@ public class LocalizerRunner extends PeriodicRunner {
         gyroZero = zero;
     }
 
+    public double getGyroZero() {
+        return gyroZero;
+    }
+
     @Override
     protected void whenInActive() {
         if (DriverStation.getInstance().isDisabled() && shouldResetOnDisable()) reset();
