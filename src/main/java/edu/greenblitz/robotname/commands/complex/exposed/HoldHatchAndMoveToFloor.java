@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.ConditionalCommand;
 
 public class HoldHatchAndMoveToFloor extends CommandChain {
     public HoldHatchAndMoveToFloor() {
-        addSequential(new RetractAndHold());
+        addSequential(new RetractAndHold(1));
         addSequential(new ConditionalCommand("Move elevator to Ground if needed", new SafeMoveElevator(Elevator.Level.GROUND)) {
             @Override
             protected boolean condition() {

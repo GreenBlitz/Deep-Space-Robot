@@ -19,14 +19,16 @@ import org.greenblitz.motion.pathing.Path;
 
 public class Auto2HatchCargoship extends CommandChain {
     private static final long POKER_TIMEOUT = 100;
+    private long tStart;
 
     public Auto2HatchCargoship() {
-        addParallel(new ChangeTargetFocus(VisionMaster.Focus.RIGHT), new ToSpeed());
+        addParallel(new ChangeTargetFocus(VisionMaster.Focus.RIGHT), new ToSpeed(),
+                new ResetLocalizer(new Position(-0.651 - 2.5, 1.6, Math.PI)));
 
         addSequential(new APPCCommand(
                 new Path<>(APPCCommand.getPath("Cargoship1.pf1.csv")),
-                new Position(-0.651 - 2.5, 1.6, Math.PI),
-                0.6, 0.5, true, 0.3, .6, .4, .2/*0.6*/));
+                null,
+                0.6, 0.5, true, 0.4, 2, .7, .4/*0.6*/));
 
         addSequential(new VisionPlaceHatchPanel());
 
@@ -35,19 +37,30 @@ public class Auto2HatchCargoship extends CommandChain {
         addSequential(
                 new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship2.pf1.csv")),
                         null, 0.6, 0.15, true,
-                        0.2, 0.4, 0.4, 0.6));
+                        0.2, 0.4, 0.5, 0.6));
         addSequential(
-                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")), null, .6, 2, false, 0.1,
-                        .3, 0.4, .2)
+                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")), null, 1.2, 1.7, false, 0.1,
+                        .3, 0.7, .4)
         );
         addSequential(new VisionCollectHatchPanel());
         addParallel(new ToSpeed(), new ChangeTargetFocus(VisionMaster.Focus.MIDDLE));
         addSequential(new APPCCommand(
                 new Path<>(APPCCommand.getPath("Cargoship4.pf1.csv")),
-                null, .6, .2, true,
-                .1, 0.5, 0.4, .2
+                null, 1, 1, true,
+                .1, 1.5, 0.6, .4
         ));
 
         addSequential(new VisionPlaceHatchPanel());
+    }
+
+    @Override
+    protected void atInit(){
+        tStart = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void atEnd(){
+        long now = System.currentTimeMillis();
+        logger.debug("FINISHED AUTO, TAKING {} MS = {} S", now - tStart, (now - tStart)/1000.0);
     }
 }

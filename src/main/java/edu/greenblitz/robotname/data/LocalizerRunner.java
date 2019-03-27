@@ -75,13 +75,18 @@ public class LocalizerRunner extends PeriodicRunner {
         var lTicks = m_leftEncoder.getNormalizedTicks();
         var rTicks = m_rightEncoder.getNormalizedTicks();
 
-//        if (false) {
-//            m_localizer.update(lTicks, rTicks, -Math.toRadians(Chassis.getInstance().getAngle()));
-//        } else {
+        if (m_useGyro) {
+            m_localizer.update(lTicks, rTicks, -Math.toRadians(Chassis.getInstance().getAngle()) - gyroZero);
+        } else {
             m_localizer.update(lTicks, rTicks);
-//        }
+        }
 
-        var pos = m_localizer.getLocation();
+//        var pos = m_localizer.getLocation();
+    }
+
+    private double gyroZero = 0;
+    public void setGyroZero(double zero){
+        gyroZero = zero;
     }
 
     @Override
