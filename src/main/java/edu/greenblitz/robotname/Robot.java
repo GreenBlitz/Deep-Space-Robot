@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.greenblitz.debug.RemoteGuydeBugger;
+import org.greenblitz.motion.app.Localizer;
 
 import java.util.function.Supplier;
 
@@ -161,6 +163,9 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        var loc = Localizer.getInstance().getLocation();
+        RemoteGuydeBugger.report(-loc.getX(), -loc.getY(), loc.getAngle());
+
     }
 
     private void update() {

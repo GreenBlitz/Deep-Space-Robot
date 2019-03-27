@@ -21,25 +21,27 @@ public class Auto2HatchCargoship extends CommandChain {
     private static final long POKER_TIMEOUT = 100;
 
     public Auto2HatchCargoship() {
-        addParallel(new ChangeTargetFocus(VisionMaster.Focus.MIDDLE), new ToSpeed());
+        addParallel(new ChangeTargetFocus(VisionMaster.Focus.RIGHT), new ToSpeed());
 
         addSequential(new APPCCommand(
                 new Path<>(APPCCommand.getPath("Cargoship1.pf1.csv")),
                 new Position(-0.651 - 2.5, 1.6, Math.PI),
-                0.6, 0.35, true, 0.3, .6, .4, .2/*0.6*/));
+                0.6, 0.5, true, 0.3, .6, .4, .2/*0.6*/));
 
         addSequential(new VisionPlaceHatchPanel());
+
+        addSequential(new ToSpeed());
 
         addSequential(
                 new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship2.pf1.csv")),
                         null, 0.6, 0.15, true,
                         0.2, 0.4, 0.4, 0.6));
         addSequential(
-                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")), null, .8, 0.2, false, 0.1,
+                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")), null, .6, 2, false, 0.1,
                         .3, 0.4, .2)
         );
         addSequential(new VisionCollectHatchPanel());
-        addSequential(new ChangeTargetFocus(VisionMaster.Focus.MIDDLE));
+        addParallel(new ToSpeed(), new ChangeTargetFocus(VisionMaster.Focus.MIDDLE));
         addSequential(new APPCCommand(
                 new Path<>(APPCCommand.getPath("Cargoship4.pf1.csv")),
                 null, .6, .2, true,

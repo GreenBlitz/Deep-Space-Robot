@@ -98,8 +98,8 @@ public class RobotMap {
     public static class Poker {
         public static class Solenoid {
             public static class Holder {
-                public static final int FORWARD = 6;
-                public static final int REVERSE = 4;
+                public static final int FORWARD = 4;
+                public static final int REVERSE = 6;
                 public static final int PCM = 22;
             }
 

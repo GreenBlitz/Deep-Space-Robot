@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.greenblitz.motion.app.Localizer;
 import org.greenblitz.motion.base.Position;
 
 public class Chassis extends GBSubsystem {
@@ -204,6 +205,8 @@ public class Chassis extends GBSubsystem {
 
     public void setTickPerMeter(Shifter.Gear gear){
         double ticks = gear == Shifter.Gear.POWER ? Sensor.Encoder.TICKS_PER_METER_POWER : Sensor.Encoder.TICKS_PER_METER_SPEED;
+        logger.debug("Switched to {}", gear);
+        Localizer.getInstance().setSleep(20, 0, 0);
         m_rightEncoder.setNormalizeConst(ticks);
         m_leftEncoder.setNormalizeConst(ticks);
     }

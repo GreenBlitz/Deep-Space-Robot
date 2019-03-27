@@ -38,6 +38,7 @@ public class AutoChangeShift extends SubsystemCommand<Shifter> {
 
             t0 = System.currentTimeMillis();
             system.setShift(Shifter.Gear.SPEED);
+            Chassis.getInstance().setTickPerMeter(Shifter.Gear.SPEED);
         }
 
         if (Math.abs(Chassis.getInstance().getVelocity()) < TO_POWER_THRESHOLD &&
@@ -46,6 +47,7 @@ public class AutoChangeShift extends SubsystemCommand<Shifter> {
 
             t0 = System.currentTimeMillis();
             system.setShift(Shifter.Gear.POWER);
+            Chassis.getInstance().setTickPerMeter(Shifter.Gear.POWER);
         }
     }
 

@@ -51,7 +51,7 @@ public class VisionCollectHatchPanel extends CommandChain {
     private class Part2 extends CommandChain{
         private Part2() {
             addSequential(new ExtendPoker(50)); // Needed in different commands for small delay
-            addSequential(new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 1000));
+            addSequential(new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 1000)); // was 1000
         }
     }
 

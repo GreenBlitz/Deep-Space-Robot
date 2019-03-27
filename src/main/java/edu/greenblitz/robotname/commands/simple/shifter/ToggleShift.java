@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname.commands.simple.shifter;
 
+import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.robotname.subsystems.Shifter;
 
 /**
