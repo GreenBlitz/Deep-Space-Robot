@@ -69,7 +69,7 @@ public class Chassis extends GBSubsystem {
         m_navX = new AHRS(Sensor.NAVX);
 
         m_localizer = new LocalizerRunner(RobotMap.Chassis.Data.WHEEL_BASE_RADIUS, m_leftEncoder, m_rightEncoder);
-        m_localizer.disableGyro();
+        m_localizer.enableGyro();
         m_localizer.start();
 
         addChild(m_leftLeader);
@@ -93,6 +93,10 @@ public class Chassis extends GBSubsystem {
 
     public void tankDrive(double left, double right) {
         setLeftRightMotorOutput(left, right);
+    }
+
+    public AHRS get_navx(){
+        return m_navX;
     }
 
     public void stop() {
@@ -178,6 +182,7 @@ public class Chassis extends GBSubsystem {
     }
 
     public void setLocation(Position location) {
+        m_localizer.setGyroZero(location.getAngle());
         m_localizer.forceSetLocation(location, getLeftDistance(), getRightDistance());
     }
 

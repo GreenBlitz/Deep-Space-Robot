@@ -9,11 +9,12 @@ import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.RetractAndHold;
 import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
 import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;
+import edu.greenblitz.robotname.data.GearDependentDouble;
 import edu.greenblitz.utils.command.CommandChain;
 
 public class VisionPlaceHatchPanel extends CommandChain {
 
-    private static final double ALIGN_DISTANCE = 1.2;
+    private static final double ALIGN_DISTANCE = 0.5;
     private static final double EXTEND_DISTANCE = 0.0;
     private static final double VISION_TARGET_OFFSET = 5;
 
@@ -34,7 +35,9 @@ public class VisionPlaceHatchPanel extends CommandChain {
     public static class Part2 extends CommandChain {
         public Part2() {
             addSequential(new ExtendPoker(50));
-            addSequential(new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 1100)); // was 1000
+            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE), 1100)); // was 1000
+//            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE), 550,
+//                    new GearDependentDouble(0.2, 0.2)));
             addSequential(new ReleaseHatch());
         }
     }
