@@ -2,9 +2,14 @@ package edu.greenblitz.robotname.commands.simple.chassis;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.ResetLocalizer;
+import edu.greenblitz.robotname.subsystems.Chassis;
+import edu.greenblitz.robotname.subsystems.Shifter;
 import org.greenblitz.motion.app.Localizer;
 import org.greenblitz.motion.base.Position;
 
+/**
+ * This falls *FORWARDS*
+ */
 public class FallWithNavx extends ChassisBaseCommand {
 
     private AHRS navx;
@@ -12,11 +17,12 @@ public class FallWithNavx extends ChassisBaseCommand {
 
     private static final double CRITICAL_ANGLE_START = 10;
     private static final double CRITICAL_ANGLE_STOP = 6;
-    private static final double POWER = -0.5;
+    private static final double POWER = 0.2;
 
     @Override
     protected void atInit(){
         startedFalling = false;
+        Shifter.getInstance().setShift(Shifter.Gear.POWER);
         navx = system.get_navx();
         navx.resetDisplacement();
     }

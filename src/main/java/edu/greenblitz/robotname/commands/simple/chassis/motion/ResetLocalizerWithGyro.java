@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname.commands.simple.chassis.motion;
 
+import edu.greenblitz.robotname.data.LocalizerRunner;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.command.base.GBCommand;
 import edu.greenblitz.utils.sm.State;
@@ -28,7 +29,7 @@ public class ResetLocalizerWithGyro extends GBCommand {
     @Override
     protected void atInit() {
         Chassis.getInstance().setLocation(
-                new Position(m_x, m_y, -Math.toRadians(Chassis.getInstance().getAngle())));
+                new Position(m_x, m_y, -Math.toRadians(Chassis.getInstance().getAngle()) - Chassis.getInstance().getGyroZero()));
     }
 
     @Override

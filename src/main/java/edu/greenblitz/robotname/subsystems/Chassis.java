@@ -230,6 +230,10 @@ public class Chassis extends GBSubsystem {
         m_rightFollower2.setIdleMode(state);
     }
 
+    public double getGyroZero(){
+        return m_localizer.getGyroZero();
+    }
+
     public void toCoast() {
         setNeutralState(CANSparkMax.IdleMode.kCoast);
     }
