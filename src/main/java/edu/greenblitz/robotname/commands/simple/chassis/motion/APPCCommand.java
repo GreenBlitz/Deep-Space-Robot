@@ -68,7 +68,7 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
         var moveValues = m_controller.iteration(loc);
         system.tankDrive(moveValues[0], moveValues[1]);
         m_logger.report(loc.getX(), loc.getY());
-        RemoteGuydeBugger.report(loc.getX(), loc.getY(), loc.getAngle());
+//        RemoteGuydeBugger.report(-loc.getX(), -loc.getY(), loc.getAngle());
     }
 
     @Override

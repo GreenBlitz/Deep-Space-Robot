@@ -36,6 +36,7 @@ public class GracefulShifterToggle extends ShifterBaseCommand {
 
     @Override
     protected void atEnd(){
+        Chassis.getInstance().setTickPerMeter(system.getCurrentGear());
         Chassis.getInstance().toBrake();
     }
 
