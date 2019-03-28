@@ -85,7 +85,7 @@ public class Chassis extends GBSubsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new TankDriveByJoytick(OI.getMainJoystick()));
+        setDefaultCommand(new ArcadeDriveByJoystick(OI.getMainJoystick()));
     }
 
     public void arcadeDrive(double move, double rotate) {
