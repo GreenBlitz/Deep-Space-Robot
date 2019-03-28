@@ -109,7 +109,6 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
 
     private static final GearDependentDouble POWER_LIMIT = new GearDependentDouble(0.4, 0.4);
 
-    private GearDependentDouble powerLimit;
     private long m_onTarget = -1;
     private double m_distance, m_angle;
 
@@ -122,24 +121,18 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
         return DriveStraightByDistance.class.getSimpleName() + " for {" + distance + "}";
     }
 
-    public DriveStraightByDistance(double distance, long ms, GearDependentDouble limit, boolean stopAtEnd) {
+    public DriveStraightByDistance(double distance, long ms, boolean stopAtEnd) {
         super(generateName(distance), ms);
 
         m_distance = distance;
         m_controller = new PIDController(0, 0, 0, this, this);
 
-        powerLimit = limit;
-
         m_controller.setAbsoluteTolerance(0.1);
         m_stopAtEnd = stopAtEnd;
     }
 
-    public DriveStraightByDistance(double distance, long ms, GearDependentDouble limit) {
-        this(distance, ms, limit, false);
-    }
-
     public DriveStraightByDistance(double distance, long ms) {
-        this(distance, ms, POWER_LIMIT, false);
+        this(distance, ms, false);
     }
 
     @Override
@@ -148,8 +141,8 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
         m_controller.setSetpoint(Chassis.getInstance().getDistance() + m_distance);
 
         var current = Shifter.getInstance().getCurrentGear();
-        var lim = powerLimit.getByGear(current);
-        m_controller.setOutputRange(-lim, lim);
+        var limit = POWER_LIMIT.getByGear(current);
+        m_controller.setOutputRange(-limit, limit);
 
         m_controller.setPID(p.getByGear(current), i.getByGear(current), d.getByGear(current));
 
