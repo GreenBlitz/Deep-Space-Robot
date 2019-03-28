@@ -14,7 +14,7 @@ import edu.greenblitz.utils.command.CommandChain;
 
 public class VisionPlaceHatchPanel extends CommandChain {
 
-    private static final double ALIGN_DISTANCE = 0.5; // TODO here it's 0.5, in collect it's 1.1 place works but this doesn't. look into it
+    private static final double ALIGN_DISTANCE = 0.8; // TODO here it's 0.5, in collect it's 1.1 place works but this doesn't. look into it
     private static final double EXTEND_DISTANCE = 0.0;
     private static final double VISION_TARGET_OFFSET = 5;
 
