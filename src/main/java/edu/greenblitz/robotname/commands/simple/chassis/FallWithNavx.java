@@ -14,9 +14,10 @@ public class FallWithNavx extends ChassisBaseCommand {
 
     private AHRS navx;
     private boolean startedFalling;
+    private Position startLocation;
 
     private static final double CRITICAL_ANGLE_START = 10;
-    private static final double CRITICAL_ANGLE_STOP = 6;
+    private static final double CRITICAL_ANGLE_STOP = 8;
     private static final double POWER = 0.2;
 
     @Override
@@ -24,6 +25,7 @@ public class FallWithNavx extends ChassisBaseCommand {
         startedFalling = false;
         Shifter.getInstance().setShift(Shifter.Gear.POWER);
         navx = system.get_navx();
+        startLocation = Localizer.getInstance().getLocation();
         navx.resetDisplacement();
     }
 
@@ -41,11 +43,10 @@ public class FallWithNavx extends ChassisBaseCommand {
 
     @Override
     protected void atEnd(){
-        Position currentLoc = Localizer.getInstance().getLocation();
         // TODO test I use the correct values
-        currentLoc.translate(-navx.getDisplacementX(), navx.getDisplacementY());
-        currentLoc.setAngle(-Math.toRadians(navx.getAngle()));
-        new ResetLocalizer(currentLoc).start();
+        startLocation.translate(-navx.getDisplacementX(), navx.getDisplacementY());
+        startLocation.setAngle(-Math.toRadians(navx.getAngle()));
+        new ResetLocalizer(startLocation).start();
     }
 
     @Override

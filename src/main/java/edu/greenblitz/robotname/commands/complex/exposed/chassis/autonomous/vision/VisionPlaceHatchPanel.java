@@ -14,7 +14,7 @@ import edu.greenblitz.utils.command.CommandChain;
 
 public class VisionPlaceHatchPanel extends CommandChain {
 
-    private static final double ALIGN_DISTANCE = 0.5;
+    private static final double ALIGN_DISTANCE = 0.5; // TODO here it's 0.5, in collect it's 1.1 place works but this doesn't. look into it
     private static final double EXTEND_DISTANCE = 0.0;
     private static final double VISION_TARGET_OFFSET = 5;
 
@@ -36,13 +36,11 @@ public class VisionPlaceHatchPanel extends CommandChain {
         public Part2() {
             addSequential(new ExtendPoker(50));
             addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE), 1100)); // was 1000
-//            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE), 550,
-//                    new GearDependentDouble(0.2, 0.2)));
             addSequential(new ReleaseHatch());
         }
     }
 
-    public static class Cleanup extends CommandChain {
+    public static class Cleanup extends CommandChain  {
         public Cleanup() {
             addSequential(new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 600)); // was 600
             addSequential(new HoldHatchAndMoveToFloor());

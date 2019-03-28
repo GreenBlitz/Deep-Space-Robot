@@ -8,6 +8,7 @@ import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.RobotMap.Chassis.Motor;
 import edu.greenblitz.robotname.RobotMap.Chassis.Sensor;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
+import edu.greenblitz.robotname.commands.simple.chassis.driver.TankDriveByJoytick;
 import edu.greenblitz.robotname.data.LocalizerRunner;
 import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.encoder.IEncoder;
@@ -84,7 +85,7 @@ public class Chassis extends GBSubsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new ArcadeDriveByJoystick(OI.getMainJoystick()));
+        setDefaultCommand(new TankDriveByJoytick(OI.getMainJoystick()));
     }
 
     public void arcadeDrive(double move, double rotate) {
