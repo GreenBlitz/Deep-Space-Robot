@@ -14,6 +14,7 @@ import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickR
 import edu.greenblitz.robotname.commands.complex.hidden.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.SmartExtendAndRollIn;
 import edu.greenblitz.robotname.commands.complex.hidden.roller.ToggleRoller;
+import edu.greenblitz.robotname.commands.simple.chassis.FallWithNavx;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
@@ -91,8 +92,8 @@ public class OI {
     }
 
     public static void initBindings() {
-//        initOfficialBindings(); // For real game shit
-        initTestBindings(); // For testing code
+        initOfficialBindings(); // For real game shit
+//        initTestBindings(); // For testing code
     }
 
     private static void initTestBindings() {
@@ -122,6 +123,8 @@ public class OI {
         mainJoystick.BACK.whenPressed(new ToHatchMode());
 
         //mainJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
+
+        mainJoystick.X.whenPressed(new FallWithNavx());
 
         sideJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
         sideJoystick.A.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
