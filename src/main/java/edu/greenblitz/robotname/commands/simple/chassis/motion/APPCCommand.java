@@ -107,7 +107,7 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
                     Localizer.getInstance().getLocation());
             if (dist < startSearchingForVisionSqaured
                 && VisionMaster.getInstance().isDataValid()) {
-                logger.debug("APPCE finished because vision target seen.");
+                logger.debug("APPC finished because vision target seen at distance sqrt({}) m.", dist);
                 return true;
             }
         }
