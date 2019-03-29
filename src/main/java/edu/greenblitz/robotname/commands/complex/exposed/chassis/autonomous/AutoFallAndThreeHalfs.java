@@ -33,7 +33,7 @@ public class AutoFallAndThreeHalfs extends CommandChain {
                 new Path<>(APPCCommand.getPath("FallAndPlace.pf1.csv")),
                 null,
                 0.6, 0.2, false, 0.3,
-                1, .45, .3, 0.8));
+                1, .45, .1, 0.8));
 
         addSequential(new VisionPlaceHatchPanel());
 
@@ -46,7 +46,7 @@ public class AutoFallAndThreeHalfs extends CommandChain {
         addSequential(
                 new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")), null, 1.2,
                         0.4, false,
-                        0.4, 2.7, 0.7, .35, 2)
+                        0.4, 2.7, 0.7, .35, 1.8)
         );
         addSequential(new VisionCollectHatchPanel());
 //        addParallel(new ToSpeed(), new ChangeTargetFocus(VisionMaster.Focus.MIDDLE));
