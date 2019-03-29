@@ -1,6 +1,8 @@
 package edu.greenblitz.robotname.commands.simple.chassis;
 
 import com.kauailabs.navx.frc.AHRS;
+import edu.greenblitz.robotname.OI;
+import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.ResetLocalizer;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.robotname.subsystems.Shifter;
@@ -14,18 +16,20 @@ public class FallWithNavx extends ChassisBaseCommand {
 
     private AHRS navx;
     private boolean startedFalling;
-    private Position startLocation;
 
-    private static final double CRITICAL_ANGLE_START = 10;
-    private static final double CRITICAL_ANGLE_STOP = 8;
-    private static final double POWER = 0.2;
+    private static final double CRITICAL_ANGLE_START = 6;
+    private static final double CRITICAL_ANGLE_STOP = 4;
+    private static final double POWER = 0.4;
+    // This timeout is hand made for a really good reason, ask Alexey
+    private static final long TIMEOUT = 4000;
+    private long startTime;
 
     @Override
     protected void atInit(){
+        startTime = System.currentTimeMillis();
         startedFalling = false;
         Shifter.getInstance().setShift(Shifter.Gear.POWER);
         navx = system.get_navx();
-        startLocation = Localizer.getInstance().getLocation();
         navx.resetDisplacement();
     }
 
@@ -43,14 +47,17 @@ public class FallWithNavx extends ChassisBaseCommand {
 
     @Override
     protected void atEnd(){
-        // TODO test I use the correct values
-        startLocation.translate(-navx.getDisplacementX(), navx.getDisplacementY());
-        startLocation.setAngle(-Math.toRadians(navx.getAngle()));
-        new ResetLocalizer(startLocation).start();
+        long dt = System.currentTimeMillis() - startTime;
+        logger.debug("FallWithNavx FINISHED AT {} MS - {} S", dt, dt/1000.0);
+        if (System.currentTimeMillis() - startTime > TIMEOUT){
+            logger.debug("FallWithNavx reached timeout, switching to driver.");
+            new ArcadeDriveByJoystick(OI.getMainJoystick()).start();
+        }
     }
 
     @Override
     protected boolean isFinished() {
-        return startedFalling && !isFalling();
+        return (startedFalling && !isFalling())
+        || System.currentTimeMillis() - startTime > TIMEOUT;
     }
 }

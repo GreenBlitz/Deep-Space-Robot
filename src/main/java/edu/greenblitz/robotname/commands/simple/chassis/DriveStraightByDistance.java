@@ -114,6 +114,7 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
 
     private PIDController m_controller;
 
+    private GearDependentDouble maxVelocity = POWER_LIMIT;
     private GearDependentDouble p = kP, i = kI, d = kD;
     private boolean m_stopAtEnd;
 
@@ -131,6 +132,11 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
         m_stopAtEnd = stopAtEnd;
     }
 
+    public DriveStraightByDistance(double distance, long ms, GearDependentDouble maxVelocity) {
+        this(distance, ms);
+        this.maxVelocity = maxVelocity;
+    }
+
     public DriveStraightByDistance(double distance, long ms) {
         this(distance, ms, false);
     }
@@ -141,7 +147,7 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
         m_controller.setSetpoint(Chassis.getInstance().getDistance() + m_distance);
 
         var current = Shifter.getInstance().getCurrentGear();
-        var limit = POWER_LIMIT.getByGear(current);
+        var limit = maxVelocity.getByGear(current);
         m_controller.setOutputRange(-limit, limit);
 
         m_controller.setPID(p.getByGear(current), i.getByGear(current), d.getByGear(current));
