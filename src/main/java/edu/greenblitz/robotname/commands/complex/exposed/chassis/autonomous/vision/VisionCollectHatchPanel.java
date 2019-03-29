@@ -17,7 +17,7 @@ public class VisionCollectHatchPanel extends CommandChain {
 
     private static final double ALIGN_DISTANCE = 1.1;
     private static final double EXTEND_DISTANCE = 0.0;
-    private static final double VISION_TARGET_OFFSET = 0;
+    private static final double VISION_TARGET_OFFSET = 0.5;
 
     private Command lastShifterCommand;
     private Shifter.Gear lastGear;
