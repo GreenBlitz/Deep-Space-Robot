@@ -1,6 +1,7 @@
 package edu.greenblitz.robotname.commands.simple.chassis.motion;
 
 import edu.greenblitz.robotname.RobotMap;
+import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.command.base.SubsystemCommand;
 import edu.greenblitz.utils.sm.State;
@@ -27,6 +28,7 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
     private RemoteCSVTarget m_logger;
     private Position startPos;
     private double accelTime;
+    private double startSearchingForVisionSqaured = 0;
 
     public APPCCommand(AdaptivePurePursuitController c, Position startPos, double accelTime){
         super(Chassis.getInstance());
@@ -45,6 +47,15 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
         m_logger = RemoteCSVTarget.initTarget("Location", "x", "y");
         this.accelTime = accelTime;
         this.startPos = startPos;
+    }
+
+    public APPCCommand(Path<Position> path, Position startPos, double lookAhead,
+                       double tolerance, boolean isBackwards,
+                       double minSpeed, double maxSpeedDist, double maxSpeed, double accelTime,
+                       double visionDist) {
+        this(path, startPos, lookAhead, tolerance, isBackwards, minSpeed, maxSpeedDist,
+                maxSpeed, accelTime);
+        startSearchingForVisionSqaured = visionDist*visionDist;
     }
 
     @Override
@@ -87,7 +98,20 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
 
     @Override
     protected boolean isFinished() {
-        return m_controller.isFinished(system.getLocation());
+        if (m_controller.isFinished(system.getLocation())) {
+            logger.debug("APPC finished because tolerance is reached.");
+            return true;
+        }
+        if (startSearchingForVisionSqaured > 0){
+            double dist = Point.distSqared(m_controller.getPath().getLast(),
+                    Localizer.getInstance().getLocation());
+            if (dist < startSearchingForVisionSqaured
+                && VisionMaster.getInstance().isDataValid()) {
+                logger.debug("APPCE finished because vision target seen.");
+                return true;
+            }
+        }
+        return false;
     }
 
     public static List<Position> getPath(String filename) {

@@ -14,29 +14,32 @@ import edu.greenblitz.utils.command.CommandChain;
 
 public class VisionPlaceHatchPanel extends CommandChain {
 
-    private static final double ALIGN_DISTANCE = 0.8; // TODO here it's 0.5, in collect it's 1.1 place works but this doesn't. look into it
+    private static final double ALIGN_DISTANCE = 1.2;
     private static final double EXTEND_DISTANCE = 0.0;
-    private static final double VISION_TARGET_OFFSET = 5;
+    private static final double VISION_TARGET_OFFSET = 0;
 
     public VisionPlaceHatchPanel() {
         addSequential(new ArcadeUntilVision());
         addSequential(new ToPower());
         addSequential(new Part1());
         addSequential(new Part2());
+        addSequential(new ReleaseHatch(400));
         addSequential(new Cleanup());
     }
 
     public static class Part1 extends CommandChain {
         public Part1() {
-            addParallel(new RetractAndHold(), new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE, VISION_TARGET_OFFSET));
+            addParallel(new RetractAndHold(), new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE, VISION_TARGET_OFFSET, true));
         }
     }
 
     public static class Part2 extends CommandChain {
         public Part2() {
             addSequential(new ExtendPoker(50));
-            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE), 1100)); // was 1000
-            addSequential(new ReleaseHatch());
+            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE)/2, 550,
+                    new GearDependentDouble(0.4, 0.4)));
+            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE)/2, 800,
+                    new GearDependentDouble(0.2, 0.2)));
         }
     }
 
