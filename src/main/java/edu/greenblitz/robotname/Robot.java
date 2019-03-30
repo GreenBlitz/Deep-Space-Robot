@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname;
 
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.AutoFallAndThreeHalfs;
 import edu.greenblitz.robotname.commands.complex.exposed.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.robotname.commands.simple.shifter.KeepShift;
@@ -132,6 +133,8 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         matchInit();
         new KeepShift().start();
+
+        new AutoFallAndThreeHalfs().start();
     }
 
     @Override

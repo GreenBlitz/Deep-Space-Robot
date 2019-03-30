@@ -93,8 +93,8 @@ public class OI {
     }
 
     public static void initBindings() {
-//        initOfficialBindings(); // For real game shit
-        initTestBindings(); // For testing code
+        initOfficialBindings(); // For real game shit
+//        initTestBindings(); // For testing code
     }
 
     private static void initTestBindings() {
@@ -111,6 +111,9 @@ public class OI {
         mainJoystick.B.whenReleased(new HoldHatch());
 
         mainJoystick.A.whenPressed(new TogglePokerExtender());
+
+        mainJoystick.Y.whenPressed(new ExtendAndRollIn());
+        mainJoystick.Y.whenReleased(new RetractAndStopRoller());
 
         mainJoystick.L1.whenPressed(new VisionCollectHatchPanel());
         mainJoystick.L1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
@@ -129,6 +132,9 @@ public class OI {
         //mainJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
 
         mainJoystick.X.whenPressed(new FallWithNavx());
+
+        sideJoystick.START.whenPressed(new ToCargoMode());
+        sideJoystick.BACK.whenPressed(new ToHatchMode());
 
         sideJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
         sideJoystick.A.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_LOW));

@@ -95,6 +95,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import org.greenblitz.motion.base.Position;
 
 public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSource, PIDOutput {
 
@@ -161,7 +162,7 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
     }
 
     private double pidOverAngle() {
-        return (m_angle - Chassis.getInstance().getAngle()) * TURN_P.getByCurrentGear();
+        return Math.toDegrees(Position.normalizeAngle(Math.toRadians(m_angle - Chassis.getInstance().getAngle()))) * TURN_P.getByCurrentGear();
     }
 
     @Override
