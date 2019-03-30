@@ -1,9 +1,11 @@
 package edu.greenblitz.robotname.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.Robot;
 import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.RobotMap.Roller.Solenoid;
+import edu.greenblitz.robotname.commands.simple.roller.RollWithTriggers;
 import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -80,7 +82,7 @@ public class Roller extends GBSubsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(null);
+        setDefaultCommand(new RollWithTriggers(OI.getSideJoystick()));
     }
 
     public static void init() {

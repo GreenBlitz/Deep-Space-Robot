@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.command.ConditionalCommand;
 
 public class KickBall extends CommandChain {
     public KickBall() {
-//        addSequential(new ImmediateBrakeElevator());
         addSequential(
                 new ConditionalCommand("KickBall dynamic", new KickAtFloor(), new KickAtHeight()) {
                     @Override

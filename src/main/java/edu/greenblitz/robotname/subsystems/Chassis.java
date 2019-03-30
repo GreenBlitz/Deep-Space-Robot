@@ -8,13 +8,11 @@ import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.RobotMap.Chassis.Motor;
 import edu.greenblitz.robotname.RobotMap.Chassis.Sensor;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
-import edu.greenblitz.robotname.commands.simple.chassis.driver.TankDriveByJoytick;
 import edu.greenblitz.robotname.data.LocalizerRunner;
 import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.SparkEncoder;
 import edu.greenblitz.utils.sendables.SendableSparkMax;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -69,10 +67,6 @@ public class Chassis extends GBSubsystem {
         m_rightEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER_SPEED, m_rightLeader);
         m_navX = new AHRS(Sensor.NAVX);
 
-        m_localizer = new LocalizerRunner(RobotMap.Chassis.Data.WHEEL_BASE_RADIUS, m_leftEncoder, m_rightEncoder);
-        m_localizer.enableGyro();
-        m_localizer.start();
-
         addChild(m_leftLeader);
         m_leftLeader.setName("left");
         addChild(m_rightLeader);
@@ -96,7 +90,7 @@ public class Chassis extends GBSubsystem {
         setLeftRightMotorOutput(left, right);
     }
 
-    public AHRS get_navx(){
+    public AHRS get_navx() {
         return m_navX;
     }
 
@@ -134,7 +128,13 @@ public class Chassis extends GBSubsystem {
     }
 
     public static void init() {
-        if (instance == null) instance = new Chassis();
+        if (instance == null) {
+            instance = new Chassis();
+
+            instance.m_localizer = new LocalizerRunner(RobotMap.Chassis.Data.WHEEL_BASE_RADIUS, instance.m_leftEncoder, instance.m_rightEncoder);
+            instance.m_localizer.enableGyro();
+            instance.m_localizer.start();
+        }
     }
 
     public static Chassis getInstance() {
@@ -177,7 +177,7 @@ public class Chassis extends GBSubsystem {
         m_rightLeader.set(r);
     }
 
-    public void setRampRate(double timeToTopSpeed){
+    public void setRampRate(double timeToTopSpeed) {
         m_leftLeader.setOpenLoopRampRate(timeToTopSpeed);
         m_rightLeader.setOpenLoopRampRate(timeToTopSpeed);
     }
@@ -196,14 +196,14 @@ public class Chassis extends GBSubsystem {
 
         SmartDashboard.putNumber("Chassis::Pitch", m_navX.getPitch());
 
-        SmartDashboard.putNumber("Chassis::RPM", 60*getVelocity() / 0.47);
-        SmartDashboard.putNumber("Chassis::Left RPM", 60*getLeftVelocity() / 0.47);
-        SmartDashboard.putNumber("Chassis::Right RPM", 60*getRightVelocity() / 0.47);
+        SmartDashboard.putNumber("Chassis::RPM", 60 * getVelocity() / 0.47);
+        SmartDashboard.putNumber("Chassis::Left RPM", 60 * getLeftVelocity() / 0.47);
+        SmartDashboard.putNumber("Chassis::Right RPM", 60 * getRightVelocity() / 0.47);
 
         SmartDashboard.putString("Chassis::Location", getLocation().toString());
     }
 
-    public void startLoclizer(){
+    public void startLoclizer() {
         m_localizer.start();
     }
 
@@ -211,7 +211,7 @@ public class Chassis extends GBSubsystem {
         return m_navX.getWorldLinearAccelY();
     }
 
-    public void setTickPerMeter(Shifter.Gear gear){
+    public void setTickPerMeter(Shifter.Gear gear) {
         double ticks = gear == Shifter.Gear.POWER ? Sensor.Encoder.TICKS_PER_METER_POWER : Sensor.Encoder.TICKS_PER_METER_SPEED;
         logger.debug("Switched to {}", gear);
         Localizer.getInstance().setSleep(20, 0, 0);
@@ -233,7 +233,7 @@ public class Chassis extends GBSubsystem {
         m_rightFollower2.setIdleMode(state);
     }
 
-    public double getGyroZero(){
+    public double getGyroZero() {
         return m_localizer.getGyroZero();
     }
 

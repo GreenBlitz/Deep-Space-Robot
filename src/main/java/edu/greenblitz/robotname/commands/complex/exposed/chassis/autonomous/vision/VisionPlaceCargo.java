@@ -13,15 +13,15 @@ import edu.greenblitz.utils.command.CommandChain;
 public class VisionPlaceCargo extends CommandChain {
 
     private static final double ALIGN_DISTANCE = 1.2;
-    private static final double EXTEND_DISTANCE = 0.5;
+    private static final double EXTEND_DISTANCE = 0.0;
+    private static final double VISION_TARGET_OFFSET = 0;
 
     public VisionPlaceCargo() {
         addSequential(new ArcadeUntilVision());
         addSequential(new ToPower());
-        addSequential(new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE));
-        addSequential(new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 600));
+        addSequential(new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE, VISION_TARGET_OFFSET, true));
+        addSequential(new DriveStraightByDistance(ALIGN_DISTANCE - EXTEND_DISTANCE, 1000));
         addSequential(new KickBall());
-        addSequential(new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 600));
     }
 
     @Override
@@ -30,12 +30,4 @@ public class VisionPlaceCargo extends CommandChain {
             this.cancel();
         }
     }
-
-    @Override
-    protected void atEnd() {
-        new SafeMoveElevator(Elevator.Level.GROUND).start();
-    }
-
-    @Override
-    protected void atInterrupt() {}
 }
