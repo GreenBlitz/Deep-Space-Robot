@@ -12,8 +12,8 @@ import edu.greenblitz.utils.command.CommandChain;
 
 public class VisionPlaceCargo extends CommandChain {
 
-    private static final double ALIGN_DISTANCE = 0.9;
-    private static final double EXTEND_DISTANCE = 0.2;
+    private static final double ALIGN_DISTANCE = 1.2;
+    private static final double EXTEND_DISTANCE = 0.5;
 
     public VisionPlaceCargo() {
         addSequential(new ArcadeUntilVision());
