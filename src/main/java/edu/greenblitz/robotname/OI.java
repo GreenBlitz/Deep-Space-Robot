@@ -2,6 +2,7 @@ package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.commands.complex.exposed.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.exposed.HybridAlign;
+import edu.greenblitz.robotname.commands.complex.exposed.RollOrAllign;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.Auto2HatchCargoship;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.AutoFallAndThreeHalfs;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.SemiAuto1Point5Hatch;
@@ -151,8 +152,9 @@ public class OI {
         mainJoystick.B.whenPressed(new ReleaseHatch());
         mainJoystick.B.whenReleased(new HoldHatch());
 
-        mainJoystick.Y.whenPressed(new VisionCollectHatchPanel());
-        mainJoystick.Y.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+        mainJoystick.Y.whenPressed(new SmartExtendAndRollIn());
+        mainJoystick.Y.whenReleased(new RetractAndStopRoller(300));
+
         mainJoystick.R1.whenPressed(new VisionPlaceGameObject());
         mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
 
@@ -160,8 +162,8 @@ public class OI {
 
         mainJoystick.X.whenPressed(new KickBall());
 
-        mainJoystick.L1.whenPressed(new SmartExtendAndRollIn());
-        mainJoystick.L1.whenReleased(new RetractAndStopRoller(300));
+        mainJoystick.L1.whileHeld(new RollOrAllign.Main());
+        mainJoystick.L1.whenReleased(new RollOrAllign.Cleanup());
 
         mainJoystick.POV_UP.whenPressed(new AutoChangeShift());
         mainJoystick.POV_LEFT.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.LEFT));

@@ -5,6 +5,7 @@ import edu.greenblitz.robotname.commands.simple.chassis.ArcadeUntilVision;
 import edu.greenblitz.robotname.commands.simple.chassis.DriveStraightByDistance;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFromVisionTarget;
 import edu.greenblitz.robotname.commands.simple.poker.ExtendPoker;
+import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.RetractAndHold;
 import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
@@ -46,7 +47,7 @@ public class VisionPlaceHatchPanel extends CommandChain {
     public static class Cleanup extends CommandChain  {
         public Cleanup() {
             addSequential(new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 600)); // was 600
-            addSequential(new HoldHatchAndMoveToFloor());
+            addSequential(new HoldHatch());
         }
     }
 }

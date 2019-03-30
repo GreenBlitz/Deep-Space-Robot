@@ -31,7 +31,7 @@ public class Elevator extends GBSubsystem {
     public enum Level {
         GROUND(CARGO_OFFSET, HATCH_OFFSET),
         ROCKET_LOW(0.7, HATCH_OFFSET),
-        CARGO_SHIP(1, HATCH_OFFSET),
+        CARGO_SHIP(1.05, HATCH_OFFSET),
         ROCKET_MID(1.41, 1.19),
         ROCKET_HIGH(2.12, 1.90);
 

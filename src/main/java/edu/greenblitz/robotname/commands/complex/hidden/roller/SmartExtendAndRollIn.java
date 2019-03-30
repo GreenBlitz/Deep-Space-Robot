@@ -2,6 +2,7 @@ package edu.greenblitz.robotname.commands.complex.hidden.roller;
 
 import edu.greenblitz.robotname.commands.simple.roller.RollerBaseCommand;
 import edu.greenblitz.robotname.subsystems.Elevator;
+import edu.greenblitz.robotname.subsystems.Roller;
 import edu.greenblitz.utils.sm.RollerState;
 
 public class SmartExtendAndRollIn extends RollerBaseCommand {
