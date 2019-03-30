@@ -14,10 +14,10 @@ public class RollWithTriggers extends RollerBaseCommand{
         this.stick = stick;
     }
 
-    @Override
-    protected void atInit(){
-        system.setDefaultCommand(this);
-    }
+//    @Override
+//    protected void atInit(){
+//        system.setDefaultCommand(this);
+//    }
 
     @Override
     protected void execute(){
@@ -29,6 +29,11 @@ public class RollWithTriggers extends RollerBaseCommand{
             system.rollIn();
         else
             system.stopRolling();
+    }
+
+    @Override
+    protected boolean isFinished(){
+        return false;
     }
 
     @Override

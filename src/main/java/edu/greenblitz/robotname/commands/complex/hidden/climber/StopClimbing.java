@@ -24,10 +24,6 @@ public class StopClimbing extends GBCommand {
         return Optional.empty();
     }
 
-    @Override
-    protected void atEnd(){
-        new RollWithTriggers(OI.getSideJoystick()).start();
-    }
 
     @Override
     protected boolean isFinished() {

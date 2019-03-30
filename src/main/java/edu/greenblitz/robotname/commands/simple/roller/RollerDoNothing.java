@@ -5,8 +5,8 @@ import edu.greenblitz.utils.sm.RollerState;
 public class RollerDoNothing extends RollerBaseCommand {
 
     @Override
-    protected void atInit() {
-        system.setDefaultCommand(this);
+    protected boolean isFinished() {
+        return false;
     }
 
     @Override
