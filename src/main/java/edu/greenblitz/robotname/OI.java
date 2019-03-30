@@ -133,7 +133,7 @@ public class OI {
         sideJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
         sideJoystick.A.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
         sideJoystick.B.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
-        sideJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
+//        sideJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
         sideJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
     }
 
