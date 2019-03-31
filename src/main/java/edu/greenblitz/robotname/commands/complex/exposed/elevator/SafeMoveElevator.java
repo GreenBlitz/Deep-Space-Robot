@@ -8,31 +8,55 @@ import edu.greenblitz.robotname.commands.simple.roller.RetractRoller;
 import edu.greenblitz.robotname.commands.simple.roller.StopRolling;
 import edu.greenblitz.robotname.subsystems.*;
 import edu.greenblitz.utils.command.CommandChain;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 
-public class SafeMoveElevator extends CommandChain {
+public class SafeMoveElevator extends Command {
+
+    private Elevator.Level level;
 
     public SafeMoveElevator(Elevator.Level level) {
-        addSequential(new ConditionalCommand("Ensuring roller safe", new GroundMovement()) {
-            @Override
-            protected boolean condition() {
-                return Elevator.isBelowCritical(level.heightByCurrentState()) || Elevator.isBelowCritical(Elevator.getInstance().getHeight());
-            }
-        });
+        this.level = level;
+    }
 
-        addSequential(new MoveElevatorByLevel(level));
-        addSequential(new RetractRoller(300));
+    @Override
+    protected void initialize() {
+        if (Elevator.isBelowCritical(level.heightByCurrentState())
+                || Elevator.isBelowCritical(Elevator.getInstance().getHeight()))
+            new GroundMovement(this.level).start();
+        else
+            new PreformMovement(this.level).start();
+    }
 
-        clearRequirements();
-        requires(Elevator.getInstance());
-        requires(Roller.getInstance());
+    @Override
+    protected boolean isFinished() {
+        return true;
+    }
+
+    private static class PreformMovement extends CommandChain {
+        public PreformMovement(Elevator.Level level){
+            addSequential(new MoveElevatorByLevel(level));
+            addSequential(new RetractRoller(300));
+            clearRequirements();
+            requires(Elevator.getInstance());
+            requires(Roller.getInstance());
+        }
     }
 
     private static class GroundMovement extends CommandChain {
-        public GroundMovement() {
+
+        private Elevator.Level level;
+
+        public GroundMovement(Elevator.Level lvl) {
+            level = lvl;
             addParallel(new Unkick(150), new StopRolling());
             addSequential(new RetractPoker(200));
             addSequential(new ExtendRoller(300));
+        }
+
+        @Override
+        protected void atEnd(){
+            new PreformMovement(level).start();
         }
     }
 }
