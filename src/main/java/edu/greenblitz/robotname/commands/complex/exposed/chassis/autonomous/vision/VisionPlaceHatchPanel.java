@@ -1,6 +1,5 @@
 package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision;
 
-import edu.greenblitz.robotname.commands.complex.exposed.HoldHatchAndMoveToFloor;
 import edu.greenblitz.robotname.commands.simple.chassis.ArcadeUntilVision;
 import edu.greenblitz.robotname.commands.simple.chassis.DriveStraightByDistance;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFromVisionTarget;
@@ -9,9 +8,10 @@ import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.RetractAndHold;
 import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
-import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;
 import edu.greenblitz.robotname.data.GearDependentDouble;
+import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.CommandChain;
+import edu.greenblitz.utils.command.WaitUntilFree;
 
 public class VisionPlaceHatchPanel extends CommandChain {
 
@@ -36,6 +36,7 @@ public class VisionPlaceHatchPanel extends CommandChain {
 
     public static class Part2 extends CommandChain {
         public Part2() {
+            addSequential(new WaitUntilFree(Elevator.getInstance()));
             addSequential(new ExtendPoker(50));
             addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE)/2, 550,
                     new GearDependentDouble(0.4, 0.4)));

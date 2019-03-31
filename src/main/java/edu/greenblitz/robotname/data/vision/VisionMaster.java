@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname.data.vision;
 
+import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -170,5 +171,7 @@ public class VisionMaster {
         SmartDashboard.putString("Vision::focus", m_visionTable.getEntry("focus").getString(""));
         SmartDashboard.putString("Vision::raw data", current.toString());
         SmartDashboard.putNumber("Vision::planery distance", current.getPlaneryDistance());
+        SmartDashboard.putNumber("Vision::derived angle", current.getCenterAngle());
+
     }
 }

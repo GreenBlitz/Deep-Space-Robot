@@ -22,15 +22,23 @@ public class VisionPlaceCargo extends CommandChain {
         addSequential(new ToPower());
         addSequential(new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE, VISION_TARGET_OFFSET, true));
         addSequential(new DriveStraightByDistance(0.5*(ALIGN_DISTANCE - EXTEND_DISTANCE), 500));
-        addSequential(new DriveStraightByDistance(0.5*(ALIGN_DISTANCE - EXTEND_DISTANCE), 500,
+        addSequential(new DriveStraightByDistance(0.5*(ALIGN_DISTANCE - EXTEND_DISTANCE), 700,
                 new GearDependentDouble(0.2, 0.2)));
-        addSequential(new KickBall());
     }
 
     @Override
     public void atInit(){
-        if (Elevator.getInstance().isFloorLevel()){
+        if (Elevator.getInstance().isFloorLevel() && Elevator.getInstance().getCurrentCommandName().equals
+                (Elevator.getInstance().getDefaultCommandName())){
             this.cancel();
         }
+    }
+
+    @Override
+    public void atInterrupt(){ }
+
+    @Override
+    public void atEnd(){
+        new KickBall().start();
     }
 }

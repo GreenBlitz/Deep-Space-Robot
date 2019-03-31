@@ -9,10 +9,12 @@ import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.robotname.subsystems.Poker;
 import edu.greenblitz.robotname.subsystems.Roller;
 import edu.greenblitz.utils.command.CommandChain;
+import edu.greenblitz.utils.command.WaitUntilFree;
 import edu.wpi.first.wpilibj.command.ConditionalCommand;
 
 public class KickBall extends CommandChain {
     public KickBall() {
+        addSequential(new WaitUntilFree(Elevator.getInstance()));
         addSequential(
                 new ConditionalCommand("KickBall dynamic", new KickAtFloor(), new KickAtHeight()) {
                     @Override
