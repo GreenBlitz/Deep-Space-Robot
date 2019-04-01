@@ -6,6 +6,7 @@ import edu.greenblitz.robotname.commands.complex.chassis.vision.VisionPlaceHatch
 import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.ResetLocalizer;
 import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;
+import edu.greenblitz.robotname.data.Paths;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.utils.command.CommandChain;
 import org.greenblitz.motion.base.Position;
@@ -20,7 +21,7 @@ public class Auto2HatchCargoship extends CommandChain {
                 new ResetLocalizer(new Position(-0.651 - 2.5, 1.6, Math.PI)));
 
         addSequential(new APPCCommand(
-                new Path<>(APPCCommand.getPath("Cargoship1.pf1.csv")),
+                Paths.get("Cargoship1"),
                 null,
                 0.6, 0.5, true, 0.4, 2, .7, .4/*0.6*/));
 
@@ -29,17 +30,19 @@ public class Auto2HatchCargoship extends CommandChain {
         addSequential(new ToSpeed());
 
         addSequential(
-                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship2.pf1.csv")),
+                new APPCCommand(Paths.get("Cargoship2"),
                         null, 0.6, 0.15, true,
                         0.2, 0.4, 0.5, 0.6));
         addSequential(
-                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")), null, 1.2, 1.7, false, 0.1,
+                new APPCCommand(Paths.get("Cargoship3"), null, 1.2, 1.7, false, 0.1,
                         .3, 0.7, .4)
         );
+
         addSequential(new VisionCollectHatchPanel());
         addParallel(new ToSpeed(), new ChangeTargetFocus(VisionMaster.Focus.MIDDLE));
+
         addSequential(new APPCCommand(
-                new Path<>(APPCCommand.getPath("Cargoship4.pf1.csv")),
+                Paths.get("Cargoship4"),
                 null, 1, 1, true,
                 .1, 1.5, 0.6, .4
         ));
@@ -48,13 +51,13 @@ public class Auto2HatchCargoship extends CommandChain {
     }
 
     @Override
-    protected void atInit(){
+    protected void atInit() {
         tStart = System.currentTimeMillis();
     }
 
     @Override
-    protected void atEnd(){
+    protected void atEnd() {
         long now = System.currentTimeMillis();
-        logger.debug("FINISHED 2 CARGO AUTO, TAKING {} MS = {} S", now - tStart, (now - tStart)/1000.0);
+        logger.debug("FINISHED 2 CARGO AUTO, TAKING {} MS = {} S", now - tStart, (now - tStart) / 1000.0);
     }
 }

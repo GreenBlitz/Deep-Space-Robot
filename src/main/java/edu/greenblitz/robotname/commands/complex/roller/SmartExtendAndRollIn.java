@@ -2,7 +2,6 @@ package edu.greenblitz.robotname.commands.complex.roller;
 
 import edu.greenblitz.robotname.commands.simple.roller.RollerBaseCommand;
 import edu.greenblitz.robotname.subsystems.Elevator;
-import edu.greenblitz.utils.sm.RollerState;
 
 public class SmartExtendAndRollIn extends RollerBaseCommand {
 
@@ -11,11 +10,6 @@ public class SmartExtendAndRollIn extends RollerBaseCommand {
     }
 
     public SmartExtendAndRollIn() {
-    }
-
-    @Override
-    protected RollerState getNextState() {
-        return RollerState.EXTENDED;
     }
 
     @Override

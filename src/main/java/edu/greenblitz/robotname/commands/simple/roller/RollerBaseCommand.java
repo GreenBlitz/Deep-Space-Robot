@@ -2,7 +2,6 @@ package edu.greenblitz.robotname.commands.simple.roller;
 
 import edu.greenblitz.robotname.subsystems.Roller;
 import edu.greenblitz.utils.command.base.TimedSubsystemCommand;
-import edu.greenblitz.utils.sm.RollerState;
 
 import static edu.greenblitz.robotname.subsystems.Roller.ROLLER_STATE_TIMEOUT;
 
@@ -17,7 +16,4 @@ public abstract class RollerBaseCommand extends TimedSubsystemCommand<Roller> {
     public RollerBaseCommand(String name, long ms) {
         super(name, ms, Roller.getInstance());
     }
-
-    protected abstract RollerState getNextState();
-
 }

@@ -105,23 +105,4 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
         }
         return false;
     }
-
-    public static List<Position> getPath(String filename) {
-        CSVParser read;
-        try {
-            read = CSVFormat.DEFAULT.parse(new FileReader(new File("/home/lvuser/deploy/output/" + filename)));
-            ArrayList<Position> path = new ArrayList<>();
-            List<CSVRecord> records = read.getRecords();
-            for (int i = 1; i < records.size(); i++) {
-                path.add(new Position(new Point(Double.parseDouble(records.get(i).get(1)), Double.parseDouble(records.get(i).get(2))).weaverToLocalizerCoords()));
-            }
-            System.out.println(filename + ": " + path);
-            return path;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("Failed to read file");
-        return new ArrayList<>();
-    }
-
 }

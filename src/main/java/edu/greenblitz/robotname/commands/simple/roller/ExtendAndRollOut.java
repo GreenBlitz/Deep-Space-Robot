@@ -1,7 +1,5 @@
 package edu.greenblitz.robotname.commands.simple.roller;
 
-import edu.greenblitz.utils.sm.RollerState;
-
 public class ExtendAndRollOut extends RollerBaseCommand {
 
     public ExtendAndRollOut(long ms) {
@@ -10,11 +8,6 @@ public class ExtendAndRollOut extends RollerBaseCommand {
 
     public ExtendAndRollOut() {
 
-    }
-
-    @Override
-    protected RollerState getNextState() {
-        return RollerState.EXTENDED;
     }
 
     @Override

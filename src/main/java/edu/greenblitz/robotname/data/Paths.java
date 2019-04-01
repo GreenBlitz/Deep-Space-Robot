@@ -35,8 +35,9 @@ public class Paths {
         try(CSVParser read = CSVFormat.DEFAULT.parse(new FileReader(new File(filename)))) {
             ArrayList<Position> path = new ArrayList<>();
             List<CSVRecord> records = read.getRecords();
-            for (int i = 1; i < records.size(); i++)
+            for (int i = 1; i < records.size(); i++) {
                 path.add(new Position(new Point(Double.parseDouble(records.get(i).get(1)), Double.parseDouble(records.get(i).get(2))).weaverToLocalizerCoords()));
+            }
             return new Path<>(path);
         } catch (Exception e) {
             logger.error(e);

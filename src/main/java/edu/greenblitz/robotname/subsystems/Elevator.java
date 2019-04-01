@@ -14,7 +14,6 @@ import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.TalonEncoder;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
-import edu.greenblitz.utils.sm.ElevatorState;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
@@ -133,7 +132,7 @@ public class Elevator extends GBSubsystem {
     }
 
     public boolean isFloorLevel() {
-        return ElevatorState.getStateByHeight(getHeight()) == ElevatorState.GROUND;
+        return getHeight() < LEVEL_HEIGHT_TOLERANCE;
     }
 
     public double getVelocity() {

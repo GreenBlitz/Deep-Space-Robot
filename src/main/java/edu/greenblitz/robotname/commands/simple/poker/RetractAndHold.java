@@ -1,7 +1,5 @@
 package edu.greenblitz.robotname.commands.simple.poker;
 
-import edu.greenblitz.utils.sm.PokerState;
-
 public class RetractAndHold extends PokerBaseCommand {
     public RetractAndHold(long ms) {
         super(ms);
@@ -16,8 +14,4 @@ public class RetractAndHold extends PokerBaseCommand {
         system.hold(true);
     }
 
-    @Override
-    protected PokerState getNextState() {
-        return PokerState.UNPOKING;
-    }
 }

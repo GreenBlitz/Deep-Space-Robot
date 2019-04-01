@@ -9,7 +9,6 @@ import edu.greenblitz.robotname.data.Paths;
 import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.*;
-import edu.greenblitz.utils.sm.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -48,34 +47,12 @@ public class Robot extends TimedRobot {
 
     private PowerDistributionPanel m_pdp;
     private Logger logger;
-    private StateMachine m_status;
     private Report m_usageReport;
-
-    /**
-     * @deprecated state machine updates were commented out due to unclear bugs, so every part of the sm shouldn't be used
-     * @return current robot's state machine
-     */
-    @Deprecated
-    public StateMachine getStateMachine() {
-        return m_status;
-    }
-
-    /**
-     * @deprecated state machine updates were commented out due to unclear bugs, so every part of the sm shouldn't be used
-     * @return current robot state
-     */
-    @Deprecated
-    public State getCurrentState() {
-        return m_status.getCurrentState();
-    }
 
     @Override
     public void robotInit() {
         logger = LogManager.getLogger(getClass());
         m_usageReport = new Report();
-        m_status = StateMachineGenerator.createMachine(
-                new State(ElevatorState.GROUND, RollerState.RETRACTED, PokerState.UNPOKING, KickerState.UNKICK)
-        );
 
         OI.initJoysticks();
 
@@ -96,7 +73,7 @@ public class Robot extends TimedRobot {
         Stream.init();
         Pi.init();
         VisionMaster.init();
-        Paths.init("Cargoship1", "Cargoship2", "Cargoship3", "Cargoship4");
+        Paths.init("Cargoship1", "Cargoship2", "Cargoship3", "Cargoship4", "FallAndPlace");
 
         SmartDashboard.putData("Elevator GR", new SafeMoveElevator(Elevator.Level.GROUND));
         SmartDashboard.putData("Elevator R1", new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
@@ -188,9 +165,6 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().removeAll();
 
         m_usageReport.reset();
-        m_status.setCurrentState(
-                new State(ElevatorState.GROUND, RollerState.RETRACTED, PokerState.UNPOKING, KickerState.UNKICK)
-        );
     }
 
 
