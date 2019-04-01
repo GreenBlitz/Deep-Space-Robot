@@ -2,9 +2,6 @@ package edu.greenblitz.robotname.commands.simple.chassis;
 
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.command.base.SubsystemCommand;
-import edu.greenblitz.utils.sm.State;
-
-import java.util.Optional;
 
 public abstract class ChassisBaseCommand extends SubsystemCommand<Chassis> {
     public ChassisBaseCommand() {
@@ -23,8 +20,4 @@ public abstract class ChassisBaseCommand extends SubsystemCommand<Chassis> {
         super(name, ms, Chassis.getInstance());
     }
 
-    @Override
-    public Optional<State> getDeltaState() {
-        return Optional.empty();
-    }
 }

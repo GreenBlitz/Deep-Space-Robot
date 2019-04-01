@@ -1,17 +1,12 @@
 package edu.greenblitz.utils.command.base;
 
 import edu.greenblitz.utils.command.GBSubsystem;
-import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.Vector;
 
 public abstract class GBCommand extends Command {
     protected static final Logger logger = LogManager.getLogger(GBCommand.class);
@@ -44,31 +39,6 @@ public abstract class GBCommand extends Command {
         }
     }
 
-    public final Set<GBSubsystem> getRequirements() {
-        var ret = new HashSet<>(getWPILibRequirements());
-        ret.addAll(getLazyRequirements());
-        return ret;
-    }
-
-    /**
-     * Reflection is love, reflection is life
-     *
-     * @return the wpilib managed requirements of this command
-     */
-    @SuppressWarnings("unchecked")
-    public final Set<GBSubsystem> getWPILibRequirements() {
-        try {
-            var wpiRequires = (Vector<GBSubsystem>) requirements.get(requirementsSet.get(this));
-            return new HashSet<>(wpiRequires);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public Set<GBSubsystem> getLazyRequirements() {
-        return Set.of();
-    }
-
     public GBCommand() {
     }
 
@@ -99,8 +69,6 @@ public abstract class GBCommand extends Command {
     public GBCommand(String name, double timeout, Subsystem subsystem) {
         super(name, timeout, subsystem);
     }
-
-    public abstract Optional<State> getDeltaState();
 
     @Override
     protected final void initialize() {

@@ -36,7 +36,7 @@ public class DriveByGyro extends ChassisBaseCommand implements PIDSource, PIDOut
     private static String generateName(double distance) {
         return DriveByGyro.class.getSimpleName() + " for {" + distance + "}";
     }
-    
+
     public DriveByGyro(double distance, long ms, boolean stopAtEnd, boolean useVisionAngle) {
         super(generateName(distance), ms);
 

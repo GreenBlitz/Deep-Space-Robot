@@ -9,9 +9,6 @@ package edu.greenblitz.robotname.commands.simple.roller;
 
 import edu.greenblitz.robotname.subsystems.Roller;
 import edu.greenblitz.utils.command.base.SubsystemCommand;
-import edu.greenblitz.utils.sm.State;
-
-import java.util.Optional;
 
 public class RollIn extends SubsystemCommand<Roller> {
 
@@ -30,11 +27,6 @@ public class RollIn extends SubsystemCommand<Roller> {
 
     protected boolean isFinished() {
         return isTimedOut();
-    }
-
-    @Override
-    public Optional<State> getDeltaState() {
-        return Optional.empty();
     }
 
     @Override

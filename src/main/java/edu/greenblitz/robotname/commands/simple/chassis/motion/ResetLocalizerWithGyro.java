@@ -1,12 +1,8 @@
 package edu.greenblitz.robotname.commands.simple.chassis.motion;
 
-import edu.greenblitz.robotname.data.LocalizerRunner;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.command.base.GBCommand;
-import edu.greenblitz.utils.sm.State;
 import org.greenblitz.motion.base.Position;
-
-import java.util.Optional;
 
 
 public class ResetLocalizerWithGyro extends GBCommand {
@@ -37,9 +33,5 @@ public class ResetLocalizerWithGyro extends GBCommand {
         return true;
     }
 
-    @Override
-    public Optional<State> getDeltaState() {
-        return Optional.empty();
-    }
 }
 

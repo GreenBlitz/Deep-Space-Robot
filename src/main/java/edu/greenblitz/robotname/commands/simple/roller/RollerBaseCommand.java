@@ -3,9 +3,6 @@ package edu.greenblitz.robotname.commands.simple.roller;
 import edu.greenblitz.robotname.subsystems.Roller;
 import edu.greenblitz.utils.command.base.TimedSubsystemCommand;
 import edu.greenblitz.utils.sm.RollerState;
-import edu.greenblitz.utils.sm.State;
-
-import java.util.Optional;
 
 import static edu.greenblitz.robotname.subsystems.Roller.ROLLER_STATE_TIMEOUT;
 
@@ -23,8 +20,4 @@ public abstract class RollerBaseCommand extends TimedSubsystemCommand<Roller> {
 
     protected abstract RollerState getNextState();
 
-    @Override
-    public Optional<State> getDeltaState() {
-        return Optional.of(new State(null, getNextState(), null, null));
-    }
 }

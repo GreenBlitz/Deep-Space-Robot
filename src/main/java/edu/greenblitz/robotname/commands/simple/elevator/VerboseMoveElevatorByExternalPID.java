@@ -2,14 +2,10 @@ package edu.greenblitz.robotname.commands.simple.elevator;
 
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.base.SubsystemCommand;
-import edu.greenblitz.utils.sm.ElevatorState;
-import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.greenblitz.debug.RemoteCSVTarget;
 import org.greenblitz.motion.pid.PIDController;
 import org.greenblitz.motion.pid.PIDObject;
-
-import java.util.Optional;
 
 public class VerboseMoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
     public static final double SLOW_DOWN_DISTANCE = 0.3;
@@ -88,13 +84,6 @@ public class VerboseMoveElevatorByExternalPID extends SubsystemCommand<Elevator>
     protected void atEnd() {
         system.brake(true);
         system.stop();
-    }
-
-    @Override
-    public Optional<State> getDeltaState() {
-        return Optional.of(
-                new State(ElevatorState.getStateByHeight(m_height),
-                        null, null, null));
     }
 
     private void set(double power, double ff) {
