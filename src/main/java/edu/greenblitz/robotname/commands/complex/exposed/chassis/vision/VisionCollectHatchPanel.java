@@ -1,4 +1,4 @@
-package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision;
+package edu.greenblitz.robotname.commands.complex.exposed.chassis.vision;
 
 import edu.greenblitz.robotname.commands.simple.chassis.ArcadeUntilVision;
 import edu.greenblitz.robotname.commands.simple.chassis.DriveByGyro;

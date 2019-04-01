@@ -1,8 +1,8 @@
 package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous;
 
-import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.ChangeTargetFocus;
-import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionCollectHatchPanel;
-import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionPlaceHatchPanel;
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.vision.ChangeTargetFocus;
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.vision.VisionCollectHatchPanel;
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.vision.VisionPlaceHatchPanel;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.ResetLocalizer;
 import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;

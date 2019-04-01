@@ -1,11 +1,11 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.robotname.commands.complex.exposed.ClimbByJoystick;
-import edu.greenblitz.robotname.commands.complex.exposed.RollOrAllign;
+import edu.greenblitz.robotname.commands.complex.exposed.climber.ClimbByJoystick;
+import edu.greenblitz.robotname.commands.complex.exposed.RollOrAlign;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.AutoFallAndThreeHalfs;
-import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.ChangeTargetFocus;
-import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionCollectHatchPanel;
-import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionPlaceGameObject;
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.vision.ChangeTargetFocus;
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.vision.VisionCollectHatchPanel;
+import edu.greenblitz.robotname.commands.complex.exposed.chassis.vision.VisionPlaceGameObject;
 import edu.greenblitz.robotname.commands.complex.exposed.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.exposed.kicker.KickBall;
 import edu.greenblitz.robotname.commands.complex.hidden.climber.ClimbByJoystickRestricted;
@@ -147,8 +147,8 @@ public class OI {
 
         mainJoystick.X.whenPressed(new KickBall());
 
-        mainJoystick.L1.whileHeld(new RollOrAllign.Main());
-        mainJoystick.L1.whenReleased(new RollOrAllign.Cleanup());
+        mainJoystick.L1.whileHeld(new RollOrAlign.Main());
+        mainJoystick.L1.whenReleased(new RollOrAlign.Cleanup());
 
         mainJoystick.POV_UP.whenPressed(new AutoChangeShift());
         mainJoystick.POV_LEFT.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.LEFT));

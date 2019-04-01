@@ -1,4 +1,4 @@
-package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision;
+package edu.greenblitz.robotname.commands.complex.exposed.chassis.vision;
 
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.utils.command.base.GBCommand;
@@ -13,7 +13,6 @@ public class ChangeTargetFocus extends GBCommand {
 
     @Override
     protected void atInit() {
-        logger.debug("Set vision target to " + m_focus);
         VisionMaster.getInstance().setCurrentFocus(m_focus);
     }
 
