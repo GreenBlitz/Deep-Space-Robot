@@ -1,11 +1,10 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.AutoFallAndThreeHalfs;
-import edu.greenblitz.robotname.commands.complex.exposed.elevator.SafeMoveElevator;
+import edu.greenblitz.robotname.commands.complex.chassis.autonomous.AutoFallAndThreeHalfs;
+import edu.greenblitz.robotname.commands.complex.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.robotname.commands.simple.shifter.KeepShift;
 import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
-import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;
 import edu.greenblitz.robotname.data.Paths;
 import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
@@ -15,7 +14,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
