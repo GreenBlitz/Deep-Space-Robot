@@ -19,9 +19,9 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
             kI = new GearDependentDouble(Shifter.Gear.SPEED, 0),
             kD = new GearDependentDouble(Shifter.Gear.SPEED, 0);
 
-    private static final GearDependentDouble POWER_LIMIT = new GearDependentDouble(.8, 0.25);
+    private static final GearDependentDouble POWER_LIMIT = new GearDependentDouble(.6, 0.25);
 
-    private static final GearDependentDouble turnKp = new GearDependentDouble(Shifter.Gear.SPEED, 0.0035);
+    private static final GearDependentDouble turnKp = new GearDependentDouble(Shifter.Gear.SPEED, 0.0030);
 
     private static final long TIME_ON_TARGET = 0;
 
@@ -99,6 +99,7 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
 
     @Override
     protected void atEnd() {
+        VisionMaster.getInstance().updateLastAngleToDrive(m_visionTargetOffset);
         m_controller.disable();
         if (m_stopAtEnd) Chassis.getInstance().stop();
     }

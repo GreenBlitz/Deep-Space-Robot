@@ -95,7 +95,7 @@ public class Robot extends TimedRobot {
         OI.initBindings();
         m_pdp = new PowerDistributionPanel();
 
-//        Stream.init();
+        Stream.init();
         Pi.init();
         VisionMaster.init();
         Paths.init("Cargoship1", "Cargoship2", "Cargoship3", "Cargoship4");
@@ -111,6 +111,7 @@ public class Robot extends TimedRobot {
     public void disabledInit() {
         reset();
         Scheduler.getInstance().removeAll();
+        Chassis.getInstance().stop();
         if (m_usageReport.isReportValid()) report();
     }
 

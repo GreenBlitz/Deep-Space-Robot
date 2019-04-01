@@ -89,6 +89,7 @@
 package edu.greenblitz.robotname.commands.simple.chassis;
 
 import edu.greenblitz.robotname.data.GearDependentDouble;
+import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.robotname.subsystems.Shifter;
 import edu.wpi.first.wpilibj.PIDController;
@@ -104,7 +105,7 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
             kI = new GearDependentDouble(Shifter.Gear.SPEED, 0),
             kD = new GearDependentDouble(Shifter.Gear.SPEED, 0);
 
-    private static final GearDependentDouble TURN_P = new GearDependentDouble(Shifter.Gear.SPEED, 0.05 / 25);
+    private static final GearDependentDouble TURN_P = new GearDependentDouble(Shifter.Gear.SPEED, 0.003);
 
     private static final long TIME_ON_TARGET = 200;
 
@@ -144,7 +145,7 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
 
     @Override
     protected void atInit() {
-        m_angle = Chassis.getInstance().getAngle();
+        m_angle = VisionMaster.getInstance().getLastAngleToDrive();
         m_controller.setSetpoint(Chassis.getInstance().getDistance() + m_distance);
 
         var current = Shifter.getInstance().getCurrentGear();
