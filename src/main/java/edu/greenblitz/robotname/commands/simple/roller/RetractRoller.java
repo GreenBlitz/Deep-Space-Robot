@@ -7,19 +7,12 @@
 
 package edu.greenblitz.robotname.commands.simple.roller;
 
-import edu.greenblitz.utils.sm.RollerState;
-
 public class RetractRoller extends RollerBaseCommand {
     public RetractRoller() {
     }
 
     public RetractRoller(long ms) {
         super(ms);
-    }
-
-    @Override
-    protected RollerState getNextState() {
-        return RollerState.RETRACTED;
     }
 
     @Override

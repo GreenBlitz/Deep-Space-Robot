@@ -1,7 +1,5 @@
 package edu.greenblitz.robotname.commands.simple.poker;
 
-import edu.greenblitz.utils.sm.PokerState;
-
 public class SetPokerExtenderState extends PokerBaseCommand {
     private boolean m_shouldExtend;
 
@@ -14,8 +12,4 @@ public class SetPokerExtenderState extends PokerBaseCommand {
         system.extend(m_shouldExtend);
     }
 
-    @Override
-    protected PokerState getNextState() {
-        return null;
-    }
 }

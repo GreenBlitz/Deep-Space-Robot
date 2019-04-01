@@ -1,10 +1,6 @@
 package edu.greenblitz.robotname.commands.simple.roller;
 
-import edu.greenblitz.robotname.RobotMap;
-import edu.greenblitz.robotname.subsystems.Roller;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.greenblitz.utils.sm.RollerState;
-import edu.wpi.first.wpilibj.Joystick;
 
 public class RollWithTriggers extends RollerBaseCommand{
 
@@ -36,8 +32,4 @@ public class RollWithTriggers extends RollerBaseCommand{
         return false;
     }
 
-    @Override
-    protected RollerState getNextState() {
-        return null;
-    }
 }

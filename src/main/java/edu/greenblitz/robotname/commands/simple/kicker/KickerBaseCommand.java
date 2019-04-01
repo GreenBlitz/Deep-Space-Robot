@@ -2,7 +2,6 @@ package edu.greenblitz.robotname.commands.simple.kicker;
 
 import edu.greenblitz.robotname.subsystems.Kicker;
 import edu.greenblitz.utils.command.base.TimedSubsystemCommand;
-import edu.greenblitz.utils.sm.KickerState;
 
 public abstract class KickerBaseCommand extends TimedSubsystemCommand<Kicker> {
     public KickerBaseCommand(long ms) {
@@ -13,5 +12,4 @@ public abstract class KickerBaseCommand extends TimedSubsystemCommand<Kicker> {
         super(name, ms, Kicker.getInstance());
     }
 
-    protected abstract KickerState getNextState();
 }
