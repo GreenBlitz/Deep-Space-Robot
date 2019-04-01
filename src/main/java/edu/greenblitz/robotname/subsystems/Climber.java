@@ -150,7 +150,7 @@ public class Climber {
         }
 
         public boolean isAtLimit() {
-//            return m_limitSwitch.get();
+//            return m_limitSwitch.getRaw();
             return false;
         }
 

@@ -21,14 +21,51 @@ public class Paths {
 
     private static HashMap<String, Path<Position>> paths = new HashMap<>();
 
-    public static Path<Position> get(String pathname) {
+    public static final String LEFT_PATH_PREFIX = "L_";
+    public static final String RIGHT_PATH_PREFIX = "R_";
+
+    private static String mkNativePath(String pathname) {
+        return "/home/lvuser/deploy/output/" + pathname + ".pf1.csv";
+    }
+
+    private static String left(String pathname) {
+        return LEFT_PATH_PREFIX + pathname;
+    }
+
+    private static String right(String pathname) {
+        return RIGHT_PATH_PREFIX + pathname;
+    }
+
+    public static Path<Position> getRaw(String pathname) {
         if (!paths.containsKey(pathname))
-            paths.put(pathname, nativeGetPath("/home/lvuser/deploy/output/" + pathname + ".pf1.csv"));
-        return paths.get (pathname);
+            paths.put(pathname, nativeGetPath(mkNativePath(pathname)));
+        return paths.get(pathname);
+    }
+
+    public static Path<Position> get(String pathname, boolean left) {
+        return left ? getLeft(pathname) : getRight(pathname);
+    }
+
+    public static Path<Position> getLeft(String pathname) {
+        return getRaw(left(pathname));
+    }
+
+    public static Path<Position> getRight(String pathname) {
+        return getRaw(right(pathname));
     }
 
     public static void init(String... pathname) {
-        Arrays.stream(pathname).forEach(Paths::get);
+        Arrays.stream(pathname).forEach(Paths::getRaw);
+    }
+
+    public static void init(String pathame) {
+        File left = new File(mkNativePath(left(pathame)));
+        File right = new File(mkNativePath(right(pathame)));
+        File raw = new File(mkNativePath(pathame));
+
+        if (left.isFile())  getLeft(pathame);
+        if (right.isFile()) getRight(pathame);
+        if (raw.isFile())   getRaw(pathame);
     }
 
     private static Path<Position> nativeGetPath(String filename) {

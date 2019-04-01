@@ -10,7 +10,6 @@ import edu.greenblitz.robotname.data.Paths;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.utils.command.CommandChain;
 import org.greenblitz.motion.base.Position;
-import org.greenblitz.motion.pathing.Path;
 
 public class Auto2HatchCargoship extends CommandChain {
     private static final long POKER_TIMEOUT = 100;
@@ -21,7 +20,7 @@ public class Auto2HatchCargoship extends CommandChain {
                 new ResetLocalizer(new Position(-0.651 - 2.5, 1.6, Math.PI)));
 
         addSequential(new APPCCommand(
-                Paths.get("Cargoship1"),
+                Paths.getRaw("Cargoship1"),
                 null,
                 0.6, 0.5, true, 0.4, 2, .7, .4/*0.6*/));
 
@@ -30,11 +29,11 @@ public class Auto2HatchCargoship extends CommandChain {
         addSequential(new ToSpeed());
 
         addSequential(
-                new APPCCommand(Paths.get("Cargoship2"),
+                new APPCCommand(Paths.getRaw("Cargoship2"),
                         null, 0.6, 0.15, true,
                         0.2, 0.4, 0.5, 0.6));
         addSequential(
-                new APPCCommand(Paths.get("Cargoship3"), null, 1.2, 1.7, false, 0.1,
+                new APPCCommand(Paths.getRaw("Cargoship3"), null, 1.2, 1.7, false, 0.1,
                         .3, 0.7, .4)
         );
 
@@ -42,7 +41,7 @@ public class Auto2HatchCargoship extends CommandChain {
         addParallel(new ToSpeed(), new ChangeTargetFocus(VisionMaster.Focus.MIDDLE));
 
         addSequential(new APPCCommand(
-                Paths.get("Cargoship4"),
+                Paths.getRaw("Cargoship4"),
                 null, 1, 1, true,
                 .1, 1.5, 0.6, .4
         ));
