@@ -12,7 +12,6 @@ import edu.greenblitz.robotname.data.Paths;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.utils.command.CommandChain;
 import org.greenblitz.motion.base.Position;
-import org.greenblitz.motion.pathing.Path;
 
 public class AutoFallAndThreeHalfs extends CommandChain {
     private long tStart;
@@ -26,7 +25,7 @@ public class AutoFallAndThreeHalfs extends CommandChain {
         addSequential(new ToSpeed());
 
         addSequential(new APPCCommand(
-                Paths.get("FallAndPlace"),
+                Paths.getRaw("FallAndPlace"),
                 null,
                 0.8, 0.2, false, 0.3,
                 1, .45, .1, 1.5));
@@ -36,11 +35,11 @@ public class AutoFallAndThreeHalfs extends CommandChain {
         addSequential(new ToSpeed());
         addParallel(new RetractPoker());
 
-        addSequential(new APPCCommand(Paths.get("Cargoship2"),
+        addSequential(new APPCCommand(Paths.getRaw("Cargoship2"),
                 null, 0.6, 0.5, true,
                 0, 0.7, 0.5, 0.4));
         addSequential(
-                new APPCCommand(Paths.get("Cargoship3"), null, 2,
+                new APPCCommand(Paths.getRaw("Cargoship3"), null, 2,
                         0.4, false,
                         0.4, 2.7, 1, .1, 1.5)
         );
