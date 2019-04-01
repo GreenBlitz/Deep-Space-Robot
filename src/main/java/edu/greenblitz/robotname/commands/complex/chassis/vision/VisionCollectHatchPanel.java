@@ -52,7 +52,7 @@ public class VisionCollectHatchPanel extends CommandChain {
         private Forward() {
             addSequential(new ExtendPoker(50)); // Needed in different commands for small delay
             addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 850,
-                    new GearDependentDouble(0.4, 0.4)));
+                    new GearDependentDouble(0.4, 0.4), false));
             addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 800,
                     new GearDependentDouble(0.2, 0.2)));
         }

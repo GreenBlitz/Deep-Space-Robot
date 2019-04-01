@@ -21,7 +21,7 @@ public class FallWithNavx extends ChassisBaseCommand {
     private static final double CRITICAL_ANGLE_STOP = 4;
     private static final double POWER = 0.4;
     // This timeout is hand made for a really good reason, ask Alexey
-    private static final long TIMEOUT = 1000;
+    private static final long TIMEOUT = 2000;
     private long startTime;
 
     @Override

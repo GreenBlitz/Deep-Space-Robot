@@ -13,6 +13,7 @@ import org.greenblitz.motion.app.Localizer;
 import org.greenblitz.motion.base.Point;
 import org.greenblitz.motion.base.Position;
 import org.greenblitz.motion.pathing.Path;
+import org.opencv.core.Mat;
 
 import java.io.File;
 import java.io.FileReader;
@@ -25,6 +26,8 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
     private RemoteCSVTarget m_logger;
     private Position startPos;
     private double accelTime;
+    private double gyroTarget = 4590;
+    private double gyroTolerance = -1;
     private double startSearchingForVisionSqaured = 0;
 
     public APPCCommand(AdaptivePurePursuitController c, Position startPos, double accelTime){
@@ -44,6 +47,16 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
         m_logger = RemoteCSVTarget.initTarget("Location", "x", "y");
         this.accelTime = accelTime;
         this.startPos = startPos;
+    }
+
+    public APPCCommand(Path<Position> path, Position startPos, double lookAhead,
+                       double tolerance, boolean isBackwards,
+                       double minSpeed, double maxSpeedDist, double maxSpeed, double accelTime,
+                       double gyroLocalizerTarget, double gyroTolerance) {
+        this(path, startPos, lookAhead, tolerance, isBackwards, minSpeed, maxSpeedDist,
+                maxSpeed, accelTime);
+        this.gyroTarget = Position.normalizeAngle(Math.toRadians(gyroLocalizerTarget));
+        this.gyroTolerance = Position.normalizeAngle(Math.toRadians(gyroTolerance));
     }
 
     public APPCCommand(Path<Position> path, Position startPos, double lookAhead,
@@ -100,6 +113,13 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
             if (dist < startSearchingForVisionSqaured
                 && VisionMaster.getInstance().isDataValid()) {
                 logger.debug("APPC finished because vision target seen at distance sqrt({}) m.", dist);
+                return true;
+            }
+        }
+        if (gyroTolerance > 0 && gyroTarget != 4590){
+            if (Math.abs(Position.normalizeAngle(Chassis.getInstance().getLocation().getAngle() - gyroTarget))
+                    < gyroTolerance){
+                logger.debug("APPC finished because target angle was reached.");
                 return true;
             }
         }

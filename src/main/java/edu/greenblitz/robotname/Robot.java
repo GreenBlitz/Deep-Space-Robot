@@ -1,10 +1,12 @@
 package edu.greenblitz.robotname;
 
 import edu.greenblitz.robotname.commands.complex.chassis.autonomous.AutoFallAndThreeHalfs;
+import edu.greenblitz.robotname.commands.complex.chassis.autonomous.AutoThreeHalfFarRocket;
 import edu.greenblitz.robotname.commands.complex.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.robotname.commands.simple.shifter.KeepShift;
 import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
+import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;
 import edu.greenblitz.robotname.data.Paths;
 import edu.greenblitz.robotname.data.Report;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
@@ -73,7 +75,8 @@ public class Robot extends TimedRobot {
 //        Stream.init();
         Pi.init();
         VisionMaster.init();
-        Paths.init("Cargoship1", "Cargoship2", "Cargoship3", "Cargoship4", "FallAndPlace");
+        Paths.init("Cargoship1", "Cargoship2", "Cargoship3", "Cargoship4", "FallAndPlace",
+                "RocketFastHalf1", "RocketSlowHalf1", "Rocket2", "Rocket3");
 
         SmartDashboard.putData("Elevator GR", new SafeMoveElevator(Elevator.Level.GROUND));
         SmartDashboard.putData("Elevator R1", new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
@@ -84,8 +87,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
-        reset();
         Scheduler.getInstance().removeAll();
+        reset();
         Chassis.getInstance().stop();
         if (m_usageReport.isReportValid()) report();
     }
@@ -109,8 +112,7 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         matchInit();
         new KeepShift().start();
-
-        new AutoFallAndThreeHalfs(true).start();
+        new AutoThreeHalfFarRocket(true).start();
     }
 
     @Override
@@ -156,7 +158,7 @@ public class Robot extends TimedRobot {
     private void reset() {
         Chassis.getInstance().reset();
         Elevator.getInstance().reset();
-        Poker.getInstance().reset();
+//        Poker.getInstance().reset();
         Roller.getInstance().reset();
         Kicker.getInstance().reset();
         Shifter.getInstance().reset();
