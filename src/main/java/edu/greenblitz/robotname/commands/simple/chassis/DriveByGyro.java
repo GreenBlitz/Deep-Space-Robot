@@ -7,7 +7,7 @@
 //import org.greenblitz.motion.tolerance.AbsoluteTolerance;
 //import org.greenblitz.motion.tolerance.ITolerance;
 //
-//public class DriveStraightByDistance extends ChassisBaseCommand {
+//public class DriveByGyro extends ChassisBaseCommand {
 //
 //    private static final int DRIVE_IDX = 0;
 //    private static final int TURN_IDX = 1;
@@ -27,7 +27,7 @@
 //
 //    private double m_distance;
 //
-//    public DriveStraightByDistance(double distance, long ms) {
+//    public DriveByGyro(double distance, long ms) {
 //        super(ms);
 //        m_distance = distance;
 //
@@ -36,7 +36,7 @@
 //        m_controller.setPIDObject(TURN_IDX, TURN, TURN_TOL);
 //    }
 //
-//    public DriveStraightByDistance(double distance) {
+//    public DriveByGyro(double distance) {
 //        m_distance = distance;
 //
 //        m_controller = new MultivariablePIDController(2);
@@ -98,7 +98,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import org.greenblitz.motion.base.Position;
 
-public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSource, PIDOutput {
+public class DriveByGyro extends ChassisBaseCommand implements PIDSource, PIDOutput {
 
     private static final GearDependentDouble
             kP = new GearDependentDouble(Shifter.Gear.SPEED, 0.3),
@@ -119,12 +119,13 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
     private GearDependentDouble maxVelocity = POWER_LIMIT;
     private GearDependentDouble p = kP, i = kI, d = kD;
     private boolean m_stopAtEnd;
+    private boolean m_useVisionAngle;
 
     private static String generateName(double distance) {
-        return DriveStraightByDistance.class.getSimpleName() + " for {" + distance + "}";
+        return DriveByGyro.class.getSimpleName() + " for {" + distance + "}";
     }
 
-    public DriveStraightByDistance(double distance, long ms, boolean stopAtEnd) {
+    public DriveByGyro(double distance, long ms, boolean stopAtEnd, boolean useVisionAngle) {
         super(generateName(distance), ms);
 
         m_distance = distance;
@@ -132,20 +133,26 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
 
         m_controller.setAbsoluteTolerance(0.1);
         m_stopAtEnd = stopAtEnd;
+        m_useVisionAngle = useVisionAngle;
     }
 
-    public DriveStraightByDistance(double distance, long ms, GearDependentDouble maxVelocity) {
+    public DriveByGyro(double distance, long ms, boolean stopAtEnd) {
+        this(distance, ms, stopAtEnd, false);
+    }
+
+    public DriveByGyro(double distance, long ms, GearDependentDouble maxVelocity) {
         this(distance, ms);
         this.maxVelocity = maxVelocity;
     }
 
-    public DriveStraightByDistance(double distance, long ms) {
+    public DriveByGyro(double distance, long ms) {
         this(distance, ms, false);
     }
 
     @Override
     protected void atInit() {
-        m_angle = VisionMaster.getInstance().getLastAngleToDrive();
+        m_angle = Chassis.getInstance().getAngle() + (m_useVisionAngle ? VisionMaster.getInstance().getLastAngleToDrive() : 0);
+
         m_controller.setSetpoint(Chassis.getInstance().getDistance() + m_distance);
 
         var current = Shifter.getInstance().getCurrentGear();
@@ -200,7 +207,7 @@ public class DriveStraightByDistance extends ChassisBaseCommand implements PIDSo
 
     @Override
     public String toString() {
-        return "DriveStraightByDistance{" +
+        return "DriveByGyro{" +
                 "distance=" + m_distance +
                 ", angle=" + m_angle +
                 '}';

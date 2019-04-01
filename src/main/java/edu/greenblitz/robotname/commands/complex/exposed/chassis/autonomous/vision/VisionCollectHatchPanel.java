@@ -1,7 +1,7 @@
 package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision;
 
 import edu.greenblitz.robotname.commands.simple.chassis.ArcadeUntilVision;
-import edu.greenblitz.robotname.commands.simple.chassis.DriveStraightByDistance;
+import edu.greenblitz.robotname.commands.simple.chassis.DriveByGyro;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFromVisionTarget;
 import edu.greenblitz.robotname.commands.simple.poker.ExtendPoker;
 import edu.greenblitz.robotname.commands.simple.poker.RetractAndHold;
@@ -51,16 +51,16 @@ public class VisionCollectHatchPanel extends CommandChain {
     private class Forward extends CommandChain {
         private Forward() {
             addSequential(new ExtendPoker(50)); // Needed in different commands for small delay
-            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 850,
+            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 850,
                     new GearDependentDouble(0.4, 0.4)));
-            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 800,
+            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 800,
                     new GearDependentDouble(0.2, 0.2)));
         }
     }
 
     private class Place extends CommandChain {
         private Place() {
-            addParallel(new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 300), new RetractPoker());
+            addParallel(new DriveByGyro(EXTEND_DISTANCE - ALIGN_DISTANCE, 300), new RetractPoker());
         }
     }
 }

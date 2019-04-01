@@ -1,19 +1,13 @@
 package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous;
 
-import edu.greenblitz.robotname.commands.complex.exposed.HoldHatchAndMoveToFloor;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.ChangeTargetFocus;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionCollectHatchPanel;
 import edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision.VisionPlaceHatchPanel;
-import edu.greenblitz.robotname.commands.simple.chassis.DriveByTime;
-import edu.greenblitz.robotname.commands.simple.chassis.DriveStraightByDistance;
 import edu.greenblitz.robotname.commands.simple.chassis.FallWithNavx;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.ResetLocalizer;
-import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFromVisionTarget;
 import edu.greenblitz.robotname.commands.simple.poker.*;
-import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
 import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;
-import edu.greenblitz.robotname.data.Paths;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.utils.command.CommandChain;
 import org.greenblitz.motion.base.Position;
