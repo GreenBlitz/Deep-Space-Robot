@@ -16,7 +16,7 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
 
     @Override
     protected void execute() {
-        if (system.getPressure() < 70) {
+        if (system.getPressure() < 55) {
             system.setCompressor(true);
         }
     }

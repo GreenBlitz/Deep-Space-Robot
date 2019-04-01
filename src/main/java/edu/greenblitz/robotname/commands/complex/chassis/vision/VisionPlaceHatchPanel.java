@@ -39,9 +39,9 @@ public class VisionPlaceHatchPanel extends CommandChain {
             addSequential(new WaitUntilFree(Elevator.getInstance()));
             addSequential(new ExtendPoker(50));
             addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 850,
-                    new GearDependentDouble(0.4, 0.4)));
+                    new GearDependentDouble(0.4, 0.4), false));
             addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 800,
-                    new GearDependentDouble(0.2, 0.2)));
+                    new GearDependentDouble(0.25, 0.25)));
         }
     }
 

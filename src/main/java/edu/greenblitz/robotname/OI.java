@@ -14,6 +14,7 @@ import edu.greenblitz.robotname.commands.complex.roller.SmartExtendAndRollIn;
 import edu.greenblitz.robotname.commands.complex.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.chassis.FallWithNavx;
 import edu.greenblitz.robotname.commands.simple.chassis.driver.ArcadeDriveByJoystick;
+import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
 import edu.greenblitz.robotname.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.robotname.commands.simple.poker.TogglePokerExtender;
@@ -21,6 +22,7 @@ import edu.greenblitz.robotname.commands.simple.roller.ExtendAndRollIn;
 import edu.greenblitz.robotname.commands.simple.roller.RetractAndStopRoller;
 import edu.greenblitz.robotname.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.robotname.commands.simple.shifter.ToggleShift;
+import edu.greenblitz.robotname.data.Paths;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.base.GBCommand;
@@ -28,6 +30,8 @@ import edu.greenblitz.utils.command.ResetCommands;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj.buttons.POVButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.greenblitz.motion.base.Position;
+import org.opencv.core.Mat;
 
 public class OI {
     public enum State {
@@ -88,7 +92,9 @@ public class OI {
         mainJoystick.POV_RIGHT.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.RIGHT));
         mainJoystick.POV_DOWN.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.MIDDLE));
 
-        mainJoystick.POV_UP.whenPressed(new AutoFallAndThreeHalfs(true));
+        mainJoystick.POV_UP.whenPressed(new APPCCommand(Paths.get("Rocket2", true),
+                new Position(-0.619,6.336, 3*Math.PI/4), 0.6, 0.2, true,
+                0.3, 0.4, 0.5, 0.4, 165, 5));
 
         mainJoystick.START.whenPressed(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
         mainJoystick.BACK.whenPressed(new StopClimbing());

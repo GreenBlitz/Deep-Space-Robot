@@ -57,6 +57,11 @@ public class DriveByGyro extends ChassisBaseCommand implements PIDSource, PIDOut
         this.maxVelocity = maxVelocity;
     }
 
+    public DriveByGyro(double distance, long ms, GearDependentDouble maxVelocity, boolean stop) {
+        this(distance, ms, maxVelocity);
+        m_stopAtEnd = stop;
+    }
+
     public DriveByGyro(double distance, long ms) {
         this(distance, ms, false);
     }
