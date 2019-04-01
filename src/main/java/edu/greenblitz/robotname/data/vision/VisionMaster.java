@@ -1,8 +1,6 @@
 package edu.greenblitz.robotname.data.vision;
 
-import edu.greenblitz.robotname.commands.complex.exposed.RollOrAllign;
 import edu.greenblitz.robotname.subsystems.Chassis;
-import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -98,6 +96,7 @@ public class VisionMaster {
 
     public void setCurrentFocus(Focus focus) {
         m_focus.setString(focus.rawFocusName);
+        logger.debug("Set vision target to " + m_focus);
     }
 
     public double[] getCurrentVisionData() {
