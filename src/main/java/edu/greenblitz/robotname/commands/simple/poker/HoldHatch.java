@@ -9,9 +9,6 @@ package edu.greenblitz.robotname.commands.simple.poker;
 
 import edu.greenblitz.utils.command.base.SubsystemCommand;
 import edu.greenblitz.robotname.subsystems.Poker;
-import edu.greenblitz.utils.sm.State;
-
-import java.util.Optional;
 
 public class HoldHatch extends SubsystemCommand<Poker> {
 
@@ -22,11 +19,6 @@ public class HoldHatch extends SubsystemCommand<Poker> {
     @Override
     protected void execute() {
         system.hold(true);
-    }
-
-    @Override
-    public Optional<State> getDeltaState() {
-        return Optional.empty();
     }
 
     @Override

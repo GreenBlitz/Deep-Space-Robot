@@ -11,9 +11,6 @@ import edu.greenblitz.utils.command.base.JoystickCommand;
 import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.subsystems.Climber;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.greenblitz.utils.sm.State;
-
-import java.util.Optional;
 
 public class ClimberDriveByJoystick extends JoystickCommand<Climber.Wheels> {
 
@@ -22,11 +19,6 @@ public class ClimberDriveByJoystick extends JoystickCommand<Climber.Wheels> {
     }
 
     public ClimberDriveByJoystick() { this(OI.getMainJoystick()); }
-
-    @Override
-    public Optional<State> getDeltaState() {
-        return Optional.empty();
-    }
 
     @Override
     protected void execute() {

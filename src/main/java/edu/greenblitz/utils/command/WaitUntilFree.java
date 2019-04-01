@@ -1,10 +1,7 @@
 package edu.greenblitz.utils.command;
 
 import edu.greenblitz.utils.command.base.GBCommand;
-import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
-import java.util.Optional;
 
 public class WaitUntilFree extends GBCommand {
 
@@ -12,11 +9,6 @@ public class WaitUntilFree extends GBCommand {
 
     public WaitUntilFree(Subsystem... subs){
         systems = subs;
-    }
-
-    @Override
-    public Optional<State> getDeltaState() {
-        return Optional.empty();
     }
 
     @Override

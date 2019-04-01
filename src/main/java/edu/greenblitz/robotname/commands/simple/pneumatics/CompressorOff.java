@@ -2,9 +2,6 @@ package edu.greenblitz.robotname.commands.simple.pneumatics;
 
 import edu.greenblitz.robotname.subsystems.Pneumatics;
 import edu.greenblitz.utils.command.base.SubsystemCommand;
-import edu.greenblitz.utils.sm.State;
-
-import java.util.Optional;
 
 public class CompressorOff extends SubsystemCommand<Pneumatics> {
 
@@ -18,11 +15,6 @@ public class CompressorOff extends SubsystemCommand<Pneumatics> {
         if (ms > 0) {
             setTimeout(ms / 1000.0);
         }
-    }
-
-    @Override
-    public Optional<State> getDeltaState() {
-        return Optional.empty();
     }
 
     @Override

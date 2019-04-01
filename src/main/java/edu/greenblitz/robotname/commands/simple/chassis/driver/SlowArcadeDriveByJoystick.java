@@ -3,9 +3,6 @@ package edu.greenblitz.robotname.commands.simple.chassis.driver;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.command.base.JoystickCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.greenblitz.utils.sm.State;
-
-import java.util.Optional;
 
 public class SlowArcadeDriveByJoystick extends JoystickCommand<Chassis> {
 
@@ -20,11 +17,6 @@ public class SlowArcadeDriveByJoystick extends JoystickCommand<Chassis> {
     protected void execute() {
         Chassis.getInstance().arcadeDrive(-SmartJoystick.Axis.LEFT_Y.getValue(joystick) * m_driveMulti,
                                          SmartJoystick.Axis.RIGHT_X.getValue(joystick) * m_driveMulti);
-    }
-
-    @Override
-    public Optional<State> getDeltaState() {
-        return Optional.empty();
     }
 
     @Override

@@ -3,9 +3,6 @@ package edu.greenblitz.robotname.commands.simple.climber;
 import edu.greenblitz.robotname.subsystems.Climber;
 import edu.greenblitz.utils.command.base.JoystickCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.greenblitz.utils.sm.State;
-
-import java.util.Optional;
 
 public class ClimberBigControlByJoystick extends JoystickCommand<Climber.Big> {
     /**
@@ -17,11 +14,6 @@ public class ClimberBigControlByJoystick extends JoystickCommand<Climber.Big> {
     public ClimberBigControlByJoystick(double safePower, SmartJoystick miseryStick) {
         super(Climber.getInstance().getBig(), miseryStick);
         this.safePower = safePower;
-    }
-
-    @Override
-    public Optional<State> getDeltaState() {
-        return Optional.empty();
     }
 
     @Override

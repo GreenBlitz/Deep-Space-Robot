@@ -2,9 +2,6 @@ package edu.greenblitz.robotname.commands.simple.chassis;
 
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.command.base.TimedSubsystemCommand;
-import edu.greenblitz.utils.sm.State;
-
-import java.util.Optional;
 
 public class DriveByTime extends TimedSubsystemCommand<Chassis> {
     private static final double DEFAULT_POWER = 0.5;
@@ -29,8 +26,4 @@ public class DriveByTime extends TimedSubsystemCommand<Chassis> {
         system.arcadeDrive(m_power * m_backwards, 0);
     }
 
-    @Override
-    public Optional<State> getDeltaState() {
-        return Optional.empty();
-    }
 }

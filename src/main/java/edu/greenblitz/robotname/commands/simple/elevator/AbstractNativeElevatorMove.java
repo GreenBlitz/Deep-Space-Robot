@@ -2,10 +2,6 @@ package edu.greenblitz.robotname.commands.simple.elevator;
 
 import edu.greenblitz.robotname.subsystems.Elevator;
 import edu.greenblitz.utils.command.base.TimedSubsystemCommand;
-import edu.greenblitz.utils.sm.ElevatorState;
-import edu.greenblitz.utils.sm.State;
-
-import java.util.Optional;
 
 public abstract class AbstractNativeElevatorMove extends TimedSubsystemCommand<Elevator> {
     private final double m_destination;
@@ -26,11 +22,6 @@ public abstract class AbstractNativeElevatorMove extends TimedSubsystemCommand<E
         system.setMainLoopIdx(m_loopIdx);
         system.brake(false);
         startNativeMove(m_destination);
-    }
-
-    @Override
-    public Optional<State> getDeltaState() {
-        return Optional.of(new State(ElevatorState.getStateByHeight(m_destination), null, null, null));
     }
 
     @Override

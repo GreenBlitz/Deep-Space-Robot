@@ -3,13 +3,10 @@ package edu.greenblitz.robotname.commands.simple.climber;
 import edu.greenblitz.robotname.subsystems.Climber;
 import edu.greenblitz.utils.command.base.JoystickCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.greenblitz.utils.sm.State;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-
-import java.util.Optional;
 
 public class ClimberProportionalExtendByJoystick extends JoystickCommand<Climber.Extender> implements PIDSource, PIDOutput {
 
@@ -40,11 +37,6 @@ public class ClimberProportionalExtendByJoystick extends JoystickCommand<Climber
     @Override
     protected void execute() {
         m_controller.setSetpoint(SmartJoystick.Axis.LEFT_Y.getValue(joystick) < 0 && system.getHeight() > -START_UPPER_LIMIT ? 0 : GOAL * PIDGET_MULTI);
-    }
-
-    @Override
-    public Optional<State> getDeltaState() {
-        return Optional.empty();
     }
 
     @Override

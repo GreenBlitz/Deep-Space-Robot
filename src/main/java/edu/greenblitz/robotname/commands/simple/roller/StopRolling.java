@@ -9,9 +9,6 @@ package edu.greenblitz.robotname.commands.simple.roller;
 
 import edu.greenblitz.robotname.subsystems.Roller;
 import edu.greenblitz.utils.command.base.SubsystemCommand;
-import edu.greenblitz.utils.sm.State;
-
-import java.util.Optional;
 
 public class StopRolling extends SubsystemCommand<Roller> {
 
@@ -32,8 +29,4 @@ public class StopRolling extends SubsystemCommand<Roller> {
         return true;
     }
 
-    @Override
-    public Optional<State> getDeltaState() {
-        return Optional.empty();
-    }
 }

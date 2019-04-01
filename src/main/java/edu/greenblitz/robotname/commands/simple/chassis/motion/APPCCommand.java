@@ -4,12 +4,10 @@ import edu.greenblitz.robotname.RobotMap;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.command.base.SubsystemCommand;
-import edu.greenblitz.utils.sm.State;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.greenblitz.debug.RemoteCSVTarget;
-import org.greenblitz.debug.RemoteGuydeBugger;
 import org.greenblitz.motion.app.AdaptivePurePursuitController;
 import org.greenblitz.motion.app.Localizer;
 import org.greenblitz.motion.base.Point;
@@ -20,7 +18,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class APPCCommand extends SubsystemCommand<Chassis> {
 
@@ -80,11 +77,6 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
         system.tankDrive(moveValues[0], moveValues[1]);
         m_logger.report(loc.getX(), loc.getY());
 //        RemoteGuydeBugger.report(-loc.getX(), -loc.getY(), loc.getAngle());
-    }
-
-    @Override
-    public Optional<State> getDeltaState() {
-        return Optional.empty();
     }
 
     @Override

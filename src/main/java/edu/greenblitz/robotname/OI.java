@@ -29,8 +29,6 @@ import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj.buttons.POVButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import java.util.Optional;
-
 public class OI {
     public enum State {
         CARGO,
@@ -50,10 +48,6 @@ public class OI {
     }
 
     public static class ToHatchMode extends GBCommand {
-        @Override
-        public Optional<edu.greenblitz.utils.sm.State> getDeltaState() {
-            return Optional.empty();
-        }
 
         @Override
         protected boolean isFinished() {
@@ -67,10 +61,6 @@ public class OI {
     }
 
     public static class ToCargoMode extends GBCommand {
-        @Override
-        public Optional<edu.greenblitz.utils.sm.State> getDeltaState() {
-            return Optional.empty();
-        }
 
         @Override
         protected boolean isFinished() {

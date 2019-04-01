@@ -3,9 +3,6 @@ package edu.greenblitz.robotname.commands.simple.shifter;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.robotname.subsystems.Shifter;
 import edu.greenblitz.utils.command.base.SubsystemCommand;
-import edu.greenblitz.utils.sm.State;
-
-import java.util.Optional;
 
 public class AutoChangeShift extends SubsystemCommand<Shifter> {
 
@@ -23,11 +20,6 @@ public class AutoChangeShift extends SubsystemCommand<Shifter> {
     protected void atInit() {
         t0 = System.currentTimeMillis();
         system.setDefaultCommand(this);
-    }
-
-    @Override
-    public Optional<State> getDeltaState() {
-        return Optional.empty();
     }
 
     @Override
