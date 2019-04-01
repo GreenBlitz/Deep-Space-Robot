@@ -174,7 +174,7 @@ public class VisionMaster {
         SmartDashboard.putNumber("Vision::ChassisAngleAtUpdate", Chassis.getInstance().getAngle());
         SmartDashboard.putNumber("Vision::VisionAngleAtUpdate", getAngle());
         lastAngleToDrive = Math.toDegrees(Position.normalizeAngle(Math.toRadians(
-                Chassis.getInstance().getAngle() + getAngle() + offest
+                getAngle() + offest
         )));
     }
 

@@ -1,7 +1,7 @@
 package edu.greenblitz.robotname.commands.complex.exposed.chassis.autonomous.vision;
 
 import edu.greenblitz.robotname.commands.simple.chassis.ArcadeUntilVision;
-import edu.greenblitz.robotname.commands.simple.chassis.DriveStraightByDistance;
+import edu.greenblitz.robotname.commands.simple.chassis.DriveByGyro;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFromVisionTarget;
 import edu.greenblitz.robotname.commands.simple.poker.ExtendPoker;
 import edu.greenblitz.robotname.commands.simple.poker.HoldHatch;
@@ -38,16 +38,16 @@ public class VisionPlaceHatchPanel extends CommandChain {
         public Part2() {
             addSequential(new WaitUntilFree(Elevator.getInstance()));
             addSequential(new ExtendPoker(50));
-            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 850,
+            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 850,
                     new GearDependentDouble(0.4, 0.4)));
-            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 800,
+            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 800,
                     new GearDependentDouble(0.2, 0.2)));
         }
     }
 
     public static class Cleanup extends CommandChain {
         public Cleanup() {
-            addSequential(new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 600)); // was 600
+            addSequential(new DriveByGyro(EXTEND_DISTANCE - ALIGN_DISTANCE, 600)); // was 600
             addSequential(new HoldHatch());
         }
     }

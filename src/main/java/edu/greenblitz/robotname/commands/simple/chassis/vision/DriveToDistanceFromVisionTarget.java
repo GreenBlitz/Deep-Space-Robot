@@ -23,9 +23,6 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
 
     private static final GearDependentDouble turnKp = new GearDependentDouble(Shifter.Gear.SPEED, 0.0030);
 
-    private static final long TIME_ON_TARGET = 0;
-
-    private long m_onTarget = -1;
     private double m_distance;
     private double m_visionTargetOffset;
 
@@ -54,7 +51,6 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
 
     @Override
     protected void atInit() {
-
         var currentGear = Shifter.getInstance().getCurrentGear();
 
         var limit = POWER_LIMIT.getByGear(currentGear);
