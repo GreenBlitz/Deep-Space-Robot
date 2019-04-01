@@ -17,7 +17,7 @@ public class VisionPlaceHatchPanel extends CommandChain {
 
     private static final double ALIGN_DISTANCE = 1.2;
     private static final double EXTEND_DISTANCE = 0.0;
-    private static final double VISION_TARGET_OFFSET = 0.5;
+    private static final double VISION_TARGET_OFFSET = -3;
 
     public VisionPlaceHatchPanel() {
         addSequential(new ArcadeUntilVision());
@@ -38,14 +38,14 @@ public class VisionPlaceHatchPanel extends CommandChain {
         public Part2() {
             addSequential(new WaitUntilFree(Elevator.getInstance()));
             addSequential(new ExtendPoker(50));
-            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE)/2, 550,
+            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 850,
                     new GearDependentDouble(0.4, 0.4)));
-            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE)/2, 800,
+            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 800,
                     new GearDependentDouble(0.2, 0.2)));
         }
     }
 
-    public static class Cleanup extends CommandChain  {
+    public static class Cleanup extends CommandChain {
         public Cleanup() {
             addSequential(new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 600)); // was 600
             addSequential(new HoldHatch());

@@ -1,5 +1,7 @@
 package edu.greenblitz.robotname.data.vision;
 
+import edu.greenblitz.robotname.commands.complex.exposed.RollOrAllign;
+import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -8,6 +10,7 @@ import edu.wpi.first.networktables.NetworkTableType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.greenblitz.motion.base.Position;
 
 /**
  * able to handle more that one at a time
@@ -78,6 +81,7 @@ public class VisionMaster {
     private NetworkTableEntry m_found;
     private Logger logger;
     private Error m_lastError = Error.OK;
+    private double lastAngleToDrive = 0;
 
     public VisionMaster() {
         logger = LogManager.getLogger(getClass());
@@ -164,6 +168,18 @@ public class VisionMaster {
 
     public boolean isDataValid() {
         return m_found.getBoolean(false) && m_lastError == Error.OK;
+    }
+
+    public void updateLastAngleToDrive(double offest){
+        SmartDashboard.putNumber("Vision::ChassisAngleAtUpdate", Chassis.getInstance().getAngle());
+        SmartDashboard.putNumber("Vision::VisionAngleAtUpdate", getAngle());
+        lastAngleToDrive = Math.toDegrees(Position.normalizeAngle(Math.toRadians(
+                Chassis.getInstance().getAngle() + getAngle() + offest
+        )));
+    }
+
+    public double getLastAngleToDrive(){
+        return lastAngleToDrive;
     }
 
     public void update() {

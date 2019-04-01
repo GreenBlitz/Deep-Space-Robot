@@ -7,7 +7,6 @@ import edu.greenblitz.robotname.commands.simple.poker.ExtendPoker;
 import edu.greenblitz.robotname.commands.simple.poker.RetractAndHold;
 import edu.greenblitz.robotname.commands.simple.poker.RetractPoker;
 import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
-import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;
 import edu.greenblitz.robotname.data.GearDependentDouble;
 import edu.greenblitz.robotname.subsystems.Shifter;
 import edu.greenblitz.utils.command.CommandChain;
@@ -15,9 +14,9 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class VisionCollectHatchPanel extends CommandChain {
 
-    private static final double ALIGN_DISTANCE = 1.1;
-    private static final double EXTEND_DISTANCE = 0.0;
-    private static final double VISION_TARGET_OFFSET = 3.5;
+    private static final double ALIGN_DISTANCE = 1.2;
+    private static final double EXTEND_DISTANCE = 0;
+    private static final double VISION_TARGET_OFFSET = 0;
 
     private Command lastShifterCommand;
     private Shifter.Gear lastGear;
@@ -25,9 +24,9 @@ public class VisionCollectHatchPanel extends CommandChain {
     public VisionCollectHatchPanel() {
         addSequential(new ArcadeUntilVision());
         addSequential(new ToPower());
-        addSequential(new Part1());
-        addSequential(new Part2());
-        addSequential(new Cleanup());
+        addSequential(new Align());
+        addSequential(new Forward());
+        addSequential(new Place());
     }
 
     @Override
@@ -36,31 +35,31 @@ public class VisionCollectHatchPanel extends CommandChain {
         Shifter.getInstance().setShift(lastGear);
     }
 
-
     @Override
     protected void atInit() {
         lastGear = Shifter.getInstance().getCurrentGear();
         lastShifterCommand = Shifter.getInstance().getDefaultCommand();
     }
 
-    private class Part1 extends CommandChain{
-        private Part1() {
-            addParallel(new RetractAndHold(), new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE, VISION_TARGET_OFFSET));
+    private class Align extends CommandChain {
+        private Align() {
+            addParallel(new RetractAndHold(), new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE, VISION_TARGET_OFFSET,
+                    true));
         }
     }
 
-    private class Part2 extends CommandChain{
-        private Part2() {
+    private class Forward extends CommandChain {
+        private Forward() {
             addSequential(new ExtendPoker(50)); // Needed in different commands for small delay
-            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE)/2, 550,
+            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 850,
                     new GearDependentDouble(0.4, 0.4)));
-            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE)/2, 800,
+            addSequential(new DriveStraightByDistance((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 800,
                     new GearDependentDouble(0.2, 0.2)));
         }
     }
 
-    private class Cleanup extends CommandChain {
-        private Cleanup() {
+    private class Place extends CommandChain {
+        private Place() {
             addParallel(new DriveStraightByDistance(EXTEND_DISTANCE - ALIGN_DISTANCE, 300), new RetractPoker());
         }
     }

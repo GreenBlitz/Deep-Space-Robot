@@ -11,6 +11,7 @@ import edu.greenblitz.robotname.commands.simple.chassis.motion.APPCCommand;
 import edu.greenblitz.robotname.commands.simple.chassis.motion.ResetLocalizer;
 import edu.greenblitz.robotname.commands.simple.chassis.vision.DriveToDistanceFromVisionTarget;
 import edu.greenblitz.robotname.commands.simple.poker.*;
+import edu.greenblitz.robotname.commands.simple.shifter.ToPower;
 import edu.greenblitz.robotname.commands.simple.shifter.ToSpeed;
 import edu.greenblitz.robotname.data.Paths;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
@@ -32,21 +33,21 @@ public class AutoFallAndThreeHalfs extends CommandChain {
         addSequential(new APPCCommand(
                 new Path<>(APPCCommand.getPath("FallAndPlace.pf1.csv")),
                 null,
-                0.6, 0.2, false, 0.3,
-                1, .45, .1, 0.8));
+                0.8, 0.2, false, 0.3,
+                1, .45, .1, 1.5));
 
         addSequential(new VisionPlaceHatchPanel());
 
         addSequential(new ToSpeed());
+        addParallel(new RetractPoker());
 
+        addSequential(new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship2.pf1.csv")),
+                        null, 0.6, 0.5, true,
+                        0, 0.7, 0.5, 0.4));
         addSequential(
-                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship2.pf1.csv")),
-                        null, 0.6, 0.15, true,
-                        0.2, 0.4, 0.5, 0.4));
-        addSequential(
-                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")), null, 1.2,
+                new APPCCommand(new Path<>(APPCCommand.getPath("Cargoship3.pf1.csv")), null, 2,
                         0.4, false,
-                        0.4, 2.7, 0.7, .25, 1.8)
+                        0.4, 2.7, 1, .1, 1.5)
         );
         addSequential(new VisionCollectHatchPanel());
 //        addParallel(new ToSpeed(), new ChangeTargetFocus(VisionMaster.Focus.MIDDLE));
