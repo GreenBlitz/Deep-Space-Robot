@@ -35,9 +35,6 @@ public class SafeMoveElevator extends Command {
         public PreformMovement(Elevator.Level level){
             addSequential(new MoveElevatorByLevel(level));
             addSequential(new RetractRoller(300));
-            clearRequirements();
-            requires(Elevator.getInstance());
-            requires(Roller.getInstance());
         }
     }
 
@@ -46,11 +43,15 @@ public class SafeMoveElevator extends Command {
         private Elevator.Level level;
 
         public GroundMovement(Elevator.Level lvl) {
+            setInterruptible(false);
             level = lvl;
             addParallel(new Unkick(150), new StopRolling());
             addSequential(new RetractPoker(200));
             addSequential(new ExtendRoller(300));
         }
+
+        @Override
+        protected void atInterrupt(){ } // IMPORTANT TO DO NOTHING
 
         @Override
         protected void atEnd(){

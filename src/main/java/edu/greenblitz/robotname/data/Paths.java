@@ -55,7 +55,7 @@ public class Paths {
     }
 
     public static void init(String... pathname) {
-        Arrays.stream(pathname).forEach(Paths::getRaw);
+        Arrays.stream(pathname).forEach(Paths::init);
     }
 
     public static void init(String pathame) {

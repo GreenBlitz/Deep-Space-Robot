@@ -55,7 +55,6 @@ public class VisionMaster {
             this.msg = msg;
         }
 
-
         @Override
         public String toString() {
             return msg;
@@ -169,11 +168,11 @@ public class VisionMaster {
         return m_found.getBoolean(false) && m_lastError == Error.OK;
     }
 
-    public void updateLastAngleToDrive(double offest){
+    public void updateLastAngleToDrive(double offset){
         SmartDashboard.putNumber("Vision::ChassisAngleAtUpdate", Chassis.getInstance().getAngle());
         SmartDashboard.putNumber("Vision::VisionAngleAtUpdate", getAngle());
         lastAngleToDrive = Math.toDegrees(Position.normalizeAngle(Math.toRadians(
-                getAngle() + offest
+                Chassis.getInstance().getAngle() + getAngle() + offset
         )));
     }
 

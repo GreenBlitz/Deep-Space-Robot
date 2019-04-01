@@ -49,7 +49,7 @@ public class DriveByGyro extends ChassisBaseCommand implements PIDSource, PIDOut
     }
 
     public DriveByGyro(double distance, long ms, boolean stopAtEnd) {
-        this(distance, ms, stopAtEnd, false);
+        this(distance, ms, stopAtEnd, true);
     }
 
     public DriveByGyro(double distance, long ms, GearDependentDouble maxVelocity) {
@@ -63,7 +63,7 @@ public class DriveByGyro extends ChassisBaseCommand implements PIDSource, PIDOut
 
     @Override
     protected void atInit() {
-        m_angle = Chassis.getInstance().getAngle() + (m_useVisionAngle ? VisionMaster.getInstance().getLastAngleToDrive() : 0);
+        m_angle = m_useVisionAngle ? VisionMaster.getInstance().getLastAngleToDrive() : Chassis.getInstance().getAngle();
 
         m_controller.setSetpoint(Chassis.getInstance().getDistance() + m_distance);
 
