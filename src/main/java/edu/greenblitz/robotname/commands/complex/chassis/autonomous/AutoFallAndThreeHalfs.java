@@ -16,10 +16,6 @@ import org.greenblitz.motion.base.Position;
 public class AutoFallAndThreeHalfs extends CommandChain {
     private long tStart;
 
-    public AutoFallAndThreeHalfs() {
-        this(true);
-    }
-
     public AutoFallAndThreeHalfs(boolean left) {
         addSequential(new FallWithNavx());
 
@@ -40,12 +36,12 @@ public class AutoFallAndThreeHalfs extends CommandChain {
         addParallel(new RetractPoker());
 
         addSequential(new APPCCommand(Paths.get("Cargoship2", left),
-                null, 0.6, 0.5, true,
-                0, 0.7, 0.5, 0.4));
+                null, 0.6, 0.6, true,
+                0, 0.75, 0.5, 0.4));
         addSequential(
                 new APPCCommand(Paths.get("Cargoship3", left), null, 2,
                         0.4, false,
-                        0.4, 2.7, 1, .1, 1.5)
+                        0.4, 2.7, 1, .1, 2)
         );
         addSequential(new VisionCollectHatchPanel());
     }

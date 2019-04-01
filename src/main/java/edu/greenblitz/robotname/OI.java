@@ -88,7 +88,7 @@ public class OI {
         mainJoystick.POV_RIGHT.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.RIGHT));
         mainJoystick.POV_DOWN.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.MIDDLE));
 
-        mainJoystick.POV_UP.whenPressed(new AutoFallAndThreeHalfs());
+        mainJoystick.POV_UP.whenPressed(new AutoFallAndThreeHalfs(true));
 
         mainJoystick.START.whenPressed(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
         mainJoystick.BACK.whenPressed(new StopClimbing());

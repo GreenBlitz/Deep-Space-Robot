@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
         OI.initBindings();
         m_pdp = new PowerDistributionPanel();
 
-        Stream.init();
+//        Stream.init();
         Pi.init();
         VisionMaster.init();
         Paths.init("Cargoship1", "Cargoship2", "Cargoship3", "Cargoship4", "FallAndPlace");
@@ -110,7 +110,7 @@ public class Robot extends TimedRobot {
         matchInit();
         new KeepShift().start();
 
-        new AutoFallAndThreeHalfs().start();
+        new AutoFallAndThreeHalfs(true).start();
     }
 
     @Override
