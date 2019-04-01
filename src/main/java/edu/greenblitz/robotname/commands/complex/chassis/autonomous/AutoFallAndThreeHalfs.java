@@ -17,6 +17,10 @@ public class AutoFallAndThreeHalfs extends CommandChain {
     private long tStart;
 
     public AutoFallAndThreeHalfs() {
+        this(true);
+    }
+
+    public AutoFallAndThreeHalfs(boolean left) {
         addSequential(new FallWithNavx());
 
         addParallel(new ChangeTargetFocus(VisionMaster.Focus.RIGHT),
@@ -25,7 +29,7 @@ public class AutoFallAndThreeHalfs extends CommandChain {
         addSequential(new ToSpeed());
 
         addSequential(new APPCCommand(
-                Paths.getRaw("FallAndPlace"),
+                Paths.get("FallAndPlace", left),
                 null,
                 0.8, 0.2, false, 0.3,
                 1, .45, .1, 1.5));
@@ -35,11 +39,11 @@ public class AutoFallAndThreeHalfs extends CommandChain {
         addSequential(new ToSpeed());
         addParallel(new RetractPoker());
 
-        addSequential(new APPCCommand(Paths.getRaw("Cargoship2"),
+        addSequential(new APPCCommand(Paths.get("Cargoship2", left),
                 null, 0.6, 0.5, true,
                 0, 0.7, 0.5, 0.4));
         addSequential(
-                new APPCCommand(Paths.getRaw("Cargoship3"), null, 2,
+                new APPCCommand(Paths.get("Cargoship3", left), null, 2,
                         0.4, false,
                         0.4, 2.7, 1, .1, 1.5)
         );
