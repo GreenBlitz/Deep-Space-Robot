@@ -8,6 +8,7 @@ import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoys
 import edu.greenblitz.knockdown.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.knockdown.commands.simple.shifter.KeepShift;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToPower;
+import edu.greenblitz.knockdown.commands.simple.shifter.ToSpeed;
 import edu.greenblitz.knockdown.data.Report;
 import edu.greenblitz.knockdown.data.vision.VisionMaster;
 import edu.greenblitz.knockdown.subsystems.*;
@@ -62,6 +63,7 @@ public class Robot extends TimedRobot {
 
     private SendableChooser<Autonomii> autoChooser;
     private SendableChooser<Boolean> sideChooser;
+    private SendableChooser<Command> shiftChooser;
     private SendableChooser<Boolean> hab2Chooser;
 
     @Override
@@ -89,10 +91,15 @@ public class Robot extends TimedRobot {
 
         Pi.init();
         VisionMaster.init();
+        Stream.init();
 
         autoChooser = new SendableChooser<>();
         sideChooser = new SendableChooser<>();
         hab2Chooser = new SendableChooser<>();
+        shiftChooser = new SendableChooser<>();
+
+        shiftChooser.setDefaultOption("Speed", new ToSpeed());
+        shiftChooser.addOption("Power", new ToPower());
 
         sideChooser.setDefaultOption("Left", true);
         sideChooser.addOption("Right", false);
@@ -108,6 +115,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Side Chooser", sideChooser);
         SmartDashboard.putData("Hab2 Chooser", hab2Chooser);
         SmartDashboard.putData("Auto Chooser", autoChooser);
+        SmartDashboard.putData("Shift Chooser", shiftChooser);
 
         SmartDashboard.putData("Elevator GR", new SafeMoveElevator(Elevator.Level.GROUND));
         SmartDashboard.putData("Elevator R1", new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
@@ -171,7 +179,8 @@ public class Robot extends TimedRobot {
             logger.info("WERE IN FOR A REAL MATCH BOYS!");
             // This is for a real match
             Scheduler.getInstance().removeAll();
-            new AutoChangeShift().start();
+            Shifter.getInstance().setDefaultCommand(new KeepShift());
+            shiftChooser.getSelected().start();
         } else {
             logger.info("testing...");
             // This is for testing
