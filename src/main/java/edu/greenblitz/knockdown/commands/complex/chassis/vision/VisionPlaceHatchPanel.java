@@ -9,15 +9,14 @@ import edu.greenblitz.knockdown.data.GearDependentDouble;
 import edu.greenblitz.knockdown.subsystems.Elevator;
 import edu.greenblitz.utils.command.CommandChain;
 import edu.greenblitz.utils.command.WaitUntilFree;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class VisionPlaceHatchPanel extends CommandChain {
 
     private static final double ALIGN_DISTANCE = 1.2;
     private static final double EXTEND_DISTANCE = 0.0;
 
-
-
-    private static final double VISION_TARGET_OFFSET = -3;
+    private static final double VISION_TARGET_OFFSET = -1;
 
     public VisionPlaceHatchPanel() {
         addSequential(new ArcadeUntilVision());
@@ -30,7 +29,7 @@ public class VisionPlaceHatchPanel extends CommandChain {
 
     public static class Part1 extends CommandChain {
         public Part1() {
-            addParallel(new RetractAndHold(), new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE, VISION_TARGET_OFFSET, true));
+            addParallel(new RetractAndHold(), new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE, getDynamicVisionOffset(), true));
         }
     }
 
@@ -51,5 +50,9 @@ public class VisionPlaceHatchPanel extends CommandChain {
             addSequential(new HoldHatch());
             addParallel(new RetractPoker());
         }
+    }
+
+    public static double getDynamicVisionOffset() {
+        return SmartDashboard.getNumber("VisionHatchPlaceOffset", VISION_TARGET_OFFSET);
     }
 }

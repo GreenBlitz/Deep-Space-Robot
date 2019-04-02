@@ -3,7 +3,7 @@ plugins {
     id "edu.wpi.first.GradleRIO" version "2019.3.2"
 }
 
-def ROBOT_MAIN_CLASS = "edu.greenblitz.robotname.Robot"
+def ROBOT_MAIN_CLASS = "edu.greenblitz.knockdown.Robot"
 
 deploy {
     targets {

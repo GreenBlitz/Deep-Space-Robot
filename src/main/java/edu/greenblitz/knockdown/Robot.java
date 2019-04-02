@@ -68,7 +68,9 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         logger = LogManager.getLogger(getClass());
         m_usageReport = new Report();
-
+        SmartDashboard.putNumber("VisionOffsetCollect", SmartDashboard.getNumber("VisionOffsetCollect", -1.5));
+        SmartDashboard.putNumber("VisionHatchPlaceOffset", SmartDashboard.getNumber("VisionHatchPlaceOffset", -1.5));
+        SmartDashboard.putNumber("VisionCargoPlaceOffset", SmartDashboard.getNumber("VisionCargoPlaceOffset", -1.5));
         OI.initJoysticks();
 
         SmartDashboard.putData(Scheduler.getInstance());

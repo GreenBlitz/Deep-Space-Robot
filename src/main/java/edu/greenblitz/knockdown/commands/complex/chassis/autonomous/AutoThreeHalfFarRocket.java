@@ -4,6 +4,7 @@ import edu.greenblitz.knockdown.commands.complex.chassis.vision.ChangeTargetFocu
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionCollectHatchPanel;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionPlaceHatchPanel;
 import edu.greenblitz.knockdown.commands.simple.chassis.FallWithNavx;
+import edu.greenblitz.knockdown.commands.simple.chassis.ResetNavx;
 import edu.greenblitz.knockdown.commands.simple.chassis.motion.APPCCommand;
 import edu.greenblitz.knockdown.commands.simple.chassis.motion.ResetLocalizer;
 import edu.greenblitz.knockdown.commands.simple.poker.RetractPoker;
@@ -16,6 +17,9 @@ import org.greenblitz.motion.base.Position;
 public class AutoThreeHalfFarRocket extends CommandChain {
 
     public AutoThreeHalfFarRocket(boolean left, boolean fall) {
+
+        addSequential(new ResetNavx());
+
         if (fall)
             addSequential(new FallWithNavx());
 
@@ -47,7 +51,7 @@ public class AutoThreeHalfFarRocket extends CommandChain {
 
         addSequential(new APPCCommand(Paths.get("L_Rocket2", left),
                 null, 0.6, 0.2, true,
-                0.3, 0.4, 0.5, 0.4, 155, 7));
+                0.2, 0.4, 0.5, 0.4, 155, 7));
         addParallel(new RetractPoker());
 
         addSequential(

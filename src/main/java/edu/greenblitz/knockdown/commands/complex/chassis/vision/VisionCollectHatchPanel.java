@@ -11,6 +11,7 @@ import edu.greenblitz.knockdown.data.GearDependentDouble;
 import edu.greenblitz.knockdown.subsystems.Shifter;
 import edu.greenblitz.utils.command.CommandChain;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class VisionCollectHatchPanel extends CommandChain {
 
@@ -43,7 +44,7 @@ public class VisionCollectHatchPanel extends CommandChain {
 
     private class Align extends CommandChain {
         private Align() {
-            addParallel(new RetractAndHold(), new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE, VISION_TARGET_OFFSET,
+            addParallel(new RetractAndHold(), new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE, getDynamicVisionOffset(),
                     true));
         }
     }
@@ -63,5 +64,9 @@ public class VisionCollectHatchPanel extends CommandChain {
             addSequential(new DriveByGyro(EXTEND_DISTANCE - ALIGN_DISTANCE, 600));
             addSequential(new RetractPoker());
         }
+    }
+
+    private double getDynamicVisionOffset() {
+        return SmartDashboard.getNumber("VisionOffsetCollect", VISION_TARGET_OFFSET);
     }
 }

@@ -4,6 +4,7 @@ import edu.greenblitz.knockdown.commands.complex.chassis.vision.ChangeTargetFocu
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionCollectHatchPanel;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionPlaceHatchPanel;
 import edu.greenblitz.knockdown.commands.simple.chassis.FallWithNavx;
+import edu.greenblitz.knockdown.commands.simple.chassis.ResetNavx;
 import edu.greenblitz.knockdown.commands.simple.chassis.motion.APPCCommand;
 import edu.greenblitz.knockdown.commands.simple.chassis.motion.ResetLocalizer;
 import edu.greenblitz.knockdown.commands.simple.poker.*;
@@ -17,6 +18,9 @@ public class AutoFallAndThreeHalfs extends CommandChain {
     private long tStart;
 
     public AutoFallAndThreeHalfs(boolean left, boolean fall) {
+
+        addSequential(new ResetNavx());
+
         if (fall)
             addSequential(new FallWithNavx());
 

@@ -8,17 +8,18 @@ import edu.greenblitz.knockdown.commands.simple.shifter.ToPower;
 import edu.greenblitz.knockdown.data.GearDependentDouble;
 import edu.greenblitz.knockdown.subsystems.Elevator;
 import edu.greenblitz.utils.command.CommandChain;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class VisionPlaceCargo extends CommandChain {
 
     private static final double ALIGN_DISTANCE = 1.2;
     private static final double EXTEND_DISTANCE = 0.0;
-    private static final double VISION_TARGET_OFFSET = 0;
+    private static final double VISION_TARGET_OFFSET = -1;
 
     public VisionPlaceCargo() {
         addSequential(new ArcadeUntilVision());
         addSequential(new ToPower());
-        addSequential(new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE, VISION_TARGET_OFFSET, true));
+        addSequential(new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE, getDynamicVisionOffset(), true));
         addSequential(new DriveByGyro(0.5*(ALIGN_DISTANCE - EXTEND_DISTANCE), 850, false));
         addSequential(new DriveByGyro(0.5*(ALIGN_DISTANCE - EXTEND_DISTANCE), 800,
                 new GearDependentDouble(0.25, 0.25)));
@@ -38,5 +39,9 @@ public class VisionPlaceCargo extends CommandChain {
     @Override
     public void atEnd(){
         new KickBall().start();
+    }
+
+    public static double getDynamicVisionOffset() {
+        return SmartDashboard.getNumber("VisionCargoPlaceOffset", VISION_TARGET_OFFSET);
     }
 }
