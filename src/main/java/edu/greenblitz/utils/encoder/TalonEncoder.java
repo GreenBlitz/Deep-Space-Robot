@@ -1,7 +1,6 @@
 package edu.greenblitz.utils.encoder;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.greenblitz.robotname.data.GearDependentDouble;
 
 public class TalonEncoder extends AbstractEncoder {
     private TalonSRX m_talon;
