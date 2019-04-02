@@ -12,6 +12,7 @@ import org.greenblitz.motion.base.Position;
 
 public class DriveByGyro extends ChassisBaseCommand implements PIDSource, PIDOutput {
 
+    // NOTE: NOT PID ANYMORE, JUST PASSES MAX VALUE
     private static final GearDependentDouble
             kP = new GearDependentDouble(Shifter.Gear.SPEED, 0.3),
             kI = new GearDependentDouble(Shifter.Gear.SPEED, 0),
@@ -83,7 +84,7 @@ public class DriveByGyro extends ChassisBaseCommand implements PIDSource, PIDOut
 
     @Override
     public void pidWrite(double output) {
-        Chassis.getInstance().arcadeDrive(output, pidOverAngle());
+        Chassis.getInstance().arcadeDrive(Math.signum(output)*maxVelocity.getByCurrentGear(), pidOverAngle());
     }
 
     private double pidOverAngle() {

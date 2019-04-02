@@ -15,40 +15,45 @@ import org.greenblitz.motion.base.Position;
 
 public class AutoThreeHalfFarRocket extends CommandChain {
 
-    public AutoThreeHalfFarRocket(boolean left) {
+    public AutoThreeHalfFarRocket(boolean left, boolean fall) {
+        if (fall)
+            addSequential(new FallWithNavx());
 
-        addSequential(new FallWithNavx());
-
-        addParallel(new ChangeTargetFocus(VisionMaster.Focus.RIGHT),
-                new ResetLocalizer(new Position(-3, 1.7, 0)));
+        if (left) {
+            addParallel(new ChangeTargetFocus(VisionMaster.Focus.MIDDLE),
+                    new ResetLocalizer(new Position(-3, 1.7, 0)));
+        } else {
+            addParallel(new ChangeTargetFocus(VisionMaster.Focus.MIDDLE),
+                    new ResetLocalizer(new Position(-8.2 + 3, 1.7, 0)));
+        }
 
         addSequential(new ToSpeed());
 
         addSequential(new APPCCommand(
-                Paths.get("RocketFastHalf1", left),
+                Paths.get("L_RocketFastHalf1", left),
                 null,
                 0.8, 0.4, false, 0.35,
-                .6, .6, .2));
+                .6, .6, .8));
 
         addSequential(new APPCCommand(
-                Paths.get("RocketSlowHalf1", left),
+                Paths.get("L_RocketSlowHalf1", left),
                 null,
                 0.8, 0.2, false, 0.3,
-                1, .4, .1, 0.8));
+                1, .3, .1, 1.4));
 
         addSequential(new VisionPlaceHatchPanel());
 
         addSequential(new ToSpeed());
 
-        addSequential(new APPCCommand(Paths.get("Rocket2", left),
+        addSequential(new APPCCommand(Paths.get("L_Rocket2", left),
                 null, 0.6, 0.2, true,
                 0.3, 0.4, 0.5, 0.4, 155, 7));
         addParallel(new RetractPoker());
 
         addSequential(
-                new APPCCommand(Paths.get("Rocket3", left), null, 2,
+                new APPCCommand(Paths.get("L_Rocket3", left), null, 2,
                         0.4, false,
-                        0.4, 2.7, 0.9, .2, 1.7)
+                        0.4, 2.7, 0.6, .3, 1.7)
         );
 
         addSequential(new VisionCollectHatchPanel());

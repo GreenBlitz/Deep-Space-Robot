@@ -60,7 +60,8 @@ public class VisionCollectHatchPanel extends CommandChain {
 
     private class Place extends CommandChain {
         private Place() {
-            addParallel(new DriveByGyro(EXTEND_DISTANCE - ALIGN_DISTANCE, 300), new RetractPoker());
+            addSequential(new DriveByGyro(EXTEND_DISTANCE - ALIGN_DISTANCE, 600));
+            addSequential(new RetractPoker());
         }
     }
 }

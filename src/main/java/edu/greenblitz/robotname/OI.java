@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname;
 
+import edu.greenblitz.robotname.commands.complex.chassis.autonomous.AutoThreeHalfFarRocket;
 import edu.greenblitz.robotname.commands.complex.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.RollOrAlign;
 import edu.greenblitz.robotname.commands.complex.chassis.autonomous.AutoFallAndThreeHalfs;
@@ -169,11 +170,17 @@ public class OI {
         sideJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
         sideJoystick.L1.whenReleased(new ToggleRoller());
 
-        POVButton restrictClimbing = new POVButton(sideJoystick.getRawJoystick(), 0);
-        restrictClimbing.whenPressed(new ClimbByJoystickRestricted(mainJoystick, mainJoystick, sideJoystick));
+//        POVButton restrictClimbing = new POVButton(sideJoystick.getRawJoystick(), 0);
+//        restrictClimbing.whenPressed(new ClimbByJoystickRestricted(mainJoystick, mainJoystick, sideJoystick));
 
         sideJoystick.START.whenPressed(new ToCargoMode());
         sideJoystick.BACK.whenPressed(new ToHatchMode());
+
+        sideJoystick.POV_RIGHT.whenPressed(new AutoFallAndThreeHalfs(false, false));
+        sideJoystick.POV_LEFT.whenPressed(new AutoFallAndThreeHalfs(true, false));
+
+        sideJoystick.POV_UP.whenPressed(new AutoThreeHalfFarRocket(false, false));
+        sideJoystick.POV_DOWN.whenPressed(new AutoThreeHalfFarRocket(true, false));
     }
 
     public static State getState() {
