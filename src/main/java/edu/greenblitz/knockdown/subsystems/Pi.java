@@ -18,13 +18,13 @@ public class Pi {
         try {
             pi = InetAddress.getByName("10.45.90.8");
         } catch (UnknownHostException e) {
-            LogManager.getLogger().error("could not resolve PI's ip");
+//            LogManager.getLogger().error("could not resolve PI's ip");
         }
 
         exists = NetworkTableInstance.getDefault().getTable("vision").getEntry("exists");
 
         if (!exists.getBoolean(false)) {
-            LogManager.getLogger().warn("Pi does not appear on networktables");
+//            LogManager.getLogger().warn("Pi does not appear on networktables");
             SmartDashboard.putBoolean("Pi::exists", false);
         } else {
             SmartDashboard.putBoolean("Pi::exists", true);

@@ -91,7 +91,7 @@ public class Robot extends TimedRobot {
 
         Pi.init();
         VisionMaster.init();
-        Stream.init();
+//        Stream.init();
 
         autoChooser = new SendableChooser<>();
         sideChooser = new SendableChooser<>();
