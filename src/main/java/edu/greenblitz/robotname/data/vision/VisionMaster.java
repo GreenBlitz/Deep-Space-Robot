@@ -1,5 +1,6 @@
 package edu.greenblitz.robotname.data.vision;
 
+import edu.greenblitz.robotname.OI;
 import edu.greenblitz.robotname.subsystems.Chassis;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -14,12 +15,11 @@ import org.greenblitz.motion.base.Position;
  * able to handle more that one at a time
  */
 public class VisionMaster {
-
     public enum Algorithm {
         CARGO("send_cargo"),
-        TARGETS("send_hatch"),
         HATCH("send_hatch_panel"),
-        RAMP("send_ramp");
+        RAMP("send_ramp"),
+        TARGETS("send_hatch");
 
         public final String rawAlgorithmName;
 
@@ -187,5 +187,9 @@ public class VisionMaster {
         SmartDashboard.putNumber("Vision::planery distance", current.getPlaneryDistance());
         SmartDashboard.putNumber("Vision::derived angle", current.getCenterAngle());
 
+    }
+
+    public void reportOIMode(OI.State state){
+        m_visionTable.getEntry("oi_mode").setString(state.name().toLowerCase());
     }
 }

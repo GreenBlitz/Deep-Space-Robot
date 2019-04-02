@@ -1,16 +1,15 @@
 package edu.greenblitz.robotname;
 
-import edu.greenblitz.robotname.commands.complex.chassis.autonomous.AutoThreeHalfFarRocket;
-import edu.greenblitz.robotname.commands.complex.climber.ClimbByJoystick;
 import edu.greenblitz.robotname.commands.complex.RollOrAlign;
 import edu.greenblitz.robotname.commands.complex.chassis.autonomous.AutoFallAndThreeHalfs;
+import edu.greenblitz.robotname.commands.complex.chassis.autonomous.AutoThreeHalfFarRocket;
 import edu.greenblitz.robotname.commands.complex.chassis.vision.ChangeTargetFocus;
 import edu.greenblitz.robotname.commands.complex.chassis.vision.VisionCollectHatchPanel;
 import edu.greenblitz.robotname.commands.complex.chassis.vision.VisionPlaceGameObject;
+import edu.greenblitz.robotname.commands.complex.climber.ClimbByJoystick;
+import edu.greenblitz.robotname.commands.complex.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.elevator.SafeMoveElevator;
 import edu.greenblitz.robotname.commands.complex.kicker.KickBall;
-import edu.greenblitz.robotname.commands.complex.climber.ClimbByJoystickRestricted;
-import edu.greenblitz.robotname.commands.complex.climber.StopClimbing;
 import edu.greenblitz.robotname.commands.complex.roller.SmartExtendAndRollIn;
 import edu.greenblitz.robotname.commands.complex.roller.ToggleRoller;
 import edu.greenblitz.robotname.commands.simple.chassis.FallWithNavx;
@@ -26,13 +25,11 @@ import edu.greenblitz.robotname.commands.simple.shifter.ToggleShift;
 import edu.greenblitz.robotname.data.Paths;
 import edu.greenblitz.robotname.data.vision.VisionMaster;
 import edu.greenblitz.robotname.subsystems.Elevator;
-import edu.greenblitz.utils.command.base.GBCommand;
 import edu.greenblitz.utils.command.ResetCommands;
+import edu.greenblitz.utils.command.base.GBCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
-import edu.wpi.first.wpilibj.buttons.POVButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.greenblitz.motion.base.Position;
-import org.opencv.core.Mat;
 
 public class OI {
     public enum State {
@@ -42,6 +39,11 @@ public class OI {
 
     private static SmartJoystick mainJoystick;
     private static SmartJoystick sideJoystick;
+
+    public static State getOiState() {
+        return oiState;
+    }
+
     private static State oiState = State.HATCH;
 
     public static SmartJoystick getMainJoystick() {
@@ -61,7 +63,7 @@ public class OI {
 
         @Override
         protected void atInit() {
-            oiState = State.HATCH;
+            setOIState(State.HATCH);
         }
     }
 
@@ -74,7 +76,7 @@ public class OI {
 
         @Override
         protected void atInit() {
-            oiState = State.CARGO;
+            setOIState(State.CARGO);
         }
     }
 
@@ -196,6 +198,7 @@ public class OI {
     }
 
     public static void setOIState(State state) {
+        VisionMaster.getInstance().reportOIMode(state);
         oiState = state;
     }
 
