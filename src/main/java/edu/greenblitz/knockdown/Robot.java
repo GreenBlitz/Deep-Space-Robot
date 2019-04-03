@@ -127,9 +127,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
-//        if (DriverStation.getInstance().isFMSAttached()) {
-//            return;
-//        }
+        if (DriverStation.getInstance().isFMSAttached()) {
+            return;
+        }
+
         Scheduler.getInstance().removeAll();
         reset();
         Chassis.getInstance().stop();
@@ -149,6 +150,7 @@ public class Robot extends TimedRobot {
         reset();
         m_usageReport.setVoltageAtInit(m_pdp.getVoltage());
         VisionMaster.getInstance().setCurrentFocus(VisionMaster.Focus.RIGHT);
+        logger.debug(DriverStation.getInstance().getMatchType());
     }
 
     @Override
@@ -277,5 +279,9 @@ public class Robot extends TimedRobot {
     private void allowPneumatics() {
         Pneumatics.init();
         SmartDashboard.putData(Pneumatics.getInstance());
+    }
+
+    private boolean shouldReset() {
+        return DriverStation.getInstance().isFMSAttached();
     }
 }
