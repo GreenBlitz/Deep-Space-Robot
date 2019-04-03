@@ -90,7 +90,7 @@ public class Chassis extends GBSubsystem {
         setLeftRightMotorOutput(left, right);
     }
 
-    public AHRS get_navx() {
+    public AHRS getNavx() {
         return m_navX;
     }
 

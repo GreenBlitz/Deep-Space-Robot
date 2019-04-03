@@ -12,6 +12,7 @@ import edu.greenblitz.knockdown.commands.simple.shifter.ToSpeed;
 import edu.greenblitz.knockdown.data.Paths;
 import edu.greenblitz.knockdown.data.vision.VisionMaster;
 import edu.greenblitz.utils.command.CommandChain;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.greenblitz.motion.base.Position;
 
 public class AutoFallAndThreeHalfs extends CommandChain {
@@ -20,6 +21,7 @@ public class AutoFallAndThreeHalfs extends CommandChain {
     public AutoFallAndThreeHalfs(boolean left, boolean fall) {
 
         addSequential(new ResetNavx());
+//        double offset = SmartDashboard.getNumber("Auto x offset (positive = left)", 0);
 
         if (fall)
             addSequential(new FallWithNavx());

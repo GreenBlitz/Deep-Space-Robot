@@ -19,26 +19,31 @@ public class FallWithNavx extends ChassisBaseCommand {
     // This timeout is hand made for a really good reason, ask Alexey
     private static final long TIMEOUT = 2000;
     private long startTime;
+//    private RemoteCSVTarget target;
+    private double ground;
 
     @Override
     protected void atInit(){
         startTime = System.currentTimeMillis();
         startedFalling = false;
         Shifter.getInstance().setShift(Shifter.Gear.POWER);
-        navx = system.get_navx();
+//        target = RemoteCSVTarget.initTarget("AutoFall", "Pitch", "startedFalling", "startedFalling");
+        navx = system.getNavx();
         navx.resetDisplacement();
+        ground = navx.getPitch();
     }
 
     @Override
     protected void execute(){
         system.tankDrive(POWER, POWER);
+//        target.report(navx.getPitch() - ground, isFalling() ? 1 : 0, startedFalling ? 1 : 0);
         if (isFalling())
             startedFalling = true;
     }
 
     private boolean isFalling(){
-        return (!startedFalling && Math.abs(navx.getPitch()) > CRITICAL_ANGLE_START) ||
-                (startedFalling && Math.abs(navx.getPitch()) > CRITICAL_ANGLE_STOP);
+        return (!startedFalling && Math.abs(navx.getPitch()) > CRITICAL_ANGLE_START - ground) ||
+                (startedFalling && Math.abs(navx.getPitch()) > CRITICAL_ANGLE_STOP - ground);
     }
 
     @Override

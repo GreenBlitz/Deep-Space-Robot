@@ -73,6 +73,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("VisionOffsetCollect", SmartDashboard.getNumber("VisionOffsetCollect", -1.5));
         SmartDashboard.putNumber("VisionHatchPlaceOffset", SmartDashboard.getNumber("VisionHatchPlaceOffset", -1.5));
         SmartDashboard.putNumber("VisionCargoPlaceOffset", SmartDashboard.getNumber("VisionCargoPlaceOffset", -1.5));
+//        SmartDashboard.putNumber("Auto x offset (positive = left)", 0);
         OI.initJoysticks();
 
         SmartDashboard.putData(Scheduler.getInstance());

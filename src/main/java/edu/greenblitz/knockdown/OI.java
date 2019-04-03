@@ -178,11 +178,10 @@ public class OI {
         sideJoystick.START.whenPressed(new ToCargoMode());
         sideJoystick.BACK.whenPressed(new ToHatchMode());
 
-        sideJoystick.POV_RIGHT.whenPressed(new AutoFallAndThreeHalfs(false, false));
-        sideJoystick.POV_LEFT.whenPressed(new AutoFallAndThreeHalfs(true, false));
-
-        sideJoystick.POV_UP.whenPressed(new AutoThreeHalfFarRocket(false, false));
-        sideJoystick.POV_DOWN.whenPressed(new AutoThreeHalfFarRocket(true, false));
+//        sideJoystick.POV_RIGHT.whenPressed(new AutoFallAndThreeHalfs(false, false));
+//        sideJoystick.POV_LEFT.whenPressed(new AutoFallAndThreeHalfs(true, false));
+//        sideJoystick.POV_UP.whenPressed(new AutoThreeHalfFarRocket(false, false));
+//        sideJoystick.POV_DOWN.whenPressed(new AutoThreeHalfFarRocket(true, false));
     }
 
     public static State getState() {
