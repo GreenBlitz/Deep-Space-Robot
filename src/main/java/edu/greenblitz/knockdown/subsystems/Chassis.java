@@ -56,6 +56,7 @@ public class Chassis extends GBSubsystem {
         m_leftLeader.setInverted(true);
 
         toBrake();
+        currentLimit(40);
 
         m_leftFollower1.follow(m_leftLeader);
         m_leftFollower2.follow(m_leftLeader);
@@ -243,6 +244,16 @@ public class Chassis extends GBSubsystem {
 
     public void toBrake() {
         setNeutralState(CANSparkMax.IdleMode.kBrake);
+    }
+
+    public void currentLimit(int a) {
+        m_leftLeader.setSmartCurrentLimit(a);
+        m_leftFollower2.setSmartCurrentLimit(a);
+        m_leftFollower1.setSmartCurrentLimit(a);
+
+        m_rightLeader.setSmartCurrentLimit(a);
+        m_rightFollower2.setSmartCurrentLimit(a);
+        m_rightFollower1.setSmartCurrentLimit(a);
     }
 
     private double gamma(double power) {

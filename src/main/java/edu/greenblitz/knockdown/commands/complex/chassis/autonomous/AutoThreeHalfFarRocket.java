@@ -63,4 +63,5 @@ public class AutoThreeHalfFarRocket extends CommandChain {
         addSequential(new VisionCollectHatchPanel());
 
     }
+
 }

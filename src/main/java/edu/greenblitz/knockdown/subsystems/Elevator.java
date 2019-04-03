@@ -188,7 +188,6 @@ public class Elevator extends GBSubsystem {
 
     public void resetEncoder() {
         m_encoder.reset();
-
         logger.info("encoders reset");
     }
 

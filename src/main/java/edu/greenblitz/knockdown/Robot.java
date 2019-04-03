@@ -127,6 +127,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
+//        if (DriverStation.getInstance().isFMSAttached()) {
+//            return;
+//        }
         Scheduler.getInstance().removeAll();
         reset();
         Chassis.getInstance().stop();

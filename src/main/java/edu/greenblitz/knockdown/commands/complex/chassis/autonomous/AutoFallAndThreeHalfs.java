@@ -8,9 +8,12 @@ import edu.greenblitz.knockdown.commands.simple.chassis.ResetNavx;
 import edu.greenblitz.knockdown.commands.simple.chassis.motion.APPCCommand;
 import edu.greenblitz.knockdown.commands.simple.chassis.motion.ResetLocalizer;
 import edu.greenblitz.knockdown.commands.simple.poker.*;
+import edu.greenblitz.knockdown.commands.simple.shifter.KeepShift;
+import edu.greenblitz.knockdown.commands.simple.shifter.ToPower;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToSpeed;
 import edu.greenblitz.knockdown.data.Paths;
 import edu.greenblitz.knockdown.data.vision.VisionMaster;
+import edu.greenblitz.knockdown.subsystems.Shifter;
 import edu.greenblitz.utils.command.CommandChain;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.greenblitz.motion.base.Position;
@@ -21,7 +24,6 @@ public class AutoFallAndThreeHalfs extends CommandChain {
     public AutoFallAndThreeHalfs(boolean left, boolean fall) {
 
         addSequential(new ResetNavx());
-//        double offset = SmartDashboard.getNumber("Auto x offset (positive = left)", 0);
 
         if (fall)
             addSequential(new FallWithNavx());
@@ -70,5 +72,7 @@ public class AutoFallAndThreeHalfs extends CommandChain {
     protected void atEnd() {
         long now = System.currentTimeMillis();
         logger.debug("FINISHED 2 CARGO AUTO, TAKING {} MS = {} S", now - tStart, (now - tStart) / 1000.0);
+        Shifter.getInstance().setDefaultCommand(new KeepShift());
+        new ToPower().start();
     }
 }
