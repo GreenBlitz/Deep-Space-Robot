@@ -17,7 +17,7 @@ public class VisionCollectHatchPanel extends CommandChain {
 
     private static final double ALIGN_DISTANCE = 1.2;
     private static final double EXTEND_DISTANCE = 0;
-    private static final double VISION_TARGET_OFFSET = -2.5;
+    private static final double VISION_TARGET_OFFSET = -1;
 
     private Command lastShifterCommand;
     private Shifter.Gear lastGear;
@@ -44,7 +44,7 @@ public class VisionCollectHatchPanel extends CommandChain {
 
     private class Align extends CommandChain {
         private Align() {
-            addParallel(new RetractAndHold(), new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE, getDynamicVisionOffset(),
+            addParallel(new RetractAndHold(), new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE, VISION_TARGET_OFFSET,
                     true));
         }
     }
@@ -64,9 +64,5 @@ public class VisionCollectHatchPanel extends CommandChain {
             addSequential(new DriveByGyro(EXTEND_DISTANCE - ALIGN_DISTANCE, 600));
             addSequential(new RetractPoker());
         }
-    }
-
-    private double getDynamicVisionOffset() {
-        return SmartDashboard.getNumber("VisionOffsetCollect", VISION_TARGET_OFFSET);
     }
 }

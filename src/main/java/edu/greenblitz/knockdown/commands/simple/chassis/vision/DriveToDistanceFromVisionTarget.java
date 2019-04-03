@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implements PIDSource, PIDOutput {
 

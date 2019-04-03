@@ -70,9 +70,6 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         logger = LogManager.getLogger(getClass());
         m_usageReport = new Report();
-        SmartDashboard.putNumber("VisionOffsetCollect", SmartDashboard.getNumber("VisionOffsetCollect", -1.5));
-        SmartDashboard.putNumber("VisionHatchPlaceOffset", SmartDashboard.getNumber("VisionHatchPlaceOffset", -1.5));
-        SmartDashboard.putNumber("VisionCargoPlaceOffset", SmartDashboard.getNumber("VisionCargoPlaceOffset", -1.5));
 //        SmartDashboard.putNumber("Auto x offset (positive = left)", 0);
         OI.initJoysticks();
 
@@ -127,11 +124,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
+        Scheduler.getInstance().removeAll();
+
         if (DriverStation.getInstance().isFMSAttached()) {
             return;
         }
 
-        Scheduler.getInstance().removeAll();
         reset();
         Chassis.getInstance().stop();
         if (m_usageReport.isReportValid()) report();
@@ -283,5 +281,9 @@ public class Robot extends TimedRobot {
 
     private boolean shouldReset() {
         return DriverStation.getInstance().isFMSAttached();
+    }
+
+    public Command getChosenGearCommand() {
+        return shiftChooser.getSelected();
     }
 }

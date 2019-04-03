@@ -16,7 +16,7 @@ public class VisionPlaceHatchPanel extends CommandChain {
     private static final double ALIGN_DISTANCE = 1.2;
     private static final double EXTEND_DISTANCE = 0.0;
 
-    private static final double VISION_TARGET_OFFSET = -2.5;
+    private static final double VISION_TARGET_OFFSET = -1;
 
     public VisionPlaceHatchPanel() {
         addSequential(new ArcadeUntilVision());
@@ -53,6 +53,6 @@ public class VisionPlaceHatchPanel extends CommandChain {
     }
 
     public static double getDynamicVisionOffset() {
-        return SmartDashboard.getNumber("VisionHatchPlaceOffset", VISION_TARGET_OFFSET);
+        return VISION_TARGET_OFFSET;
     }
 }

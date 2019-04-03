@@ -14,7 +14,7 @@ public class VisionPlaceCargo extends CommandChain {
 
     private static final double ALIGN_DISTANCE = 1.2;
     private static final double EXTEND_DISTANCE = 0.0;
-    private static final double VISION_TARGET_OFFSET = -2.5;
+    private static final double VISION_TARGET_OFFSET = -1;
 
     public VisionPlaceCargo() {
         addSequential(new ArcadeUntilVision());
@@ -42,6 +42,6 @@ public class VisionPlaceCargo extends CommandChain {
     }
 
     public static double getDynamicVisionOffset() {
-        return SmartDashboard.getNumber("VisionCargoPlaceOffset", VISION_TARGET_OFFSET);
+        return VISION_TARGET_OFFSET;
     }
 }
