@@ -218,17 +218,14 @@ public class Chassis extends GBSubsystem {
                 logger.warn("NAVX NOT CONNECTED");
                 VisionMaster.getInstance().reportError(true, "NAVX not connected");
                 gyroDied = true;
-                m_localizer.disableGyro();
             } else if (gyroDied && m_navX.isConnected()) {
                 gyroDisconnections++;
                 if (gyroDisconnections < MAX_GYRO_DISCONNECTIONS) {
                     VisionMaster.getInstance().reportError(false, "NAVX not connected");
                     logger.warn("NAVX CONNECTED BACK");
-                    m_localizer.enableGyro();
                     gyroDied = false;
                 } else {
                     logger.warn("GYRO DISCONNECTED TOO MANY TIMES");
-                    m_localizer.disableGyro();
                 }
             }
         }
