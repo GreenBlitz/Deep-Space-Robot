@@ -18,8 +18,6 @@ public class AutoThreeHalfFarRocket extends CommandChain {
 
     public AutoThreeHalfFarRocket(boolean left, boolean fall) {
 
-        addSequential(new ResetNavx());
-
         if (fall)
             addSequential(new FallWithNavx());
 

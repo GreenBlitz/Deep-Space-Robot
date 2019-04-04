@@ -78,6 +78,7 @@ public class Chassis extends GBSubsystem {
         m_navX.setName("gyro");
 
         logger.info("instantiated");
+
     }
 
     @Override
@@ -209,6 +210,9 @@ public class Chassis extends GBSubsystem {
 
         SmartDashboard.putString("Chassis::Location", getLocation().toString());
 
+    }
+
+    public void update(){
         if (gyroDisconnections < MAX_GYRO_DISCONNECTIONS) {
             if (!gyroDied && !m_navX.isConnected()) {
                 logger.warn("NAVX NOT CONNECTED");

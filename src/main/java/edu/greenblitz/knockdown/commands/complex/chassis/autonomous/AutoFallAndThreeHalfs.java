@@ -23,8 +23,6 @@ public class AutoFallAndThreeHalfs extends CommandChain {
 
     public AutoFallAndThreeHalfs(boolean left, boolean fall) {
 
-        addSequential(new ResetNavx());
-
         if (fall)
             addSequential(new FallWithNavx());
 

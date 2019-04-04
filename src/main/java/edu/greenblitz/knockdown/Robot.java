@@ -25,6 +25,7 @@ import org.apache.logging.log4j.Logger;
 import org.greenblitz.debug.RemoteGuydeBugger;
 import org.greenblitz.motion.app.Localizer;
 
+import java.io.PrintStream;
 import java.util.function.Supplier;
 
 public class Robot extends TimedRobot {
@@ -68,6 +69,17 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
+        // To cancel out navx error prints - they destroy our comms and can't be disabled using disable_logging
+        System.setOut(new PrintStream(System.out) {
+            @Override
+            public void println(String x) {
+                if (x.endsWith("serial port to communicate with navX-MXP/Micro")) return;
+                if (x.startsWith("Error sending navX-MXP/Micro configuration request over")) return;
+
+                super.println(x);
+            }
+        });
+
         logger = LogManager.getLogger(getClass());
         m_usageReport = new Report();
 //        SmartDashboard.putNumber("Auto x offset (positive = left)", 0);
@@ -218,6 +230,7 @@ public class Robot extends TimedRobot {
         Pi.update();
         OI.update();
         VisionMaster.getInstance().update();
+        Chassis.getInstance().update();
     }
 
     private void reset() {
