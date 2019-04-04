@@ -120,15 +120,17 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Elevator R2", new SafeMoveElevator(Elevator.Level.ROCKET_MID));
         SmartDashboard.putData("Elevator R3", new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
         SmartDashboard.putData("Elevator CS", new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
+
+        Elevator.getInstance().reset();
     }
 
     @Override
     public void disabledInit() {
         Scheduler.getInstance().removeAll();
-
-        if (DriverStation.getInstance().isFMSAttached()) {
-            return;
-        }
+//
+//        if (DriverStation.getInstance().isFMSAttached()) {
+//            return;
+//        }
 
         reset();
         Chassis.getInstance().stop();
@@ -220,7 +222,7 @@ public class Robot extends TimedRobot {
 
     private void reset() {
         Chassis.getInstance().reset();
-        Elevator.getInstance().reset();
+//        Elevator.getInstance().reset();
 //        Poker.getInstance().reset();
         Roller.getInstance().reset();
         Kicker.getInstance().reset();

@@ -16,7 +16,7 @@ public class LocalizerRunner extends PeriodicRunner {
     private IEncoder m_leftEncoder;
     private IEncoder m_rightEncoder;
 
-    private boolean m_useGyro;
+    private volatile boolean m_useGyro;
 
     private boolean m_resetOnDisable = false;
 
@@ -36,12 +36,12 @@ public class LocalizerRunner extends PeriodicRunner {
 
     public void enableGyro() {
         m_useGyro = true;
-        logger.debug("gyro enabled!");
+        logger.info("gyro enabled!");
     }
 
     public void disableGyro() {
         m_useGyro = false;
-        logger.debug("gyro disabled!");
+        logger.info("gyro disabled!");
     }
 
     public LocalizerRunner(double wheelBase, IEncoder leftEncoder, IEncoder rightEncoder) {

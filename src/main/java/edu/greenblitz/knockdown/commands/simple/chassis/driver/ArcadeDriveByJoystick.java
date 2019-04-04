@@ -9,7 +9,7 @@ import edu.greenblitz.utils.hid.SmartJoystick;
 public class ArcadeDriveByJoystick extends ChassisBaseCommand {
 
     public static final double SPEED_MULT = 1;
-    public static final GearDependentDouble TURN_MULT = new GearDependentDouble(1, 0.7);
+    public static final GearDependentDouble TURN_MULT = new GearDependentDouble(1, 0.6);
 
     private SmartJoystick m_joystick;
 

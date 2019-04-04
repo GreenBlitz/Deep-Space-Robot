@@ -169,10 +169,8 @@ public class VisionMaster {
     }
 
     public void updateLastAngleToDrive(double offset){
-        SmartDashboard.putNumber("Vision::ChassisAngleAtUpdate", Chassis.getInstance().getAngle());
-        SmartDashboard.putNumber("Vision::VisionAngleAtUpdate", getAngle());
         lastAngleToDrive = Math.toDegrees(Position.normalizeAngle(Math.toRadians(
-                Chassis.getInstance().getAngle() + getAngle() + offset
+                Math.toDegrees(Chassis.getInstance().getLocation().getAngle()) + getAngle() + offset
         )));
     }
 
@@ -191,5 +189,10 @@ public class VisionMaster {
 
     public void reportOIMode(OI.State state){
         m_visionTable.getEntry("oi_mode").setString(state.name().toLowerCase());
+    }
+
+    public void reportError(boolean errorExists, String errorName){
+        m_visionTable.getEntry("error").setBoolean(errorExists);
+        SmartDashboard.putBoolean(errorName, errorExists);
     }
 }

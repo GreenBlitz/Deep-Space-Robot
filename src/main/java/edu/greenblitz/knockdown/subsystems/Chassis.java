@@ -9,6 +9,7 @@ import edu.greenblitz.knockdown.RobotMap.Chassis.Motor;
 import edu.greenblitz.knockdown.RobotMap.Chassis.Sensor;
 import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.knockdown.data.LocalizerRunner;
+import edu.greenblitz.knockdown.data.vision.VisionMaster;
 import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.greenblitz.utils.encoder.SparkEncoder;
@@ -67,6 +68,7 @@ public class Chassis extends GBSubsystem {
         m_leftEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER_SPEED, m_leftLeader);
         m_rightEncoder = new SparkEncoder(Sensor.Encoder.TICKS_PER_METER_SPEED, m_rightLeader);
         m_navX = new AHRS(Sensor.NAVX);
+        m_navX.enableLogging(false);
 
         addChild(m_leftLeader);
         m_leftLeader.setName("left");
@@ -188,6 +190,10 @@ public class Chassis extends GBSubsystem {
         m_localizer.forceSetLocation(location, getLeftDistance(), getRightDistance());
     }
 
+    private final int MAX_GYRO_DISCONNECTIONS = 10;
+    private boolean gyroDied = false;
+    private int gyroDisconnections = 0;
+
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Chassis::Distance", getDistance());
@@ -202,6 +208,26 @@ public class Chassis extends GBSubsystem {
         SmartDashboard.putNumber("Chassis::Right RPM", 60 * getRightVelocity() / 0.47);
 
         SmartDashboard.putString("Chassis::Location", getLocation().toString());
+
+        if (gyroDisconnections < MAX_GYRO_DISCONNECTIONS) {
+            if (!gyroDied && !m_navX.isConnected()) {
+                logger.warn("NAVX NOT CONNECTED");
+                VisionMaster.getInstance().reportError(true, "NAVX not connected");
+                gyroDied = true;
+                m_localizer.disableGyro();
+            } else if (gyroDied && m_navX.isConnected()) {
+                gyroDisconnections++;
+                if (gyroDisconnections < MAX_GYRO_DISCONNECTIONS) {
+                    VisionMaster.getInstance().reportError(false, "NAVX not connected");
+                    logger.warn("NAVX CONNECTED BACK");
+                    m_localizer.enableGyro();
+                    gyroDied = false;
+                } else {
+                    logger.warn("GYRO DISCONNECTED TOO MANY TIMES");
+                    m_localizer.disableGyro();
+                }
+            }
+        }
     }
 
     public void startLoclizer() {
