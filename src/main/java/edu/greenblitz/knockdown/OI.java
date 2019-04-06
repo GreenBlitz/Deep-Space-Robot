@@ -1,8 +1,10 @@
 package edu.greenblitz.knockdown;
 
 import edu.greenblitz.knockdown.commands.complex.RollOrAlign;
+import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.Auto2FarRocket;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoFallAndThreeHalfs;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoThreeHalfFarRocket;
+import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.SafeMoveElevatorDuringMotion;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.ChangeTargetFocus;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionCollectHatchPanel;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionPlaceGameObject;
@@ -15,6 +17,7 @@ import edu.greenblitz.knockdown.commands.complex.roller.ToggleRoller;
 import edu.greenblitz.knockdown.commands.simple.chassis.FallWithNavx;
 import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.knockdown.commands.simple.chassis.motion.APPCCommand;
+import edu.greenblitz.knockdown.commands.simple.chassis.motion.ResetLocalizer;
 import edu.greenblitz.knockdown.commands.simple.poker.HoldHatch;
 import edu.greenblitz.knockdown.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.knockdown.commands.simple.poker.TogglePokerExtender;
@@ -86,8 +89,8 @@ public class OI {
     }
 
     public static void initBindings() {
-        initOfficialBindings(); // For real game shit
-//        initTestBindings(); // For testing code
+//        initOfficialBindings(); // For real game shit
+        initTestBindings(); // For testing code
     }
 
     private static void initTestBindings() {
@@ -126,7 +129,8 @@ public class OI {
 
         //mainJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
 
-        mainJoystick.X.whenPressed(new FallWithNavx());
+//        mainJoystick.X.whenPressed(new FallWithNavx());
+//        mainJoystick.X.whenPressed(new SafeMoveElevatorDuringMotion(Elevator.Level.ROCKET_MID, 0, 3));
 
         sideJoystick.START.whenPressed(new ToCargoMode());
         sideJoystick.BACK.whenPressed(new ToHatchMode());

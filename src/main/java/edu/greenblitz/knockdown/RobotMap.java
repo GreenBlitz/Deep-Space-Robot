@@ -60,8 +60,8 @@ public class RobotMap {
         }
 
         public static class Solenoid {
-            public static final int FORWARD = 0;
-            public static final int REVERSE = 5;
+            public static final int FORWARD = 5;
+            public static final int REVERSE = 0;
             public static final int PCM = 21;
         }
     }

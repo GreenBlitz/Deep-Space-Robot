@@ -42,6 +42,8 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
         m_visionTargetOffset = visionTargetOffset;
     }
 
+
+
     public DriveToDistanceFromVisionTarget(double distance) {
         this(distance, VISION_TARGET_OFFSET, false);
     }
@@ -52,6 +54,7 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
 
     @Override
     protected void atInit() {
+        System.out.println("vision");
         var currentGear = Shifter.getInstance().getCurrentGear();
 
         var limit = POWER_LIMIT.getByGear(currentGear);
@@ -96,6 +99,7 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
 
     @Override
     protected void atEnd() {
+        System.out.println("done");
         VisionMaster.getInstance().updateLastAngleToDrive(m_visionTargetOffset);
         m_controller.disable();
         if (m_stopAtEnd) Chassis.getInstance().stop();

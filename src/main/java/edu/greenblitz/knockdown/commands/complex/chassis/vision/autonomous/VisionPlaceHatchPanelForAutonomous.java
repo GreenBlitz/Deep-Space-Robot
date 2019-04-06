@@ -1,4 +1,4 @@
-package edu.greenblitz.knockdown.commands.complex.chassis.vision;
+package edu.greenblitz.knockdown.commands.complex.chassis.vision.autonomous;
 
 import edu.greenblitz.knockdown.commands.simple.chassis.ArcadeUntilVision;
 import edu.greenblitz.knockdown.commands.simple.chassis.DriveByGyro;
@@ -9,22 +9,21 @@ import edu.greenblitz.knockdown.data.GearDependentDouble;
 import edu.greenblitz.knockdown.subsystems.Elevator;
 import edu.greenblitz.utils.command.CommandChain;
 import edu.greenblitz.utils.command.WaitUntilFree;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
-public class VisionPlaceHatchPanel extends CommandChain {
+public class VisionPlaceHatchPanelForAutonomous extends CommandChain {
 
     private static final double ALIGN_DISTANCE = 1.2;
     private static final double EXTEND_DISTANCE = 0.0;
 
     private static final double VISION_TARGET_OFFSET = -4;
 
-    public VisionPlaceHatchPanel() {
+    public VisionPlaceHatchPanelForAutonomous() {
         addSequential(new ArcadeUntilVision());
         addSequential(new ToPower());
         addSequential(new Part1());
         addSequential(new Part2());
         addSequential(new ReleaseHatch(400));
-        addSequential(new Cleanup());
     }
 
     public static class Part1 extends CommandChain {
@@ -33,22 +32,20 @@ public class VisionPlaceHatchPanel extends CommandChain {
         }
     }
 
-    public static class Part2 extends CommandChain {
-        public Part2() {
+    public static class DoSomething extends CommandChain {
+        public DoSomething() {
             addSequential(new WaitUntilFree(Elevator.getInstance()));
-            addSequential(new ExtendPoker(50));
-            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 850,
-                    new GearDependentDouble(0.4, 0.4), false));
-            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 700,
-                    new GearDependentDouble(0.15, 0.15)));
+            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 550,
+                    new GearDependentDouble(0.55, 0.55), false));
+            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 400,
+                    new GearDependentDouble(0.25, 0.25)));
         }
     }
 
-    public static class Cleanup extends CommandChain {
-        public Cleanup() {
-            addSequential(new DriveByGyro(EXTEND_DISTANCE - ALIGN_DISTANCE, 600)); // was 600
-            addSequential(new HoldHatch());
-            addParallel(new RetractPoker());
+    public static class Part2 extends CommandChain {
+        public Part2() {
+            addParallel(new DoSomething());
+            addParallel(new ExtendPoker());
         }
     }
 

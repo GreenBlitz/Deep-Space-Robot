@@ -58,6 +58,7 @@ public class Chassis extends GBSubsystem {
 
         toBrake();
         currentLimit(40);
+        IAccum(0.1);
 
         m_leftFollower1.follow(m_leftLeader);
         m_leftFollower2.follow(m_leftLeader);
@@ -281,6 +282,16 @@ public class Chassis extends GBSubsystem {
         m_rightLeader.setSmartCurrentLimit(a);
         m_rightFollower2.setSmartCurrentLimit(a);
         m_rightFollower1.setSmartCurrentLimit(a);
+    }
+
+    public void IAccum(double a) {
+        m_leftLeader.setIAccum(a);
+        m_leftFollower2.setIAccum(a);
+        m_leftFollower1.setIAccum(a);
+
+        m_rightLeader.setIAccum(a);
+        m_rightFollower2.setIAccum(a);
+        m_rightFollower1.setIAccum(a);
     }
 
     private double gamma(double power) {

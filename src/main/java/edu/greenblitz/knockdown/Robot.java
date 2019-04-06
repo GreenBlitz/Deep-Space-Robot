@@ -1,11 +1,7 @@
 package edu.greenblitz.knockdown;
 
-import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoFallAndThreeHalfs;
-import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoThreeHalfFarRocket;
+import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.Auto2FarRocket;
 import edu.greenblitz.knockdown.commands.complex.elevator.SafeMoveElevator;
-import edu.greenblitz.knockdown.commands.simple.chassis.FallWithNavx;
-import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
-import edu.greenblitz.knockdown.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.knockdown.commands.simple.shifter.KeepShift;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToPower;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToSpeed;
@@ -45,7 +41,8 @@ public class Robot extends TimedRobot {
         NOTHING,
         HAB_2_FALL,
         ROCKET_FAR,
-        CARGOSHIP
+        CARGOSHIP,
+        ROCKET_2
     }
 
     private static RobotSupplier robotFactory = new RobotSupplier();
@@ -66,6 +63,7 @@ public class Robot extends TimedRobot {
     private SendableChooser<Boolean> sideChooser;
     private SendableChooser<Command> shiftChooser;
     private SendableChooser<Boolean> hab2Chooser;
+    private Command farRocketAuto;
 
     @Override
     public void robotInit() {
@@ -103,6 +101,8 @@ public class Robot extends TimedRobot {
         VisionMaster.init();
 //        Stream.init();
 
+        farRocketAuto = new Auto2FarRocket(false);
+
         autoChooser = new SendableChooser<>();
         sideChooser = new SendableChooser<>();
         hab2Chooser = new SendableChooser<>();
@@ -121,6 +121,7 @@ public class Robot extends TimedRobot {
         autoChooser.addOption("Cargoship and Collect", Autonomii.CARGOSHIP);
         autoChooser.addOption("Rocket far and Collect", Autonomii.ROCKET_FAR);
         autoChooser.addOption("Hab 2 fall", Autonomii.HAB_2_FALL);
+        autoChooser.addOption("Rocket far 2 panels", Autonomii.ROCKET_2);
 
         SmartDashboard.putData("Side Chooser", sideChooser);
         SmartDashboard.putData("Hab2 Chooser", hab2Chooser);
@@ -170,23 +171,27 @@ public class Robot extends TimedRobot {
         matchInit();
         new KeepShift().start();
         Autonomii autonomousName = autoChooser.getSelected();
-        Command autonomous = new ArcadeDriveByJoystick(OI.getMainJoystick());
-        switch (autonomousName){
-            case NOTHING:
-                break;
-            case HAB_2_FALL:
-                autonomous = new FallWithNavx();
-                break;
-            case CARGOSHIP:
-                autonomous = new AutoFallAndThreeHalfs(sideChooser.getSelected(), hab2Chooser.getSelected());
-                break;
-            case ROCKET_FAR:
-                autonomous = new AutoThreeHalfFarRocket(sideChooser.getSelected(), hab2Chooser.getSelected());
-                break;
-            default:
-                logger.error("No logical autonomous selected, running arcade drive.");
-                break;
-        }
+//        Command autonomous = new ArcadeDriveByJoystick(OI.getMainJoystick());
+        Command autonomous = farRocketAuto;
+//        switch (autonomousName){
+//            case NOTHING:
+//                break;
+//            case HAB_2_FALL:
+//                autonomous = new FallWithNavx();
+//                break;
+//            case CARGOSHIP:
+//                autonomous = new AutoFallAndThreeHalfs(sideChooser.getSelected(), hab2Chooser.getSelected());
+//                break;
+//            case ROCKET_FAR:
+//                autonomous = new AutoThreeHalfFarRocket(sideChooser.getSelected(), hab2Chooser.getSelected());
+//                break;
+//            case ROCKET_2:
+//                autonomous = new Auto2FarRocket(sideChooser.getSelected());
+//                break;
+//            default:
+//                logger.error("No logical autonomous selected, running arcade drive.");
+//                break;
+//        }
         logger.debug("{} was selected for the autonomous!", autonomous.getName());
         autonomous.start();
     }
