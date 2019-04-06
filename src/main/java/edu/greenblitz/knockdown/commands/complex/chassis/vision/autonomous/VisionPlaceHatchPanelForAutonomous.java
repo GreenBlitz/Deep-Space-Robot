@@ -19,7 +19,7 @@ public class VisionPlaceHatchPanelForAutonomous extends CommandChain {
     private static final double VISION_TARGET_OFFSET = -4;
 
     public VisionPlaceHatchPanelForAutonomous() {
-        addSequential(new ArcadeUntilVision());
+//        addSequential(new ArcadeUntilVision());
         addSequential(new ToPower());
         addSequential(new Part1());
         addSequential(new Part2());
@@ -35,9 +35,9 @@ public class VisionPlaceHatchPanelForAutonomous extends CommandChain {
     public static class DoSomething extends CommandChain {
         public DoSomething() {
             addSequential(new WaitUntilFree(Elevator.getInstance()));
-            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 550,
-                    new GearDependentDouble(0.55, 0.55), false));
-            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 400,
+            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 750,
+                    new GearDependentDouble(0.5, 0.5), false));
+            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 500,
                     new GearDependentDouble(0.25, 0.25)));
         }
     }

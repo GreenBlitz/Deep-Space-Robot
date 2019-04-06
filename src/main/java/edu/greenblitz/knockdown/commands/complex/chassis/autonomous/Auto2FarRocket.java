@@ -55,8 +55,8 @@ public class Auto2FarRocket extends CommandChain {
 
             addParallel(
                     new APPCCommand(Paths.get("2FarRocket1", left), null, 2,
-                            0.5, true,
-                            0.4, 2.5, 0.7, .1
+                            0.35, true,
+                            0.2, 1.2, 0.7, .1
 
                     ));
             addParallel(new SafeMoveElevatorDuringMotion(Elevator.Level.ROCKET_MID, 0, 4.5));
@@ -87,7 +87,7 @@ public class Auto2FarRocket extends CommandChain {
             addParallel(new ToSpeed());
             addParallel(
                     new APPCCommand(Paths.get("2FarRocket4", left), null, 2,
-                            0.4, true,
+                            0.35, true,
                             0.4, 3, 0.7, .1));
             addParallel(new RetractAndHold());
         }

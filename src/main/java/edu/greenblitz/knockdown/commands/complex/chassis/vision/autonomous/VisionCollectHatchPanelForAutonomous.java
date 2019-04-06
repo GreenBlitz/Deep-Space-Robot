@@ -23,7 +23,7 @@ public class VisionCollectHatchPanelForAutonomous extends CommandChain {
     private Shifter.Gear lastGear;
 
     public VisionCollectHatchPanelForAutonomous() {
-        addSequential(new ArcadeUntilVision());
+//        addSequential(new ArcadeUntilVision());
         addSequential(new ToPower());
         addSequential(new Align());
         addSequential(new ExtendAndForward());
