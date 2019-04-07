@@ -57,9 +57,10 @@ public class Auto2FarRocket extends CommandChain {
             addParallel(
                     new APPCCommand(Paths.get("2FarRocket1", left), null, 2,
                             0.35, true,
-                            0.2, 1.2, 0.7, .1
+                            0.2, 1.5, 0.8, .1
 
                     ));
+            addParallel(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
         }
     }
 
@@ -77,7 +78,8 @@ public class Auto2FarRocket extends CommandChain {
             addParallel(
                     new APPCCommand(Paths.get("2FarRocket3", left), null, 2,
                             .5, false,
-                            0.4, 2, 0.7, .1, 3));
+                            0.4, 2, 0.8, .1, 3));
+            addParallel(new SafeMoveElevator(Elevator.Level.GROUND));
             addParallel(new RetractAndHold());
         }
     }
@@ -87,9 +89,9 @@ public class Auto2FarRocket extends CommandChain {
             addParallel(new ToSpeed());
             addParallel(
                     new APPCCommand(Paths.get("2FarRocket4", left), null, 2,
-                            0.2, true,
-                            0.3, 2, 0.7, .1));
-            addParallel(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
+                            0.35, true,
+                            0.3, 2, 0.8, .1));
+//            addParallel(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
             addParallel(new RetractAndHold());
         }
     }
