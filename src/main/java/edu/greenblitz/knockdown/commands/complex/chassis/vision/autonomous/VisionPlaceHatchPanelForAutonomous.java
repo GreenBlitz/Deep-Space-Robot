@@ -9,17 +9,16 @@ import edu.greenblitz.knockdown.data.GearDependentDouble;
 import edu.greenblitz.knockdown.subsystems.Elevator;
 import edu.greenblitz.utils.command.CommandChain;
 import edu.greenblitz.utils.command.WaitUntilFree;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class VisionPlaceHatchPanelForAutonomous extends CommandChain {
 
-    private static final double ALIGN_DISTANCE = 1.2;
+    private static final double ALIGN_DISTANCE = 1;
     private static final double EXTEND_DISTANCE = 0.0;
 
-    private static final double VISION_TARGET_OFFSET = -4;
+    private static final double VISION_TARGET_OFFSET = -1;
 
     public VisionPlaceHatchPanelForAutonomous() {
-//        addSequential(new ArcadeUntilVision());
+        addSequential(new ArcadeUntilVision());
         addSequential(new ToPower());
         addSequential(new Part1());
         addSequential(new Part2());
@@ -32,19 +31,19 @@ public class VisionPlaceHatchPanelForAutonomous extends CommandChain {
         }
     }
 
-    public static class DoSomething extends CommandChain {
-        public DoSomething() {
+    public static class DriveToTarget extends CommandChain {
+        public DriveToTarget() {
             addSequential(new WaitUntilFree(Elevator.getInstance()));
-            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 750,
+            addSequential(new DriveByGyro(4*(ALIGN_DISTANCE - EXTEND_DISTANCE) / 5, 600,
                     new GearDependentDouble(0.5, 0.5), false));
-            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 500,
+            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 5, 200,
                     new GearDependentDouble(0.25, 0.25)));
         }
     }
 
     public static class Part2 extends CommandChain {
         public Part2() {
-            addParallel(new DoSomething());
+            addParallel(new DriveToTarget());
             addParallel(new ExtendPoker());
         }
     }

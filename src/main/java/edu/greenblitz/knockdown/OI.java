@@ -8,6 +8,7 @@ import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.SafeMoveElev
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.ChangeTargetFocus;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionCollectHatchPanel;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionPlaceGameObject;
+import edu.greenblitz.knockdown.commands.complex.chassis.vision.autonomous.VisionPlaceHatchPanelForAutonomous;
 import edu.greenblitz.knockdown.commands.complex.climber.ClimbByJoystick;
 import edu.greenblitz.knockdown.commands.complex.climber.StopClimbing;
 import edu.greenblitz.knockdown.commands.complex.elevator.SafeMoveElevator;
@@ -115,7 +116,7 @@ public class OI {
 
         mainJoystick.L1.whenPressed(new VisionCollectHatchPanel());
         mainJoystick.L1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
-        mainJoystick.R1.whenPressed(new VisionPlaceGameObject());
+        mainJoystick.R1.whenPressed(new VisionPlaceHatchPanelForAutonomous());
         mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
 
         mainJoystick.L3.whenPressed(new ToggleShift());

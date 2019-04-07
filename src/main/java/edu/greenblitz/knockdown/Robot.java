@@ -1,7 +1,11 @@
 package edu.greenblitz.knockdown;
 
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.Auto2FarRocket;
+import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoFallAndThreeHalfs;
+import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoThreeHalfFarRocket;
 import edu.greenblitz.knockdown.commands.complex.elevator.SafeMoveElevator;
+import edu.greenblitz.knockdown.commands.simple.chassis.FallWithNavx;
+import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.knockdown.commands.simple.shifter.KeepShift;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToPower;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToSpeed;
@@ -63,7 +67,7 @@ public class Robot extends TimedRobot {
     private SendableChooser<Boolean> sideChooser;
     private SendableChooser<Command> shiftChooser;
     private SendableChooser<Boolean> hab2Chooser;
-    private Command farRocketAuto;
+//    private Command farRocketAuto;
 
     @Override
     public void robotInit() {
@@ -101,7 +105,7 @@ public class Robot extends TimedRobot {
         VisionMaster.init();
 //        Stream.init();
 
-        farRocketAuto = new Auto2FarRocket(false);
+//        farRocketAuto = new Auto2FarRocket(false);
 
         autoChooser = new SendableChooser<>();
         sideChooser = new SendableChooser<>();
@@ -171,28 +175,28 @@ public class Robot extends TimedRobot {
         matchInit();
         new KeepShift().start();
         Autonomii autonomousName = autoChooser.getSelected();
-//        Command autonomous = new ArcadeDriveByJoystick(OI.getMainJoystick());
-        Command autonomous = farRocketAuto;
-//        switch (autonomousName){
-//            case NOTHING:
-//                break;
-//            case HAB_2_FALL:
-//                autonomous = new FallWithNavx();
-//                break;
-//            case CARGOSHIP:
-//                autonomous = new AutoFallAndThreeHalfs(sideChooser.getSelected(), hab2Chooser.getSelected());
-//                break;
-//            case ROCKET_FAR:
-//                autonomous = new AutoThreeHalfFarRocket(sideChooser.getSelected(), hab2Chooser.getSelected());
-//                break;
-//            case ROCKET_2:
-//                autonomous = new Auto2FarRocket(sideChooser.getSelected());
-//                break;
-//            default:
-//                logger.error("No logical autonomous selected, running arcade drive.");
-//                break;
-//        }
-        logger.debug("{} was selected for the autonomous!", autonomous.getName());
+        Command autonomous = new ArcadeDriveByJoystick(OI.getMainJoystick());
+//        Command autonomous = farRocketAuto;
+        switch (autonomousName){
+            case NOTHING:
+                break;
+            case HAB_2_FALL:
+                autonomous = new FallWithNavx();
+                break;
+            case CARGOSHIP:
+                autonomous = new AutoFallAndThreeHalfs(sideChooser.getSelected(), hab2Chooser.getSelected());
+                break;
+            case ROCKET_FAR:
+                autonomous = new AutoThreeHalfFarRocket(sideChooser.getSelected(), hab2Chooser.getSelected());
+                break;
+            case ROCKET_2:
+                autonomous = new Auto2FarRocket(sideChooser.getSelected());
+                break;
+            default:
+                logger.error("No logical autonomous selected, running arcade drive.");
+                break;
+        }
+        logger.info("{} was selected for the autonomous!", autonomous.getName());
         autonomous.start();
     }
 

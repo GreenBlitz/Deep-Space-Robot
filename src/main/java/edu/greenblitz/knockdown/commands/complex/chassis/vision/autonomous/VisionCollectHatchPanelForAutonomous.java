@@ -11,7 +11,7 @@ import edu.greenblitz.knockdown.data.GearDependentDouble;
 import edu.greenblitz.knockdown.subsystems.Shifter;
 import edu.greenblitz.utils.command.CommandChain;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.WaitCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class VisionCollectHatchPanelForAutonomous extends CommandChain {
 
@@ -19,27 +19,12 @@ public class VisionCollectHatchPanelForAutonomous extends CommandChain {
     private static final double EXTEND_DISTANCE = 0;
     private static final double VISION_TARGET_OFFSET = -1;
 
-    private Command lastShifterCommand;
-    private Shifter.Gear lastGear;
-
     public VisionCollectHatchPanelForAutonomous() {
-//        addSequential(new ArcadeUntilVision());
-        addSequential(new ToPower());
         addSequential(new Align());
-        addSequential(new ExtendAndForward());
+        addParallel(new ToPower());
+        addSequential(new Forward());
     }
 
-    @Override
-    protected void atEnd() {
-        Shifter.getInstance().setDefaultCommand(lastShifterCommand);
-        Shifter.getInstance().setShift(lastGear);
-    }
-
-    @Override
-    protected void atInit() {
-        lastGear = Shifter.getInstance().getCurrentGear();
-        lastShifterCommand = Shifter.getInstance().getDefaultCommand();
-    }
 
     private class Align extends CommandChain {
         private Align() {
@@ -50,17 +35,9 @@ public class VisionCollectHatchPanelForAutonomous extends CommandChain {
 
     private class Forward extends CommandChain {
         private Forward() {
-            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 650,
-                    new GearDependentDouble(0.55, 0.55), false));
-            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 500,
-                    new GearDependentDouble(0.25, 0.25)));
+            addParallel(new ExtendPoker(), new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE), 800,
+                    new GearDependentDouble(0.6, 0.6), true));
         }
     }
 
-    private class ExtendAndForward extends CommandChain {
-        private ExtendAndForward() {
-            addParallel(new Forward());
-            addParallel(new ExtendPoker());
-        }
-    }
 }

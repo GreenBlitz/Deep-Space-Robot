@@ -76,6 +76,8 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
 
     @Override
     protected void execute() {
+        if (isFinished())
+            return;
         Position loc = system.getLocation();
         var moveValues = m_controller.iteration(loc);
         system.tankDrive(moveValues[0], moveValues[1]);

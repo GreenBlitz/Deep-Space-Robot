@@ -2,6 +2,7 @@ package edu.greenblitz.knockdown.commands.complex.chassis.autonomous;
 
 import edu.greenblitz.knockdown.OI;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.ChangeTargetFocus;
+import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionCollectHatchPanel;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.autonomous.VisionCollectHatchPanelForAutonomous;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.autonomous.VisionPlaceHatchPanelForAutonomous;
 import edu.greenblitz.knockdown.commands.complex.elevator.SafeMoveElevator;
@@ -59,7 +60,6 @@ public class Auto2FarRocket extends CommandChain {
                             0.2, 1.2, 0.7, .1
 
                     ));
-            addParallel(new SafeMoveElevatorDuringMotion(Elevator.Level.ROCKET_MID, 0, 4.5));
         }
     }
 
@@ -67,7 +67,7 @@ public class Auto2FarRocket extends CommandChain {
         private DriveBack(boolean left) {
             addParallel(new ToSpeed(),
                     new APPCCommand(Paths.get("2FarRocket2", left), null, 2,
-                            0.3, true,
+                            0.2, true,
                             0.3, 1, 0.5, .1));
         }
     }
@@ -76,9 +76,9 @@ public class Auto2FarRocket extends CommandChain {
         private MoveElevatorDownDriveToFeeder(boolean left) {
             addParallel(
                     new APPCCommand(Paths.get("2FarRocket3", left), null, 2,
-                            1, false,
-                            0.4, 2.5, 0.7, .1));
-            addParallel(new SafeMoveElevator(Elevator.Level.GROUND));
+                            .5, false,
+                            0.4, 2, 0.7, .1, 3));
+            addParallel(new RetractAndHold());
         }
     }
 
@@ -87,8 +87,9 @@ public class Auto2FarRocket extends CommandChain {
             addParallel(new ToSpeed());
             addParallel(
                     new APPCCommand(Paths.get("2FarRocket4", left), null, 2,
-                            0.35, true,
-                            0.4, 3, 0.7, .1));
+                            0.2, true,
+                            0.3, 2, 0.7, .1));
+            addParallel(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
             addParallel(new RetractAndHold());
         }
     }
