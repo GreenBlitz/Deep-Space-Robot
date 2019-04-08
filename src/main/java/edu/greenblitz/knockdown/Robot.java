@@ -67,10 +67,15 @@ public class Robot extends TimedRobot {
     private SendableChooser<Boolean> sideChooser;
     private SendableChooser<Command> shiftChooser;
     private SendableChooser<Boolean> hab2Chooser;
-//    private Command farRocketAuto;
+
+    private Command chosenAuto;
+    private Autonomii autoType;
+    private boolean isAutoLeft;
+    private boolean isAutoHab2;
 
     @Override
     public void robotInit() {
+
         // To cancel out navx error prints - they destroy our comms and can't be disabled using disable_logging
         System.setOut(new PrintStream(System.out) {
             @Override
@@ -138,6 +143,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Elevator R3", new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
         SmartDashboard.putData("Elevator CS", new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
 
+        setAutonomous();
+
         Elevator.getInstance().reset();
     }
 
@@ -174,9 +181,45 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         matchInit();
         new KeepShift().start();
+        Command autonomous = getAutonomous();
+        logger.info("{} was selected for the autonomous!", autonomous.getName());
+        autonomous.start();
+    }
+
+    private Autonomii[] noHabDataAuto = new Autonomii[] {Autonomii.NOTHING, Autonomii.HAB_2_FALL, Autonomii.ROCKET_2};
+    private Autonomii[] noSideDataAuto = new Autonomii[] {Autonomii.NOTHING, Autonomii.CARGOSHIP};
+
+    private boolean isIn(Object[] arr, Object obj){
+        for (Object a : arr){
+            if (obj.equals(a))
+                return true;
+        }
+        return false;
+    }
+
+    private Command getAutonomous(){
         Autonomii autonomousName = autoChooser.getSelected();
+        boolean t_isAutoLeft = sideChooser.getSelected();
+        boolean t_isAutoHab2 = hab2Chooser.getSelected();
+        if (autonomousName == autoType){
+            if (t_isAutoHab2 == isAutoHab2 || isIn(noHabDataAuto, autonomousName)){
+                if (t_isAutoLeft == isAutoLeft || isIn(noSideDataAuto, autonomousName)){
+                    logger.info("Autonomous already created, reusing");
+                    return chosenAuto;
+                }
+            }
+        }
+
+        logger.info("Autonomous not created, creating new one");
+
+        return setAutonomous();
+    }
+
+    public Command setAutonomous(){
         Command autonomous = new ArcadeDriveByJoystick(OI.getMainJoystick());
-//        Command autonomous = farRocketAuto;
+        Autonomii autonomousName = autoChooser.getSelected();
+        boolean t_isAutoLeft = sideChooser.getSelected();
+        boolean t_isAutoHab2 = sideChooser.getSelected();
         switch (autonomousName){
             case NOTHING:
                 break;
@@ -184,20 +227,24 @@ public class Robot extends TimedRobot {
                 autonomous = new FallWithNavx();
                 break;
             case CARGOSHIP:
-                autonomous = new AutoFallAndThreeHalfs(sideChooser.getSelected(), hab2Chooser.getSelected());
+                autonomous = new AutoFallAndThreeHalfs(t_isAutoLeft, t_isAutoHab2);
                 break;
             case ROCKET_FAR:
-                autonomous = new AutoThreeHalfFarRocket(sideChooser.getSelected(), hab2Chooser.getSelected());
+                autonomous = new AutoThreeHalfFarRocket(t_isAutoLeft, t_isAutoHab2);
                 break;
             case ROCKET_2:
-                autonomous = new Auto2FarRocket(sideChooser.getSelected());
+                autonomous = new Auto2FarRocket(t_isAutoLeft);
                 break;
             default:
                 logger.error("No logical autonomous selected, running arcade drive.");
                 break;
         }
-        logger.info("{} was selected for the autonomous!", autonomous.getName());
-        autonomous.start();
+        autoType = autonomousName;
+        isAutoHab2 = t_isAutoHab2;
+        isAutoLeft = t_isAutoLeft;
+        chosenAuto = autonomous;
+        logger.info("Auto set to {}", autonomous);
+        return autonomous;
     }
 
     @Override

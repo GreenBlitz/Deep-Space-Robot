@@ -58,7 +58,6 @@ public class Chassis extends GBSubsystem {
 
         toBrake();
         currentLimit(40);
-        IAccum(0.1);
 
         m_leftFollower1.follow(m_leftLeader);
         m_leftFollower2.follow(m_leftLeader);
@@ -213,7 +212,7 @@ public class Chassis extends GBSubsystem {
 
     }
 
-    public void update(){
+    public void update() {
         if (gyroDisconnections < MAX_GYRO_DISCONNECTIONS) {
             if (!gyroDied && !m_navX.isConnected()) {
                 logger.warn("NAVX NOT CONNECTED");
@@ -255,13 +254,15 @@ public class Chassis extends GBSubsystem {
     }
 
     public void setNeutralState(CANSparkMax.IdleMode state) {
-        m_leftLeader.setIdleMode(state);
-        m_leftFollower1.setIdleMode(state);
-        m_leftFollower2.setIdleMode(state);
 
-        m_rightLeader.setIdleMode(state);
-        m_rightFollower1.setIdleMode(state);
-        m_rightFollower2.setIdleMode(state);
+        logger.info("Spark idle mode set to {}, with statuses of: left = {}, {}, {}; right = {}, {}, {}", state,
+                m_leftLeader.setIdleMode(state),
+                m_leftFollower1.setIdleMode(state),
+                m_leftFollower2.setIdleMode(state),
+
+                m_rightLeader.setIdleMode(state),
+                m_rightFollower1.setIdleMode(state),
+                m_rightFollower2.setIdleMode(state));
     }
 
     public double getGyroZero() {
@@ -286,15 +287,6 @@ public class Chassis extends GBSubsystem {
         m_rightFollower1.setSmartCurrentLimit(a);
     }
 
-    public void IAccum(double a) {
-        m_leftLeader.setIAccum(a);
-        m_leftFollower2.setIAccum(a);
-        m_leftFollower1.setIAccum(a);
-
-        m_rightLeader.setIAccum(a);
-        m_rightFollower2.setIAccum(a);
-        m_rightFollower1.setIAccum(a);
-    }
 
     private double gamma(double power) {
         return Math.pow(Math.abs(power), GAMMA) * MULTIPLIER * Math.signum(power);

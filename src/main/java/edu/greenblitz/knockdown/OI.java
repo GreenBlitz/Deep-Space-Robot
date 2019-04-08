@@ -1,10 +1,6 @@
 package edu.greenblitz.knockdown;
 
 import edu.greenblitz.knockdown.commands.complex.RollOrAlign;
-import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.Auto2FarRocket;
-import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoFallAndThreeHalfs;
-import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoThreeHalfFarRocket;
-import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.SafeMoveElevatorDuringMotion;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.ChangeTargetFocus;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionCollectHatchPanel;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionPlaceGameObject;
@@ -13,12 +9,11 @@ import edu.greenblitz.knockdown.commands.complex.climber.ClimbByJoystick;
 import edu.greenblitz.knockdown.commands.complex.climber.StopClimbing;
 import edu.greenblitz.knockdown.commands.complex.elevator.SafeMoveElevator;
 import edu.greenblitz.knockdown.commands.complex.kicker.KickBall;
+import edu.greenblitz.knockdown.commands.complex.kicker.UnkickIfNotAtFloor;
 import edu.greenblitz.knockdown.commands.complex.roller.SmartExtendAndRollIn;
 import edu.greenblitz.knockdown.commands.complex.roller.ToggleRoller;
-import edu.greenblitz.knockdown.commands.simple.chassis.FallWithNavx;
 import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.knockdown.commands.simple.chassis.motion.APPCCommand;
-import edu.greenblitz.knockdown.commands.simple.chassis.motion.ResetLocalizer;
 import edu.greenblitz.knockdown.commands.simple.poker.HoldHatch;
 import edu.greenblitz.knockdown.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.knockdown.commands.simple.poker.TogglePokerExtender;
@@ -114,7 +109,7 @@ public class OI {
         mainJoystick.Y.whenPressed(new ExtendAndRollIn());
         mainJoystick.Y.whenReleased(new RetractAndStopRoller());
 
-        mainJoystick.L1.whenPressed(new VisionCollectHa\[]tchPanel());
+        mainJoystick.L1.whenPressed(new VisionCollectHatchPanel());
         mainJoystick.L1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
         mainJoystick.R1.whenPressed(new VisionPlaceHatchPanelForAutonomous());
         mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
@@ -160,6 +155,7 @@ public class OI {
         mainJoystick.L3.whenPressed(new ToggleShift());
 
         mainJoystick.X.whenPressed(new KickBall());
+        mainJoystick.X.whenReleased(new UnkickIfNotAtFloor());
 
         mainJoystick.L1.whileHeld(new RollOrAlign.Main());
         mainJoystick.L1.whenReleased(new RollOrAlign.Cleanup());
@@ -176,6 +172,9 @@ public class OI {
         sideJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
         sideJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
         sideJoystick.L1.whenReleased(new ToggleRoller());
+
+        sideJoystick.POV_UP.whileHeld(new ExtendAndRollIn());
+        sideJoystick.POV_UP.whenReleased(new RetractAndStopRoller());
 
 //        POVButton restrictClimbing = new POVButton(sideJoystick.getRawJoystick(), 0);
 //        restrictClimbing.whenPressed(new ClimbByJoystickRestricted(mainJoystick, mainJoystick, sideJoystick));

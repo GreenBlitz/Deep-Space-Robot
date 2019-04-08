@@ -9,6 +9,7 @@ import edu.greenblitz.utils.hid.SmartJoystick;
 public class ArcadeDriveByJoystick extends ChassisBaseCommand {
 
     public static final double SPEED_MULT = 1;
+    public static final double RAMP_RATE = 0.2;
     public static final GearDependentDouble TURN_MULT = new GearDependentDouble(1, 0.6);
 
     private SmartJoystick m_joystick;
@@ -19,6 +20,7 @@ public class ArcadeDriveByJoystick extends ChassisBaseCommand {
 
     @Override
     protected void atInit() {
+        system.setRampRate(RAMP_RATE);
         m_joystick.rumble(false, 0);
         m_joystick.rumble(true, 0);
     }
@@ -37,7 +39,7 @@ public class ArcadeDriveByJoystick extends ChassisBaseCommand {
 
     @Override
     protected void atEnd() {
-//        Chassis.getInstance().setRampRate(0);
+        Chassis.getInstance().setRampRate(0);
         Chassis.getInstance().stop();
     }
 }

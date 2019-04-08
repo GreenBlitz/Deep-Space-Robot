@@ -1,11 +1,14 @@
 package edu.greenblitz.knockdown.commands.complex.chassis.vision;
 
+import edu.greenblitz.knockdown.commands.complex.kicker.KickAndRetract;
 import edu.greenblitz.knockdown.commands.complex.kicker.KickBall;
 import edu.greenblitz.knockdown.commands.simple.chassis.ArcadeUntilVision;
 import edu.greenblitz.knockdown.commands.simple.chassis.DriveByGyro;
+import edu.greenblitz.knockdown.commands.simple.chassis.neutral.ToCoast;
 import edu.greenblitz.knockdown.commands.simple.chassis.vision.DriveToDistanceFromVisionTarget;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToPower;
 import edu.greenblitz.knockdown.data.GearDependentDouble;
+import edu.greenblitz.knockdown.subsystems.Chassis;
 import edu.greenblitz.knockdown.subsystems.Elevator;
 import edu.greenblitz.utils.command.CommandChain;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,6 +22,7 @@ public class VisionPlaceCargo extends CommandChain {
     public VisionPlaceCargo() {
         addSequential(new ArcadeUntilVision());
         addSequential(new ToPower());
+        addSequential(new ToCoast());
         addSequential(new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE, getDynamicVisionOffset(), true));
         addSequential(new DriveByGyro(0.5*(ALIGN_DISTANCE - EXTEND_DISTANCE), 850, false));
         addSequential(new DriveByGyro(0.5*(ALIGN_DISTANCE - EXTEND_DISTANCE), 650,
@@ -38,7 +42,8 @@ public class VisionPlaceCargo extends CommandChain {
 
     @Override
     public void atEnd(){
-        new KickBall().start();
+        new KickAndRetract().start();
+        Chassis.getInstance().toBrake();
     }
 
     public static double getDynamicVisionOffset() {

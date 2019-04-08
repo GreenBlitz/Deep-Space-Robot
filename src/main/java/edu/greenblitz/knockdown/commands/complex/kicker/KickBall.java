@@ -1,5 +1,6 @@
 package edu.greenblitz.knockdown.commands.complex.kicker;
 
+import edu.greenblitz.knockdown.commands.simple.kicker.Kick;
 import edu.greenblitz.knockdown.commands.simple.poker.RetractPoker;
 import edu.greenblitz.knockdown.commands.simple.roller.ExtendAndRollOut;
 import edu.greenblitz.knockdown.commands.simple.roller.RetractAndStopRoller;
@@ -47,7 +48,7 @@ public class KickBall extends CommandChain {
 
     public static class KickAtHeight extends CommandChain {
         public KickAtHeight() {
-            addSequential(new KickAndRetract());
+            addSequential(new Kick());
         }
     }
 }

@@ -1,6 +1,7 @@
 package edu.greenblitz.knockdown.commands.complex.climber;
 
 import edu.greenblitz.knockdown.commands.simple.climber.ClimberBigControlByJoystick;
+import edu.greenblitz.knockdown.commands.simple.climber.ClimberPExtenderControl;
 import edu.greenblitz.knockdown.commands.simple.climber.ClimberProportionalExtendByJoystick;
 import edu.greenblitz.knockdown.commands.simple.roller.RollerDoNothing;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToPower;
@@ -14,7 +15,7 @@ public class ClimbByJoystick extends CommandChain {
     public ClimbByJoystick(SmartJoystick bigJoystick, SmartJoystick extenderJoystick, SmartJoystick driveJoystick) {
         addParallel(new RollerDoNothing());
         addParallel(new ClimberBigControlByJoystick(SAFE_POWER, bigJoystick));
-        addParallel(new ClimberProportionalExtendByJoystick(extenderJoystick));
+        addParallel(new ClimberPExtenderControl(extenderJoystick));
         addParallel(new StartSideClimberControl(driveJoystick));
         addParallel(new ToPower());
     }
