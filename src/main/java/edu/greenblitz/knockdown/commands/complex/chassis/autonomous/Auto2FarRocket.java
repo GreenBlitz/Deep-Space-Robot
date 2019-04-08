@@ -3,11 +3,13 @@ package edu.greenblitz.knockdown.commands.complex.chassis.autonomous;
 import edu.greenblitz.knockdown.OI;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.ChangeTargetFocus;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionCollectHatchPanel;
+import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionPlaceHatchPanel;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.autonomous.VisionCollectHatchPanelForAutonomous;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.autonomous.VisionPlaceHatchPanelForAutonomous;
 import edu.greenblitz.knockdown.commands.complex.elevator.SafeMoveElevator;
 import edu.greenblitz.knockdown.commands.simple.chassis.motion.APPCCommand;
 import edu.greenblitz.knockdown.commands.simple.chassis.motion.ResetLocalizer;
+import edu.greenblitz.knockdown.commands.simple.chassis.motion.TurnToAngle;
 import edu.greenblitz.knockdown.commands.simple.poker.RetractAndHold;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToSpeed;
 import edu.greenblitz.knockdown.data.Paths;
@@ -31,17 +33,20 @@ public class Auto2FarRocket extends CommandChain {
 
         addSequential(new DriveToRocket1AndMoveElevator(left));
 
-        addSequential(new VisionPlaceHatchPanelForAutonomous());
+        addSequential(new TurnToAngle(-150, 0.3, true, 10, 30));
 
-        addSequential(new DriveBack(left));
+        addSequential(new VisionPlaceHatchPanel());
+
+        addSequential(new TurnToAngle(120, 0.5, true, 25));
+//        addSequential(new DriveBack(left));
 
         addSequential(new MoveElevatorDownDriveToFeeder(left));
 
-        addSequential(new VisionCollectHatchPanelForAutonomous());
+        addSequential(new VisionCollectHatchPanel());
 
         addSequential(new DriveToRocket2(left));
 
-        addSequential(new VisionPlaceHatchPanelForAutonomous());
+        addSequential(new VisionPlaceHatchPanel());
 
         clearRequirements();
         requires(Chassis.getInstance());
@@ -57,8 +62,8 @@ public class Auto2FarRocket extends CommandChain {
 
             addParallel(
                     new APPCCommand(Paths.get("2FarRocket1", left), null, 1.5,
-                            0.35, true,
-                            0.4, 1.5, 0.7, .1
+                            0.3, true,
+                            0.3, 1.2, 0.6, .3
 
                     ));
             addParallel(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
@@ -77,11 +82,12 @@ public class Auto2FarRocket extends CommandChain {
 
     private class MoveElevatorDownDriveToFeeder extends CommandChain {
         private MoveElevatorDownDriveToFeeder(boolean left) {
+            addParallel(new ToSpeed());
+            addParallel(new SafeMoveElevator(Elevator.Level.GROUND));
             addParallel(
                     new APPCCommand(Paths.get("2FarRocket3", left), null, 2,
-                            2, false,
-                            0.4, 2, 0.7, .1, 3));
-            addParallel(new RetractAndHold());
+                            0.5, false,
+                            0.4, 2, 0.7, .2, 3));
         }
     }
 

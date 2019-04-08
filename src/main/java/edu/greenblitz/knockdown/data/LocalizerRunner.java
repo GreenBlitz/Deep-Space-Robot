@@ -4,6 +4,7 @@ import edu.greenblitz.knockdown.subsystems.Chassis;
 import edu.greenblitz.utils.PeriodicRunner;
 import edu.greenblitz.utils.encoder.IEncoder;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.greenblitz.motion.app.Localizer;
@@ -36,12 +37,18 @@ public class LocalizerRunner extends PeriodicRunner {
 
     public void enableGyro() {
         m_useGyro = true;
+        SmartDashboard.getBoolean("Using Gyro", true);
         logger.info("gyro enabled!");
     }
 
     public void disableGyro() {
         m_useGyro = false;
+        SmartDashboard.getBoolean("Using Gyro", false);
         logger.info("gyro disabled!");
+    }
+
+    public boolean usingGyro(){
+        return m_useGyro;
     }
 
     public LocalizerRunner(double wheelBase, IEncoder leftEncoder, IEncoder rightEncoder) {

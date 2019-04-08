@@ -203,6 +203,7 @@ public class Chassis extends GBSubsystem {
         SmartDashboard.putNumber("Chssis::Right Raw Ticks", m_rightEncoder.getRawTicks());
 
         SmartDashboard.putNumber("Chassis::Pitch", m_navX.getPitch());
+        SmartDashboard.putNumber("Chassis::Yaw", m_navX.getYaw());
 
         SmartDashboard.putNumber("Chassis::RPM", 60 * getVelocity() / 0.47);
         SmartDashboard.putNumber("Chassis::Left RPM", 60 * getLeftVelocity() / 0.47);
@@ -247,6 +248,10 @@ public class Chassis extends GBSubsystem {
         Localizer.getInstance().setSleep(20, 0, 0);
         m_rightEncoder.setNormalizeConst(ticks);
         m_leftEncoder.setNormalizeConst(ticks);
+    }
+
+    public boolean usingGyro(){
+        return m_localizer.usingGyro();
     }
 
     public Position getGyroPosition() {

@@ -14,6 +14,7 @@ import edu.greenblitz.knockdown.commands.complex.roller.SmartExtendAndRollIn;
 import edu.greenblitz.knockdown.commands.complex.roller.ToggleRoller;
 import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.knockdown.commands.simple.chassis.motion.APPCCommand;
+import edu.greenblitz.knockdown.commands.simple.chassis.motion.TurnToAngle;
 import edu.greenblitz.knockdown.commands.simple.poker.HoldHatch;
 import edu.greenblitz.knockdown.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.knockdown.commands.simple.poker.TogglePokerExtender;
@@ -94,9 +95,7 @@ public class OI {
         mainJoystick.POV_RIGHT.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.RIGHT));
         mainJoystick.POV_DOWN.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.MIDDLE));
 
-        mainJoystick.POV_UP.whenPressed(new APPCCommand(Paths.get("Rocket2", true),
-                new Position(-0.619,6.336, 3*Math.PI/4), 0.6, 0.2, true,
-                0.3, 0.4, 0.5, 0.4, 165, 5));
+        mainJoystick.POV_UP.whenPressed(new TurnToAngle(90, 0.5, true, 10));
 
         mainJoystick.START.whenPressed(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
         mainJoystick.BACK.whenPressed(new StopClimbing());

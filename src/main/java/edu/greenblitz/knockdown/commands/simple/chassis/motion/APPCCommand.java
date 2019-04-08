@@ -1,9 +1,13 @@
 package edu.greenblitz.knockdown.commands.simple.chassis.motion;
 
+import edu.greenblitz.knockdown.OI;
 import edu.greenblitz.knockdown.RobotMap;
+import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
+import edu.greenblitz.knockdown.data.LocalizerRunner;
 import edu.greenblitz.knockdown.data.vision.VisionMaster;
 import edu.greenblitz.knockdown.subsystems.Chassis;
 import edu.greenblitz.utils.command.base.SubsystemCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.greenblitz.debug.RemoteCSVTarget;
 import org.greenblitz.motion.app.AdaptivePurePursuitController;
 import org.greenblitz.motion.app.Localizer;
@@ -76,6 +80,13 @@ public class APPCCommand extends SubsystemCommand<Chassis> {
 
     @Override
     protected void execute() {
+        if (VisionMaster.getInstance().getError("NAVX not connected")) {
+            Chassis.getInstance().toCoast();
+            Chassis.getInstance().stop();
+            logger.warn("GYRO DISCONNECTED MID-AUTO");
+            new APPCEmergencyStop().start();
+            return;
+        }
         if (isFinished())
             return;
         Position loc = system.getLocation();

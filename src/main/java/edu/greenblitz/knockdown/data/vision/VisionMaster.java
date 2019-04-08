@@ -195,4 +195,8 @@ public class VisionMaster {
         m_visionTable.getEntry("error").setBoolean(errorExists);
         SmartDashboard.putBoolean(errorName, errorExists);
     }
+
+    public boolean getError(String errorName){
+        return SmartDashboard.getEntry(errorName).getBoolean(false);
+    }
 }
