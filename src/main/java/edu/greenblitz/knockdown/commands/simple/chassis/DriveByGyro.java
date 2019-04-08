@@ -88,7 +88,7 @@ public class DriveByGyro extends ChassisBaseCommand implements PIDSource, PIDOut
     }
 
     private double pidOverAngle() {
-        return Math.toDegrees(Position.normalizeAngle(Math.toRadians(m_angle - Chassis.getInstance().getAngle()))) * TURN_P.getByCurrentGear();
+        return Math.toDegrees(Position.normalizeAngle(Math.toRadians(m_angle + Math.toDegrees(Chassis.getInstance().getLocation().getAngle())))) * TURN_P.getByCurrentGear();
     }
 
     @Override

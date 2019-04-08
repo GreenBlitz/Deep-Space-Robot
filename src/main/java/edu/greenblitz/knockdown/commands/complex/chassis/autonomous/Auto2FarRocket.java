@@ -28,6 +28,7 @@ public class Auto2FarRocket extends CommandChain {
     }
 
     public Auto2FarRocket(boolean left) {
+
         addSequential(new DriveToRocket1AndMoveElevator(left));
 
         addSequential(new VisionPlaceHatchPanelForAutonomous());
@@ -55,9 +56,9 @@ public class Auto2FarRocket extends CommandChain {
             addParallel(new ToSpeed(), new OI.ToHatchMode());
 
             addParallel(
-                    new APPCCommand(Paths.get("2FarRocket1", left), null, 2,
+                    new APPCCommand(Paths.get("2FarRocket1", left), null, 1.5,
                             0.35, true,
-                            0.2, 1.5, 0.8, .1
+                            0.4, 1.5, 0.7, .1
 
                     ));
             addParallel(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
@@ -67,9 +68,10 @@ public class Auto2FarRocket extends CommandChain {
     private class DriveBack extends CommandChain {
         private DriveBack(boolean left) {
             addParallel(new ToSpeed(),
-                    new APPCCommand(Paths.get("2FarRocket2", left), null, 2,
-                            0.2, true,
+                    new APPCCommand(Paths.get("2FarRocket2", left), null, 1,
+                            0.3, true,
                             0.3, 1, 0.5, .1));
+            addParallel(new SafeMoveElevator(Elevator.Level.GROUND));
         }
     }
 
@@ -77,9 +79,8 @@ public class Auto2FarRocket extends CommandChain {
         private MoveElevatorDownDriveToFeeder(boolean left) {
             addParallel(
                     new APPCCommand(Paths.get("2FarRocket3", left), null, 2,
-                            .5, false,
-                            0.4, 2, 0.8, .1, 3));
-            addParallel(new SafeMoveElevator(Elevator.Level.GROUND));
+                            2, false,
+                            0.4, 2, 0.7, .1, 3));
             addParallel(new RetractAndHold());
         }
     }
@@ -89,8 +90,8 @@ public class Auto2FarRocket extends CommandChain {
             addParallel(new ToSpeed());
             addParallel(
                     new APPCCommand(Paths.get("2FarRocket4", left), null, 2,
-                            0.35, true,
-                            0.3, 2, 0.8, .1));
+                            0.15, true,
+                            0.35, 2, 0.8, .1));
 //            addParallel(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
             addParallel(new RetractAndHold());
         }

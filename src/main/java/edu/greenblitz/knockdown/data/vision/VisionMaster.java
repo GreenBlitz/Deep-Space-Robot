@@ -170,7 +170,7 @@ public class VisionMaster {
 
     public void updateLastAngleToDrive(double offset){
         lastAngleToDrive = Math.toDegrees(Position.normalizeAngle(Math.toRadians(
-                Chassis.getInstance().getAngle() + getAngle() + offset
+                -Math.toDegrees(Chassis.getInstance().getLocation().getAngle()) + getAngle() + offset
         )));
     }
 

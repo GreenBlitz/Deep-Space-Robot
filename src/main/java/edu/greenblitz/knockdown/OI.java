@@ -114,7 +114,7 @@ public class OI {
         mainJoystick.Y.whenPressed(new ExtendAndRollIn());
         mainJoystick.Y.whenReleased(new RetractAndStopRoller());
 
-        mainJoystick.L1.whenPressed(new VisionCollectHatchPanel());
+        mainJoystick.L1.whenPressed(new VisionCollectHa\[]tchPanel());
         mainJoystick.L1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
         mainJoystick.R1.whenPressed(new VisionPlaceHatchPanelForAutonomous());
         mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
