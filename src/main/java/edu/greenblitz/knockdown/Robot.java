@@ -132,6 +132,7 @@ public class Robot extends TimedRobot {
         autoChooser.addOption("Hab 2 fall", Autonomii.HAB_2_FALL);
         autoChooser.addOption("Rocket far 2 panels", Autonomii.ROCKET_2);
 
+
         SmartDashboard.putData("Side Chooser", sideChooser);
         SmartDashboard.putData("Hab2 Chooser", hab2Chooser);
         SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -219,7 +220,8 @@ public class Robot extends TimedRobot {
         Command autonomous = new ArcadeDriveByJoystick(OI.getMainJoystick());
         Autonomii autonomousName = autoChooser.getSelected();
         boolean t_isAutoLeft = sideChooser.getSelected();
-        boolean t_isAutoHab2 = sideChooser.getSelected();
+        boolean t_isAutoHab2 = hab2Chooser.getSelected();
+        logger.warn(autonomousName);
         switch (autonomousName){
             case NOTHING:
                 break;

@@ -4,9 +4,9 @@ import edu.greenblitz.knockdown.commands.complex.chassis.vision.ChangeTargetFocu
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionCollectHatchPanel;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionPlaceHatchPanel;
 import edu.greenblitz.knockdown.commands.simple.chassis.FallWithNavx;
-import edu.greenblitz.knockdown.commands.simple.chassis.ResetNavx;
 import edu.greenblitz.knockdown.commands.simple.chassis.motion.APPCCommand;
 import edu.greenblitz.knockdown.commands.simple.chassis.motion.ResetLocalizer;
+import edu.greenblitz.knockdown.commands.simple.chassis.motion.SimpleTurnToAngle;
 import edu.greenblitz.knockdown.commands.simple.poker.*;
 import edu.greenblitz.knockdown.commands.simple.shifter.KeepShift;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToPower;
@@ -15,7 +15,6 @@ import edu.greenblitz.knockdown.data.Paths;
 import edu.greenblitz.knockdown.data.vision.VisionMaster;
 import edu.greenblitz.knockdown.subsystems.Shifter;
 import edu.greenblitz.utils.command.CommandChain;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.greenblitz.motion.base.Position;
 
 public class AutoFallAndThreeHalfs extends CommandChain {
@@ -46,9 +45,14 @@ public class AutoFallAndThreeHalfs extends CommandChain {
         addSequential(new ToSpeed());
         addParallel(new RetractPoker());
 
-        addSequential(new APPCCommand(Paths.get("L_Cargoship2", left),
-                null, 0.6, 0.6, true,
-                0, 0.75, 0.5, 0.4));
+//        addSequential(new APPCCommand(Paths.get("L_Cargoship2", left),
+//                null, 0.6, 0.6, true,
+//                0, 0.75, 0.5, 0.4));
+        if (left)
+            addSequential(new SimpleTurnToAngle(160, 0.5, true, 10));
+        else
+            addSequential(new SimpleTurnToAngle(-160, 0.5, true, 10));
+        addSequential(new ToSpeed());
         addSequential(
                 new APPCCommand(Paths.get("L_Cargoship3", left), null, 2,
                         0.4, false,

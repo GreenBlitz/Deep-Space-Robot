@@ -13,8 +13,7 @@ import edu.greenblitz.knockdown.commands.complex.kicker.UnkickIfNotAtFloor;
 import edu.greenblitz.knockdown.commands.complex.roller.SmartExtendAndRollIn;
 import edu.greenblitz.knockdown.commands.complex.roller.ToggleRoller;
 import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
-import edu.greenblitz.knockdown.commands.simple.chassis.motion.APPCCommand;
-import edu.greenblitz.knockdown.commands.simple.chassis.motion.TurnToAngle;
+import edu.greenblitz.knockdown.commands.simple.chassis.motion.SimpleTurnToAngle;
 import edu.greenblitz.knockdown.commands.simple.poker.HoldHatch;
 import edu.greenblitz.knockdown.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.knockdown.commands.simple.poker.TogglePokerExtender;
@@ -22,14 +21,12 @@ import edu.greenblitz.knockdown.commands.simple.roller.ExtendAndRollIn;
 import edu.greenblitz.knockdown.commands.simple.roller.RetractAndStopRoller;
 import edu.greenblitz.knockdown.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToggleShift;
-import edu.greenblitz.knockdown.data.Paths;
 import edu.greenblitz.knockdown.data.vision.VisionMaster;
 import edu.greenblitz.knockdown.subsystems.Elevator;
 import edu.greenblitz.utils.command.ResetCommands;
 import edu.greenblitz.utils.command.base.GBCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.greenblitz.motion.base.Position;
 
 public class OI {
     public enum State {
@@ -95,7 +92,7 @@ public class OI {
         mainJoystick.POV_RIGHT.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.RIGHT));
         mainJoystick.POV_DOWN.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.MIDDLE));
 
-        mainJoystick.POV_UP.whenPressed(new TurnToAngle(90, 0.5, true, 10));
+        mainJoystick.POV_UP.whenPressed(new SimpleTurnToAngle(90, 0.5, true, 10));
 
         mainJoystick.START.whenPressed(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
         mainJoystick.BACK.whenPressed(new StopClimbing());

@@ -5,9 +5,8 @@ import edu.greenblitz.knockdown.data.vision.VisionMaster;
 import edu.greenblitz.knockdown.subsystems.Chassis;
 import edu.greenblitz.knockdown.subsystems.Shifter;
 import org.greenblitz.motion.base.Position;
-import org.opencv.core.Mat;
 
-public class TurnToAngle extends ChassisBaseCommand {
+public class SimpleTurnToAngle extends ChassisBaseCommand {
 
     private double target;
     private boolean isClockwise;
@@ -17,7 +16,7 @@ public class TurnToAngle extends ChassisBaseCommand {
     private double tolerance;
     private double tryVisionAngle;
 
-    public TurnToAngle(double t, double p, boolean stop, double tolerance, double visionAngle){
+    public SimpleTurnToAngle(double t, double p, boolean stop, double tolerance, double visionAngle){
         target = Math.toRadians(t);
         tryVisionAngle = Math.toRadians(visionAngle);
         power = p;
@@ -25,8 +24,7 @@ public class TurnToAngle extends ChassisBaseCommand {
         this.tolerance = Math.toRadians(tolerance);
     }
 
-    public
-    TurnToAngle(double t, double p, boolean stop, double tolerance){
+    public SimpleTurnToAngle(double t, double p, boolean stop, double tolerance){
         this(t, p, stop, tolerance, 0);
     }
 
