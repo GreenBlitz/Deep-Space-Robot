@@ -124,6 +124,12 @@ public class DriveByGyro extends ChassisBaseCommand implements PIDSource, PIDOut
     }
 
     @Override
+    protected void atInterrupt(){
+        atEnd();
+        Chassis.getInstance().stop();
+    }
+
+    @Override
     public String toString() {
         return "DriveByGyro{" +
                 "distance=" + m_distance +

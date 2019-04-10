@@ -111,10 +111,6 @@ public class OI {
         mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
 
         mainJoystick.L3.whenPressed(new ToggleShift());
-        // mainJoystick.L1.whenPressed(new ExtendAndRollIn());
-       // mainJoystick.L1.whenReleased(new RetractAndStopRoller(100));
-
-       // mainJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
 
         mainJoystick.START.whenPressed(new ToCargoMode());
         mainJoystick.BACK.whenPressed(new ToHatchMode());

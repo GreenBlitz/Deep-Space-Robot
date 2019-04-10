@@ -88,6 +88,7 @@ public class Robot extends TimedRobot {
         });
 
         logger = LogManager.getLogger(getClass());
+
         m_usageReport = new Report();
 //        SmartDashboard.putNumber("Auto x offset (positive = left)", 0);
         OI.initJoysticks();
@@ -162,6 +163,11 @@ public class Robot extends TimedRobot {
         if (m_usageReport.isReportValid()) report();
     }
 
+    @Override
+    public void disabledPeriodic() {
+        getAutonomous();
+    }
+
     private void report() {
         m_usageReport.toShuffleboard();
 
@@ -205,7 +211,7 @@ public class Robot extends TimedRobot {
         if (autonomousName == autoType){
             if (t_isAutoHab2 == isAutoHab2 || isIn(noHabDataAuto, autonomousName)){
                 if (t_isAutoLeft == isAutoLeft || isIn(noSideDataAuto, autonomousName)){
-                    logger.info("Autonomous already created, reusing");
+//                    logger.debug("Autonomous already chosen");
                     return chosenAuto;
                 }
             }

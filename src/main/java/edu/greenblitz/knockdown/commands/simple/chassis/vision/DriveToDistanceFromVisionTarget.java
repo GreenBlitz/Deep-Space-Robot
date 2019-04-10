@@ -100,6 +100,7 @@ public class DriveToDistanceFromVisionTarget extends ChassisBaseCommand implemen
     @Override
     protected void atEnd() {
         System.out.println("done");
+        System.out.println(VisionMaster.getInstance().getPlaneryDistance());
         VisionMaster.getInstance().updateLastAngleToDrive(m_visionTargetOffset);
         m_controller.disable();
         if (m_stopAtEnd) Chassis.getInstance().stop();
