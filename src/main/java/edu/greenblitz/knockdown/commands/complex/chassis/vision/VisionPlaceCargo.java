@@ -17,7 +17,7 @@ public class VisionPlaceCargo extends CommandChain {
 
     private static final double ALIGN_DISTANCE = 1.2;
     private static final double EXTEND_DISTANCE = 0.0;
-    private static final double VISION_TARGET_OFFSET = -1.5; // -1 before roller damage
+    private static final double VISION_TARGET_OFFSET = 1; // -1 before roller damage
 
     public VisionPlaceCargo() {
         addSequential(new ArcadeUntilVision());
