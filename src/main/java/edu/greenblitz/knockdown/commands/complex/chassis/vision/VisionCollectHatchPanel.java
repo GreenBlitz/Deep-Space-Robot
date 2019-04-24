@@ -58,8 +58,8 @@ public class VisionCollectHatchPanel extends CommandChain {
             addSequential(new ExtendPoker(50)); // Needed in different commands for small delay
             addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2,850,
                     new GearDependentDouble(0.4, 0.4), false));
-//            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 700,
-//                    new GearDependentDouble(0.15, 0.15)));
+            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 100,
+                    new GearDependentDouble(0.15, 0.15)));
         }
     }
 
