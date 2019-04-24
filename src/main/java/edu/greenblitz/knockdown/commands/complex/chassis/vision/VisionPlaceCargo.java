@@ -25,8 +25,8 @@ public class VisionPlaceCargo extends CommandChain {
         addSequential(new ToCoast());
         addSequential(new DriveToDistanceFromVisionTarget(ALIGN_DISTANCE, getDynamicVisionOffset(), true));
         addSequential(new DriveByGyro(0.5*(ALIGN_DISTANCE - EXTEND_DISTANCE), 850, false));
-        addSequential(new DriveByGyro(0.5*(ALIGN_DISTANCE - EXTEND_DISTANCE), 650,
-                new GearDependentDouble(0.25, 0.25)));
+        addSequential(new DriveByGyro(0.5*(ALIGN_DISTANCE - EXTEND_DISTANCE), 100,
+                new GearDependentDouble(0.2, 0.2)));
     }
 
     @Override
