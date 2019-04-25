@@ -7,17 +7,36 @@ import edu.greenblitz.knockdown.commands.complex.roller.SmartExtendAndRollIn;
 import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.knockdown.commands.simple.roller.RetractAndStopRoller;
 import edu.greenblitz.utils.command.CommandChain;
+import edu.greenblitz.utils.command.base.GBCommand;
 
 public class RollOrAlign {
-    public static class Main extends OIModeConditionCommand {
-        public Main() {
-            super(new VisionCollectHatchPanel(), new CollectWithRollerAndDrive());
+    public static class Main extends GBCommand {
+
+        @Override
+        protected void atInit(){
+            if (OI.getOiState() == OI.State.HATCH)
+                new VisionCollectHatchPanel().start();
+            else
+                new CollectWithRollerAndDrive().start();
+        }
+
+        @Override
+        protected boolean isFinished() {
+            return true;
         }
     }
 
-    public static class Cleanup extends OIModeConditionCommand {
-        public Cleanup() {
-            super(new ArcadeDriveByJoystick(OI.getMainJoystick()), new RetractAndStopRoller(300));
+    public static class Cleanup extends GBCommand {
+
+        @Override
+        protected void atInit(){
+            if (OI.getOiState() == OI.State.CARGO)
+                new RetractAndStopRoller(300).start();
+        }
+
+        @Override
+        protected boolean isFinished() {
+            return true;
         }
     }
 
