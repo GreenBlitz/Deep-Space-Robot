@@ -95,7 +95,7 @@ public class Elevator extends GBSubsystem {
         addChild(m_brake);
         m_brake.setName("brake");
 
-        logger.info("instantiated");
+//        logger.info("instantiated");
     }
 
     @Override
@@ -123,7 +123,7 @@ public class Elevator extends GBSubsystem {
     private void setLevel(Level level) {
         if (level != m_level) {
             m_level = level;
-            logger.debug("current level: {}", level);
+//            logger.debug("current level: {}", level);
         }
     }
 
@@ -216,11 +216,11 @@ public class Elevator extends GBSubsystem {
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
-        builder.addDoubleProperty("power", m_leader::get, this::setRawPower);
-        builder.addBooleanProperty("brake", this::isBraking, this::brake);
-        builder.addDoubleProperty("Encoder", this::getHeight, null);
-        builder.addBooleanProperty("ground limit switch", this::isFloorLevel, null);
-        builder.addDoubleProperty("height", this::getHeight, null);
+//        builder.addDoubleProperty("power", m_leader::get, this::setRawPower);
+//        builder.addBooleanProperty("brake", this::isBraking, this::brake);
+//        builder.addDoubleProperty("Encoder", this::getHeight, null);
+//        builder.addBooleanProperty("ground limit switch", this::isFloorLevel, null);
+//        builder.addDoubleProperty("height", this::getHeight, null);
     }
 
     public void periodic() {

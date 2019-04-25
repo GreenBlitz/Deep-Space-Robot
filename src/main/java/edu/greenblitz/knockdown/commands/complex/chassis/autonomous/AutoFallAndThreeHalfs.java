@@ -72,8 +72,8 @@ public class AutoFallAndThreeHalfs extends CommandChain {
 
     @Override
     protected void atEnd() {
-        long now = System.currentTimeMillis();
-        logger.debug("FINISHED 2 CARGO AUTO, TAKING {} MS = {} S", now - tStart, (now - tStart) / 1000.0);
+//        long now = System.currentTimeMillis();
+//        logger.debug("FINISHED 2 CARGO AUTO, TAKING {} MS = {} S", now - tStart, (now - tStart) / 1000.0);
         Shifter.getInstance().setDefaultCommand(new KeepShift());
         new ToPower().start();
     }

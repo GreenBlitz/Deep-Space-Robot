@@ -5,9 +5,9 @@
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5p %c{1} - %msg%n"/>
         </Console>
     </Appenders>
-    <Loggers>
+    <loggers>
         <Root level="trace">
-            <AppenderRef ref="Console" level="info"/>
+            <AppenderRef ref="Console" level="off"/>
         </Root>
-    </Loggers>
+    </loggers>
 </Configuration>

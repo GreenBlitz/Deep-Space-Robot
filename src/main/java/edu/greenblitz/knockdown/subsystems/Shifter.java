@@ -3,6 +3,7 @@ package edu.greenblitz.knockdown.subsystems;
 import edu.greenblitz.knockdown.Robot;
 import edu.greenblitz.knockdown.RobotMap.Shifter.Solenoid;
 import edu.greenblitz.knockdown.commands.simple.shifter.KeepShift;
+import edu.greenblitz.knockdown.data.vision.VisionMaster;
 import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.sendables.SendableDoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -105,6 +106,7 @@ public class Shifter extends GBSubsystem {
         }
         m_piston.set(state.getValue());
         Chassis.getInstance().setTickPerMeter(state);
+        VisionMaster.getInstance().notifyShift(state);
     }
 
     public void toggleShift() {

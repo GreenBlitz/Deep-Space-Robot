@@ -2,12 +2,14 @@ package edu.greenblitz.knockdown.data.vision;
 
 import edu.greenblitz.knockdown.OI;
 import edu.greenblitz.knockdown.subsystems.Chassis;
+import edu.greenblitz.knockdown.subsystems.Shifter;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Logger;
 import org.greenblitz.motion.base.Position;
 
@@ -76,6 +78,7 @@ public class VisionMaster {
     private NetworkTableEntry m_algorithm;
     private NetworkTableEntry m_values;
     private NetworkTableEntry m_found;
+    private NetworkTableEntry m_shift;
     private Logger logger;
     private Error m_lastError = Error.OK;
     private double lastAngleToDrive = 0;
@@ -87,6 +90,7 @@ public class VisionMaster {
         m_focus = m_visionTable.getEntry("focus");
         m_values = m_visionTable.getEntry("output");
         m_found = m_visionTable.getEntry("found");
+        m_shift = m_visionTable.getEntry("shift");
     }
 
     public void setCurrentAlgorithm(Algorithm algo) {
@@ -184,7 +188,6 @@ public class VisionMaster {
         SmartDashboard.putString("Vision::raw data", current.toString());
         SmartDashboard.putNumber("Vision::planery distance", current.getPlaneryDistance());
         SmartDashboard.putNumber("Vision::derived angle", current.getCenterAngle());
-
     }
 
     public void reportOIMode(OI.State state){
@@ -198,5 +201,9 @@ public class VisionMaster {
 
     public boolean getError(String errorName){
         return SmartDashboard.getEntry(errorName).getBoolean(false);
+    }
+
+    public void notifyShift(Shifter.Gear shift) {
+        m_shift.setString(shift.name());
     }
 }

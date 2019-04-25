@@ -70,7 +70,7 @@ public class Climber {
 
         @Override
         public void periodic() {
-            SmartDashboard.putNumber("Extender::Height", -getHeight());
+//            SmartDashboard.putNumber("Extender::Height", -getHeight());
         }
 
         public void setIdleMode(CANSparkMax.IdleMode mode) {

@@ -6,6 +6,7 @@ import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoThreeHal
 import edu.greenblitz.knockdown.commands.complex.elevator.SafeMoveElevator;
 import edu.greenblitz.knockdown.commands.simple.chassis.FallWithNavx;
 import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
+import edu.greenblitz.knockdown.commands.simple.chassis.motion.RunAuto;
 import edu.greenblitz.knockdown.commands.simple.chassis.neutral.ToCoast;
 import edu.greenblitz.knockdown.commands.simple.shifter.KeepShift;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToPower;
@@ -140,6 +141,9 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto Chooser", autoChooser);
         SmartDashboard.putData("Shift Chooser", shiftChooser);
 
+//        SmartDashboard.putData("Rocket Auto L", new Auto2FarRocket(true));
+//        SmartDashboard.putData("Rocket Auto R", new Auto2FarRocket(false));
+        SmartDashboard.putData("Run Auto", new RunAuto());
         SmartDashboard.putData("To Coast", new ToCoast());
         SmartDashboard.putData("To Power", new ToPower());
         SmartDashboard.putData("Elevator GR", new SafeMoveElevator(Elevator.Level.GROUND));
@@ -207,7 +211,7 @@ public class Robot extends TimedRobot {
         return false;
     }
 
-    private Command getAutonomous(){
+    public Command getAutonomous(){
         Autonomii autonomousName = autoChooser.getSelected();
         boolean t_isAutoLeft = sideChooser.getSelected();
         boolean t_isAutoHab2 = hab2Chooser.getSelected();
@@ -254,7 +258,7 @@ public class Robot extends TimedRobot {
         isAutoHab2 = t_isAutoHab2;
         isAutoLeft = t_isAutoLeft;
         chosenAuto = autonomous;
-        logger.info("Auto set to {}", autonomous);
+        logger.info("Auto set to {}, hab2 - {}, isLeft - {}", autonomousName, t_isAutoHab2, t_isAutoLeft);
         return autonomous;
     }
 

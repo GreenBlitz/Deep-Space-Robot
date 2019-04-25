@@ -57,8 +57,8 @@ public class MoveElevatorByExternalPID extends SubsystemCommand<Elevator> {
     protected void execute() {
         var in = system.getHeight();
         double out = m_controller.calculatePID(in);
-        SmartDashboard.putNumber("pid in", in);
-        SmartDashboard.putNumber("pid out", out + pickFF(out));
+//        SmartDashboard.putNumber("pid in", in);
+//        SmartDashboard.putNumber("pid out", out + pickFF(out));
         set(out, pickFF(out));
     }
 

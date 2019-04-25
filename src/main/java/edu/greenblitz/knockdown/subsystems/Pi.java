@@ -44,7 +44,7 @@ public class Pi {
     }
 
     public static void update() {
-        SmartDashboard.putBoolean("Pi::isReachable", isReachable());
+//        SmartDashboard.putBoolean("Pi::isReachable", isReachable());
         SmartDashboard.putBoolean("Pi::exists", exists.getBoolean(false));
     }
 }

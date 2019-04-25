@@ -48,10 +48,10 @@ public class FallWithNavx extends ChassisBaseCommand {
 
     @Override
     protected void atEnd(){
-        long dt = System.currentTimeMillis() - startTime;
-        logger.debug("FallWithNavx FINISHED AT {} MS - {} S", dt, dt/1000.0);
+//        long dt = System.currentTimeMillis() - startTime;
+//        logger.debug("FallWithNavx FINISHED AT {} MS - {} S", dt, dt/1000.0);
         if (System.currentTimeMillis() - startTime > TIMEOUT){
-            logger.debug("FallWithNavx reached timeout, switching to driver.");
+//            logger.debug("FallWithNavx reached timeout, switching to driver.");
             new ArcadeDriveByJoystick(OI.getMainJoystick()).start();
         }
     }
