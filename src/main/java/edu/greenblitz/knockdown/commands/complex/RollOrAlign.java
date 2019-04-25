@@ -8,16 +8,24 @@ import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoys
 import edu.greenblitz.knockdown.commands.simple.roller.RetractAndStopRoller;
 import edu.greenblitz.utils.command.CommandChain;
 import edu.greenblitz.utils.command.base.GBCommand;
+import edu.wpi.first.wpilibj.command.Command;
 
 public class RollOrAlign {
+
+    public static Command rollBack = new RetractAndStopRoller();
+
+
     public static class Main extends GBCommand {
+
+        public static Command collectPanel = new VisionCollectHatchPanel();
+        public static Command getCargo = new CollectWithRollerAndDrive();
 
         @Override
         protected void atInit(){
             if (OI.getOiState() == OI.State.HATCH)
-                new VisionCollectHatchPanel().start();
+                collectPanel.start();
             else
-                new CollectWithRollerAndDrive().start();
+                getCargo.start();
         }
 
         @Override
@@ -28,10 +36,14 @@ public class RollOrAlign {
 
     public static class Cleanup extends GBCommand {
 
+        public static Command arcadeDrive = new ArcadeDriveByJoystick(OI.getMainJoystick());
+
         @Override
         protected void atInit(){
             if (OI.getOiState() == OI.State.CARGO)
-                new RetractAndStopRoller(300).start();
+                rollBack.start();
+            else
+                arcadeDrive.start();
         }
 
         @Override

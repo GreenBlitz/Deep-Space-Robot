@@ -6,6 +6,7 @@ import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoThreeHal
 import edu.greenblitz.knockdown.commands.complex.elevator.SafeMoveElevator;
 import edu.greenblitz.knockdown.commands.simple.chassis.FallWithNavx;
 import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
+import edu.greenblitz.knockdown.commands.simple.chassis.neutral.ToCoast;
 import edu.greenblitz.knockdown.commands.simple.shifter.KeepShift;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToPower;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToSpeed;
@@ -139,6 +140,8 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto Chooser", autoChooser);
         SmartDashboard.putData("Shift Chooser", shiftChooser);
 
+        SmartDashboard.putData("To Coast", new ToCoast());
+        SmartDashboard.putData("To Power", new ToPower());
         SmartDashboard.putData("Elevator GR", new SafeMoveElevator(Elevator.Level.GROUND));
         SmartDashboard.putData("Elevator R1", new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
         SmartDashboard.putData("Elevator R2", new SafeMoveElevator(Elevator.Level.ROCKET_MID));
