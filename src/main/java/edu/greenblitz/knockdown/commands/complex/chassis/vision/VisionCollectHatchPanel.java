@@ -10,8 +10,10 @@ import edu.greenblitz.knockdown.commands.simple.poker.RetractPoker;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToPower;
 import edu.greenblitz.knockdown.data.GearDependentDouble;
 import edu.greenblitz.knockdown.subsystems.Chassis;
+import edu.greenblitz.knockdown.subsystems.Elevator;
 import edu.greenblitz.knockdown.subsystems.Shifter;
 import edu.greenblitz.utils.command.CommandChain;
+import edu.greenblitz.utils.command.WaitUntilFree;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -55,6 +57,7 @@ public class VisionCollectHatchPanel extends CommandChain {
 
     private class Forward extends CommandChain {
         private Forward() {
+            addSequential(new WaitUntilFree(Elevator.getInstance()));
             addSequential(new ExtendPoker(50)); // Needed in different commands for small delay
             addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2,850,
                     new GearDependentDouble(0.4, 0.4), false));
