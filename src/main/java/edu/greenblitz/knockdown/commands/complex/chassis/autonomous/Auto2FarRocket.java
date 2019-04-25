@@ -66,7 +66,7 @@ public class Auto2FarRocket extends CommandChain {
 
             addParallel(
                     new APPCCommand(Paths.get("2FarRocket1", left), null, 1.5,
-                            0.3, true,
+                            0.6, true,
                             0.3, 1.2, 0.6, .3
 
                     ));
