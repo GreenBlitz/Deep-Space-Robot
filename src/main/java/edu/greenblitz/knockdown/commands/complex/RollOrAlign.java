@@ -6,6 +6,7 @@ import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionCollectHat
 import edu.greenblitz.knockdown.commands.complex.roller.SmartExtendAndRollIn;
 import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.knockdown.commands.simple.roller.RetractAndStopRoller;
+import edu.greenblitz.knockdown.subsystems.Elevator;
 import edu.greenblitz.utils.command.CommandChain;
 import edu.greenblitz.utils.command.base.GBCommand;
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,10 +23,13 @@ public class RollOrAlign {
 
         @Override
         protected void atInit(){
-            if (OI.getOiState() == OI.State.HATCH)
+            if (OI.getOiState() == OI.State.HATCH) {
                 collectPanel.start();
-            else
-                getCargo.start();
+            } else {
+                if (Elevator.getInstance().isAtDefaultState()) {
+                    getCargo.start();
+                }
+            }
         }
 
         @Override
