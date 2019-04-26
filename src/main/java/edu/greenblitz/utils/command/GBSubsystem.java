@@ -11,6 +11,6 @@ public abstract class GBSubsystem extends Subsystem {
     }
 
     public boolean isAtDefaultState() {
-        return getDefaultCommand().getName().equals(getCurrentCommand().getName());
+        return getDefaultCommandName().equals(getCurrentCommandName());
     }
 }
