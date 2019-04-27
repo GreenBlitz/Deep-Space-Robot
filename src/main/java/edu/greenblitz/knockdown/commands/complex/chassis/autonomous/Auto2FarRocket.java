@@ -58,15 +58,17 @@ public class Auto2FarRocket extends CommandChain {
 
     private class DriveToRocket1AndMoveElevator extends CommandChain {
         private DriveToRocket1AndMoveElevator(boolean left) {
-            if (left)
+            if (left) {
                 addParallel(new ResetLocalizer(new Position(-3, 1.4, Math.PI)), new ChangeTargetFocus(VisionMaster.Focus.RIGHT));
-            else
+            } else {
                 addParallel(new ResetLocalizer(new Position(-8.2 + 3, 1.4, Math.PI)), new ChangeTargetFocus(VisionMaster.Focus.LEFT));
+            }
             addParallel(new ToSpeed(), new OI.ToHatchMode());
+
 
             addParallel(
                     new APPCCommand(Paths.get("2FarRocket1", left), null, 1.5,
-                            0.6, true,
+                            0.5, true,
                             0.3, 1.2, 0.6, .3
 
                     ));

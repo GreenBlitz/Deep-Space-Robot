@@ -59,6 +59,12 @@ public class AutoFallAndThreeHalfs extends CommandChain {
                         0.4, 2.7, 1, .1, 2)
         );
         addSequential(new VisionCollectHatchPanel());
+
+        addSequential(new ToSpeed());
+        addSequential(
+                new APPCCommand(Paths.get("2FarRocket4", left), null, 2,
+                        1, true,
+                        0.35, 2, 0.5, .3));
     }
 
     public AutoFallAndThreeHalfs(boolean left){

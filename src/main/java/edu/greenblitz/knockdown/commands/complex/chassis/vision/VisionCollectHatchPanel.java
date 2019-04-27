@@ -58,10 +58,10 @@ public class VisionCollectHatchPanel extends CommandChain {
     private class Forward extends CommandChain {
         private Forward() {
             addSequential(new WaitUntilFree(Elevator.getInstance()));
-            addSequential(new ExtendPoker(50)); // Needed in different commands for small delay
-            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2,850,
+            addSequential(new ExtendPoker(1));
+            addSequential(new DriveByGyro(0.7*(ALIGN_DISTANCE - EXTEND_DISTANCE),950,
                     new GearDependentDouble(0.4, 0.4), false));
-            addSequential(new DriveByGyro((ALIGN_DISTANCE - EXTEND_DISTANCE) / 2, 100,
+            addSequential(new DriveByGyro(0.5*(ALIGN_DISTANCE - EXTEND_DISTANCE), 100,
                     new GearDependentDouble(0.15, 0.15)));
         }
     }

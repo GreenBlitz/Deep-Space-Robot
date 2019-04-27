@@ -23,6 +23,7 @@ import edu.greenblitz.knockdown.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToggleShift;
 import edu.greenblitz.knockdown.data.vision.VisionMaster;
 import edu.greenblitz.knockdown.subsystems.Elevator;
+import edu.greenblitz.utils.command.ExecuteIfPossible;
 import edu.greenblitz.utils.command.ResetCommands;
 import edu.greenblitz.utils.command.base.GBCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
@@ -165,8 +166,8 @@ public class OI {
         sideJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
         sideJoystick.L1.whenReleased(new ToggleRoller());
 
-        sideJoystick.POV_UP.whileHeld(new ExtendAndRollIn());
-        sideJoystick.POV_UP.whenReleased(new RetractAndStopRoller());
+        sideJoystick.POV_UP.whileHeld(new ExecuteIfPossible(new RollOrAlign.CollectWithRollerAndDrive(), Elevator.getInstance()));
+        sideJoystick.POV_UP.whenReleased(new ExecuteIfPossible(new RetractAndStopRoller(), Elevator.getInstance()));
 
 //        POVButton restrictClimbing = new POVButton(sideJoystick.getRawJoystick(), 0);
 //        restrictClimbing.whenPressed(new ClimbByJoystickRestricted(mainJoystick, mainJoystick, sideJoystick));
