@@ -86,56 +86,25 @@ public class OI {
     }
 
     public static void initBindings() {
-        initOfficialBindings(); // For real game shit
-//        initTestBindings(); // For testing code
+//        initOfficialBindings(); // For real game shit
+        initTestBindings(); // For testing code
     }
 
     private static void initTestBindings() {
-        mainJoystick.POV_LEFT.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.LEFT));
-        mainJoystick.POV_RIGHT.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.RIGHT));
-        mainJoystick.POV_DOWN.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.MIDDLE));
+//        mainJoystick.R1.whenPressed(new VisionPlaceGameObject());
+//        mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
+        mainJoystick.R1.whenPressed(new KickBall());
 
-        mainJoystick.POV_UP.whenPressed(new APPCCommand(Paths.get("Rocket2", true),
-                new Position(-0.619,6.336, 3*Math.PI/4), 0.6, 0.2, true,
-                0.3, 0.4, 0.5, 0.4, 165, 5));
+        mainJoystick.L1.whileHeld(new RollOrAlign.Main());
+        mainJoystick.L1.whenReleased(new RollOrAlign.Cleanup());
 
-        mainJoystick.START.whenPressed(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
-        mainJoystick.BACK.whenPressed(new StopClimbing());
+        mainJoystick.START.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
+        mainJoystick.A.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
+        mainJoystick.B.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
+        mainJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
+        mainJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
 
-        mainJoystick.B.whenPressed(new ReleaseHatch());
-        mainJoystick.B.whenReleased(new HoldHatch());
-
-        mainJoystick.A.whenPressed(new TogglePokerExtender());
-
-        mainJoystick.Y.whenPressed(new ExtendAndRollIn());
-        mainJoystick.Y.whenReleased(new RetractAndStopRoller());
-
-        mainJoystick.L1.whenPressed(new VisionCollectHatchPanel());
-        mainJoystick.L1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
-        mainJoystick.R1.whenPressed(new VisionPlaceGameObject());
-        mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
-
-        mainJoystick.L3.whenPressed(new ToggleShift());
-        // mainJoystick.L1.whenPressed(new ExtendAndRollIn());
-       // mainJoystick.L1.whenReleased(new RetractAndStopRoller(100));
-
-       // mainJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
-
-        mainJoystick.START.whenPressed(new ToCargoMode());
-        mainJoystick.BACK.whenPressed(new ToHatchMode());
-
-        //mainJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
-
-        mainJoystick.X.whenPressed(new FallWithNavx());
-
-        sideJoystick.START.whenPressed(new ToCargoMode());
-        sideJoystick.BACK.whenPressed(new ToHatchMode());
-
-        sideJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
-        sideJoystick.A.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
-        sideJoystick.B.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
-//        sideJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
-        sideJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
+        mainJoystick.POV_UP.whenPressed(new ToggleShift());
     }
 
     private static void initOfficialBindings() {

@@ -8,6 +8,7 @@ import edu.greenblitz.knockdown.RobotMap;
 import edu.greenblitz.knockdown.RobotMap.Chassis.Motor;
 import edu.greenblitz.knockdown.RobotMap.Chassis.Sensor;
 import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
+import edu.greenblitz.knockdown.commands.simple.chassis.neutral.ToCoast;
 import edu.greenblitz.knockdown.data.LocalizerRunner;
 import edu.greenblitz.utils.command.GBSubsystem;
 import edu.greenblitz.utils.encoder.IEncoder;
@@ -55,8 +56,9 @@ public class Chassis extends GBSubsystem {
 
         m_leftLeader.setInverted(true);
 
-        toBrake();
+        toCoast();
         currentLimit(40);
+        setRampRate(0.3);
 
         m_leftFollower1.follow(m_leftLeader);
         m_leftFollower2.follow(m_leftLeader);

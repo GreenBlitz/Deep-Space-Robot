@@ -189,7 +189,8 @@ public class Robot extends TimedRobot {
             logger.info("testing...");
             // This is for testing
             matchInit();
-            new OI.ToHatchMode().start();
+//            new OI.ToHatchMode().start();
+            new OI.ToCargoMode().start();
             new ToPower().start();
         }
     }

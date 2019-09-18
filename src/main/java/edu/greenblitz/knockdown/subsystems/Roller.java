@@ -15,8 +15,8 @@ import org.apache.logging.log4j.Logger;
 
 public class Roller extends GBSubsystem {
     public static final long ROLLER_STATE_TIMEOUT = 1000;
-    private static final double ROLL_IN = -0.7;
-    private static final double ROLL_OUT = 0.7;
+    private static final double ROLL_IN = -0.5;
+    private static final double ROLL_OUT = 0.5;
 
     private static Roller instance;
 
