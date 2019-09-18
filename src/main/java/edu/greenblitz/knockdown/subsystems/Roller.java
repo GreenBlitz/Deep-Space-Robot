@@ -1,8 +1,12 @@
 package edu.greenblitz.knockdown.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.greenblitz.knockdown.Robot;
 import edu.greenblitz.knockdown.RobotMap;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Roller extends Subsystem {
@@ -10,7 +14,7 @@ public class Roller extends Subsystem {
     public static final double MAX_POWER = 0.2;
     private static Roller instance;
 
-    protected Spark rollerSpark;
+    protected WPI_TalonSRX rollerSpark;
     protected DoubleSolenoid rollerSolenoid;
 
     public static Roller getInstance() {
@@ -21,8 +25,8 @@ public class Roller extends Subsystem {
     }
 
     private Roller() {
-        rollerSpark = new Spark(RobotMap.Roller.Motor.ROLLER);
-        rollerSolenoid = new DoubleSolenoid(RobotMap.Roller.Solenoid.FORWARD, RobotMap.Roller.Solenoid.REVERSE);
+        rollerSpark = new WPI_TalonSRX(RobotMap.Roller.Motor.ROLLER);
+        rollerSolenoid = new DoubleSolenoid(RobotMap.Roller.Solenoid.PCM, RobotMap.Roller.Solenoid.FORWARD, RobotMap.Roller.Solenoid.REVERSE);
     }
 
     public void roll(double power) {

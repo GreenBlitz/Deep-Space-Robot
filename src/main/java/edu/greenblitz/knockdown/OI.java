@@ -10,16 +10,16 @@ public class OI {
     private static OI instance;
 
     public static OI getInstance() {
-        if (instance == null) instance = new OI();
+        if (instance == null) {instance = new OI();}
         return instance;
     }
 
     private OI() {
-        this.stick = new SmartJoystick(0);
+        this.stick = new SmartJoystick(RobotMap.Joysticks.MAIN);
         setupControls();
     }
 
-    public void setupControls(){
+    private void setupControls(){
 
         stick.L1.whileHeld(new RollerCollectBall());
 
