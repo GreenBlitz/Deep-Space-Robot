@@ -144,7 +144,7 @@ public class Elevator extends GBSubsystem {
     }
 
     public void brake(boolean state) {
-        var value = state ? Value.kForward : Value.kReverse;
+        var value = !state ? Value.kForward : Value.kReverse;
         if (m_brake.get() != value) {
             Robot.getInstance().getReport().updatePneumaticsUsed(getName());
             if (state) {
