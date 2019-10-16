@@ -20,7 +20,7 @@ import org.greenblitz.motion.app.Localizer;
 import org.greenblitz.motion.base.Position;
 
 public class Chassis extends GBSubsystem {
-    private static final double DEADZONE = 0.05;
+    private static final double DEADZONE = 0.1;
     private static final double GAMMA = 1;
     private static final double MULTIPLIER = 1;
 

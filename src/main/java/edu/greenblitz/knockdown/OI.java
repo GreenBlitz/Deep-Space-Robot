@@ -15,6 +15,7 @@ import edu.greenblitz.knockdown.commands.complex.roller.ToggleRoller;
 import edu.greenblitz.knockdown.commands.simple.chassis.FallWithNavx;
 import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.knockdown.commands.simple.chassis.motion.APPCCommand;
+import edu.greenblitz.knockdown.commands.simple.pneumatics.CompressorOn;
 import edu.greenblitz.knockdown.commands.simple.poker.HoldHatch;
 import edu.greenblitz.knockdown.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.knockdown.commands.simple.poker.TogglePokerExtender;
@@ -171,6 +172,8 @@ public class OI {
         sideJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
         sideJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
         sideJoystick.L1.whenReleased(new ToggleRoller());
+
+        sideJoystick.POV_UP.whenPressed(new CompressorOn(1));
 
 //        POVButton restrictClimbing = new POVButton(sideJoystick.getRawJoystick(), 0);
 //        restrictClimbing.whenPressed(new ClimbByJoystickRestricted(mainJoystick, mainJoystick, sideJoystick));

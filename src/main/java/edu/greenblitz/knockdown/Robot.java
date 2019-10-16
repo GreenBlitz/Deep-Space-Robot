@@ -157,6 +157,7 @@ public class Robot extends TimedRobot {
         new KeepShift().start();
         Autonomii autonomousName = autoChooser.getSelected();
         Command autonomous = new ArcadeDriveByJoystick(OI.getMainJoystick());
+        autonomousName = Autonomii.NOTHING; // TODO remove
         switch (autonomousName){
             case NOTHING:
                 break;

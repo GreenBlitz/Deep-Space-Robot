@@ -69,6 +69,7 @@ public class DriveByGyro extends ChassisBaseCommand implements PIDSource, PIDOut
 
     @Override
     protected void atInit() {
+
         m_angle = m_useVisionAngle ? VisionMaster.getInstance().getLastAngleToDrive() : Chassis.getInstance().getAngle();
 
         m_controller.setSetpoint(Chassis.getInstance().getDistance() + m_distance);
@@ -84,7 +85,8 @@ public class DriveByGyro extends ChassisBaseCommand implements PIDSource, PIDOut
 
     @Override
     public void pidWrite(double output) {
-        Chassis.getInstance().arcadeDrive(Math.signum(output)*maxVelocity.getByCurrentGear(), pidOverAngle());
+        Chassis.getInstance().arcadeDrive(
+                Math.signum(output)*maxVelocity.getByCurrentGear(), pidOverAngle());
     }
 
     private double pidOverAngle() {
