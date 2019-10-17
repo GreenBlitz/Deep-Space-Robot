@@ -170,8 +170,8 @@ public class Chassis extends GBSubsystem {
     }
 
     private void setLeftRightMotorOutput(double l, double r) {
-        l = deadzone(l);
-        r = deadzone(r);
+//        l = deadzone(l);
+//        r = deadzone(r);
         SmartDashboard.putNumber("raw left", l);
         SmartDashboard.putNumber("raw right", r);
         m_leftLeader.set(l);

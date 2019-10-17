@@ -15,6 +15,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class SmartJoystick {
     private Joystick m_joystick;
+    private double deadzone;
+
+    private static final double DEADZONE = 0.03;
+
+    private double deadzone(double power) {
+        if (Math.abs(power) < deadzone) return 0;
+        return (Math.abs(power) - deadzone) / (1 - deadzone) * Math.signum(power);
+    }
 
     public final JoystickButton A,
             B,
@@ -73,7 +81,8 @@ public class SmartJoystick {
      *
      * @param stick The joystick object.
      */
-    public SmartJoystick(Joystick stick) {
+    public SmartJoystick(Joystick stick, double deadzone) {
+        this.deadzone = deadzone;
         m_joystick = stick;
         A = new JoystickButton(m_joystick, 1);
         B = new JoystickButton(m_joystick, 2);
@@ -90,6 +99,11 @@ public class SmartJoystick {
         POV_DOWN = new POVButton(m_joystick, 180);
         POV_LEFT = new POVButton(m_joystick, 270);
     }
+
+    public SmartJoystick(Joystick stick){
+        this(stick, DEADZONE);
+    }
+
 
     /**
      * This function binds a joystick using a joystick object.
@@ -130,6 +144,8 @@ public class SmartJoystick {
     }
 
     public double getAxisValue(Axis axis) {
+        if (axis != Axis.LEFT_TRIGGER && axis != Axis.RIGHT_TRIGGER)
+            return deadzone(axis.getValue(this));
         return axis.getValue(this);
     }
 
