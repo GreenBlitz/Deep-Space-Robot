@@ -2,6 +2,8 @@ package edu.greenblitz.knockdown;
 
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoFallAndThreeHalfs;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoThreeHalfFarRocket;
+import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.CheckMax;
+import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.RotateProfiling;
 import edu.greenblitz.knockdown.commands.complex.elevator.SafeMoveElevator;
 import edu.greenblitz.knockdown.commands.simple.chassis.FallWithNavx;
 import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
@@ -209,7 +211,7 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
         var loc = Localizer.getInstance().getLocation();
         RemoteGuydeBugger.report(-loc.getX(), -loc.getY(), loc.getAngle());
-
+        OI.getMainJoystick().B.whenPressed(new CheckMax(0.5));
     }
 
     private void update() {
