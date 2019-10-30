@@ -211,7 +211,6 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
         var loc = Localizer.getInstance().getLocation();
         RemoteGuydeBugger.report(-loc.getX(), -loc.getY(), loc.getAngle());
-        OI.getMainJoystick().B.whenPressed(new CheckMax(0.5));
     }
 
     private void update() {

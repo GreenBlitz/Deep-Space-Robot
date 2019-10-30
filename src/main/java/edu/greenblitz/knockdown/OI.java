@@ -3,6 +3,7 @@ package edu.greenblitz.knockdown;
 import edu.greenblitz.knockdown.commands.complex.RollOrAlign;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoFallAndThreeHalfs;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoThreeHalfFarRocket;
+import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.CheckMax;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.ChangeTargetFocus;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionCollectHatchPanel;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionPlaceGameObject;
@@ -86,8 +87,8 @@ public class OI {
     }
 
     public static void initBindings() {
-        initOfficialBindings(); // For real game shit
-//        initTestBindings(); // For testing code
+//        initOfficialBindings(); // For real game shit
+        initTestBindings(); // For testing code
     }
 
     private static void initTestBindings() {
@@ -102,8 +103,8 @@ public class OI {
         mainJoystick.START.whenPressed(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
         mainJoystick.BACK.whenPressed(new StopClimbing());
 
-        mainJoystick.B.whenPressed(new ReleaseHatch());
-        mainJoystick.B.whenReleased(new HoldHatch());
+        mainJoystick.B.whenPressed(new CheckMax(0.5));
+        mainJoystick.B.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
 
         mainJoystick.A.whenPressed(new TogglePokerExtender());
 

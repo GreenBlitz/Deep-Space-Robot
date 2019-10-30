@@ -25,11 +25,12 @@ public class CheckMax  extends Command {
         previousTime = System.nanoTime();
         previousAngle = Chassis.getInstance().getLocation().getAngle();
         previousVel = 0;
-        Chassis.getInstance().tankDrive(-power,power);
+
     }
 
     @Override
     protected void execute() {
+        Chassis.getInstance().tankDrive(-power,power);
         long time = System.nanoTime();
         double angle = Chassis.getInstance().getLocation().getAngle();
         double V = Math.abs(angle - previousAngle)/(time - previousTime);
