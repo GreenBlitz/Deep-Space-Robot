@@ -4,6 +4,7 @@ import edu.greenblitz.knockdown.commands.complex.RollOrAlign;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoFallAndThreeHalfs;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoThreeHalfFarRocket;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.CheckMax;
+import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.RotateProfiling;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.ChangeTargetFocus;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionCollectHatchPanel;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionPlaceGameObject;
@@ -31,6 +32,7 @@ import edu.greenblitz.utils.command.base.GBCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.greenblitz.motion.base.Position;
+import org.opencv.core.Mat;
 
 public class OI {
     public enum State {
@@ -92,51 +94,9 @@ public class OI {
     }
 
     private static void initTestBindings() {
-        mainJoystick.POV_LEFT.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.LEFT));
-        mainJoystick.POV_RIGHT.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.RIGHT));
-        mainJoystick.POV_DOWN.whenPressed(new ChangeTargetFocus(VisionMaster.Focus.MIDDLE));
-
-        mainJoystick.POV_UP.whenPressed(new APPCCommand(Paths.get("Rocket2", true),
-                new Position(-0.619,6.336, 3*Math.PI/4), 0.6, 0.2, true,
-                0.3, 0.4, 0.5, 0.4, 165, 5));
-
-        mainJoystick.START.whenPressed(new ClimbByJoystick(mainJoystick, mainJoystick, sideJoystick));
-        mainJoystick.BACK.whenPressed(new StopClimbing());
-
-        mainJoystick.B.whenPressed(new CheckMax(0.5));
-        mainJoystick.B.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
-
-        mainJoystick.A.whenPressed(new TogglePokerExtender());
-
-        mainJoystick.Y.whenPressed(new ExtendAndRollIn());
-        mainJoystick.Y.whenReleased(new RetractAndStopRoller());
-
-        mainJoystick.L1.whenPressed(new VisionCollectHatchPanel());
-        mainJoystick.L1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
-        mainJoystick.R1.whenPressed(new VisionPlaceGameObject());
-        mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
-
-        mainJoystick.L3.whenPressed(new ToggleShift());
-        // mainJoystick.L1.whenPressed(new ExtendAndRollIn());
-       // mainJoystick.L1.whenReleased(new RetractAndStopRoller(100));
-
-       // mainJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
-
-        mainJoystick.START.whenPressed(new ToCargoMode());
-        mainJoystick.BACK.whenPressed(new ToHatchMode());
-
-        //mainJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
-
-        mainJoystick.X.whenPressed(new FallWithNavx());
-
-        sideJoystick.START.whenPressed(new ToCargoMode());
-        sideJoystick.BACK.whenPressed(new ToHatchMode());
-
-        sideJoystick.R1.whenPressed(new SafeMoveElevator(Elevator.Level.GROUND));
-        sideJoystick.A.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_LOW));
-        sideJoystick.B.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_MID));
-//        sideJoystick.Y.whenPressed(new SafeMoveElevator(Elevator.Level.ROCKET_HIGH));
-        sideJoystick.X.whenPressed(new SafeMoveElevator(Elevator.Level.CARGO_SHIP));
+        mainJoystick.A.whenPressed(new CheckMax(1));
+        mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
+        mainJoystick.X.whenPressed(new RotateProfiling(Math.PI, 4.875, 15, 1, 1, 1));
     }
 
     private static void initOfficialBindings() {

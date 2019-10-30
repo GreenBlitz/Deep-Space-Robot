@@ -78,12 +78,12 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData(Scheduler.getInstance());
 
         allowChassis();
-        allowElevator();
-        allowKicker();
-        allowPoker();
+//        allowElevator();
+//        allowKicker();
+//        allowPoker();
         allowPneumatics();
-        allowRoller();
-        allowClimber();
+//        allowRoller();
+//        allowClimber();
         allowShifter();
 
         OI.initBindings();
@@ -221,14 +221,14 @@ public class Robot extends TimedRobot {
 
     private void reset() {
         Chassis.getInstance().reset();
-        Elevator.getInstance().reset();
-//        Poker.getInstance().reset();
-        Roller.getInstance().reset();
-        Kicker.getInstance().reset();
-        Shifter.getInstance().reset();
-        Pneumatics.getInstance().reset();
-        Climber.getInstance().getExtender().reset();
-        Scheduler.getInstance().removeAll();
+//        Elevator.getInstance().reset();
+////        Poker.getInstance().reset();
+//        Roller.getInstance().reset();
+//        Kicker.getInstance().reset();
+//        Shifter.getInstance().reset();
+//        Pneumatics.getInstance().reset();
+//        Climber.getInstance().getExtender().reset();
+//        Scheduler.getInstance().removeAll();
 
         m_usageReport.reset();
     }
