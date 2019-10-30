@@ -2,12 +2,9 @@ package edu.greenblitz.knockdown;
 
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoFallAndThreeHalfs;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoThreeHalfFarRocket;
-import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.CheckMax;
-import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.RotateProfiling;
 import edu.greenblitz.knockdown.commands.complex.elevator.SafeMoveElevator;
 import edu.greenblitz.knockdown.commands.simple.chassis.FallWithNavx;
 import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
-import edu.greenblitz.knockdown.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.knockdown.commands.simple.shifter.KeepShift;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToPower;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToSpeed;

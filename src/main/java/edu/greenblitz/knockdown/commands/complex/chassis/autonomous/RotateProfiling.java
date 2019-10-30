@@ -35,11 +35,8 @@ public class RotateProfiling extends Command {
         this.maxPower = maxPower;
     }
 
-    private long tS;
-
     @Override
     public void initialize() {
-        tS = System.currentTimeMillis();
         prof = Profiler1D.generateProfile(maxV, maxA, -maxA,
                 0, new ActuatorLocation(0, 0),
                 new ActuatorLocation(target, 0));

@@ -1,12 +1,9 @@
 package edu.greenblitz.knockdown;
 
 import edu.greenblitz.knockdown.commands.complex.RollOrAlign;
-import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoFallAndThreeHalfs;
-import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.AutoThreeHalfFarRocket;
-import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.CheckMax;
+import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.CheckMaxRot;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.RotateProfiling;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.ChangeTargetFocus;
-import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionCollectHatchPanel;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionPlaceGameObject;
 import edu.greenblitz.knockdown.commands.complex.climber.ClimbByJoystick;
 import edu.greenblitz.knockdown.commands.complex.climber.StopClimbing;
@@ -14,25 +11,19 @@ import edu.greenblitz.knockdown.commands.complex.elevator.SafeMoveElevator;
 import edu.greenblitz.knockdown.commands.complex.kicker.KickBall;
 import edu.greenblitz.knockdown.commands.complex.roller.SmartExtendAndRollIn;
 import edu.greenblitz.knockdown.commands.complex.roller.ToggleRoller;
-import edu.greenblitz.knockdown.commands.simple.chassis.FallWithNavx;
 import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
-import edu.greenblitz.knockdown.commands.simple.chassis.motion.APPCCommand;
 import edu.greenblitz.knockdown.commands.simple.poker.HoldHatch;
 import edu.greenblitz.knockdown.commands.simple.poker.ReleaseHatch;
 import edu.greenblitz.knockdown.commands.simple.poker.TogglePokerExtender;
-import edu.greenblitz.knockdown.commands.simple.roller.ExtendAndRollIn;
 import edu.greenblitz.knockdown.commands.simple.roller.RetractAndStopRoller;
 import edu.greenblitz.knockdown.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToggleShift;
-import edu.greenblitz.knockdown.data.Paths;
 import edu.greenblitz.knockdown.data.vision.VisionMaster;
 import edu.greenblitz.knockdown.subsystems.Elevator;
 import edu.greenblitz.utils.command.ResetCommands;
 import edu.greenblitz.utils.command.base.GBCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.greenblitz.motion.base.Position;
-import org.opencv.core.Mat;
 
 public class OI {
     public enum State {
@@ -94,7 +85,7 @@ public class OI {
     }
 
     private static void initTestBindings() {
-        mainJoystick.A.whenPressed(new CheckMax(1));
+        mainJoystick.A.whenPressed(new CheckMaxRot(1));
         mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
         mainJoystick.X.whenPressed(new RotateProfiling(Math.PI, 4.875, 15, 1, 1, 1));
     }

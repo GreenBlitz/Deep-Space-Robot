@@ -3,12 +3,8 @@ package edu.greenblitz.knockdown.commands.complex.chassis.autonomous;
 import edu.greenblitz.knockdown.subsystems.Chassis;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.greenblitz.motion.base.Position;
-import org.greenblitz.motion.profiling.ActuatorLocation;
-import org.greenblitz.motion.profiling.Profiler1D;
-import org.greenblitz.motion.profiling.followers.FeedForwards1DFollower;
 
-public class CheckMax  extends Command {
+public class CheckMaxRot extends Command {
 
     private double power;
     private double previousAngle;
@@ -18,7 +14,7 @@ public class CheckMax  extends Command {
     private long tStart;
     int count;
 
-    public CheckMax (double power){
+    public CheckMaxRot(double power){
         this.power = power;
     }
 

@@ -37,7 +37,7 @@ dependencies {
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
 
-    compile 'com.github.GreenBlitz.MotionControl:motion:691a0e05171e8acb267b3a7182b43b09ab0b9dc2'
+    compile 'com.github.GreenBlitz.MotionControl:motion:cc468267943b50222bcccc6210d183783e40db99'
     compile group: 'com.google.guava', name: 'guava', version: '11.0.2'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
