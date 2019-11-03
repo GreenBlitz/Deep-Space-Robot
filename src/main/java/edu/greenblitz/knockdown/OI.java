@@ -1,6 +1,7 @@
 package edu.greenblitz.knockdown;
 
 import edu.greenblitz.knockdown.commands.complex.RollOrAlign;
+import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.CheckMaxLin;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.CheckMaxRot;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.RotateProfiling;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.ChangeTargetFocus;
@@ -24,6 +25,9 @@ import edu.greenblitz.utils.command.ResetCommands;
 import edu.greenblitz.utils.command.base.GBCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.greenblitz.motion.profiling.ActuatorLocation;
+
+import java.util.ArrayList;
 
 public class OI {
     public enum State {
@@ -85,9 +89,25 @@ public class OI {
     }
 
     private static void initTestBindings() {
-        mainJoystick.A.whenPressed(new CheckMaxRot(1));
+        mainJoystick.A.whenPressed(new CheckMaxRot(.4));
+        mainJoystick.Y.whenPressed(new CheckMaxLin(.4));
         mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
-        mainJoystick.X.whenPressed(new RotateProfiling(Math.PI, 4.875, 15, 1, 1, 1));
+        ArrayList<ActuatorLocation> pth = new ArrayList<>();
+        pth.add(new ActuatorLocation(0, 0));
+        pth.add(new ActuatorLocation(Math.PI/2, 4.875));
+        pth.add(new ActuatorLocation(Math.PI, -2));
+        pth.add(new ActuatorLocation(0, -4));
+        pth.add(new ActuatorLocation(-Math.PI/2, 0));
+
+        pth.add(new ActuatorLocation(0, 4));
+        pth.add(new ActuatorLocation(Math.PI*7/10, -1));
+        pth.add(new ActuatorLocation(0, -2));
+        pth.add(new ActuatorLocation(-Math.PI*7/8, 0));
+
+        // Max .4 rot = 2.1, 10
+        // Max .4 lin = 0.7, 4.6
+
+        mainJoystick.X.whenPressed(new RotateProfiling(pth, 4.875, 15, 1, 1.1, 0.116));
     }
 
     private static void initOfficialBindings() {
@@ -103,7 +123,6 @@ public class OI {
 
         mainJoystick.R1.whenPressed(new VisionPlaceGameObject());
         mainJoystick.R1.whenReleased(new ArcadeDriveByJoystick(mainJoystick));
-
         mainJoystick.L3.whenPressed(new ToggleShift());
 
         mainJoystick.X.whenPressed(new KickBall());

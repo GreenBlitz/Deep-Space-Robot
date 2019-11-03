@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class CheckMaxLin extends Command {
 
     private double power;
-    private double previousAngle;
+    private double previousLoc;
     private double previousVel;
     private double previousTime;
     private double maxV = 0;
@@ -21,7 +21,7 @@ public class CheckMaxLin extends Command {
     @Override
     public void initialize(){
         previousTime = System.currentTimeMillis() / 1000.0;
-        previousAngle = Chassis.getInstance().getLocation().getAngle();
+        previousLoc = Chassis.getInstance().getDistance();
         previousVel = 0;
         count = 0;
         tStart = System.currentTimeMillis();
@@ -30,23 +30,22 @@ public class CheckMaxLin extends Command {
     @Override
     protected void execute() {
         count++;
-        Chassis.getInstance().tankDrive(-power, power);
+        Chassis.getInstance().tankDrive(power, power);
 
         if (count % 5 == 0) {
             double time = System.currentTimeMillis() / 1000.0;
-            double angle = Math.toRadians(Chassis.getInstance().getNavx().getAngle());
-            double V = Math.abs(angle - previousAngle) / (time - previousTime);
-            maxV = Math.max(maxV, V);
-            SmartDashboard.putNumber("VEL", V);
-            SmartDashboard.putNumber("ACC", (V - previousVel) / (time - previousTime));
+            double dist = Chassis.getInstance().getDistance();
+            double V = Math.abs(dist - previousLoc) / (time - previousTime);
+            SmartDashboard.putNumber("VEL LIN", V);
+            SmartDashboard.putNumber("ACC LIN", (V - previousVel) / (time - previousTime));
             previousTime = time;
-            previousAngle = angle;
+            previousLoc = dist;
             previousVel = V;
         }
     }
 
     @Override
     protected boolean isFinished() {
-       return System.currentTimeMillis() - tStart > 5000;
+       return System.currentTimeMillis() - tStart > 3000;
     }
 }
