@@ -3,6 +3,7 @@ package edu.greenblitz.knockdown;
 import edu.greenblitz.knockdown.commands.complex.RollOrAlign;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.CheckMaxLin;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.CheckMaxRot;
+import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.Follow2DProf;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.RotateProfiling;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.ChangeTargetFocus;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionPlaceGameObject;
@@ -19,12 +20,14 @@ import edu.greenblitz.knockdown.commands.simple.poker.TogglePokerExtender;
 import edu.greenblitz.knockdown.commands.simple.roller.RetractAndStopRoller;
 import edu.greenblitz.knockdown.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToggleShift;
+import edu.greenblitz.knockdown.data.Paths;
 import edu.greenblitz.knockdown.data.vision.VisionMaster;
 import edu.greenblitz.knockdown.subsystems.Elevator;
 import edu.greenblitz.utils.command.ResetCommands;
 import edu.greenblitz.utils.command.base.GBCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.greenblitz.motion.base.State;
 import org.greenblitz.motion.profiling.ActuatorLocation;
 
 import java.util.ArrayList;
@@ -89,25 +92,23 @@ public class OI {
     }
 
     private static void initTestBindings() {
-        mainJoystick.A.whenPressed(new CheckMaxRot(.4));
-        mainJoystick.Y.whenPressed(new CheckMaxLin(.4));
+        mainJoystick.A.whenPressed(new CheckMaxRot(.7));
+        mainJoystick.Y.whenPressed(new CheckMaxLin(.7));
         mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
-        ArrayList<ActuatorLocation> pth = new ArrayList<>();
-        pth.add(new ActuatorLocation(0, 0));
-        pth.add(new ActuatorLocation(Math.PI/2, 4.875));
-        pth.add(new ActuatorLocation(Math.PI, -2));
-        pth.add(new ActuatorLocation(0, -4));
-        pth.add(new ActuatorLocation(-Math.PI/2, 0));
+        ArrayList<org.greenblitz.motion.base.State> pth = new ArrayList<>();
 
-        pth.add(new ActuatorLocation(0, 4));
-        pth.add(new ActuatorLocation(Math.PI*7/10, -1));
-        pth.add(new ActuatorLocation(0, -2));
-        pth.add(new ActuatorLocation(-Math.PI*7/8, 0));
-
+        pth.add(new org.greenblitz.motion.base.State(0, 0, 0, 0, 0));
+        pth.add(new org.greenblitz.motion.base.State(0.5, 1.75, Math.PI*3/8, 0, 0));
+        pth.add(new org.greenblitz.motion.base.State(2, 3, Math.PI/2, 0, 0));
         // Max .4 rot = 2.1, 10
         // Max .4 lin = 0.7, 4.6
 
-        mainJoystick.X.whenPressed(new RotateProfiling(pth, 4.875, 15, 1, 1.1, 0.116));
+        // Max .7 rot = 3.5, 15
+        // Max .7 lin = 1.2, 6.75
+
+        mainJoystick.X.whenPressed(
+                new Follow2DProf(Paths.get("Turn", false).getPath(), 0.1, 1.2, 6.75, 3.5, 15,
+                        0.7, 1, 0.1, 1, 0.5, 0));
     }
 
     private static void initOfficialBindings() {

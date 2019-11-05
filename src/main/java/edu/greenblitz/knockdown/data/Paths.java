@@ -52,7 +52,11 @@ public class Paths {
             ArrayList<Position> path = new ArrayList<>();
             List<CSVRecord> records = read.getRecords();
             for (int i = 1; i < records.size(); i++) {
-                path.add(new Position(new Point(Double.parseDouble(records.get(i).get(1)), Double.parseDouble(records.get(i).get(2))).weaverToLocalizerCoords()));
+                path.add(new Position(Double.parseDouble(records.get(i).get(1)),
+                        Double.parseDouble(records.get(i).get(2)),
+                        Double.parseDouble(records.get(i).get(7))).weaverToLocalizerCoords());
+//                System.out.println(path.get(path.size() - 1));
+//                Thread.sleep(100);
             }
             return new Path<>(path);
         } catch (Exception e) {

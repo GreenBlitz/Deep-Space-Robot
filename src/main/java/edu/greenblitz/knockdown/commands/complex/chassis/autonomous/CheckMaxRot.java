@@ -15,6 +15,7 @@ public class CheckMaxRot extends Command {
     int count;
 
     public CheckMaxRot(double power){
+        requires(Chassis.getInstance());
         this.power = power;
     }
 

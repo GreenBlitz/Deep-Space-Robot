@@ -15,6 +15,7 @@ public class CheckMaxLin extends Command {
     int count;
 
     public CheckMaxLin(double power){
+        requires(Chassis.getInstance());
         this.power = power;
     }
 
