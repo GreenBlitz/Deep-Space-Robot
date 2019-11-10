@@ -30,7 +30,7 @@ public class CheckMaxLin extends Command {
     @Override
     protected void execute() {
         count++;
-        Chassis.getInstance().tankDrive(-power, power);
+        Chassis.getInstance().tankDrive(power, power);
 
         if (count % 5 == 0) {
             double time = System.currentTimeMillis() / 1000.0;

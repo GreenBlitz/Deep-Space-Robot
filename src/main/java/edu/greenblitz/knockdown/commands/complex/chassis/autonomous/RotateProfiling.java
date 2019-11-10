@@ -42,7 +42,7 @@ public class RotateProfiling extends Command {
                 new ActuatorLocation(target, 0));
         follower = new FeedForwards1DFollower(
                 prof,
-                kv, ka, true);
+                kv, ka);
         follower.init();
     }
 
