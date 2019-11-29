@@ -98,8 +98,8 @@ public class OI {
         ArrayList<org.greenblitz.motion.base.State> pth = new ArrayList<>();
 
         pth.add(new org.greenblitz.motion.base.State(0, 0, 0, 0, 0));
-        pth.add(new org.greenblitz.motion.base.State(0.5, 1.75, Math.PI*3/8, 0, 0));
-        pth.add(new org.greenblitz.motion.base.State(2, 3, Math.PI/2, 0, 0));
+        pth.add(new org.greenblitz.motion.base.State(.4, 1,Math.PI/8, 0, 0));
+        pth.add(new org.greenblitz.motion.base.State(.8, 2, 0, 0, 0));
         // Max .4 rot = 2.1, 10
         // Max .4 lin = 0.7, 4.6
 
@@ -107,8 +107,9 @@ public class OI {
         // Max .7 lin = 1.2, 6.75
 
         mainJoystick.X.whenPressed(
-                new Follow2DProf(Paths.get("Turn", false).getPath(), 0.1, 1.2, 6.75, 3.5, 15,
-                        0.7, 1, 0.1, 1, 0.5, 0));
+                new Follow2DProf(Paths.pathToState(Paths.get("Turn", true)),
+                        .005, 1.2, 6.75, 3.5, 15,
+                        0.7, 1, .1, 1, .1));
     }
 
     private static void initOfficialBindings() {

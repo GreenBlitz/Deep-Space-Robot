@@ -38,7 +38,7 @@ public class Pneumatics extends GBSubsystem {
     }
 
     public void setCompressor(boolean compress) {
-        if (compress) {
+        if (false) { // TODO This is shit
             if (!isEnabled() && !m_activated) logger.debug("compressor is activated, at pressure: {}", getPressure());
             m_compressor.start();
         } else {

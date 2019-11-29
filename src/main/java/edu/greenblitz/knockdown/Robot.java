@@ -190,6 +190,7 @@ public class Robot extends TimedRobot {
             matchInit();
             new OI.ToHatchMode().start();
             new ToPower().start();
+            Chassis.getInstance().toBrake();
         }
     }
 
