@@ -87,7 +87,7 @@ public class Follow2DProf extends Command {
     }
 
     @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return follower.isFinished();
     }
 }
