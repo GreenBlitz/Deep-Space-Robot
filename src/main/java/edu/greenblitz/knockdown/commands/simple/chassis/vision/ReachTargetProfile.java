@@ -44,7 +44,9 @@ public class ReachTargetProfile extends GBCommand {
         cmd.initialize();
     }
 
-    
+    protected void execute() {
+        cmd.execute();
+    }
 
     @Override
     protected boolean isFinished() {

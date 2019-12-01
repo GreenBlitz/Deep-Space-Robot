@@ -62,7 +62,7 @@ public class Follow2DProf extends Command {
     }
 
     @Override
-    protected void execute() {
+    public void execute() {
         Vector2D vals = follower.run(Chassis.getInstance().getLeftVelocity(),
                 Chassis.getInstance().getRightVelocity());
 
