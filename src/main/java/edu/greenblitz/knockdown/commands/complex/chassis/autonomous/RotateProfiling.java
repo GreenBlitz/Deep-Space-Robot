@@ -42,7 +42,7 @@ public class RotateProfiling extends Command {
         prof = Profiler1D.generateProfile(path, maxV, maxA, -maxA);
         follower = new FeedForwards1DFollower(
                 prof,
-                kv, ka, true);
+                kv, ka);
         follower.init();
     }
 
