@@ -42,8 +42,8 @@ public class Elevator extends GBSubsystem {
             this.hatch = hatch - HATCH_OFFSET;
         }
 
-        public double heightByState(OI.State state) {
-            return state == OI.State.CARGO ? cargo : hatch;
+        public double heightByState(OI.RobotState state) {
+            return state == OI.RobotState.CARGO ? cargo : hatch;
         }
 
         public double heightByCurrentState() {

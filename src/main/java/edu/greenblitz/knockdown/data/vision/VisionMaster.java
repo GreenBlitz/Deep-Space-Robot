@@ -189,7 +189,7 @@ public class VisionMaster {
 
     }
 
-    public void reportOIMode(OI.State state){
+    public void reportOIMode(OI.RobotState state){
         m_visionTable.getEntry("oi_mode").setString(state.name().toLowerCase());
     }
 }

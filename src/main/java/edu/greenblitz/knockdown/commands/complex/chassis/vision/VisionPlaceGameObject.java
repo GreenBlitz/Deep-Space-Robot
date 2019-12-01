@@ -28,6 +28,6 @@ public class VisionPlaceGameObject extends ConditionalCommand {
 
     @Override
     protected boolean condition() {
-        return OI.getState() == OI.State.HATCH;
+        return OI.getState() == OI.RobotState.HATCH;
     }
 }

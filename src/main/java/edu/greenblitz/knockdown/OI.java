@@ -4,7 +4,6 @@ import edu.greenblitz.knockdown.commands.complex.RollOrAlign;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.CheckMaxLin;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.CheckMaxRot;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.Follow2DProf;
-import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.RotateProfiling;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.ChangeTargetFocus;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionPlaceGameObject;
 import edu.greenblitz.knockdown.commands.complex.climber.ClimbByJoystick;
@@ -28,12 +27,11 @@ import edu.greenblitz.utils.command.base.GBCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.greenblitz.motion.base.State;
-import org.greenblitz.motion.profiling.ActuatorLocation;
 
 import java.util.ArrayList;
 
 public class OI {
-    public enum State {
+    public enum RobotState {
         CARGO,
         HATCH
     }
@@ -41,11 +39,11 @@ public class OI {
     private static SmartJoystick mainJoystick;
     private static SmartJoystick sideJoystick;
 
-    public static State getOiState() {
+    public static RobotState getOiState() {
         return oiState;
     }
 
-    private static State oiState = State.HATCH;
+    private static RobotState oiState = RobotState.HATCH;
 
     public static SmartJoystick getMainJoystick() {
         return mainJoystick;
@@ -64,7 +62,7 @@ public class OI {
 
         @Override
         protected void atInit() {
-            setOIState(State.HATCH);
+            setOIState(RobotState.HATCH);
         }
     }
 
@@ -77,7 +75,7 @@ public class OI {
 
         @Override
         protected void atInit() {
-            setOIState(State.CARGO);
+            setOIState(RobotState.CARGO);
         }
     }
 
@@ -95,11 +93,11 @@ public class OI {
         mainJoystick.A.whenPressed(new CheckMaxRot(.7));
         mainJoystick.Y.whenPressed(new CheckMaxLin(.7));
         mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
-        ArrayList<org.greenblitz.motion.base.State> pth = new ArrayList<>();
+        ArrayList<State> pth = new ArrayList<>();
 
-        pth.add(new org.greenblitz.motion.base.State(0, 0, 0, 0, 0));
-        pth.add(new org.greenblitz.motion.base.State(.4, 1,Math.PI/8, 0, 0));
-        pth.add(new org.greenblitz.motion.base.State(.8, 2, 0, 0, 0));
+        pth.add(new State(0, 0, 0, 0, 0));
+        pth.add(new State(.4, 1,Math.PI/8, 0, 0));
+        pth.add(new State(.8, 2, 0, 0, 0));
         // Max .4 rot = 2.1, 10
         // Max .4 lin = 0.7, 4.6
 
@@ -157,19 +155,19 @@ public class OI {
 //        sideJoystick.POV_DOWN.whenPressed(new AutoThreeHalfFarRocket(true, false));
     }
 
-    public static State getState() {
+    public static RobotState getState() {
         return oiState;
     }
 
     public static boolean isStateCargo() {
-        return getState() == State.CARGO;
+        return getState() == RobotState.CARGO;
     }
 
     public static boolean isStateHatch() {
-        return getState() == State.HATCH;
+        return getState() == RobotState.HATCH;
     }
 
-    public static void setOIState(State state) {
+    public static void setOIState(RobotState state) {
         VisionMaster.getInstance().reportOIMode(state);
         oiState = state;
     }
