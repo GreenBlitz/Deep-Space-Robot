@@ -20,8 +20,24 @@ public class Follow2DProf extends Command {
 
     MotionProfile2D profile2D;
     PidFollower2D follower;
+    // constants for the motor equation: power = Kv * Vel + Ka * Acc
     double linKv, linKa, angKv, angKa;
     double maxPower;
+
+    /**
+     *
+     * @param path the path to be followed
+     * @param j jump
+     * @param linMaxVel linear maximal velocity
+     * @param linMaxAcc linear maximal acceleration
+     * @param rotMaxVel rotational maximal velocity
+     * @param rotMaxAcc rotational maximal acceleration
+     * @param maxPower power limit
+     * @param velMultLin gives control over the linear Kv constant in the motor equation for minor changes
+     * @param accMultLin " Ka "
+     * @param velMulrRot " rotational Kv "
+     * @param accMyltRot " Ka "
+     */
 
     public Follow2DProf(List<State> path, double j, double linMaxVel, double linMaxAcc,
                            double rotMaxVel, double rotMaxAcc,
@@ -37,6 +53,21 @@ public class Follow2DProf extends Command {
         this.maxPower = maxPower;
     }
 
+    /**
+     *
+     * @param path Position instead of State contains less info
+     * @param j
+     * @param linMaxVel
+     * @param linMaxAcc
+     * @param rotMaxVel
+     * @param rotMaxAcc
+     * @param maxPower
+     * @param velMultLin
+     * @param accMultLin
+     * @param velMulrRot
+     * @param accMyltRot
+     * @param fuckJava Fuck Java (otherwise the constructor is not valid...)
+     */
     public Follow2DProf(List<Position> path, double j, double linMaxVel, double linMaxAcc,
                         double rotMaxVel, double rotMaxAcc,
                         double maxPower, double velMultLin, double accMultLin,
@@ -52,6 +83,10 @@ public class Follow2DProf extends Command {
     }
 
     long t0;
+
+    /**
+     * creates the pid follower and init it
+     */
     @Override
     public void initialize() {
         follower = new PidFollower2D(linKv, linKa, angKv, angKa,
@@ -61,6 +96,11 @@ public class Follow2DProf extends Command {
         t0 = System.currentTimeMillis();
     }
 
+    /**
+     * receive the pid values corresponding to current velocity
+     * print location and predicted location
+     * drive
+     */
     @Override
     public void execute() {
         Vector2D vals = follower.run(Chassis.getInstance().getLeftVelocity(),
@@ -77,15 +117,25 @@ public class Follow2DProf extends Command {
         Chassis.getInstance().tankDrive(maxPower*vals.getX(), maxPower*vals.getY());
     }
 
+    /**
+     * stops robot
+     */
     @Override
     protected void end(){
         Chassis.getInstance().tankDrive(0,0);
     }
 
+    /**
+     * @param val potential value for power
+     * @return a valid value for power, closest to val
+     */
     double clamp(double val){
         return Math.min(Math.abs(val), maxPower) * Math.signum(val);
     }
 
+    /**
+     * @return if follower finished
+     */
     @Override
     public boolean isFinished() {
         return follower.isFinished();
