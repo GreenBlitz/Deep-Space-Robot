@@ -91,7 +91,7 @@ public class OI {
 
     private static void initTestBindings() {
         mainJoystick.A.whenPressed(new CheckMaxRot(.5));
-        mainJoystick.Y.whenPressed(new CheckMaxLin(1));
+        mainJoystick.Y.whenPressed(new CheckMaxLin(.5));
         mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
         ArrayList<State> pth = new ArrayList<>();
 

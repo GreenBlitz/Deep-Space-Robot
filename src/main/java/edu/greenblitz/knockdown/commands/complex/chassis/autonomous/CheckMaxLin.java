@@ -28,21 +28,23 @@ public class CheckMaxLin extends Command {
         tStart = System.currentTimeMillis();
     }
 
+    private final double G = 9.806;
+
     @Override
     protected void execute() {
         count++;
         Chassis.getInstance().tankDrive(power, power);
 
-        if (count % 5 == 0) {
+        SmartDashboard.putNumber("Acc Navx Y",G*Chassis.getInstance().getNavx().getWorldLinearAccelY());
+        SmartDashboard.putNumber("Acc Navx X",G*Chassis.getInstance().getNavx().getWorldLinearAccelX());
+        SmartDashboard.putNumber("Acc Navx Z",G*Chassis.getInstance().getNavx().getWorldLinearAccelZ());
+
+        if (count % 10 == 0) {
             double time = System.currentTimeMillis() / 1000.0;
             double dist = Chassis.getInstance().getDistance();
             double V = Math.abs(dist - previousLoc) / (time - previousTime);
             SmartDashboard.putNumber("VEL LIN", V);
             SmartDashboard.putNumber("ACC LIN", (V - previousVel) / (time - previousTime));
-            SmartDashboard.putNumber("Acc Navx Y",Chassis.getInstance().getNavx().getWorldLinearAccelY());
-            SmartDashboard.putNumber("Acc Navx X",Chassis.getInstance().getNavx().getWorldLinearAccelX());
-            SmartDashboard.putNumber("Acc Navx Z",Chassis.getInstance().getNavx().getWorldLinearAccelZ());
-
             previousTime = time;
             previousLoc = dist;
             previousVel = V;
