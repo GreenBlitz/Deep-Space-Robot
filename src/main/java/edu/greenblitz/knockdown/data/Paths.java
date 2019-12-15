@@ -24,6 +24,10 @@ public class Paths {
         return "/home/lvuser/deploy/output/" + pathname + ".pf1.csv";
     }
 
+    private static String makeGBPathName(String pathname) {
+        return "/home/lvuser/deploy/output/" + pathname + ".gbp";
+    }
+
     @Deprecated
     public static Path<Position> getRaw(String pathname) {
         return nativeGetPath(mkNativePath(pathname));
@@ -80,6 +84,33 @@ public class Paths {
         }
 
         return new Path<>();
+    }
+
+    public static List<State> readGBPath(String filename){
+        try (CSVParser read = CSVFormat.DEFAULT.parse(new FileReader(new File(makeGBPathName(filename))))) {
+
+            ArrayList<State> path = new ArrayList<>();
+            List<CSVRecord> records = read.getRecords();
+            for (int i = 0; i < records.size() - 1; i++) {
+                if (i != 0) {
+                    path.add(new State(Double.parseDouble(records.get(i).get(0)),
+                            Double.parseDouble(records.get(i).get(1)),
+                            Double.parseDouble(records.get(i).get(6)),
+                            1.0, Double.parseDouble(records.get(i).get(7))));
+                } else {
+                    path.add(new State(Double.parseDouble(records.get(i).get(0)),
+                            Double.parseDouble(records.get(i).get(1)),
+                            Double.parseDouble(records.get(i).get(6)),
+                            0, 0));
+                }
+            }
+            return path;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
     }
 
     public static List<State> pathToState(Path<Position> pth){

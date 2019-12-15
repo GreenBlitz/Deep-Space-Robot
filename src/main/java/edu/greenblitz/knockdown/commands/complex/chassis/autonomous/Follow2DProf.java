@@ -1,5 +1,6 @@
 package edu.greenblitz.knockdown.commands.complex.chassis.autonomous;
 
+import edu.greenblitz.knockdown.RobotMap;
 import edu.greenblitz.knockdown.subsystems.Chassis;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,8 +21,8 @@ public class Follow2DProf extends Command {
 
     MotionProfile2D profile2D;
     PidFollower2D follower;
-    // constants for the motor equation: power = Kv * Vel + Ka * Acc
-    double linKv, linKa, angKv, angKa;
+    double linKv, linKa;
+
     double maxPower;
 
     /**
@@ -44,12 +45,12 @@ public class Follow2DProf extends Command {
                            double maxPower, double velMultLin, double accMultLin,
                            double velMulrRot, double accMyltRot) {
         requires(Chassis.getInstance());
+        long t0 = System.currentTimeMillis();
         profile2D = ChassisProfiler2D.generateProfile(path, j, linMaxVel, rotMaxVel, linMaxAcc, rotMaxAcc, 0,
-                0.8f);
+                1f);
+        System.out.println("Time for profiles = " + (System.currentTimeMillis() - t0)/1000.0);
         linKv = velMultLin / linMaxVel;
         linKa = accMultLin / linMaxAcc;
-        angKv = velMulrRot / rotMaxVel;
-        angKa = accMyltRot / rotMaxAcc;
         this.maxPower = maxPower;
     }
 
@@ -89,10 +90,12 @@ public class Follow2DProf extends Command {
      */
     @Override
     public void initialize() {
-        follower = new PidFollower2D(linKv, linKa, angKv, angKa,
-                new PIDObject(linKv*0), new PIDObject(linKv*0), 0,
+        follower = new PidFollower2D(linKv, linKa, linKv, linKa,
+                new PIDObject(linKv), new PIDObject(linKv), 1,
+                RobotMap.Chassis.Data.WHEEL_BASE_RADIUS,
                 profile2D);
         follower.init();
+        Chassis.getInstance().toCoast();
         t0 = System.currentTimeMillis();
     }
 
@@ -106,14 +109,6 @@ public class Follow2DProf extends Command {
         Vector2D vals = follower.run(Chassis.getInstance().getLeftVelocity(),
                 Chassis.getInstance().getRightVelocity());
 
-        if (!follower.isFinished()) {
-            double dt = (System.currentTimeMillis() - t0) / 1000.0;
-            Position act = profile2D.getActualLocation(dt, 0.01);
-            SmartDashboard.putNumber("Lin loc", profile2D.getLocation(dt).getX());
-            SmartDashboard.putNumber("Actual x", act.getX());
-            SmartDashboard.putNumber("Actual y", act.getY());
-        }
-
         Chassis.getInstance().tankDrive(maxPower*vals.getX(), maxPower*vals.getY());
     }
 
@@ -122,6 +117,8 @@ public class Follow2DProf extends Command {
      */
     @Override
     protected void end(){
+        SmartDashboard.putString("End Location", Chassis.getInstance().getLocation().toString());
+        Chassis.getInstance().toBrake();
         Chassis.getInstance().tankDrive(0,0);
     }
 
