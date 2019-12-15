@@ -3,6 +3,7 @@ package edu.greenblitz.knockdown.commands.complex.chassis.autonomous;
 import edu.greenblitz.knockdown.subsystems.Chassis;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.opencv.core.Mat;
 
 public class CheckMaxRot extends Command {
 
@@ -34,12 +35,10 @@ public class CheckMaxRot extends Command {
 
         if (count % 10 == 0) {
             double time = System.currentTimeMillis() / 1000.0;
-            double angle = Math.toRadians(Chassis.getInstance().getNavx().getAngle());
-            double V = Math.abs(angle - previousAngle) / (time - previousTime);
+            double V = Math.toRadians(Chassis.getInstance().getNavx().getRate());
             SmartDashboard.putNumber("VEL", V);
             SmartDashboard.putNumber("ACC", (V - previousVel) / (time - previousTime));
             previousTime = time;
-            previousAngle = angle;
             previousVel = V;
         }
     }

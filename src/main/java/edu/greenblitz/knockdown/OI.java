@@ -117,7 +117,7 @@ public class OI {
 
         mainJoystick.X.whenPressed(
                new Follow2DProf(Paths.readGBPath("test2"),
-                        .0001, 3, 6, 7.75, 12,
+                        .0001, 3, 4, 7.75, 12,
                         .5, 1, 1, 1,  1));
     }
 
