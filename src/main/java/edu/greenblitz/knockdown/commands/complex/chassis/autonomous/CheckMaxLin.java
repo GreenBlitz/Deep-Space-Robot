@@ -39,6 +39,9 @@ public class CheckMaxLin extends Command {
             double V = Math.abs(dist - previousLoc) / (time - previousTime);
             SmartDashboard.putNumber("VEL LIN", V);
             SmartDashboard.putNumber("ACC LIN", (V - previousVel) / (time - previousTime));
+            SmartDashboard.putNumber("Acc Navx Y",Chassis.getInstance().getNavx().getWorldLinearAccelY());
+            SmartDashboard.putNumber("Acc Navx X",Chassis.getInstance().getNavx().getWorldLinearAccelX());
+            SmartDashboard.putNumber("Acc Navx Z",Chassis.getInstance().getNavx().getWorldLinearAccelZ());
             previousTime = time;
             previousLoc = dist;
             previousVel = V;
