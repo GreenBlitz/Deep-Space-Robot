@@ -190,6 +190,7 @@ public class Chassis extends GBSubsystem {
 
     @Override
     public void periodic() {
+        SmartDashboard.putString("Location", getLocation().toString());
     }
 
     public void startLoclizer() {

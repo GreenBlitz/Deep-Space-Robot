@@ -11,7 +11,8 @@ public class HandleCompressor extends SubsystemCommand<Pneumatics> {
 
     @Override
     protected void atInit() {
-        system.setCompressor(false);
+        System.out.println("Compressor on");
+        system.setCompressor(true);
     }
 
     @Override

@@ -38,7 +38,14 @@ public class CheckMaxLin extends Command {
             double dist = Chassis.getInstance().getDistance();
             double V = Math.abs(dist - previousLoc) / (time - previousTime);
             SmartDashboard.putNumber("VEL LIN", V);
-            SmartDashboard.putNumber("ACC LIN", (V - previousVel) / (time - previousTime));
+            SmartDashboard.putNumber("VEL LIN NAVX", Chassis.getInstance().getNavx().getVelocityX());
+            if (time - tStart > 500) {
+                SmartDashboard.putNumber("VEL LIN AVG", (SmartDashboard.getNumber("AVG LIN", 0)
+                + V)/2.0
+                );
+            }
+            // Multiply by gravitational constant because navx returns value in G's
+            SmartDashboard.putNumber("ACC LIN", 9.80665 * Chassis.getInstance().getNavx().getWorldLinearAccelY());
             previousTime = time;
             previousLoc = dist;
             previousVel = V;

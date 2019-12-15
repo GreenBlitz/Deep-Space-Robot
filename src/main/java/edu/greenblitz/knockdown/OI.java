@@ -90,24 +90,35 @@ public class OI {
     }
 
     private static void initTestBindings() {
-        mainJoystick.A.whenPressed(new CheckMaxRot(.7));
-        mainJoystick.Y.whenPressed(new CheckMaxLin(.7));
+        mainJoystick.A.whenPressed(new CheckMaxRot(.5));
+        mainJoystick.Y.whenPressed(new CheckMaxLin(1));
         mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
         ArrayList<State> pth = new ArrayList<>();
 
-        pth.add(new State(0, 0, 0, 0, 0));
-        pth.add(new State(.4, 1,Math.PI/8, 0, 0));
-        pth.add(new State(.8, 2, 0, 0, 0));
+        pth.add(new State(5, 1, 0, 1, 2.4628178474332327));
+        pth.add(new State(7, 4,0, 1, -1.335349062340864));
+//        pth.add(new State(-1.5, 4,-Math.PI/2, 0, 0));
+
+//        pth.add(new State(.8, 2, 0, 0, 0));
         // Max .4 rot = 2.1, 10
         // Max .4 lin = 0.7, 4.6
 
-        // Max .7 rot = 3.5, 15
-        // Max .7 lin = 1.2, 6.75
+        // Max .7 rot = 4, 15
+        // Max .7 lin = 1.25, 10
+
+        // Max 1 rot = 5.5, 15
+        // Max 1 lin = 1.75, 11.25
+
+        // Max 1 rot carpet = 5.25, 16
+        // Max 1 lin carpet = 1.75, 7.5
+
+        // Max .5 speed rot carpet = 7.75, 12
+        // Max .5 speed lin carpet = 3, 4
 
         mainJoystick.X.whenPressed(
-                new Follow2DProf(Paths.pathToState(Paths.get("Turn", true)),
-                        .005, 1.2, 6.75, 3.5, 15,
-                        0.7, 1, .1, 1, .1));
+               new Follow2DProf(Paths.readGBPath("test2"),
+                        .0001, 3, 6, 7.75, 12,
+                        .5, 1, 1, 1,  1));
     }
 
     private static void initOfficialBindings() {
