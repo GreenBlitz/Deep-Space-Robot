@@ -4,6 +4,7 @@ import edu.greenblitz.knockdown.commands.complex.RollOrAlign;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.CheckMaxLin;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.CheckMaxRot;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.Follow2DProf;
+import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.RotateProfiling;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.ChangeTargetFocus;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionPlaceGameObject;
 import edu.greenblitz.knockdown.commands.complex.climber.ClimbByJoystick;
@@ -25,10 +26,13 @@ import edu.greenblitz.knockdown.subsystems.Elevator;
 import edu.greenblitz.utils.command.ResetCommands;
 import edu.greenblitz.utils.command.base.GBCommand;
 import edu.greenblitz.utils.hid.SmartJoystick;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.greenblitz.motion.base.State;
+import org.greenblitz.motion.profiling.ActuatorLocation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OI {
     public enum RobotState {
@@ -80,7 +84,7 @@ public class OI {
     }
 
     public static void initJoysticks() {
-        if (mainJoystick == null) mainJoystick = new SmartJoystick(RobotMap.Joysticks.MAIN);
+        if (mainJoystick == null) mainJoystick = new SmartJoystick(new Joystick(RobotMap.Joysticks.MAIN), 0.07);
         if (sideJoystick == null) sideJoystick = new SmartJoystick(RobotMap.Joysticks.SIDE);
     }
 
@@ -92,11 +96,15 @@ public class OI {
     private static void initTestBindings() {
         mainJoystick.A.whenPressed(new CheckMaxRot(.5));
         mainJoystick.Y.whenPressed(new CheckMaxLin(.5));
-        mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
+        //mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
+        ArrayList<ActuatorLocation> angle = new ArrayList<>();
+        angle.add(new ActuatorLocation(0,0));
+        angle.add(new ActuatorLocation(12.28,0));
+        mainJoystick.B.whenPressed(new RotateProfiling(angle,7.7,13.3,0.5,1,1));
         ArrayList<State> pth = new ArrayList<>();
 
-        pth.add(new State(5, 1, 0, 1, 2.4628178474332327));
-        pth.add(new State(7, 4,0, 1, -1.335349062340864));
+        pth.add(new State(0, 0, 0, 0, 0));
+        pth.add(new State(0, .001, Math.PI, 0, 0));
 //        pth.add(new State(-1.5, 4,-Math.PI/2, 0, 0));
 
 //        pth.add(new State(.8, 2, 0, 0, 0));
@@ -117,7 +125,7 @@ public class OI {
 
         mainJoystick.X.whenPressed(
                new Follow2DProf(Paths.readGBPath("test2"),
-                        .0001, 3, 4, 7.75, 12,
+                        .0001, 2.2, 8, 7.7, 13.3,
                         .5, 1, 1, 1,  1));
     }
 

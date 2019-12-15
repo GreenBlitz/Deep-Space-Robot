@@ -35,9 +35,11 @@ public class CheckMaxRot extends Command {
 
         if (count % 10 == 0) {
             double time = System.currentTimeMillis() / 1000.0;
-            double V = Math.toRadians(Chassis.getInstance().getNavx().getRate());
+            double angle = Math.toRadians(Chassis.getInstance().getNavx().getAngle());
+            double V = (angle - previousAngle) / (time - previousTime);
             SmartDashboard.putNumber("VEL", V);
             SmartDashboard.putNumber("ACC", (V - previousVel) / (time - previousTime));
+            previousAngle = angle;
             previousTime = time;
             previousVel = V;
         }
