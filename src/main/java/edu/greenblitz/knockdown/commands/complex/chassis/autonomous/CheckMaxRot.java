@@ -3,7 +3,6 @@ package edu.greenblitz.knockdown.commands.complex.chassis.autonomous;
 import edu.greenblitz.knockdown.subsystems.Chassis;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.opencv.core.Mat;
 
 public class CheckMaxRot extends Command {
 
@@ -14,13 +13,13 @@ public class CheckMaxRot extends Command {
     private long tStart;
     int count;
 
-    public CheckMaxRot(double power){
+    public CheckMaxRot(double power) {
         requires(Chassis.getInstance());
         this.power = power;
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         previousTime = System.currentTimeMillis() / 1000.0;
         previousAngle = Chassis.getInstance().getLocation().getAngle();
         previousVel = 0;
@@ -31,9 +30,10 @@ public class CheckMaxRot extends Command {
     @Override
     protected void execute() {
         count++;
-        Chassis.getInstance().tankDrive(-power, power);
 
-        if (count % 10 == 0) {
+        while (System.currentTimeMillis() - tStart < 5000) {
+            Chassis.getInstance().tankDrive(-power, power);
+
             double time = System.currentTimeMillis() / 1000.0;
             double angle = Math.toRadians(Chassis.getInstance().getNavx().getAngle());
             double V = (angle - previousAngle) / (time - previousTime);
@@ -42,11 +42,23 @@ public class CheckMaxRot extends Command {
             previousAngle = angle;
             previousTime = time;
             previousVel = V;
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
     @Override
+    protected void end(){
+        System.out.println(System.currentTimeMillis() - tStart);
+    }
+
+    @Override
     protected boolean isFinished() {
-       return System.currentTimeMillis() - tStart > 5000;
+        return System.currentTimeMillis() - tStart > 5000;
     }
 }

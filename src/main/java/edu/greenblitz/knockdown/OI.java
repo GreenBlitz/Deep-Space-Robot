@@ -99,12 +99,14 @@ public class OI {
         //mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
         ArrayList<ActuatorLocation> angle = new ArrayList<>();
         angle.add(new ActuatorLocation(0,0));
-        angle.add(new ActuatorLocation(12.28,0));
-        mainJoystick.B.whenPressed(new RotateProfiling(angle,7.7,13.3,0.5,1,1));
+        angle.add(new ActuatorLocation(2*Math.PI,0));
+        mainJoystick.B.whenPressed(new RotateProfiling(angle,
+                7.7,
+                16,0.5,1,1));
         ArrayList<State> pth = new ArrayList<>();
 
         pth.add(new State(0, 0, 0, 0, 0));
-        pth.add(new State(0, .001, Math.PI, 0, 0));
+        pth.add(new State(0, 3, 0, 0, 0));
 //        pth.add(new State(-1.5, 4,-Math.PI/2, 0, 0));
 
 //        pth.add(new State(.8, 2, 0, 0, 0));
@@ -124,8 +126,9 @@ public class OI {
         // Max .5 speed lin carpet = 3, 4
 
         mainJoystick.X.whenPressed(
-               new Follow2DProf(Paths.readGBPath("test2"),
-                        .0001, 2.2, 8, 7.7, 13.3,
+               new Follow2DProf(Paths.readGBPath("smol"),
+                        .0001, 3, 4.5, 8,
+                       13.3,
                         .5, 1, 1, 1,  1));
     }
 

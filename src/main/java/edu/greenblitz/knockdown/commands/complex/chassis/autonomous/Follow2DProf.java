@@ -46,8 +46,8 @@ public class Follow2DProf extends Command {
                            double velMulrRot, double accMyltRot) {
         requires(Chassis.getInstance());
         long t0 = System.currentTimeMillis();
-        profile2D = ChassisProfiler2D.generateProfile(path, j, linMaxVel, rotMaxVel, linMaxAcc, rotMaxAcc, 0,
-                1f);
+        profile2D = ChassisProfiler2D.generateProfile(path, j, linMaxVel, rotMaxVel, linMaxAcc, rotMaxAcc,
+                0, 1.0, 800);
         System.out.println("Time for profiles = " + (System.currentTimeMillis() - t0)/1000.0);
         linKv = velMultLin / linMaxVel;
         linKa = accMultLin / linMaxAcc;
@@ -80,7 +80,8 @@ public class Follow2DProf extends Command {
             temp.add(new State(pos.getX(), pos.getY(), pos.getAngle()));
             System.out.println(temp.get(temp.size() - 1));
         }
-        profile2D = ChassisProfiler2D.generateProfile(temp, j, linMaxVel, rotMaxVel, linMaxAcc, rotMaxAcc, 0, 0.1);
+        profile2D = ChassisProfiler2D.generateProfile(temp, j, linMaxVel, rotMaxVel, linMaxAcc, rotMaxAcc,
+                0, 1,800);
     }
 
     long t0;
@@ -92,7 +93,7 @@ public class Follow2DProf extends Command {
     public void initialize() {
         follower = new PidFollower2D(linKv, linKa, linKv, linKa,
                 new PIDObject(linKv), new PIDObject(linKv), 1,
-                RobotMap.Chassis.Data.WHEEL_BASE_RADIUS,
+                 RobotMap.Chassis.Data.WHEEL_BASE_RADIUS,
                 profile2D);
         follower.init();
         Chassis.getInstance().toCoast();

@@ -14,13 +14,13 @@ public class CheckMaxLin extends Command {
     private long tStart;
     int count;
 
-    public CheckMaxLin(double power){
+    public CheckMaxLin(double power) {
         requires(Chassis.getInstance());
         this.power = power;
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         previousTime = System.currentTimeMillis() / 1000.0;
         previousLoc = Chassis.getInstance().getDistance();
         previousVel = 0;
@@ -33,26 +33,30 @@ public class CheckMaxLin extends Command {
     @Override
     protected void execute() {
         count++;
-        Chassis.getInstance().tankDrive(power, power);
 
-        SmartDashboard.putNumber("Acc Navx Y",G*Chassis.getInstance().getNavx().getWorldLinearAccelY());
-        SmartDashboard.putNumber("Acc Navx X",G*Chassis.getInstance().getNavx().getWorldLinearAccelX());
-        SmartDashboard.putNumber("Acc Navx Z",G*Chassis.getInstance().getNavx().getWorldLinearAccelZ());
+        while (System.currentTimeMillis() - tStart < 5000) {
+            Chassis.getInstance().tankDrive(power, power);
 
-        if (count % 10 == 0) {
             double time = System.currentTimeMillis() / 1000.0;
-            double dist = Chassis.getInstance().getDistance();
-            double V = Math.abs(dist - previousLoc) / (time - previousTime);
+            double dist = Chassis.getInstance().getVelocity();
+            double V = Chassis.getInstance().getVelocity();
             SmartDashboard.putNumber("VEL LIN", V);
             SmartDashboard.putNumber("ACC LIN", (V - previousVel) / (time - previousTime));
             previousTime = time;
             previousLoc = dist;
             previousVel = V;
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
     @Override
     protected boolean isFinished() {
-       return System.currentTimeMillis() - tStart > 3000;
+        return System.currentTimeMillis() - tStart > 3000;
     }
 }
