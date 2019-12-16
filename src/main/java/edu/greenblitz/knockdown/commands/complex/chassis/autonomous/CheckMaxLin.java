@@ -3,6 +3,7 @@ package edu.greenblitz.knockdown.commands.complex.chassis.autonomous;
 import edu.greenblitz.knockdown.subsystems.Chassis;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.greenblitz.debug.RemoteCSVTarget;
 
 public class CheckMaxLin extends Command {
 
@@ -11,6 +12,7 @@ public class CheckMaxLin extends Command {
     private double previousVel;
     private double previousTime;
     private double maxV = 0;
+    private RemoteCSVTarget target;
     private long tStart;
     int count;
 
@@ -26,6 +28,7 @@ public class CheckMaxLin extends Command {
         previousVel = 0;
         count = 0;
         tStart = System.currentTimeMillis();
+        target = RemoteCSVTarget.initTarget("LinearData", "time", "vel", "acc");
     }
 
     private final double G = 9.806;
@@ -40,8 +43,7 @@ public class CheckMaxLin extends Command {
             double time = System.currentTimeMillis() / 1000.0;
             double dist = Chassis.getInstance().getVelocity();
             double V = Chassis.getInstance().getVelocity();
-            SmartDashboard.putNumber("VEL LIN", V);
-            SmartDashboard.putNumber("ACC LIN", (V - previousVel) / (time - previousTime));
+            target.report(time - tStart, V, (V - previousVel) / (time - previousTime));
             previousTime = time;
             previousLoc = dist;
             previousVel = V;

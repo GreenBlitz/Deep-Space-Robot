@@ -3,6 +3,7 @@ package edu.greenblitz.knockdown.commands.complex.chassis.autonomous;
 import edu.greenblitz.knockdown.subsystems.Chassis;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.greenblitz.debug.RemoteCSVTarget;
 
 public class CheckMaxRot extends Command {
 
@@ -11,6 +12,7 @@ public class CheckMaxRot extends Command {
     private double previousVel;
     private double previousTime;
     private long tStart;
+    private RemoteCSVTarget target;
     int count;
 
     public CheckMaxRot(double power) {
@@ -25,6 +27,7 @@ public class CheckMaxRot extends Command {
         previousVel = 0;
         count = 0;
         tStart = System.currentTimeMillis();
+        target = RemoteCSVTarget.initTarget("RotationalData", "time", "vel", "acc");
     }
 
     @Override
@@ -37,8 +40,7 @@ public class CheckMaxRot extends Command {
             double time = System.currentTimeMillis() / 1000.0;
             double angle = Math.toRadians(Chassis.getInstance().getNavx().getAngle());
             double V = (angle - previousAngle) / (time - previousTime);
-            SmartDashboard.putNumber("VEL", V);
-            SmartDashboard.putNumber("ACC", (V - previousVel) / (time - previousTime));
+            target.report(time - tStart, V, (V - previousVel) / (time - previousTime));
             previousAngle = angle;
             previousTime = time;
             previousVel = V;
