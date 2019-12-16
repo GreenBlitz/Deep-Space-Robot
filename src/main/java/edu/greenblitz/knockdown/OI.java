@@ -126,7 +126,7 @@ public class OI {
         // Max .5 speed lin carpet = 3, 4
 
         mainJoystick.X.whenPressed(
-               new Follow2DProf(Paths.readGBPath("smol"),
+               new Follow2DProf(pth,
                         .0001, 3, 4.5, 8,
                        13.3,
                         .5, 1, 1, 1,  1));

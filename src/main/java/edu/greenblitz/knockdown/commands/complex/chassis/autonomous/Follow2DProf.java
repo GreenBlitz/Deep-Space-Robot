@@ -96,6 +96,7 @@ public class Follow2DProf extends Command {
                  RobotMap.Chassis.Data.WHEEL_BASE_RADIUS,
                 profile2D);
         follower.init();
+        follower.setSendData(true);
         Chassis.getInstance().toCoast();
         t0 = System.currentTimeMillis();
     }
