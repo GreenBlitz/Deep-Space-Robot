@@ -4,14 +4,13 @@ import edu.greenblitz.knockdown.RobotMap;
 import edu.greenblitz.knockdown.subsystems.Chassis;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.greenblitz.debug.RemoteCSVTarget;
 import org.greenblitz.motion.base.Position;
 import org.greenblitz.motion.base.State;
 import org.greenblitz.motion.base.Vector2D;
 import org.greenblitz.motion.pid.PIDObject;
-import org.greenblitz.motion.profiling.ActuatorLocation;
 import org.greenblitz.motion.profiling.MotionProfile2D;
 import org.greenblitz.motion.profiling.*;
-import org.greenblitz.motion.profiling.followers.FeedForwards1DFollower;
 import org.greenblitz.motion.profiling.followers.PidFollower2D;
 
 import java.util.ArrayList;
@@ -19,11 +18,12 @@ import java.util.List;
 
 public class Follow2DProf extends Command {
 
-    MotionProfile2D profile2D;
-    PidFollower2D follower;
-    double linKv, linKa;
+    private MotionProfile2D profile2D;
+    private PidFollower2D follower;
+    private double linKv, linKa;
 
-    double maxPower;
+    private double maxPower;
+    private RemoteCSVTarget targetPath;
 
     /**
      *
@@ -99,6 +99,8 @@ public class Follow2DProf extends Command {
         follower.setSendData(true);
         Chassis.getInstance().toCoast();
         t0 = System.currentTimeMillis();
+        targetPath = RemoteCSVTarget.initTarget("ProfilePath", "x", "y");
+
     }
 
     /**
@@ -112,6 +114,10 @@ public class Follow2DProf extends Command {
                 Chassis.getInstance().getRightVelocity());
 
         Chassis.getInstance().tankDrive(maxPower*vals.getX(), maxPower*vals.getY());
+
+        targetPath.report(Chassis.getInstance().getLocation().getX(),
+                Chassis.getInstance().getLocation().getY());
+
     }
 
     /**
