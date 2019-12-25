@@ -92,7 +92,7 @@ public class Paths {
             ArrayList<State> path = new ArrayList<>();
             List<CSVRecord> records = read.getRecords();
             for (int i = 0; i < records.size() - 1; i++) {
-                if (false) {
+                if (i != 0) {
                     path.add(new State(Double.parseDouble(records.get(i).get(0)),
                             Double.parseDouble(records.get(i).get(1)),
                             Double.parseDouble(records.get(i).get(6)),

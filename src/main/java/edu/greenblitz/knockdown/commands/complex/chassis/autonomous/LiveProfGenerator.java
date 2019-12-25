@@ -3,21 +3,20 @@ package edu.greenblitz.knockdown.commands.complex.chassis.autonomous;
 import edu.greenblitz.gblib.threading.IThreadable;
 import edu.greenblitz.knockdown.RobotMap;
 import edu.greenblitz.knockdown.subsystems.Chassis;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.greenblitz.debug.RemoteCSVTarget;
-import org.greenblitz.motion.base.Position;
 import org.greenblitz.motion.base.State;
 import org.greenblitz.motion.base.Vector2D;
 import org.greenblitz.motion.pid.PIDObject;
+import org.greenblitz.motion.profiling.ChassisProfiler2D;
 import org.greenblitz.motion.profiling.MotionProfile2D;
-import org.greenblitz.motion.profiling.*;
 import org.greenblitz.motion.profiling.followers.PidFollower2D;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Follow2DProf implements IThreadable {
+public class LiveProfGenerator implements IThreadable {
+
 
     private MotionProfile2D profile2D;
     private PidFollower2D follower;
@@ -25,13 +24,17 @@ public class Follow2DProf implements IThreadable {
     private PIDObject o;
     private double d;
 
+    private State end;
+    private double vMax, aMax, omMax, alMax;
+    private double j;
+
     private double maxPower;
     private boolean isOpp;
     private RemoteCSVTarget targetPath;
 
     /**
      *
-     * @param path the path to be followed
+     * @param end the path to be followed
      * @param j jump
      * @param linMaxVel linear maximal velocity
      * @param linMaxAcc linear maximal acceleration
@@ -42,16 +45,18 @@ public class Follow2DProf implements IThreadable {
      * @param accMultLin " Ka "
      */
 
-    public Follow2DProf(List<State> path, double j, double linMaxVel, double linMaxAcc,
-                           double rotMaxVel, double rotMaxAcc,
-                           double maxPower, double velMultLin, double accMultLin,
+    public LiveProfGenerator(State end, double j, double linMaxVel, double linMaxAcc,
+                        double rotMaxVel, double rotMaxAcc,
+                        double maxPower, double velMultLin, double accMultLin,
                         PIDObject po, double tol, boolean isOpp) {
-        long t0 = System.currentTimeMillis();
-        profile2D = ChassisProfiler2D.generateProfile(path, j, linMaxVel, rotMaxVel, linMaxAcc, rotMaxAcc,
-                0, 1.0, 1000);
-        System.out.println("Time for profiles = " + (System.currentTimeMillis() - t0)/1000.0);
+        vMax = linMaxVel;
+        aMax = linMaxAcc;
+        omMax = rotMaxVel;
+        alMax = rotMaxAcc;
         linKv = velMultLin / linMaxVel;
         linKa = accMultLin / linMaxAcc;
+        this.j = j;
+        this.end = end;
         o = po;
         d = tol;
         this.isOpp = isOpp;
@@ -59,6 +64,14 @@ public class Follow2DProf implements IThreadable {
     }
 
     long t0;
+
+    /**
+     * @param in potential value for power
+     * @return a valid value for power, closest to val
+     */
+    public double clamp(double in){
+        return Math.signum(in) * Math.min(Math.abs(in), 1);
+    }
 
     private long runTStart;
     private long minRuntime = 10;
@@ -83,10 +96,6 @@ public class Follow2DProf implements IThreadable {
         while (System.currentTimeMillis() - runTStart < minRuntime) {}
     }
 
-    public double clamp(double in){
-        return Math.signum(in) * Math.min(Math.abs(in), 1);
-    }
-
     /**
      * @return if follower finished
      */
@@ -104,6 +113,15 @@ public class Follow2DProf implements IThreadable {
 
     @Override
     public void atInit() {
+        List<State> s = new ArrayList<>();
+        SmartDashboard.putString("StartLoc", Chassis.getInstance().getLocation().toString());
+        s.add(new State(Chassis.getInstance().getLocation(),
+                Chassis.getInstance().getLocation().getAngle()));
+        s.add(end);
+        profile2D = ChassisProfiler2D.generateProfile(s, j,
+                vMax, omMax,
+                aMax, alMax,
+                0, 1.0, 10);
         follower = new PidFollower2D(linKv, linKa, linKv, linKa,
                 o,
                 d, 1,
@@ -115,4 +133,5 @@ public class Follow2DProf implements IThreadable {
         t0 = System.currentTimeMillis();
         targetPath = RemoteCSVTarget.initTarget("ProfilePath", "x", "y");
     }
+
 }

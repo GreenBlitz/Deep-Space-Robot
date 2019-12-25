@@ -37,19 +37,20 @@ public class CheckMaxRot extends Command {
         while (System.currentTimeMillis() - tStart < 5000) {
             Chassis.getInstance().tankDrive(-power, power);
 
-            double time = System.currentTimeMillis() / 1000.0;
-            double angle = Math.toRadians(Chassis.getInstance().getNavx().getAngle());
-            double V = (angle - previousAngle) / (time - previousTime);
-            target.report(time - tStart, V, (V - previousVel) / (time - previousTime));
-            previousAngle = angle;
-            previousTime = time;
-            previousVel = V;
-
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            double time = System.currentTimeMillis() / 1000.0;
+            double angle = Math.toRadians(Chassis.getInstance().getNavx().getAngle());
+            double V = (angle - previousAngle) / (time - previousTime);
+            target.report(time - tStart/1000.0, V, (V - previousVel) / (time - previousTime));
+            previousAngle = angle;
+            previousTime = time;
+            previousVel = V;
+
 
         }
     }

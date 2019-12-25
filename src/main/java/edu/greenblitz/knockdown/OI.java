@@ -1,10 +1,8 @@
 package edu.greenblitz.knockdown;
 
+import edu.greenblitz.gblib.threading.ThreadedCommand;
 import edu.greenblitz.knockdown.commands.complex.RollOrAlign;
-import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.CheckMaxLin;
-import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.CheckMaxRot;
-import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.Follow2DProf;
-import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.RotateProfiling;
+import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.*;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.ChangeTargetFocus;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionPlaceGameObject;
 import edu.greenblitz.knockdown.commands.complex.climber.ClimbByJoystick;
@@ -13,6 +11,7 @@ import edu.greenblitz.knockdown.commands.complex.elevator.SafeMoveElevator;
 import edu.greenblitz.knockdown.commands.complex.kicker.KickBall;
 import edu.greenblitz.knockdown.commands.complex.roller.SmartExtendAndRollIn;
 import edu.greenblitz.knockdown.commands.complex.roller.ToggleRoller;
+import edu.greenblitz.knockdown.commands.simple.chassis.SimpleTurnToAngle;
 import edu.greenblitz.knockdown.commands.simple.chassis.driver.ArcadeDriveByJoystick;
 import edu.greenblitz.knockdown.commands.simple.poker.HoldHatch;
 import edu.greenblitz.knockdown.commands.simple.poker.ReleaseHatch;
@@ -22,6 +21,7 @@ import edu.greenblitz.knockdown.commands.simple.shifter.AutoChangeShift;
 import edu.greenblitz.knockdown.commands.simple.shifter.ToggleShift;
 import edu.greenblitz.knockdown.data.Paths;
 import edu.greenblitz.knockdown.data.vision.VisionMaster;
+import edu.greenblitz.knockdown.subsystems.Chassis;
 import edu.greenblitz.knockdown.subsystems.Elevator;
 import edu.greenblitz.utils.command.ResetCommands;
 import edu.greenblitz.utils.command.base.GBCommand;
@@ -29,6 +29,7 @@ import edu.greenblitz.utils.hid.SmartJoystick;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.greenblitz.motion.base.State;
+import org.greenblitz.motion.pid.PIDObject;
 import org.greenblitz.motion.profiling.ActuatorLocation;
 
 import java.util.ArrayList;
@@ -94,15 +95,19 @@ public class OI {
     }
 
     private static void initTestBindings() {
-        mainJoystick.A.whenPressed(new CheckMaxRot(.5));
-        mainJoystick.Y.whenPressed(new CheckMaxLin(.5));
+        mainJoystick.A.whenPressed(new CheckMaxRot(.7));
+        mainJoystick.Y.whenPressed(new CheckMaxLin(.7));
         //mainJoystick.B.whenPressed(new ArcadeDriveByJoystick(mainJoystick));
         ArrayList<ActuatorLocation> angle = new ArrayList<>();
         angle.add(new ActuatorLocation(0,0));
         angle.add(new ActuatorLocation(2*Math.PI,0));
-        mainJoystick.B.whenPressed(new RotateProfiling(angle,
-                7.7,
-                16,0.5,1,1));
+        mainJoystick.B.whenPressed(new ThreadedCommand(
+                new LiveProfGenerator(new State(0, 0, Math.PI),
+                        .001, 4, 5.5, 10,
+                        20, // 15.5, 19.1
+                        .7, 1, 1,
+                        new PIDObject(5/4.0, 0.03/5.5, 170/5.5),
+                        0.01*4, false), Chassis.getInstance()));
         ArrayList<State> pth = new ArrayList<>();
 
         pth.add(new State(0, 0, 0, 0, 0));
@@ -122,14 +127,13 @@ public class OI {
         // Max 1 rot carpet = 5.25, 16
         // Max 1 lin carpet = 1.75, 7.5
 
-        // Max .5 speed rot carpet = 7.75, 12
-        // Max .5 speed lin carpet = 3, 4
+        // Max .5 speed rot carpet = 8, 15.5
+        // Max .5 speed lin carpet = 3.2, 4.5
 
-        mainJoystick.X.whenPressed(
-               new Follow2DProf(pth,
-                        .0001, 3, 4.5, 8,
-                       13.3,
-                        .5, 1, 1, 1,  1));
+        // Max .7 speed rot carpet = 10, 14
+        // Max .7 speed lin carpet = 4, 5.5
+
+        mainJoystick.X.whenPressed(new RocketTwoDisks());
     }
 
     private static void initOfficialBindings() {

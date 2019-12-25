@@ -43,7 +43,7 @@ public class CheckMaxLin extends Command {
             double time = System.currentTimeMillis() / 1000.0;
             double dist = Chassis.getInstance().getVelocity();
             double V = Chassis.getInstance().getVelocity();
-            target.report(time - tStart, V, (V - previousVel) / (time - previousTime));
+            target.report(time - tStart/1000.0, V, (V - previousVel) / (time - previousTime));
             previousTime = time;
             previousLoc = dist;
             previousVel = V;
