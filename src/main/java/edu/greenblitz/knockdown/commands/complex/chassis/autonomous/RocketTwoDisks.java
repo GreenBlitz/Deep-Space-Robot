@@ -25,18 +25,26 @@ public class RocketTwoDisks extends CommandChain {
                         15.5, // 15.5, 19.1
                         .5, 1, 1,
                         new PIDObject(1.5/3.2, 0.02/4.5, 170/4.5),
-                        0.01*3.2, false), Chassis.getInstance()));
-        addSequential(new ToPower());
-        addSequential(new SimpleTurnToAngle(-155, 0.5, true,10));
-        addSequential(new ToSpeed());
-        addSequential(new WaitCommand(0.05));
+                        0.01*3.2, new PIDObject(0),
+                        false), Chassis.getInstance()));
+        addSequential(new WaitCommand(0.08));
         addSequential(new ThreadedCommand(
-                new LiveProfGenerator(new State(0.5, 0.8, Math.PI),
-                        .001, 4, 5.5, 10,
+                new Follow2DProf(Paths.readGBPath("rocket2part1p2"),
+                        .0001, 3.2, 4.5, 8,
                         15.5, // 15.5, 19.1
+                        .5, 1, 1,
+                        new PIDObject(1/3.2, 0, 200/4.5),
+                        0.01*3.2, new PIDObject(0),
+                        true), Chassis.getInstance()));
+        addSequential(new ThreadedCommand(
+                new LiveProfGenerator(new State(1.4, 1, Math.toRadians(179)),
+                        .001, 4.0, 5.5, 10,
+                        20, // 15.5, 19.1
                         .7, 1, 1,
-                        new PIDObject(5/4.0, 0.03/5.5, 140/5.5),
-                        0.01*4, false), Chassis.getInstance()));
+                        new PIDObject(1.5/4.0, 0.04/5.5, 190/5.5),
+                        0.01*4.0, new PIDObject(1.2/10.0, 0.0004, 200/20.0),false), Chassis.getInstance()));
+
+
     }
 
 }

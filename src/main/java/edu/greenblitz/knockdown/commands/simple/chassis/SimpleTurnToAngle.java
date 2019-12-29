@@ -30,7 +30,6 @@ public class SimpleTurnToAngle extends ChassisBaseCommand {
 
     @Override
     protected void atInit() {
-        Chassis.getInstance().resetNavx();
         Shifter.getInstance().setShift(Shifter.Gear.POWER);
         double rightMult = Math.signum(Position.normalizeAngle(target - Chassis.getInstance().getLocation().getAngle()));
         system.tankDrive(power * -rightMult, power * rightMult);

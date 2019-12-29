@@ -5,6 +5,7 @@ import edu.greenblitz.knockdown.commands.complex.RollOrAlign;
 import edu.greenblitz.knockdown.commands.complex.chassis.autonomous.*;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.ChangeTargetFocus;
 import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionPlaceGameObject;
+import edu.greenblitz.knockdown.commands.complex.chassis.vision.VisionPlaceHatchPanel;
 import edu.greenblitz.knockdown.commands.complex.climber.ClimbByJoystick;
 import edu.greenblitz.knockdown.commands.complex.climber.StopClimbing;
 import edu.greenblitz.knockdown.commands.complex.elevator.SafeMoveElevator;
@@ -101,13 +102,13 @@ public class OI {
         ArrayList<ActuatorLocation> angle = new ArrayList<>();
         angle.add(new ActuatorLocation(0,0));
         angle.add(new ActuatorLocation(2*Math.PI,0));
-        mainJoystick.B.whenPressed(new ThreadedCommand(
-                new LiveProfGenerator(new State(0, 0, Math.PI),
-                        .001, 4, 5.5, 10,
-                        20, // 15.5, 19.1
-                        .7, 1, 1,
-                        new PIDObject(5/4.0, 0.03/5.5, 170/5.5),
-                        0.01*4, false), Chassis.getInstance()));
+//        mainJoystick.B.whenPressed(new ThreadedCommand(
+//                new LiveProfGenerator(new State(0, 0, Math.toRadians(179)),
+//                        .001, 3.2, 4.5, 8,
+//                        15.5, // 15.5, 19.1
+//                        .5, 1, 1,
+//                        new PIDObject(5/3.2, 0.03/4.5, 140/4.5),
+//                        0.01*3.2, false), Chassis.getInstance()));
         ArrayList<State> pth = new ArrayList<>();
 
         pth.add(new State(0, 0, 0, 0, 0));
@@ -130,7 +131,7 @@ public class OI {
         // Max .5 speed rot carpet = 8, 15.5
         // Max .5 speed lin carpet = 3.2, 4.5
 
-        // Max .7 speed rot carpet = 10, 14
+        // Max .7 speed rot carpet = 10, 20
         // Max .7 speed lin carpet = 4, 5.5
 
         mainJoystick.X.whenPressed(new RocketTwoDisks());

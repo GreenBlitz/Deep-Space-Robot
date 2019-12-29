@@ -24,6 +24,8 @@ public class LiveProfGenerator implements IThreadable {
     private PIDObject o;
     private double d;
 
+    private PIDObject angOb;
+
     private State end;
     private double vMax, aMax, omMax, alMax;
     private double j;
@@ -48,7 +50,7 @@ public class LiveProfGenerator implements IThreadable {
     public LiveProfGenerator(State end, double j, double linMaxVel, double linMaxAcc,
                         double rotMaxVel, double rotMaxAcc,
                         double maxPower, double velMultLin, double accMultLin,
-                        PIDObject po, double tol, boolean isOpp) {
+                        PIDObject po, double tol, PIDObject ob, boolean isOpp) {
         vMax = linMaxVel;
         aMax = linMaxAcc;
         omMax = rotMaxVel;
@@ -59,6 +61,7 @@ public class LiveProfGenerator implements IThreadable {
         this.end = end;
         o = po;
         d = tol;
+        angOb = ob;
         this.isOpp = isOpp;
         this.maxPower = maxPower;
     }
@@ -74,14 +77,16 @@ public class LiveProfGenerator implements IThreadable {
     }
 
     private long runTStart;
-    private long minRuntime = 10;
+    private long minRuntime = 8;
 
     @Override
     public void run() {
         runTStart = System.currentTimeMillis();
+        double mult = isOpp ? -1 : 1;
 
-        Vector2D vals = follower.run(Chassis.getInstance().getLeftVelocity(),
-                Chassis.getInstance().getRightVelocity());
+        Vector2D vals = follower.run(mult * Chassis.getInstance().getLeftVelocity(),
+                mult * Chassis.getInstance().getRightVelocity(),
+                mult * -Math.toRadians(Chassis.getInstance().getNavx().getRate()));
 
         if (isOpp){
             vals = vals.scale(-1);
@@ -121,10 +126,10 @@ public class LiveProfGenerator implements IThreadable {
         profile2D = ChassisProfiler2D.generateProfile(s, j,
                 vMax, omMax,
                 aMax, alMax,
-                0, 1.0, 10);
+                0, 1.0, 100);
         follower = new PidFollower2D(linKv, linKa, linKv, linKa,
                 o,
-                d, 1,
+                d, 1, angOb, 0.01*omMax,
                 RobotMap.Chassis.Data.WHEEL_BASE_RADIUS,
                 profile2D);
         follower.setSendData(true);

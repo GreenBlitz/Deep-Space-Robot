@@ -23,6 +23,7 @@ public class Follow2DProf implements IThreadable {
     private PidFollower2D follower;
     private double linKv, linKa;
     private PIDObject o;
+    private PIDObject rotObj;
     private double d;
 
     private double maxPower;
@@ -45,7 +46,7 @@ public class Follow2DProf implements IThreadable {
     public Follow2DProf(List<State> path, double j, double linMaxVel, double linMaxAcc,
                            double rotMaxVel, double rotMaxAcc,
                            double maxPower, double velMultLin, double accMultLin,
-                        PIDObject po, double tol, boolean isOpp) {
+                        PIDObject po, double tol, PIDObject rotOb, boolean isOpp) {
         long t0 = System.currentTimeMillis();
         profile2D = ChassisProfiler2D.generateProfile(path, j, linMaxVel, rotMaxVel, linMaxAcc, rotMaxAcc,
                 0, 1.0, 1000);
@@ -55,6 +56,7 @@ public class Follow2DProf implements IThreadable {
         o = po;
         d = tol;
         this.isOpp = isOpp;
+        this.rotObj = rotOb;
         this.maxPower = maxPower;
     }
 
@@ -66,16 +68,23 @@ public class Follow2DProf implements IThreadable {
     @Override
     public void run() {
         runTStart = System.currentTimeMillis();
+        double mult = isOpp ? -1 : 1;
 
-        Vector2D vals = follower.run(Chassis.getInstance().getLeftVelocity(),
-                Chassis.getInstance().getRightVelocity());
+        Vector2D vals = follower.run(mult * Chassis.getInstance().getLeftVelocity(),
+                mult * Chassis.getInstance().getRightVelocity(),
+                -mult * Math.toRadians(Chassis.getInstance().getNavx().getRate()));
 
         if (isOpp){
             vals = vals.scale(-1);
         }
 
-        Chassis.getInstance().tankDrive(maxPower*clamp(vals.getX()),
-                maxPower*clamp(vals.getY()));
+        if (!isOpp) {
+            Chassis.getInstance().tankDrive(maxPower * clamp(vals.getX()),
+                    maxPower * clamp(vals.getY()));
+        } else  {
+            Chassis.getInstance().tankDrive(maxPower * clamp(vals.getY()),
+                    maxPower * clamp(vals.getX()));
+        }
 
         targetPath.report(Chassis.getInstance().getLocation().getX(),
                 Chassis.getInstance().getLocation().getY());
@@ -106,10 +115,10 @@ public class Follow2DProf implements IThreadable {
     public void atInit() {
         follower = new PidFollower2D(linKv, linKa, linKv, linKa,
                 o,
-                d, 1,
+                d, 1, rotObj, 0.001,
                 RobotMap.Chassis.Data.WHEEL_BASE_RADIUS,
                 profile2D);
-        follower.setSendData(true);
+        follower.setSendData(false);
         follower.init();
         Chassis.getInstance().toCoast();
         t0 = System.currentTimeMillis();
