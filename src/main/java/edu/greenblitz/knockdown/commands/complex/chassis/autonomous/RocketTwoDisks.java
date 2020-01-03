@@ -19,6 +19,7 @@ import java.util.List;
 public class RocketTwoDisks extends CommandChain {
 
     public RocketTwoDisks(){
+        long t0 = System.currentTimeMillis();
         addSequential(new ThreadedCommand(
                 new Follow2DProf(Paths.readGBPath("rocket2part1"),
                         .0001, 3.2, 4.5, 8,
@@ -44,7 +45,7 @@ public class RocketTwoDisks extends CommandChain {
                         new PIDObject(1.5/4.0, 0.04/5.5, 190/5.5),
                         0.01*4.0, new PIDObject(1.2/10.0, 0.0004, 200/20.0),false), Chassis.getInstance()));
 
-
+        System.out.println("Bruh: " + (System.currentTimeMillis() - t0));
     }
 
 }
